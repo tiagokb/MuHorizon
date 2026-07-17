@@ -274,6 +274,7 @@ paket-files/
 
 # VS Code
 .vscode/
+*.lscache
 
 # CodeRush
 .cr/
@@ -319,3 +320,6 @@ src/AdminPanel/wwwroot/content/js/app.js.map
 
 # Mac OS filesystem files
 .DS_Store
+
+# AI
+.opencode/

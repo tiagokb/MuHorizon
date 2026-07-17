@@ -35,6 +35,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsBot")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsTemplate")
                         .HasColumnType("boolean");
 
@@ -345,6 +348,34 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                         .IsUnique();
 
                     b.ToTable("BattleZoneDefinition", "config");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.EntityFramework.Model.Buff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MagicEffectDefinitionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("MaximumLevel")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MinimumLevel")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("MonsterDefinitionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MagicEffectDefinitionId")
+                        .IsUnique();
+
+                    b.HasIndex("MonsterDefinitionId");
+
+                    b.ToTable("Buff", "config");
                 });
 
             modelBuilder.Entity("MUnique.OpenMU.Persistence.EntityFramework.Model.Character", b =>
@@ -1654,6 +1685,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsBoundToCharacter")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsQuestItem")
                         .HasColumnType("boolean");
 
                     b.Property<Guid?>("ItemSlotId")
@@ -3589,6 +3623,21 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Navigation("RawRightGoal");
                 });
 
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.EntityFramework.Model.Buff", b =>
+                {
+                    b.HasOne("MUnique.OpenMU.Persistence.EntityFramework.Model.MagicEffectDefinition", "RawMagicEffectDefinition")
+                        .WithOne()
+                        .HasForeignKey("MUnique.OpenMU.Persistence.EntityFramework.Model.Buff", "MagicEffectDefinitionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MUnique.OpenMU.Persistence.EntityFramework.Model.MonsterDefinition", null)
+                        .WithMany("RawBuffs")
+                        .HasForeignKey("MonsterDefinitionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("RawMagicEffectDefinition");
+                });
+
             modelBuilder.Entity("MUnique.OpenMU.Persistence.EntityFramework.Model.Character", b =>
                 {
                     b.HasOne("MUnique.OpenMU.Persistence.EntityFramework.Model.Account", null)
@@ -5189,6 +5238,8 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Navigation("JoinedDropItemGroups");
 
                     b.Navigation("RawAttributes");
+
+                    b.Navigation("RawBuffs");
 
                     b.Navigation("RawItemCraftings");
 

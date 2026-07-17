@@ -24,6 +24,7 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
     private readonly IEventStateProvider? _eventStateProvider;
     private readonly IDropGenerator _dropGenerator;
     private readonly PlugInManager _plugInManager;
+    private readonly List<IDisposable> _registrations = new();
 
     private int _health;
 
@@ -103,7 +104,7 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
     /// <inheritdoc />
     public async ValueTask<HitInfo?> AttackByAsync(IAttacker attacker, SkillEntry? skill, bool isCombo, double damageFactor = 1.0, bool? isFinalStreakHit = null)
     {
-        if (this.Definition.ObjectKind == NpcObjectKind.Guard)
+        if (this.Definition.ObjectKind == NpcObjectKind.Guard || this.IsAttackBlockedBySafezone(attacker))
         {
             return null;
         }
@@ -127,6 +128,11 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
             if (attacker is Player player)
             {
                 await player.AfterHitTargetAsync().ConfigureAwait(false);
+
+                if (this.IsAlive && Rand.NextRandomBool(player.Attributes![Stats.MaceMasteryStunChance]))
+                {
+                    await player.ApplyMaceMasteryStunEffectAsync(this).ConfigureAwait(false);
+                }
             }
 
             if (attacker as IPlayerSurrogate is { } playerSurrogate)
@@ -161,6 +167,25 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
         this.IsAlive = true;
     }
 
+    /// <summary>
+    /// Reloads the attributes from the <see cref="NonPlayerCharacter.Definition"/>, so that changes
+    /// to the monster definition take effect on this already spawned instance.
+    /// </summary>
+    public void ReloadAttributes()
+    {
+        (this.Attributes as MonsterAttributeHolder)?.ApplyChanges();
+    }
+
+    /// <summary>
+    /// Registers a disposable (e.g. a configuration change registration) to be disposed
+    /// together with this instance.
+    /// </summary>
+    /// <param name="disposable">The disposable.</param>
+    public void RegisterDisposable(IDisposable disposable)
+    {
+        this._registrations.Add(disposable);
+    }
+
     /// <inheritdoc/>
     protected override void Dispose(bool managed)
     {
@@ -168,6 +193,12 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
         {
             this.Died = null;
             this.IsAlive = false;
+            foreach (var registration in this._registrations)
+            {
+                registration.Dispose();
+            }
+
+            this._registrations.Clear();
         }
 
         base.Dispose(managed);
@@ -373,12 +404,23 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
             return;
         }
 
-        var droppedMoney = new DroppedMoney((uint)(amount * killer.Attributes![Stats.MoneyAmountRate]), this.Position, this.CurrentMap);
+        var droppedMoney = new DroppedMoney((uint)(amount * (killer.Attributes?[Stats.MoneyAmountRate] ?? 1.0f)), this.Position, this.CurrentMap);
         await this.CurrentMap.AddAsync(droppedMoney).ConfigureAwait(false);
     }
 
     private async ValueTask DropItemAsync(int exp, Player killer)
     {
+        // When the killer is in a party, DistributeExperienceAfterKillAsync returns a
+        // total party experience that does NOT include game rate (ExperienceRate) or
+        // personal experience rate multipliers. Since the money drop amount is
+        // derived from this experience value, party money drops were dramatically
+        // lower than solo drops. We recalculate the experience for money purposes
+        // using the solo formula so money is consistent regardless of party state.
+        if (killer.Party is not null)
+        {
+            exp = killer.CalculateExpAfterKill(this);
+        }
+
         var (generatedItems, droppedMoney) = await this._dropGenerator.GenerateItemDropsAsync(this.Definition, exp, killer).ConfigureAwait(false);
         if (droppedMoney > 0)
         {

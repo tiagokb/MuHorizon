@@ -1,4 +1,4 @@
-﻿// <copyright file="Stats.cs" company="MUnique">
+// <copyright file="Stats.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -110,6 +110,16 @@ public class Stats
     /// Gets the experience rate attribute definition.
     /// </summary>
     public static AttributeDefinition ExperienceRate { get; } = new(new Guid("1AD454D4-BEF9-416E-BC49-82A5B0277FC7"), "Experience Rate", "Defines the experience rate multiplier of a character. By default it's 1.0 and may be modified by seals or other stuff.");
+
+    /// <summary>
+    /// Gets the random experience min multiplier attribute definition.
+    /// </summary>
+    public static AttributeDefinition RandomExperienceMinMultiplier { get; } = new(new Guid("536BF8B0-D24B-4314-95B7-5D651F5892DF"), "Random Experience Min Multiplier", "Defines the minimum multiplier for the randomized experience gain.");
+
+    /// <summary>
+    /// Gets the random experience max multiplier attribute definition.
+    /// </summary>
+    public static AttributeDefinition RandomExperienceMaxMultiplier { get; } = new(new Guid("74CE26C6-6D59-4420-AF3F-457E138AE41C"), "Random Experience Max Multiplier", "Defines the maximum multiplier for the randomized experience gain.");
 
     /// <summary>
     /// Gets the bonus experience rate attribute definition, which is added to <see cref="ExperienceRate"/> or <see cref="MasterExperienceRate"/>.
@@ -243,6 +253,14 @@ public class Stats
     /// <summary>
     /// Gets the min and max physical base DMG attribute definition.
     /// </summary>
+    /// <remarks>
+    /// <see cref="AggregateType.AddRaw"/> values include:
+    ///     Weapon item option; excellent lvl/20 option (weapons)
+    /// <see cref="AggregateType.Multiplicate"/> values include:
+    ///     Double wield halving (averaging).
+    /// <see cref="AggregateType.AddFinal"/> values include:
+    ///     Excellent lvl/20 option (pendant); wings damage option; harmony damage (min and max) option; gold fenrir damage bonus; <see cref="BaseDamageBonus"/>.
+    /// </remarks>
     public static AttributeDefinition PhysicalBaseDmg { get; } = new(new Guid("DD1E13E4-BFFD-45B5-9B91-9080710324B2"), "Physical Base Damage (min and max)", string.Empty);
 
     /// <summary>
@@ -421,13 +439,33 @@ public class Stats
     /// <summary>
     /// Gets the physical base (min and max) damage increase attribute definition>.
     /// </summary>
-    /// <remarks>Includes excellent 2% physical increase option, ammunition damage increase, and the double wield multiplier (55%).</remarks>
+    /// <remarks>
+    /// <see cref="AggregateType.AddRaw"/> values include:
+    ///     Excellent 2% increase option (double wield weapons); ammunition damage increase.
+    /// <see cref="AggregateType.Multiplicate"/> values include:
+    ///     Double wield halving (averaging); double wield bonus multiplier (55%); excellent 2% increase option (pendant and other weapons).
+    /// </remarks>
     public static AttributeDefinition PhysicalBaseDmgIncrease { get; } = new(new Guid("104B4DAA-C507-4CBB-AF38-D53DDBB4817E"), "Physical Base Damage Increase", string.Empty);
 
     /// <summary>
     /// Gets the walk speed attribute definition.
     /// </summary>
     public static AttributeDefinition WalkSpeed { get; } = new(new Guid("9CDDC598-E5F3-4372-9294-505455E4A40B"), "Walk Speed", string.Empty);
+
+    /// <summary>
+    /// Gets the movement speed attribute definition.
+    /// </summary>
+    public static AttributeDefinition MovementSpeed { get; } = new(new Guid("E29301BE-626B-4B42-9F68-0DFAC18B3856"), "Movement Speed", "The movement speed of a character on regular terrain.");
+
+    /// <summary>
+    /// Gets the underwater movement speed attribute definition.
+    /// </summary>
+    public static AttributeDefinition MovementSpeedUnderwater { get; } = new(new Guid("12128DC7-0740-48A5-A653-E546191CD7E0"), "Underwater Movement Speed", "The movement speed of a character on underwater terrain.");
+
+    /// <summary>
+    /// Gets the movement speed factor attribute definition.
+    /// </summary>
+    public static AttributeDefinition MovementSpeedFactor { get; } = new(new Guid("003E1F2E-661D-4258-BEF0-33111D5F4AD2"), "Movement Speed Factor", "The factor which is applied to the final movement speed of a character.");
 
     /// <summary>
     /// Gets the attack damage increase attribute definition.
@@ -1130,14 +1168,51 @@ public class Stats
     public static AttributeDefinition DoubleDamageChance { get; } = new(new Guid("2B8A03E6-1CC2-48A0-8633-3F36E17050F4"), "Double Damage Chance", string.Empty);
 
     /// <summary>
-    /// Gets the stun chance attribute definition.
+    /// Gets the MST stun chance attribute definition.
     /// </summary>
-    public static AttributeDefinition StunChance { get; } = new(new Guid("610D3259-1158-424A-8738-9EB7A71DE600"), "Stun Chance", string.Empty);
+    /// <remarks>Bucket attribute for the master skills: wind tome (book of neil) mastery, fire burst mastery, earthshake mastery and mace mastery.</remarks>
+    public static AttributeDefinition MasteryStunChance { get; } = new(new Guid("610D3259-1158-424A-8738-9EB7A71DE600"), "Mastery Stun Chance (MST)", "A generic master tree stun chance attribute, which serves as a bucket for \"mastery\" skills.");
 
     /// <summary>
-    /// Gets the pollution skill MST target move chance, which rises with lightning tome mastery.
+    /// Gets the MST mace mastery stun chance attribute definition.
     /// </summary>
-    public static AttributeDefinition PollutionMoveTargetChance { get; } = new(new Guid("6F9619FF-8B86-D011-B42D-00C04FC964FF"), "Pollution Move Target Chance (MST)", "The pollution skill (book of lagle) move chance, which rises with lightning tome mastery.");
+    public static AttributeDefinition MaceMasteryStunChance { get; } = new(new Guid("6E3A9F2D-5B7C-4D8E-A1F3-2C9E5B7D4F6A"), "Mace Mastery Stun Chance (MST)", string.Empty);
+
+    /// <summary>
+    /// Gets the MST target move chance attribute definition.
+    /// </summary>
+    /// <remarks>Bucket attribute for the master skills: lightning tome (book of lagle) mastery and twisting slash mastery.</remarks>
+    public static AttributeDefinition MasteryMoveTargetChance { get; } = new(new Guid("6F9619FF-8B86-D011-B42D-00C04FC964FF"), "Mastery Move Target Chance (MST)", "A generic master tree move target chance attribute, which serves as a bucket for \"mastery\" skills.");
+
+    /// <summary>
+    /// Gets the rageful blow mastery decrease durability MST chance attribute definition.
+    /// </summary>
+    public static AttributeDefinition RagefulBlowMasteryDurabilityDecChance { get; } = new(new Guid("2F8A5D3B-9C7E-4F1A-B6D2-8E3C5A7F9B1D"), "Rageful Blow Mastery Durability Decrease Chance (MST)", string.Empty);
+
+    /// <summary>
+    /// Gets the durability reduction factor attribute definition.
+    /// </summary>
+    /// <remarks>
+    /// Factor by which the maximum durability of armor items is multiplied when attacked by Rageful Blow and  <see cref="RagefulBlowMasteryDurabilityDecChance"/> is successful.
+    /// Decreases with the level of the master skills DurabilityReduction1 or DurabilityReduction1FistMaster.
+    /// Value ranges from 10% (default) to 6%.
+    /// </remarks>
+    public static AttributeDefinition DurabilityReductionFactor { get; } = new(new Guid("3C9E7F2A-B1D4-8E6F-5A0C-1D8F3B5E7A2D"), "Durability Reduction Factor", string.Empty);
+
+    /// <summary>
+    /// Gets the spear mastery double damage MST chance attribute definition.
+    /// </summary>
+    public static AttributeDefinition SpearMasteryDoubleDamageChance { get; } = new(new Guid("5D9E2A7B-3C4F-8E1A-B5D6-2E7F9C4A1B8D"), "Spear Mastery Double Damage Chance (MST)", string.Empty);
+
+    /// <summary>
+    /// Gets the swell life skill health increase attribute definition.
+    /// </summary>
+    public static AttributeDefinition SwellLifeHealthIncrease { get; } = new(new Guid("9C4E7B2A-F1D6-4A3E-B8C5-1D7F2E9A3B4C"), "Swell Life Health Increase", string.Empty);
+
+    /// <summary>
+    /// Gets the swell life skill mana increase attribute definition.
+    /// </summary>
+    public static AttributeDefinition SwellLifeManaIncrease { get; } = new(new Guid("8B4F1C6D-9A2E-4F7B-A3D5-1E9C7F2A4B6D"), "Swell Life Mana Increase", string.Empty);
 
     /// <summary>
     /// Gets the mana after monster kill attribute definition.
@@ -1320,6 +1395,11 @@ public class Stats
     /// Gets the <see cref="IsInSafezone"/> attribute which defines if the character is located in a safezone of a game map.
     /// </summary>
     public static AttributeDefinition IsInSafezone { get; } = new(new Guid("82044DF9-F528-4AD6-9AAA-6FEAA4C786E7"), "Flag, if the character is located in a safezone of a game map", "Characters at the safezone recover additional health and shield.");
+
+    /// <summary>
+    /// Gets the <see cref="IsUnderwater"/> attribute which defines if the character is located on an underwater game map.
+    /// </summary>
+    public static AttributeDefinition IsUnderwater { get; } = new(new Guid("72A684C1-102B-4FDE-B637-2665ADD5F4AE"), "Flag, if the character is located on an underwater game map", "Characters on underwater maps use underwater movement speed attributes.");
 
     /// <summary>
     /// Gets the attribute definition, which defines if a player has MU Helper activated.

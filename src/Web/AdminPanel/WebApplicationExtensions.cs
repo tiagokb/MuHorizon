@@ -1,11 +1,10 @@
-﻿// <copyright file="WebApplicationExtensions.cs" company="MUnique">
+// <copyright file="WebApplicationExtensions.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace MUnique.OpenMU.Web.AdminPanel;
 
 using System.IO;
-using Blazored.Modal;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
@@ -20,6 +19,7 @@ using MUnique.OpenMU.Persistence.Initialization.Updates;
 using MUnique.OpenMU.Persistence.Initialization.VersionSeasonSix;
 using MUnique.OpenMU.Web.AdminPanel.Components;
 using MUnique.OpenMU.Web.AdminPanel.Services;
+using MUnique.OpenMU.Web.Shared.Components.Modal;
 using MUnique.OpenMU.Web.Shared.Models;
 using MUnique.OpenMU.Web.Shared.Services;
 
@@ -66,14 +66,17 @@ public static class WebApplicationExtensions
             .ConfigureApplicationPartManager(setup =>
                 setup.FeatureProviders.Add(new GenericControllerFeatureProvider()));
 
-        services.AddBlazoredModal();
         services.AddBlazoredToast();
 
+        services.AddScoped<ModalService>();
+        services.AddScoped<IModalService>(sp => sp.GetRequiredService<ModalService>());
         services.AddScoped<ILookupController, PersistentObjectsLookupController>();
+        services.AddScoped<CreationPanelService>();
 
         services.AddSingleton<IDataSource<GameConfiguration>, GameConfigurationDataSource>();
         services.AddSingleton<IDataSource<Account>, AccountDataSource>();
-        services.AddScoped<SetupService>();
+        services.AddSingleton<ConfigurationSearchIndexCache>();
+        services.AddSingleton<SetupService>();
         services.AddScoped<DataUpdateService>();
         services.AddScoped<AccountService>();
         services.AddScoped<IDataService<Account>>(serviceProvider => serviceProvider.GetService<AccountService>()!);
@@ -83,6 +86,7 @@ public static class WebApplicationExtensions
         services.AddScoped<IChangeNotificationService, ChangeNotificationService>();
         services.AddScoped<NavigationHistory>();
         services.AddScoped<LoggedInAccountService>();
+        services.AddScoped<LoadingOverlayService>();
         services.AddScoped<IDataService<LoggedInAccount>>(serviceProvider => serviceProvider.GetService<LoggedInAccountService>()!);
         services.AddScoped<OfflineAccountService>();
         services.AddScoped<IDataService<OfflineAccount>>(serviceProvider => serviceProvider.GetService<OfflineAccountService>()!);

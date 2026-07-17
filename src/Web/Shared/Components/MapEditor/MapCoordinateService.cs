@@ -12,12 +12,12 @@ using System.Globalization;
 /// </summary>
 public sealed class MapCoordinateService
 {
+    private const int MapSize = 256;
+
     /// <summary>
     /// Gets the base pixel scale factor before zoom is applied.
     /// </summary>
     public static int BaseScale => 3;
-
-    private const int MapSize = 256;
 
     /// <summary>
     /// Converts client mouse coordinates to map tile coordinates.
@@ -34,8 +34,8 @@ public sealed class MapCoordinateService
     public (byte X, byte Y)? GetMapCoordinates(
         double clientX,
         double clientY,
-        MapEditor.BoundingClientRect rect,
-        MapEditor.ScrollInfo scroll,
+        BoundingClientRect rect,
+        ScrollInfo scroll,
         float zoomLevel)
     {
         var contentX = (clientX - rect.Left) + scroll.ScrollLeft;

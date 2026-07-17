@@ -16289,7 +16289,7 @@ public readonly ref struct CharacterInformationExtendedRef
     /// <summary>
     /// Gets the initial length of this data packet. When the size is dynamic, this value may be bigger than actually needed.
     /// </summary>
-    public static int Length => 96;
+    public static int Length => 92;
 
     /// <summary>
     /// Gets the header of this packet.
@@ -16564,6 +16564,15 @@ public readonly ref struct CharacterInformationExtendedRef
     {
         get => this._data[88];
         set => this._data[88] = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the resets.
+    /// </summary>
+    public ushort Resets
+    {
+        get => ReadUInt16LittleEndian(this._data[90..]);
+        set => WriteUInt16LittleEndian(this._data[90..], value);
     }
 
     /// <summary>
@@ -27333,7 +27342,7 @@ public readonly ref struct QuestProgressExtendedRef
             var header = this.Header;
             header.Type = HeaderType;
             header.Code = Code;
-            header.Length = (byte)Math.Min(data.Length, Length);
+            header.Length = (ushort)Math.Min(data.Length, Length);
             header.SubCode = SubCode;
         }
     }
@@ -27341,7 +27350,7 @@ public readonly ref struct QuestProgressExtendedRef
     /// <summary>
     /// Gets the header type of this data packet.
     /// </summary>
-    public static byte HeaderType => 0xC1;
+    public static byte HeaderType => 0xC2;
 
     /// <summary>
     /// Gets the operation code of this data packet.
@@ -27362,7 +27371,7 @@ public readonly ref struct QuestProgressExtendedRef
     /// <summary>
     /// Gets the header of this packet.
     /// </summary>
-    public C1HeaderWithSubCodeRef Header => new (this._data);
+    public C2HeaderWithSubCodeRef Header => new (this._data);
 
     /// <summary>
     /// Gets or sets the condition count.

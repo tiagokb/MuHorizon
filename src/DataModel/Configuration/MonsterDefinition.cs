@@ -193,7 +193,7 @@ public enum NpcObjectKind
     Trap,
 
     /// <summary>
-    /// The npc is a gate
+    /// The npc is a gate.
     /// </summary>
     Gate,
 
@@ -327,6 +327,12 @@ public partial class MonsterDefinition
     /// </summary>
     [MemberOfAggregate]
     public virtual ICollection<QuestDefinition> Quests { get; protected set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the buffs which can be granted by this npc.
+    /// </summary>
+    [MemberOfAggregate]
+    public virtual ICollection<Buff> Buffs { get; protected set; } = null!;
 
     /// <summary>
     /// Attribute default accessor.

@@ -50,12 +50,17 @@ public class CombatHandlerTests
         await player.CurrentMap!.AddAsync(monster).ConfigureAwait(false);
 
         var config = new MuHelperSettings { HuntingRange = 10 };
-        var movementHandler = new MovementHandler(player, config, this._origin);
-        var buffHandler = new BuffHandler(player, config);
+        player.HuntingOrigin = this._origin;
+        var movementHandler = new MovementHandler(player, config);
 
-        var handler = new CombatHandler(player, config, movementHandler, buffHandler, this._origin);
+        var handler = new CombatHandler(player, config, movementHandler);
 
         // Act
+        // The first call only acquires the target and turns towards it: a fresh target gets a small
+        // randomized human-like reaction delay (up to 900 ms) before the bot engages, so we call
+        // again after the delay has certainly elapsed.
+        await handler.PerformAttackAsync().ConfigureAwait(false);
+        await Task.Delay(1000).ConfigureAwait(false);
         await handler.PerformAttackAsync().ConfigureAwait(false);
 
         // Assert
@@ -80,13 +85,13 @@ public class CombatHandlerTests
         var monster = await this.CreateMonsterAsync(monsterPosition).ConfigureAwait(false);
         await player.CurrentMap!.AddAsync(monster).ConfigureAwait(false);
 
-        var config = new MuHelperSettings 
-        { 
-            UseDrainLife = true, 
+        var config = new MuHelperSettings
+        {
+            UseDrainLife = true,
             HealThresholdPercent = 50,
             HuntingRange = 10
         };
-        
+
         // Add Drain Life skill to player
         var drainSkill = new TestSkill
         {
@@ -94,10 +99,10 @@ public class CombatHandlerTests
         };
         await player.SkillList!.AddLearnedSkillAsync(drainSkill).ConfigureAwait(false);
 
-        var movementHandler = new MovementHandler(player, config, this._origin);
-        var buffHandler = new BuffHandler(player, config);
+        player.HuntingOrigin = this._origin;
+        var movementHandler = new MovementHandler(player, config);
 
-        var handler = new CombatHandler(player, config, movementHandler, buffHandler, this._origin);
+        var handler = new CombatHandler(player, config, movementHandler);
 
         // Act
         await handler.PerformDrainLifeRecoveryAsync().ConfigureAwait(false);
@@ -120,7 +125,7 @@ public class CombatHandlerTests
         };
         monsterDefinition.Attributes.Add(new MonsterAttribute { AttributeDefinition = Stats.MaximumHealth, Value = 1000 });
         monsterDefinition.Attributes.Add(new MonsterAttribute { AttributeDefinition = Stats.DefenseBase, Value = 100 });
-        
+
         var map = await this._gameContext.GetMapAsync(0).ConfigureAwait(false)!;
         var spawnArea = new MonsterSpawnArea
         {
@@ -134,17 +139,17 @@ public class CombatHandlerTests
         };
 
         var monster = new Monster(
-            spawnArea, 
-            monsterDefinition, 
-            map, 
-            NullDropGenerator.Instance, 
-            new Mock<INpcIntelligence>().Object, 
-            this._gameContext.PlugInManager, 
+            spawnArea,
+            monsterDefinition,
+            map,
+            NullDropGenerator.Instance,
+            new Mock<INpcIntelligence>().Object,
+            this._gameContext.PlugInManager,
             this._gameContext.PathFinderPool);
-        
+
         monster.Initialize();
         monster.Attributes[Stats.CurrentHealth] = 100;
-        
+
         return monster;
     }
 

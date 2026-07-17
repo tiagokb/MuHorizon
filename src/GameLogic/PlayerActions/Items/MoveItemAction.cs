@@ -5,8 +5,8 @@
 namespace MUnique.OpenMU.GameLogic.PlayerActions.Items;
 
 using System.ComponentModel;
-using MUnique.OpenMU.DataModel.Configuration;
 using Microsoft.Extensions.Logging;
+using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -263,18 +263,7 @@ public class MoveItemAction
             if (itemDefinition.ItemSlot.ItemSlots.Contains(toSlot) &&
                 player.CompliesRequirements(item))
             {
-                static bool IsOneHandedOrShield(ItemDefinition definition) =>
-                    (definition.ItemSlot!.ItemSlots.Contains(RightHandSlot) && definition.ItemSlot.ItemSlots.Contains(LeftHandSlot)) || definition.Group == 6;
-
-                var rightHandItemDefinition = storage.GetItem(RightHandSlot)?.Definition!;
-
-                if ((toSlot == LeftHandSlot
-                    && itemDefinition.Width >= 2
-                    && rightHandItemDefinition != null
-                    && !rightHandItemDefinition.IsAmmunition)
-                    || (toSlot == RightHandSlot
-                    && IsOneHandedOrShield(itemDefinition)
-                    && storage.GetItem(LeftHandSlot)?.Definition!.Width >= 2))
+                if (itemDefinition.ConflictsWithEquippedHands(storage, toSlot))
                 {
                     // Attempting to equip a two-handed item to the left hand slot when a shield is in the right hand slot,
                     // or trying to equip a one-handed weapon or shield to the right hand slot when a two-handed item is in the left hand slot.
@@ -421,7 +410,7 @@ public class MoveItemAction
             Storages.ChaosCardMaster => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.ChaosCardCombination,
             Storages.CherryBlossomSpirit => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.CherryBlossomBranchesAssembly,
             Storages.SeedCrafting => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.SeedMaster,
-            Storages.SeedSphereCrafting => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.SeedResearcher,
+            Storages.SeedSphereCrafting => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.SeedMaster,
             Storages.SeedMountCrafting => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.SeedResearcher,
             Storages.SeedUnmountCrafting => state == PlayerState.NpcDialogOpened && openedWindow == NpcWindow.SeedResearcher,
             _ => false,
