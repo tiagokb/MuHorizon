@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package openmu.protocol;
+option csharp_namespace = "MUnique.OpenMU.Network.Protobuf";
+
+message PingRequest {
+    uint64 timestamp_ms = 1;
+}
+
+message PingResponse {
+    uint64 client_timestamp_ms = 1;
+    uint64 server_timestamp_ms = 2;
+}
+
+message ClientEnvelope {
+    oneof payload {
+        PingRequest ping_request = 1;
+    }
+}
+
+message ServerEnvelope {
+    oneof payload {
+        PingResponse ping_response = 1;
+    }
+}

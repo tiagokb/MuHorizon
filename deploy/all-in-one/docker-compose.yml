@@ -1,20 +1,57 @@
 services:
-  nginx-80:
-    image: nginx:alpine
-    container_name: nginx-80
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
-      - ./.htpasswd:/etc/nginx/.htpasswd
-    depends_on:
-      - openmu-startup
+#  nginx-80:
+#    image: nginx:alpine
+#    container_name: nginx-80
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+#      - ./.htpasswd:/etc/nginx/.htpasswd
+#    depends_on:
+#      - openmu-dev
 
-  openmu-startup:
-    image: munique/openmu
-    container_name: openmu-startup
+#  openmu-startup:
+#    image: munique/openmu
+#    container_name: openmu-startup
+#    ports:
+#      - "8080"
+#      - "5050:5050"
+#      - "55901:55901"
+#      - "55902:55902"
+#      - "55903:55903"
+#      - "55904:55904"
+#      - "55905:55905"
+#      - "55906:55906"
+#      - "44405:44405"
+#      - "44406:44406"
+#      - "55980:55980"
+#    environment:
+#      DB_HOST: database
+#      ASPNETCORE_URLS: http://+:8080
+#    working_dir: /app/
+#    volumes:
+#      - ./.htpasswd:/etc/nginx/.htpasswd
+#    depends_on:
+#      - database
+
+  openmu-dev:
+    image: mcr.microsoft.com/dotnet/sdk:10.0-alpine
+    container_name: openmu-dev
+    volumes:
+      - ../../src:/app/src:cached
+      - nuget-cache:/root/.nuget/packages
+    working_dir: /app/src/Startup
+    # dotnet restore populates the Linux NuGet cache (including Grpc.Tools linux_x64/protoc).
+    # Without this step, project.assets.json from a Windows build causes MSBuild to skip
+    # restore, leaving the container NuGet cache empty and protoc unfindable at build time.
+    command: sh -c "dotnet restore && dotnet run --no-restore --no-launch-profile"
+    environment:
+      DB_HOST: database
+      ASPNETCORE_URLS: http://+:8080
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
     ports:
-      - "8080"
+      - "8081:8080"
+      - "5050:5050"
       - "55901:55901"
       - "55902:55902"
       - "55903:55903"
@@ -24,12 +61,6 @@ services:
       - "44405:44405"
       - "44406:44406"
       - "55980:55980"
-    environment:
-      DB_HOST: database
-      ASPNETCORE_URLS: http://+:8080
-    working_dir: /app/
-    volumes:
-      - ./.htpasswd:/etc/nginx/.htpasswd
     depends_on:
       - database
 
@@ -41,9 +72,22 @@ services:
       POSTGRES_DB: openmu
       POSTGRES_USER: postgres
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql #store data on volume
 
+  nginx-443:
+    image: nginx:alpine
+    container_name: nginx-443
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.wss.conf:/etc/nginx/nginx.conf:ro
+      - ./localhost+1.pem:/etc/nginx/certs/localhost+1.pem:ro
+      - ./localhost+1-key.pem:/etc/nginx/certs/localhost+1-key.pem:ro
+    depends_on:
+      - openmu-dev
+
 volumes:
   dbdata:
+  nuget-cache:

@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.Startup;
 
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.DataModel.Configuration;
@@ -33,8 +34,10 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
     private readonly IIpAddressResolver _ipResolver;
     private readonly PlugInManager _plugInManager;
     private readonly IConfigurationChangeMediator _changeMediator;
+    private readonly IConfiguration _configuration;
     private readonly IDictionary<int, IGameServer> _gameServers;
     private readonly IEventPublisher _eventPublisher;
+    private WebSocketGameServerListener? _webSocketListener;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GameServerContainer" /> class.
@@ -51,6 +54,7 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
     /// <param name="plugInManager">The plug in manager.</param>
     /// <param name="setupService">The setup service.</param>
     /// <param name="changeMediator">The change mediator.</param>
+    /// <param name="configuration">The application configuration.</param>
     public GameServerContainer(
         ILoggerFactory loggerFactory,
         IList<IManageableServer> servers,
@@ -63,7 +67,8 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         IIpAddressResolver ipResolver,
         PlugInManager plugInManager,
         SetupService setupService,
-        IConfigurationChangeMediator changeMediator)
+        IConfigurationChangeMediator changeMediator,
+        IConfiguration configuration)
         : base(setupService, loggerFactory.CreateLogger<GameServerContainer>())
     {
         this._loggerFactory = loggerFactory;
@@ -77,6 +82,7 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         this._ipResolver = ipResolver;
         this._plugInManager = plugInManager;
         this._changeMediator = changeMediator;
+        this._configuration = configuration;
 
         this._logger = this._loggerFactory.CreateLogger<GameServerContainer>();
         this._eventPublisher = new InMemoryEventPublisher(this._gameServers, this._friendServer, this._guildServer);
@@ -161,6 +167,7 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         }
 
         this._gameServers.Clear();
+        this._webSocketListener = null;
     }
 
     private void InitializeGameServer(GameServerDefinition gameServerDefinition)
@@ -170,6 +177,13 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         foreach (var endpoint in gameServerDefinition.Endpoints)
         {
             gameServer.AddListener(new DefaultTcpGameServerListener(endpoint, gameServer.CreateServerInfo(), gameServer.Context, this._connectServerContainer.GetObserver(endpoint.Client!), this._ipResolver, this._loggerFactory));
+        }
+
+        if (this._webSocketListener is null)
+        {
+            var wsPort = this._configuration.GetValue<int>("GameServer:WebSocketPort", 5050);
+            this._webSocketListener = new WebSocketGameServerListener(wsPort, this._loggerFactory);
+            gameServer.AddListener(this._webSocketListener);
         }
 
         this._servers.Add(gameServer);
