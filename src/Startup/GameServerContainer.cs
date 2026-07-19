@@ -182,7 +182,7 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         if (this._webSocketListener is null)
         {
             var wsPort = this._configuration.GetValue<int>("GameServer:WebSocketPort", 5050);
-            this._webSocketListener = new WebSocketGameServerListener(wsPort, this._loggerFactory);
+            this._webSocketListener = new WebSocketGameServerListener(wsPort, gameServer.Context, this._loggerFactory);
             gameServer.AddListener(this._webSocketListener);
         }
 

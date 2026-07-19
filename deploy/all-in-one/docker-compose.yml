@@ -44,7 +44,7 @@ services:
     # dotnet restore populates the Linux NuGet cache (including Grpc.Tools linux_x64/protoc).
     # Without this step, project.assets.json from a Windows build causes MSBuild to skip
     # restore, leaving the container NuGet cache empty and protoc unfindable at build time.
-    command: sh -c "dotnet restore && dotnet run --no-restore --no-launch-profile"
+    command: sh -c "find /app/src -name 'project.assets.json' -delete && find /app/src -name 'project.nuget.cache' -delete && dotnet restore -p:ci=true && dotnet run --no-restore --no-launch-profile -p:ci=true"
     environment:
       DB_HOST: database
       ASPNETCORE_URLS: http://+:8080

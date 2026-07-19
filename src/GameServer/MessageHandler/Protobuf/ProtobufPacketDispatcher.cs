@@ -1,0 +1,119 @@
+// <copyright file="ProtobufPacketDispatcher.cs" company="MUnique">
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace MUnique.OpenMU.GameServer.MessageHandler.Protobuf;
+
+using System.Buffers;
+using System.Buffers.Binary;
+using Google.Protobuf;
+using Microsoft.Extensions.Logging;
+using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.GameLogic.PlayerActions;
+using MUnique.OpenMU.GameLogic.PlayerActions.Character;
+using MUnique.OpenMU.GameLogic.Views.Character;
+using MUnique.OpenMU.Network.Protobuf;
+
+/// <summary>
+/// Deserializes incoming <see cref="ClientEnvelope"/> Protobuf packets and dispatches them to
+/// the appropriate game-logic actions on the owning <see cref="ProtobufRemotePlayer"/>.
+/// </summary>
+internal sealed class ProtobufPacketDispatcher
+{
+    private static readonly LoginAction LoginAction = new();
+    private static readonly RequestCharacterListAction RequestCharacterListAction = new();
+    private static readonly CreateCharacterAction CreateCharacterAction = new();
+    private static readonly SelectCharacterAction SelectCharacterAction = new();
+    private static readonly DeleteCharacterAction DeleteCharacterAction = new();
+
+    private readonly ProtobufRemotePlayer _player;
+    private readonly ILogger<ProtobufPacketDispatcher> _logger;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProtobufPacketDispatcher"/> class.
+    /// </summary>
+    /// <param name="player">The player this dispatcher is attached to.</param>
+    /// <param name="logger">The logger.</param>
+    public ProtobufPacketDispatcher(ProtobufRemotePlayer player, ILogger<ProtobufPacketDispatcher> logger)
+    {
+        _player = player;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// Parses the raw Protobuf payload (no length prefix) and dispatches to the correct handler.
+    /// </summary>
+    /// <param name="sequence">The raw protobuf payload received from <see cref="Network.WebSocketConnection"/>.</param>
+    public async ValueTask DispatchAsync(ReadOnlySequence<byte> sequence)
+    {
+        ClientEnvelope envelope;
+        try
+        {
+            envelope = ClientEnvelope.Parser.ParseFrom(sequence.ToArray());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to parse ClientEnvelope from {EndPoint}", _player.Connection?.EndPoint);
+            return;
+        }
+
+        _logger.LogDebug("[C→S] {PayloadCase} from {EndPoint}", envelope.PayloadCase, _player.Connection?.EndPoint);
+
+        switch (envelope.PayloadCase)
+        {
+            case ClientEnvelope.PayloadOneofCase.PingRequest:
+                await HandlePingAsync(envelope.PingRequest).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.LoginRequest:
+                await LoginAction.LoginAsync(_player, envelope.LoginRequest.Username, envelope.LoginRequest.Password).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CharacterListRequest:
+                await RequestCharacterListAction.RequestCharacterListAsync(_player).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CreateCharacter:
+                await CreateCharacterAction.CreateCharacterAsync(_player, envelope.CreateCharacter.Name, (int)envelope.CreateCharacter.ClassNumber).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.SelectCharacter:
+                await HandleSelectCharacterAsync(envelope.SelectCharacter.Name).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.DeleteCharacter:
+                await DeleteCharacterAction.DeleteCharacterAsync(_player, envelope.DeleteCharacter.Name, envelope.DeleteCharacter.SecurityCode).ConfigureAwait(false);
+                break;
+
+            default:
+                _logger.LogDebug("Unhandled payload case {Case} from {EndPoint}", envelope.PayloadCase, _player.Connection?.EndPoint);
+                break;
+        }
+    }
+
+    private async ValueTask HandlePingAsync(PingRequest ping)
+    {
+        var serverTs = (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        await _player.SendEnvelopeAsync(new ServerEnvelope
+        {
+            PingResponse = new PingResponse
+            {
+                ClientTimestampMs = ping.TimestampMs,
+                ServerTimestampMs = serverTs,
+            },
+        }).ConfigureAwait(false);
+    }
+
+    private async ValueTask HandleSelectCharacterAsync(string characterName)
+    {
+        await SelectCharacterAction.SelectCharacterAsync(_player, characterName).ConfigureAwait(false);
+        if (_player.SelectedCharacter is { } character)
+        {
+            await _player.InvokeViewPlugInAsync<ICharacterFocusedPlugIn>(p => p.CharacterFocusedAsync(character)).ConfigureAwait(false);
+        }
+        else
+        {
+            await _player.InvokeViewPlugInAsync<ICharacterFocusedPlugIn>(p => p.CharacterFocusedAsync(null!)).ConfigureAwait(false);
+        }
+    }
+}

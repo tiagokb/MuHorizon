@@ -3,6 +3,8 @@ syntax = "proto3";
 package openmu.protocol;
 option csharp_namespace = "MUnique.OpenMU.Network.Protobuf";
 
+// ── Phase 0: Ping ─────────────────────────────────────────────────────────────
+
 message PingRequest {
     uint64 timestamp_ms = 1;
 }
@@ -12,14 +14,91 @@ message PingResponse {
     uint64 server_timestamp_ms = 2;
 }
 
+// ── Phase 1: Auth ─────────────────────────────────────────────────────────────
+
+message C2SLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+enum LoginResultCode {
+    UNKNOWN = 0;
+    OK = 1;
+    INVALID_PASSWORD = 2;
+    ACCOUNT_BLOCKED = 3;
+    ACCOUNT_ALREADY_CONNECTED = 4;
+    CONNECTION_ERROR = 5;
+    TEMPORARY_BLOCKED = 6;
+}
+
+message S2CLoginResult {
+    LoginResultCode code = 1;
+}
+
+// ── Phase 1: Characters ───────────────────────────────────────────────────────
+
+message C2SCharacterListRequest {}
+
+message CharacterInfo {
+    uint32 slot         = 1;
+    string name         = 2;
+    uint32 level        = 3;
+    uint32 class_number = 4;
+    string class_name   = 5;
+}
+
+message S2CCharacterList {
+    repeated CharacterInfo characters = 1;
+}
+
+message C2SCreateCharacter {
+    string name         = 1;
+    uint32 class_number = 2;
+}
+
+message S2CCreateCharacterResult {
+    bool          success   = 1;
+    CharacterInfo character = 2;
+}
+
+message C2SSelectCharacter {
+    string name = 1;
+}
+
+message S2CSelectCharacterResult {
+    bool          success   = 1;
+    CharacterInfo character = 2;
+}
+
+message C2SDeleteCharacter {
+    string name          = 1;
+    string security_code = 2;
+}
+
+message S2CDeleteCharacterResult {
+    bool success = 1;
+}
+
+// ── Envelopes ─────────────────────────────────────────────────────────────────
+
 message ClientEnvelope {
     oneof payload {
-        PingRequest ping_request = 1;
+        PingRequest             ping_request           = 1;
+        C2SLoginRequest         login_request          = 2;
+        C2SCharacterListRequest character_list_request = 3;
+        C2SCreateCharacter      create_character       = 4;
+        C2SSelectCharacter      select_character       = 5;
+        C2SDeleteCharacter      delete_character       = 6;
     }
 }
 
 message ServerEnvelope {
     oneof payload {
-        PingResponse ping_response = 1;
+        PingResponse             ping_response           = 1;
+        S2CLoginResult           login_result            = 2;
+        S2CCharacterList         character_list          = 3;
+        S2CCreateCharacterResult create_character_result = 4;
+        S2CSelectCharacterResult select_character_result = 5;
+        S2CDeleteCharacterResult delete_character_result = 6;
     }
 }

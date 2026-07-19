@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.WebSockets;
 using System.Threading;
 using Microsoft.Extensions.Logging;
-using MUnique.OpenMU.GameServer.MessageHandler.Protobuf;
+using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.Network;
 using MUnique.OpenMU.PlugIns;
 
@@ -16,13 +16,10 @@ using MUnique.OpenMU.PlugIns;
 /// A game server listener that accepts WebSocket connections on a configurable port.
 /// TLS is terminated upstream by nginx; this listener handles plain ws:// only.
 /// </summary>
-/// <remarks>
-/// Phase 0: ping/pong only — no RemotePlayer is created yet.
-/// Phase 1 will introduce ProtobufRemotePlayer and hook into the full game server machinery.
-/// </remarks>
 public sealed class WebSocketGameServerListener : IGameServerListener
 {
     private readonly int _port;
+    private readonly IGameServerContext _gameContext;
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<WebSocketGameServerListener> _logger;
     private HttpListener? _httpListener;
@@ -32,10 +29,12 @@ public sealed class WebSocketGameServerListener : IGameServerListener
     /// Initializes a new instance of the <see cref="WebSocketGameServerListener"/> class.
     /// </summary>
     /// <param name="port">The TCP port to listen on.</param>
+    /// <param name="gameContext">The game server context used to create players.</param>
     /// <param name="loggerFactory">The logger factory.</param>
-    public WebSocketGameServerListener(int port, ILoggerFactory loggerFactory)
+    public WebSocketGameServerListener(int port, IGameServerContext gameContext, ILoggerFactory loggerFactory)
     {
         _port = port;
+        _gameContext = gameContext;
         _loggerFactory = loggerFactory;
         _logger = loggerFactory.CreateLogger<WebSocketGameServerListener>();
     }
@@ -121,11 +120,12 @@ public sealed class WebSocketGameServerListener : IGameServerListener
             remoteEndPoint,
             _loggerFactory.CreateLogger<WebSocketConnection>());
 
-        var pingHandler = new PingHandlerPlugIn(_loggerFactory.CreateLogger<PingHandlerPlugIn>());
-        connection.PacketReceived += packet => pingHandler.HandleAsync(connection, packet);
+        var player = new ProtobufRemotePlayer(_gameContext, connection);
 
-        connection.Disconnected += async () =>
-            _logger.LogInformation("WebSocket client disconnected from {RemoteEndPoint}", remoteEndPoint);
+        if (PlayerConnected is { } handler)
+        {
+            await handler(new PlayerConnectedEventArgs(player)).ConfigureAwait(false);
+        }
 
         _ = Task.Run(connection.BeginReceiveAsync, ct);
     }
