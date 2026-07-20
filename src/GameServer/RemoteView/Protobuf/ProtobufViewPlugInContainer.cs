@@ -34,6 +34,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufShowCharacterDeleteResponsePlugIn(player),
             new ProtobufEnteredWorldPlugIn(player),
             new ProtobufNewPlayersInScopePlugIn(player),
+            new ProtobufNewNpcsInScopePlugIn(player),
             new ProtobufObjectsOutOfScopePlugIn(player),
             new ProtobufSnapshotPlugIn(player),
         };

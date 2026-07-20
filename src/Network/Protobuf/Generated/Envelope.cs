@@ -46,46 +46,48 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "CCItCgdDMlNNb3ZlEhAKCHRhcmdldF94GAEgASgCEhAKCHRhcmdldF95GAIg",
             "ASgCIjIKDkVudGl0eVNuYXBzaG90EgoKAmlkGAEgASgNEgkKAXgYAiABKAIS",
             "CQoBeRgDIAEoAiJACgtTMkNTbmFwc2hvdBIxCghlbnRpdGllcxgBIAMoCzIf",
-            "Lm9wZW5tdS5wcm90b2NvbC5FbnRpdHlTbmFwc2hvdCJiCgtFbnRpdHlTdGF0",
-            "ZRIKCgJpZBgBIAEoDRIJCgF4GAIgASgCEgkKAXkYAyABKAISFAoMY2xhc3Nf",
-            "bnVtYmVyGAQgASgNEgwKBG5hbWUYBSABKAkSDQoFbGV2ZWwYBiABKA0iRwoP",
-            "UzJDRW50ZXJlZFdvcmxkEg4KBm1hcF9pZBgBIAEoDRIJCgF4GAIgASgCEgkK",
-            "AXkYAyABKAISDgoGb3duX2lkGAQgASgNIkQKElMyQ0VudGl0aWVzSW5TY29w",
-            "ZRIuCghlbnRpdGllcxgBIAMoCzIcLm9wZW5tdS5wcm90b2NvbC5FbnRpdHlT",
-            "dGF0ZSIrChVTMkNFbnRpdGllc091dE9mU2NvcGUSEgoKZW50aXR5X2lkcxgB",
-            "IAMoDSLFAwoOQ2xpZW50RW52ZWxvcGUSNAoMcGluZ19yZXF1ZXN0GAEgASgL",
-            "Mhwub3Blbm11LnByb3RvY29sLlBpbmdSZXF1ZXN0SAASOQoNbG9naW5fcmVx",
-            "dWVzdBgCIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5DMlNMb2dpblJlcXVlc3RI",
-            "ABJKChZjaGFyYWN0ZXJfbGlzdF9yZXF1ZXN0GAMgASgLMigub3Blbm11LnBy",
-            "b3RvY29sLkMyU0NoYXJhY3Rlckxpc3RSZXF1ZXN0SAASPwoQY3JlYXRlX2No",
-            "YXJhY3RlchgEIAEoCzIjLm9wZW5tdS5wcm90b2NvbC5DMlNDcmVhdGVDaGFy",
-            "YWN0ZXJIABI/ChBzZWxlY3RfY2hhcmFjdGVyGAUgASgLMiMub3Blbm11LnBy",
-            "b3RvY29sLkMyU1NlbGVjdENoYXJhY3RlckgAEj8KEGRlbGV0ZV9jaGFyYWN0",
-            "ZXIYBiABKAsyIy5vcGVubXUucHJvdG9jb2wuQzJTRGVsZXRlQ2hhcmFjdGVy",
-            "SAASKAoEbW92ZRgHIAEoCzIYLm9wZW5tdS5wcm90b2NvbC5DMlNNb3ZlSABC",
-            "CQoHcGF5bG9hZCKrBQoOU2VydmVyRW52ZWxvcGUSNgoNcGluZ19yZXNwb25z",
-            "ZRgBIAEoCzIdLm9wZW5tdS5wcm90b2NvbC5QaW5nUmVzcG9uc2VIABI3Cgxs",
-            "b2dpbl9yZXN1bHQYAiABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJDTG9naW5S",
-            "ZXN1bHRIABI7Cg5jaGFyYWN0ZXJfbGlzdBgDIAEoCzIhLm9wZW5tdS5wcm90",
-            "b2NvbC5TMkNDaGFyYWN0ZXJMaXN0SAASTAoXY3JlYXRlX2NoYXJhY3Rlcl9y",
-            "ZXN1bHQYBCABKAsyKS5vcGVubXUucHJvdG9jb2wuUzJDQ3JlYXRlQ2hhcmFj",
-            "dGVyUmVzdWx0SAASTAoXc2VsZWN0X2NoYXJhY3Rlcl9yZXN1bHQYBSABKAsy",
-            "KS5vcGVubXUucHJvdG9jb2wuUzJDU2VsZWN0Q2hhcmFjdGVyUmVzdWx0SAAS",
-            "TAoXZGVsZXRlX2NoYXJhY3Rlcl9yZXN1bHQYBiABKAsyKS5vcGVubXUucHJv",
-            "dG9jb2wuUzJDRGVsZXRlQ2hhcmFjdGVyUmVzdWx0SAASOQoNZW50ZXJlZF93",
-            "b3JsZBgHIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNFbnRlcmVkV29ybGRI",
-            "ABJAChFlbnRpdGllc19pbl9zY29wZRgIIAEoCzIjLm9wZW5tdS5wcm90b2Nv",
-            "bC5TMkNFbnRpdGllc0luU2NvcGVIABJHChVlbnRpdGllc19vdXRfb2Zfc2Nv",
-            "cGUYCSABKAsyJi5vcGVubXUucHJvdG9jb2wuUzJDRW50aXRpZXNPdXRPZlNj",
-            "b3BlSAASMAoIc25hcHNob3QYCiABKAsyHC5vcGVubXUucHJvdG9jb2wuUzJD",
-            "U25hcHNob3RIAEIJCgdwYXlsb2FkKp0BCg9Mb2dpblJlc3VsdENvZGUSCwoH",
-            "VU5LTk9XThAAEgYKAk9LEAESFAoQSU5WQUxJRF9QQVNTV09SRBACEhMKD0FD",
-            "Q09VTlRfQkxPQ0tFRBADEh0KGUFDQ09VTlRfQUxSRUFEWV9DT05ORUNURUQQ",
-            "BBIUChBDT05ORUNUSU9OX0VSUk9SEAUSFQoRVEVNUE9SQVJZX0JMT0NLRUQQ",
-            "BkIiqgIfTVVuaXF1ZS5PcGVuTVUuTmV0d29yay5Qcm90b2J1ZmIGcHJvdG8z"));
+            "Lm9wZW5tdS5wcm90b2NvbC5FbnRpdHlTbmFwc2hvdCKUAQoLRW50aXR5U3Rh",
+            "dGUSCgoCaWQYASABKA0SCQoBeBgCIAEoAhIJCgF5GAMgASgCEhQKDGNsYXNz",
+            "X251bWJlchgEIAEoDRIMCgRuYW1lGAUgASgJEg0KBWxldmVsGAYgASgNEjAK",
+            "C2VudGl0eV90eXBlGAcgASgOMhsub3Blbm11LnByb3RvY29sLkVudGl0eVR5",
+            "cGUiRwoPUzJDRW50ZXJlZFdvcmxkEg4KBm1hcF9pZBgBIAEoDRIJCgF4GAIg",
+            "ASgCEgkKAXkYAyABKAISDgoGb3duX2lkGAQgASgNIkQKElMyQ0VudGl0aWVz",
+            "SW5TY29wZRIuCghlbnRpdGllcxgBIAMoCzIcLm9wZW5tdS5wcm90b2NvbC5F",
+            "bnRpdHlTdGF0ZSIrChVTMkNFbnRpdGllc091dE9mU2NvcGUSEgoKZW50aXR5",
+            "X2lkcxgBIAMoDSLFAwoOQ2xpZW50RW52ZWxvcGUSNAoMcGluZ19yZXF1ZXN0",
+            "GAEgASgLMhwub3Blbm11LnByb3RvY29sLlBpbmdSZXF1ZXN0SAASOQoNbG9n",
+            "aW5fcmVxdWVzdBgCIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5DMlNMb2dpblJl",
+            "cXVlc3RIABJKChZjaGFyYWN0ZXJfbGlzdF9yZXF1ZXN0GAMgASgLMigub3Bl",
+            "bm11LnByb3RvY29sLkMyU0NoYXJhY3Rlckxpc3RSZXF1ZXN0SAASPwoQY3Jl",
+            "YXRlX2NoYXJhY3RlchgEIAEoCzIjLm9wZW5tdS5wcm90b2NvbC5DMlNDcmVh",
+            "dGVDaGFyYWN0ZXJIABI/ChBzZWxlY3RfY2hhcmFjdGVyGAUgASgLMiMub3Bl",
+            "bm11LnByb3RvY29sLkMyU1NlbGVjdENoYXJhY3RlckgAEj8KEGRlbGV0ZV9j",
+            "aGFyYWN0ZXIYBiABKAsyIy5vcGVubXUucHJvdG9jb2wuQzJTRGVsZXRlQ2hh",
+            "cmFjdGVySAASKAoEbW92ZRgHIAEoCzIYLm9wZW5tdS5wcm90b2NvbC5DMlNN",
+            "b3ZlSABCCQoHcGF5bG9hZCKrBQoOU2VydmVyRW52ZWxvcGUSNgoNcGluZ19y",
+            "ZXNwb25zZRgBIAEoCzIdLm9wZW5tdS5wcm90b2NvbC5QaW5nUmVzcG9uc2VI",
+            "ABI3Cgxsb2dpbl9yZXN1bHQYAiABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJD",
+            "TG9naW5SZXN1bHRIABI7Cg5jaGFyYWN0ZXJfbGlzdBgDIAEoCzIhLm9wZW5t",
+            "dS5wcm90b2NvbC5TMkNDaGFyYWN0ZXJMaXN0SAASTAoXY3JlYXRlX2NoYXJh",
+            "Y3Rlcl9yZXN1bHQYBCABKAsyKS5vcGVubXUucHJvdG9jb2wuUzJDQ3JlYXRl",
+            "Q2hhcmFjdGVyUmVzdWx0SAASTAoXc2VsZWN0X2NoYXJhY3Rlcl9yZXN1bHQY",
+            "BSABKAsyKS5vcGVubXUucHJvdG9jb2wuUzJDU2VsZWN0Q2hhcmFjdGVyUmVz",
+            "dWx0SAASTAoXZGVsZXRlX2NoYXJhY3Rlcl9yZXN1bHQYBiABKAsyKS5vcGVu",
+            "bXUucHJvdG9jb2wuUzJDRGVsZXRlQ2hhcmFjdGVyUmVzdWx0SAASOQoNZW50",
+            "ZXJlZF93b3JsZBgHIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNFbnRlcmVk",
+            "V29ybGRIABJAChFlbnRpdGllc19pbl9zY29wZRgIIAEoCzIjLm9wZW5tdS5w",
+            "cm90b2NvbC5TMkNFbnRpdGllc0luU2NvcGVIABJHChVlbnRpdGllc19vdXRf",
+            "b2Zfc2NvcGUYCSABKAsyJi5vcGVubXUucHJvdG9jb2wuUzJDRW50aXRpZXNP",
+            "dXRPZlNjb3BlSAASMAoIc25hcHNob3QYCiABKAsyHC5vcGVubXUucHJvdG9j",
+            "b2wuUzJDU25hcHNob3RIAEIJCgdwYXlsb2FkKp0BCg9Mb2dpblJlc3VsdENv",
+            "ZGUSCwoHVU5LTk9XThAAEgYKAk9LEAESFAoQSU5WQUxJRF9QQVNTV09SRBAC",
+            "EhMKD0FDQ09VTlRfQkxPQ0tFRBADEh0KGUFDQ09VTlRfQUxSRUFEWV9DT05O",
+            "RUNURUQQBBIUChBDT05ORUNUSU9OX0VSUk9SEAUSFQoRVEVNUE9SQVJZX0JM",
+            "T0NLRUQQBiohCgpFbnRpdHlUeXBlEgoKBlBMQVlFUhAAEgcKA05QQxABQiKq",
+            "Ah9NVW5pcXVlLk9wZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingRequest), global::MUnique.OpenMU.Network.Protobuf.PingRequest.Parser, new[]{ "TimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingResponse), global::MUnique.OpenMU.Network.Protobuf.PingResponse.Parser, new[]{ "ClientTimestampMs", "ServerTimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest), global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
@@ -102,7 +104,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SMove), global::MUnique.OpenMU.Network.Protobuf.C2SMove.Parser, new[]{ "TargetX", "TargetY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.EntitySnapshot), global::MUnique.OpenMU.Network.Protobuf.EntitySnapshot.Parser, new[]{ "Id", "X", "Y" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CSnapshot), global::MUnique.OpenMU.Network.Protobuf.S2CSnapshot.Parser, new[]{ "Entities" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.EntityState), global::MUnique.OpenMU.Network.Protobuf.EntityState.Parser, new[]{ "Id", "X", "Y", "ClassNumber", "Name", "Level" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.EntityState), global::MUnique.OpenMU.Network.Protobuf.EntityState.Parser, new[]{ "Id", "X", "Y", "ClassNumber", "Name", "Level", "EntityType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CEnteredWorld), global::MUnique.OpenMU.Network.Protobuf.S2CEnteredWorld.Parser, new[]{ "MapId", "X", "Y", "OwnId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CEntitiesInScope), global::MUnique.OpenMU.Network.Protobuf.S2CEntitiesInScope.Parser, new[]{ "Entities" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CEntitiesOutOfScope), global::MUnique.OpenMU.Network.Protobuf.S2CEntitiesOutOfScope.Parser, new[]{ "EntityIds" }, null, null, null, null),
@@ -122,6 +124,11 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [pbr::OriginalName("ACCOUNT_ALREADY_CONNECTED")] AccountAlreadyConnected = 4,
     [pbr::OriginalName("CONNECTION_ERROR")] ConnectionError = 5,
     [pbr::OriginalName("TEMPORARY_BLOCKED")] TemporaryBlocked = 6,
+  }
+
+  public enum EntityType {
+    [pbr::OriginalName("PLAYER")] Player = 0,
+    [pbr::OriginalName("NPC")] Npc = 1,
   }
 
   #endregion
@@ -3776,6 +3783,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       classNumber_ = other.classNumber_;
       name_ = other.name_;
       level_ = other.level_;
+      entityType_ = other.entityType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3857,6 +3865,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "entity_type" field.</summary>
+    public const int EntityTypeFieldNumber = 7;
+    private global::MUnique.OpenMU.Network.Protobuf.EntityType entityType_ = global::MUnique.OpenMU.Network.Protobuf.EntityType.Player;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.EntityType EntityType {
+      get { return entityType_; }
+      set {
+        entityType_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -3878,6 +3898,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (ClassNumber != other.ClassNumber) return false;
       if (Name != other.Name) return false;
       if (Level != other.Level) return false;
+      if (EntityType != other.EntityType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3891,6 +3912,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (ClassNumber != 0) hash ^= ClassNumber.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
+      if (EntityType != global::MUnique.OpenMU.Network.Protobuf.EntityType.Player) hash ^= EntityType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3933,6 +3955,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(48);
         output.WriteUInt32(Level);
       }
+      if (EntityType != global::MUnique.OpenMU.Network.Protobuf.EntityType.Player) {
+        output.WriteRawTag(56);
+        output.WriteEnum((int) EntityType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3967,6 +3993,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(48);
         output.WriteUInt32(Level);
       }
+      if (EntityType != global::MUnique.OpenMU.Network.Protobuf.EntityType.Player) {
+        output.WriteRawTag(56);
+        output.WriteEnum((int) EntityType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3994,6 +4024,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (Level != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Level);
+      }
+      if (EntityType != global::MUnique.OpenMU.Network.Protobuf.EntityType.Player) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EntityType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4024,6 +4057,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (other.Level != 0) {
         Level = other.Level;
+      }
+      if (other.EntityType != global::MUnique.OpenMU.Network.Protobuf.EntityType.Player) {
+        EntityType = other.EntityType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4068,6 +4104,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
             Level = input.ReadUInt32();
             break;
           }
+          case 56: {
+            EntityType = (global::MUnique.OpenMU.Network.Protobuf.EntityType) input.ReadEnum();
+            break;
+          }
         }
       }
     #endif
@@ -4109,6 +4149,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
           }
           case 48: {
             Level = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            EntityType = (global::MUnique.OpenMU.Network.Protobuf.EntityType) input.ReadEnum();
             break;
           }
         }

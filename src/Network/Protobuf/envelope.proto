@@ -98,13 +98,19 @@ message S2CSnapshot {
 
 // ── Phase 2: World / AoI ──────────────────────────────────────────────────────
 
+enum EntityType {
+    PLAYER = 0;
+    NPC    = 1;
+}
+
 message EntityState {
-    uint32 id           = 1;
-    float  x            = 2;
-    float  y            = 3;
-    uint32 class_number = 4;
-    string name         = 5;
-    uint32 level        = 6;
+    uint32     id           = 1;
+    float      x            = 2;
+    float      y            = 3;
+    uint32     class_number = 4;
+    string     name         = 5;
+    uint32     level        = 6;
+    EntityType entity_type  = 7;
 }
 
 message S2CEnteredWorld {
