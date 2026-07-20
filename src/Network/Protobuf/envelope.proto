@@ -79,6 +79,23 @@ message S2CDeleteCharacterResult {
     bool success = 1;
 }
 
+// ── Phase 3: Movement ────────────────────────────────────────────────────────
+
+message C2SMove {
+    float target_x = 1;
+    float target_y = 2;
+}
+
+message EntitySnapshot {
+    uint32 id = 1;
+    float  x  = 2;
+    float  y  = 3;
+}
+
+message S2CSnapshot {
+    repeated EntitySnapshot entities = 1;
+}
+
 // ── Phase 2: World / AoI ──────────────────────────────────────────────────────
 
 message EntityState {
@@ -115,6 +132,7 @@ message ClientEnvelope {
         C2SCreateCharacter      create_character       = 4;
         C2SSelectCharacter      select_character       = 5;
         C2SDeleteCharacter      delete_character       = 6;
+        C2SMove                 move                   = 7;
     }
 }
 
@@ -129,5 +147,6 @@ message ServerEnvelope {
         S2CEnteredWorld          entered_world           = 7;
         S2CEntitiesInScope       entities_in_scope       = 8;
         S2CEntitiesOutOfScope    entities_out_of_scope   = 9;
+        S2CSnapshot              snapshot                = 10;
     }
 }

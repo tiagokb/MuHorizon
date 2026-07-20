@@ -33,8 +33,8 @@ internal sealed class ProtobufNewPlayersInScopePlugIn : INewPlayersInScopePlugIn
     internal static EntityState BuildEntityState(Player p) => new()
     {
         Id = p.Id,
-        X = p.Position.X,
-        Y = p.Position.Y,
+        X = p.ContinuousPosition.X,
+        Y = p.ContinuousPosition.Y,
         ClassNumber = (uint)(p.SelectedCharacter?.CharacterClass?.Number ?? 0),
         Name = p.Name,
         Level = (uint)p.Level,

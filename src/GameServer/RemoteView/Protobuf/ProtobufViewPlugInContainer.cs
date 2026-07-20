@@ -35,6 +35,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufEnteredWorldPlugIn(player),
             new ProtobufNewPlayersInScopePlugIn(player),
             new ProtobufObjectsOutOfScopePlugIn(player),
+            new ProtobufSnapshotPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

@@ -16,7 +16,7 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
     public ValueTask EnteredWorldAsync()
     {
         var map = _player.CurrentMap ?? throw new InvalidOperationException("Player has no current map.");
-        var pos = _player.Position;
+        var pos = _player.ContinuousPosition;
 
         return _player.SendEnvelopeAsync(new ServerEnvelope
         {

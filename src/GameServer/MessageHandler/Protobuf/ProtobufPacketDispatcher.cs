@@ -9,6 +9,7 @@ using System.Buffers.Binary;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.GameLogic.Inputs;
 using MUnique.OpenMU.GameLogic.PlayerActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Character;
 using MUnique.OpenMU.GameLogic.Views.Character;
@@ -83,6 +84,14 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.DeleteCharacter:
                 await DeleteCharacterAction.DeleteCharacterAsync(_player, envelope.DeleteCharacter.Name, envelope.DeleteCharacter.SecurityCode).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.Move:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new MoveInput(envelope.Move.TargetX, envelope.Move.TargetY));
+                }
+
                 break;
 
             default:

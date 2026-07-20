@@ -82,6 +82,10 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
     private Lazy<ComboStateMachine>? _comboStateLazy;
 
+    private Vector2F _continuousPosition;
+    private Vector2F? _continuousWalkTarget;
+    private bool _hasMovedThisTick;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Player" /> class.
     /// </summary>di
@@ -154,6 +158,36 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
     /// <inheritdoc />
     public Point WalkTarget => this._walker.CurrentTarget;
+
+    /// <summary>
+    /// Gets or sets the current continuous position in server units (1 tile = 8 units).
+    /// Initialized from tile <see cref="Position"/> when entering the world.
+    /// </summary>
+    public Vector2F ContinuousPosition
+    {
+        get => _continuousPosition;
+        set => _continuousPosition = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the desired walk destination in continuous coords; null when idle.
+    /// Set by <see cref="Inputs.MoveInput"/>; cleared by <see cref="GameTickLoop"/> on arrival.
+    /// </summary>
+    public Vector2F? ContinuousWalkTarget
+    {
+        get => _continuousWalkTarget;
+        set => _continuousWalkTarget = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this player moved during the current tick.
+    /// Reset by <see cref="GameTickLoop"/> at the start of each tick.
+    /// </summary>
+    public bool HasMovedThisTick
+    {
+        get => _hasMovedThisTick;
+        set => _hasMovedThisTick = value;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is invisible to other players.
@@ -1186,6 +1220,9 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
         await this.PlayerState.TryAdvanceToAsync(GameLogic.PlayerState.EnteredWorld).ConfigureAwait(false);
         this.IsAlive = true;
+
+        // Initialize continuous position from tile coords before sending S2CEnteredWorld.
+        this.ContinuousPosition = Vector2F.FromTile(this.Position);
 
         // Assign ID first (without AoI) so S2CEnteredWorld carries the correct own_id,
         // then trigger AoI which sends S2CEntitiesInScope to the entering player.

@@ -7,6 +7,7 @@ namespace MUnique.OpenMU.GameLogic;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using MUnique.OpenMU.GameLogic.Views.World;
 
 /// <summary>
 /// Drives the per-map game loop at a fixed rate (default 30 Hz).
@@ -19,6 +20,9 @@ public sealed class GameTickLoop
 {
     private const int TargetTickMs = 33;
     private const int OvershotWarningMs = 20;
+
+    // TODO: read from GameConfiguration
+    private const float MoveSpeedUnitsPerSec = 80f;
 
     private readonly GameMap _map;
     private readonly ILogger<GameTickLoop> _logger;
@@ -90,9 +94,10 @@ public sealed class GameTickLoop
 
             try
             {
+                ResetMovementFlags();
                 await ProcessInputsAsync(ct).ConfigureAwait(false);
-                // Phase 3: TickEntities
-                // Phase 3: BroadcastSnapshots
+                TickMovement(deltaTime);
+                await BroadcastSnapshotsAsync(ct).ConfigureAwait(false);
             }
             catch (Exception ex) when (!ct.IsCancellationRequested)
             {
@@ -122,6 +127,14 @@ public sealed class GameTickLoop
         _logger.LogDebug("GameTickLoop stopped for map {MapId}", _map.MapId);
     }
 
+    private void ResetMovementFlags()
+    {
+        foreach (var player in _map.Players)
+        {
+            player.HasMovedThisTick = false;
+        }
+    }
+
     private async ValueTask ProcessInputsAsync(CancellationToken ct)
     {
         foreach (var player in _map.Players)
@@ -135,6 +148,64 @@ public sealed class GameTickLoop
             {
                 await input.HandleAsync(player).ConfigureAwait(false);
             }
+        }
+    }
+
+    private void TickMovement(TimeSpan deltaTime)
+    {
+        var dt = (float)deltaTime.TotalSeconds;
+        foreach (var player in _map.Players)
+        {
+            if (player.ContinuousWalkTarget is not { } target)
+            {
+                continue;
+            }
+
+            var pos = player.ContinuousPosition;
+            var dx = target.X - pos.X;
+            var dy = target.Y - pos.Y;
+            var distSq = dx * dx + dy * dy;
+            var stepDist = MoveSpeedUnitsPerSec * dt;
+
+            if (distSq <= stepDist * stepDist)
+            {
+                player.ContinuousPosition = target;
+                player.ContinuousWalkTarget = null;
+            }
+            else
+            {
+                var dist = MathF.Sqrt(distSq);
+                player.ContinuousPosition = new Vector2F(
+                    pos.X + dx / dist * stepDist,
+                    pos.Y + dy / dist * stepDist);
+            }
+
+            player.HasMovedThisTick = true;
+        }
+    }
+
+    private async ValueTask BroadcastSnapshotsAsync(CancellationToken ct)
+    {
+        var moved = _map.Players
+            .Where(p => p.HasMovedThisTick)
+            .Select(p => ((uint)p.Id, p.ContinuousPosition.X, p.ContinuousPosition.Y))
+            .ToList();
+
+        if (moved.Count == 0)
+        {
+            return;
+        }
+
+        IReadOnlyList<(uint Id, float X, float Y)> positions = moved;
+
+        foreach (var player in _map.Players)
+        {
+            if (ct.IsCancellationRequested)
+            {
+                break;
+            }
+
+            await player.InvokeViewPlugInAsync<ISnapshotPlugIn>(p => p.SendSnapshotAsync(positions)).ConfigureAwait(false);
         }
     }
 }
