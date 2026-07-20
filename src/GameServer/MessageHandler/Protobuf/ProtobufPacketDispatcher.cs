@@ -106,14 +106,17 @@ internal sealed class ProtobufPacketDispatcher
 
     private async ValueTask HandleSelectCharacterAsync(string characterName)
     {
-        await SelectCharacterAction.SelectCharacterAsync(_player, characterName).ConfigureAwait(false);
-        if (_player.SelectedCharacter is { } character)
+        // Look up the character first so we can send SelectCharacterResult BEFORE world entry.
+        // OnPlayerEnteredWorldAsync (called inside SelectCharacterAsync) already triggers
+        // ClientReadyAfterMapChangeAsync → S2CEnteredWorld, so the result must go out first.
+        var character = _player.Account?.Characters.FirstOrDefault(c => c.Name.Equals(characterName));
+
+        await _player.InvokeViewPlugInAsync<ICharacterFocusedPlugIn>(
+            p => p.CharacterFocusedAsync(character!)).ConfigureAwait(false);
+
+        if (character is not null)
         {
-            await _player.InvokeViewPlugInAsync<ICharacterFocusedPlugIn>(p => p.CharacterFocusedAsync(character)).ConfigureAwait(false);
-        }
-        else
-        {
-            await _player.InvokeViewPlugInAsync<ICharacterFocusedPlugIn>(p => p.CharacterFocusedAsync(null!)).ConfigureAwait(false);
+            await SelectCharacterAction.SelectCharacterAsync(_player, characterName).ConfigureAwait(false);
         }
     }
 }

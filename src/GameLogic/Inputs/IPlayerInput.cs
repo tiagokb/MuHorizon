@@ -5,9 +5,12 @@
 namespace MUnique.OpenMU.GameLogic.Inputs;
 
 /// <summary>
-/// Marker interface for player input commands enqueued for processing by the tick loop.
-/// Concrete implementations (e.g. MoveInput, SkillInput) will be added per phase.
+/// A player input command enqueued for processing by the game tick loop.
 /// </summary>
 public interface IPlayerInput
 {
+    /// <summary>
+    /// Applies this input to <paramref name="player"/> during the current tick.
+    /// </summary>
+    ValueTask HandleAsync(Player player);
 }

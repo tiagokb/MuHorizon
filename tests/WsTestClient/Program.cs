@@ -80,6 +80,13 @@ var sr = selectResult.SelectCharacterResult;
 Console.WriteLine(sr.Success ? $"OK  level={sr.Character.Level} class={sr.Character.ClassName}" : "FAIL");
 if (!sr.Success) { return 1; }
 
+// ── Enter world ───────────────────────────────────────────────────────────────
+Console.Write("[7] Entered world... ");
+var worldMsg = await ReceiveAsync(ws);
+if (worldMsg?.PayloadCase != ServerEnvelope.PayloadOneofCase.EnteredWorld) { Console.WriteLine($"FAIL (got {worldMsg?.PayloadCase})"); return 1; }
+var ew = worldMsg.EnteredWorld;
+Console.WriteLine($"OK  map={ew.MapId} x={ew.X} y={ew.Y} id={ew.OwnId}");
+
 Console.WriteLine();
 Console.WriteLine("ALL PASS");
 
@@ -87,6 +94,25 @@ await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "done", CancellationToke
 return 0;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
+
+static async Task<ServerEnvelope?> ReceiveAsync(ClientWebSocket ws)
+{
+    var buf = new byte[65536];
+    var ms = new MemoryStream();
+    using var recvCts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+    WebSocketReceiveResult result;
+    do
+    {
+        result = await ws.ReceiveAsync(buf, recvCts.Token);
+        ms.Write(buf, 0, result.Count);
+    } while (!result.EndOfMessage);
+
+    var received = ms.ToArray();
+    if (received.Length < 4) return null;
+    var len = (int)BinaryPrimitives.ReadUInt32BigEndian(received);
+    if (received.Length < 4 + len) return null;
+    return ServerEnvelope.Parser.ParseFrom(received, 4, len);
+}
 
 static async Task<ServerEnvelope?> RoundTripAsync(ClientWebSocket ws, ClientEnvelope request)
 {

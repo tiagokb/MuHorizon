@@ -79,6 +79,32 @@ message S2CDeleteCharacterResult {
     bool success = 1;
 }
 
+// ── Phase 2: World / AoI ──────────────────────────────────────────────────────
+
+message EntityState {
+    uint32 id           = 1;
+    float  x            = 2;
+    float  y            = 3;
+    uint32 class_number = 4;
+    string name         = 5;
+    uint32 level        = 6;
+}
+
+message S2CEnteredWorld {
+    uint32 map_id  = 1;
+    float  x       = 2;
+    float  y       = 3;
+    uint32 own_id  = 4;
+}
+
+message S2CEntitiesInScope {
+    repeated EntityState entities = 1;
+}
+
+message S2CEntitiesOutOfScope {
+    repeated uint32 entity_ids = 1;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -100,5 +126,8 @@ message ServerEnvelope {
         S2CCreateCharacterResult create_character_result = 4;
         S2CSelectCharacterResult select_character_result = 5;
         S2CDeleteCharacterResult delete_character_result = 6;
+        S2CEnteredWorld          entered_world           = 7;
+        S2CEntitiesInScope       entities_in_scope       = 8;
+        S2CEntitiesOutOfScope    entities_out_of_scope   = 9;
     }
 }

@@ -32,6 +32,8 @@ public class GameMap
 
     private int _playerCount;
 
+    private GameTickLoop? _tickLoop;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="GameMap" /> class.
     /// </summary>
@@ -91,6 +93,25 @@ public class GameMap
     /// Gets the unique identifier of this map instance.
     /// </summary>
     public Guid Id { get; }
+
+    /// <summary>
+    /// Gets a snapshot of all players currently on this map.
+    /// </summary>
+    public IEnumerable<Player> Players => this._objectsInMap.Values.OfType<Player>();
+
+    /// <summary>
+    /// Starts the game tick loop for this map using the supplied logger.
+    /// </summary>
+    public void StartTickLoop(Microsoft.Extensions.Logging.ILogger<GameTickLoop> logger)
+    {
+        this._tickLoop = new GameTickLoop(this, logger);
+        this._tickLoop.Start();
+    }
+
+    /// <summary>
+    /// Stops the game tick loop for this map.
+    /// </summary>
+    public ValueTask StopTickLoopAsync() => this._tickLoop?.StopAsync() ?? ValueTask.CompletedTask;
 
     /// <summary>
     /// Gets the object with the specified identifier.
@@ -179,6 +200,19 @@ public class GameMap
                 await eventHandler((this, locateable)).ConfigureAwait(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Assigns an ID to the player and registers them in the object map without triggering AoI.
+    /// Call this before <see cref="AddAsync"/> when the caller needs the player's ID (e.g. to
+    /// send S2CEnteredWorld) before AoI scope notifications fire.
+    /// </summary>
+    /// <param name="player">The player to register.</param>
+    public void PreparePlayer(Player player)
+    {
+        player.Id = (ushort)this._objectIdGenerator.GenerateId();
+        Interlocked.Increment(ref this._playerCount);
+        this._objectsInMap.Add(player.Id, player);
     }
 
     /// <summary>

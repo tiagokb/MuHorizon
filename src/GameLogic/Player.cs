@@ -215,6 +215,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public int Level => (int)(this.Attributes?[Stats.Level] ?? 0);
 
     /// <summary>
+    /// Gets the queue of pending inputs to be processed by <see cref="GameTickLoop"/> each tick.
+    /// Capped at 32 entries; excess inputs are silently dropped by the enqueue caller.
+    /// </summary>
+    public System.Collections.Concurrent.ConcurrentQueue<Inputs.IPlayerInput> InputQueue { get; } = new();
+
+    /// <summary>
     /// Gets the selected character.
     /// </summary>
     public Character? SelectedCharacter => this._selectedCharacter;
@@ -1181,7 +1187,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         await this.PlayerState.TryAdvanceToAsync(GameLogic.PlayerState.EnteredWorld).ConfigureAwait(false);
         this.IsAlive = true;
 
+        // Assign ID first (without AoI) so S2CEnteredWorld carries the correct own_id,
+        // then trigger AoI which sends S2CEntitiesInScope to the entering player.
+        this.CurrentMap!.PreparePlayer(this);
+        await this.InvokeViewPlugInAsync<Views.World.IEnteredWorldPlugIn>(p => p.EnteredWorldAsync()).ConfigureAwait(false);
         await this.CurrentMap!.AddAsync(this).ConfigureAwait(false);
+
         if (!this.CurrentMap.Terrain.WalkMap[this.SelectedCharacter.PositionX, this.SelectedCharacter.PositionY])
         {
             await this.WarpToSafezoneAsync().ConfigureAwait(false);

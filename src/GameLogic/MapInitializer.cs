@@ -20,6 +20,7 @@ public class MapInitializer : IMapInitializer
     private readonly IConfigurationChangeMediator? _configurationChangeMediator;
     private readonly GameConfiguration _configuration;
     private readonly ILogger<MapInitializer> _logger;
+    private readonly ILoggerFactory _loggerFactory;
 
     private readonly ConcurrentDictionary<MonsterSpawnArea, int> _spawnedMonsters = new();
 
@@ -28,14 +29,16 @@ public class MapInitializer : IMapInitializer
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <param name="logger">The logger.</param>
+    /// <param name="loggerFactory">The logger factory (used to create per-type loggers such as for <see cref="GameTickLoop"/>).</param>
     /// <param name="dropGenerator">The drop generator.</param>
     /// <param name="configurationChangeMediator">The configuration change mediator.</param>
-    public MapInitializer(GameConfiguration configuration, ILogger<MapInitializer> logger, IDropGenerator dropGenerator, IConfigurationChangeMediator? configurationChangeMediator)
+    public MapInitializer(GameConfiguration configuration, ILogger<MapInitializer> logger, ILoggerFactory loggerFactory, IDropGenerator dropGenerator, IConfigurationChangeMediator? configurationChangeMediator)
     {
         this._dropGenerator = dropGenerator;
         this._configurationChangeMediator = configurationChangeMediator;
         this._configuration = configuration;
         this._logger = logger;
+        this._loggerFactory = loggerFactory;
         this.ChunkSize = 8;
     }
 
@@ -263,9 +266,11 @@ public class MapInitializer : IMapInitializer
     protected virtual GameMap InternalCreateGameMap(GameMapDefinition definition)
     {
         this._logger.LogDebug("Creating GameMap {0}", definition);
-        return definition.BattleZone?.Type == BattleType.Soccer
+        var map = definition.BattleZone?.Type == BattleType.Soccer
             ? new SoccerGameMap(definition, this._configuration.ItemDropDuration, this.ChunkSize)
             : new GameMap(definition, this._configuration.ItemDropDuration, this.ChunkSize);
+        map.StartTickLoop(this._loggerFactory.CreateLogger<GameTickLoop>());
+        return map;
     }
 
     private void RegisterForConfigChanges(GameMap createdMap, MonsterSpawnArea spawnArea, NonPlayerCharacter spawnedObject)
