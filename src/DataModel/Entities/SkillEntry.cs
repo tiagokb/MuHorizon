@@ -97,6 +97,12 @@ public class SkillEntry : INotifyPropertyChanged
     [Transient]
     public IAttributeSystem? Attributes { get; set; }
 
+    /// <summary>
+    /// Gets or sets the last time this skill was cast. Used for server-side cooldown enforcement.
+    /// </summary>
+    [Transient]
+    public DateTime LastUsed { get; set; } = DateTime.MinValue;
+
     /// <inheritdoc />
     public override string ToString()
     {

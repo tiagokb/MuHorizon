@@ -104,13 +104,15 @@ enum EntityType {
 }
 
 message EntityState {
-    uint32     id           = 1;
-    float      x            = 2;
-    float      y            = 3;
-    uint32     class_number = 4;
-    string     name         = 5;
-    uint32     level        = 6;
-    EntityType entity_type  = 7;
+    uint32     id             = 1;
+    float      x              = 2;
+    float      y              = 3;
+    uint32     class_number   = 4;
+    string     name           = 5;
+    uint32     level          = 6;
+    EntityType entity_type    = 7;
+    uint32     max_health     = 8;
+    uint32     current_health = 9;
 }
 
 message S2CEnteredWorld {
@@ -128,6 +130,39 @@ message S2CEntitiesOutOfScope {
     repeated uint32 entity_ids = 1;
 }
 
+// ── Phase 4: Skills ───────────────────────────────────────────────────────────
+
+message C2SCastSkill {
+    uint32 skill_id  = 1;
+    uint32 target_id = 2;
+}
+
+message S2CSkillAnimation {
+    uint32 attacker_id    = 1;
+    uint32 target_id      = 2;
+    uint32 skill_id       = 3;
+    bool   effect_applied = 4;
+}
+
+message S2CDamageResult {
+    uint32 target_id        = 1;
+    uint32 health_damage    = 2;
+    uint32 shield_damage    = 3;
+    uint32 attributes       = 4;
+    uint32 remaining_health = 5;
+}
+
+message S2CBuffApplied {
+    uint32 target_id   = 1;
+    uint32 effect_id   = 2;
+    uint32 duration_ms = 3;
+}
+
+message S2CBuffExpired {
+    uint32 target_id = 1;
+    uint32 effect_id = 2;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -139,6 +174,7 @@ message ClientEnvelope {
         C2SSelectCharacter      select_character       = 5;
         C2SDeleteCharacter      delete_character       = 6;
         C2SMove                 move                   = 7;
+        C2SCastSkill            cast_skill             = 8;
     }
 }
 
@@ -154,5 +190,9 @@ message ServerEnvelope {
         S2CEntitiesInScope       entities_in_scope       = 8;
         S2CEntitiesOutOfScope    entities_out_of_scope   = 9;
         S2CSnapshot              snapshot                = 10;
+        S2CSkillAnimation        skill_animation         = 11;
+        S2CDamageResult          damage_result           = 12;
+        S2CBuffApplied           buff_applied            = 13;
+        S2CBuffExpired           buff_expired            = 14;
     }
 }

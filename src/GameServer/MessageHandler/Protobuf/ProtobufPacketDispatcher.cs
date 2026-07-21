@@ -27,8 +27,11 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
 
+    private const int SkillRateLimitMs = 100;
+
     private readonly ProtobufRemotePlayer _player;
     private readonly ILogger<ProtobufPacketDispatcher> _logger;
+    private long _lastSkillDispatchTick;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProtobufPacketDispatcher"/> class.
@@ -90,6 +93,21 @@ internal sealed class ProtobufPacketDispatcher
                 if (_player.InputQueue.Count < 32)
                 {
                     _player.InputQueue.Enqueue(new MoveInput(envelope.Move.TargetX, envelope.Move.TargetY));
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CastSkill:
+                var nowTick = Environment.TickCount64;
+                if (nowTick - _lastSkillDispatchTick >= SkillRateLimitMs && _player.InputQueue.Count < 32)
+                {
+                    _lastSkillDispatchTick = nowTick;
+                    var skillId = (ushort)envelope.CastSkill.SkillId;
+                    var targetId = (ushort)envelope.CastSkill.TargetId;
+                    IPlayerInput input = skillId == 0
+                        ? new BasicAttackInput(targetId)
+                        : new SkillInput(skillId, targetId);
+                    _player.InputQueue.Enqueue(input);
                 }
 
                 break;

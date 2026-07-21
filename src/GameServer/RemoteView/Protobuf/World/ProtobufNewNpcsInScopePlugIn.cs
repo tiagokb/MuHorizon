@@ -35,19 +35,25 @@ internal sealed class ProtobufNewNpcsInScopePlugIn : INewNpcsInScopePlugIn
     private static EntityState BuildNpcState(NonPlayerCharacter npc)
     {
         var pos = Vector2F.FromTile(npc.Position);
-        var level = npc is AttackableNpcBase attackable
-            ? (uint)attackable.Attributes[Stats.Level]
-            : 0u;
+        uint level = 0, maxHp = 0, curHp = 0;
+        if (npc is AttackableNpcBase attackable)
+        {
+            level  = (uint)attackable.Attributes[Stats.Level];
+            maxHp  = (uint)Math.Max(0f, attackable.Attributes[Stats.MaximumHealth]);
+            curHp  = (uint)Math.Max(0f, attackable.Attributes[Stats.CurrentHealth]);
+        }
 
         return new EntityState
         {
-            Id = npc.Id,
-            X = pos.X,
-            Y = pos.Y,
-            ClassNumber = (uint)(npc.Definition?.Number ?? 0),
-            Name = npc.Definition?.Designation ?? string.Empty,
-            Level = level,
-            EntityType = EntityType.Npc,
+            Id            = npc.Id,
+            X             = pos.X,
+            Y             = pos.Y,
+            ClassNumber   = (uint)(npc.Definition?.Number ?? 0),
+            Name          = npc.Definition?.Designation ?? string.Empty,
+            Level         = level,
+            EntityType    = EntityType.Npc,
+            MaxHealth     = maxHp,
+            CurrentHealth = curHp,
         };
     }
 }

@@ -1361,6 +1361,23 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     }
 
     /// <summary>
+    /// Called by the tick loop when <see cref="ContinuousPosition"/> crosses a tile boundary.
+    /// Updates the AoI bucket so the player sees entities that enter their range.
+    /// </summary>
+    /// <param name="newTile">The new tile coordinate derived from <see cref="ContinuousPosition"/>.</param>
+    internal async ValueTask UpdateMapTileAsync(Point newTile)
+    {
+        if (this.Position == newTile || this._currentMap is null)
+        {
+            return;
+        }
+
+        // MoveType.Instant so MoveObjectOnMapAsync sets obj.Position = target.
+        // MoveType.Walk skips that assignment (legacy Walker set Position directly).
+        await this._currentMap.MoveAsync(this, newTile, this._moveLock, MoveType.Instant).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Walks to the specified target coordinates using the specified steps.
     /// </summary>
     /// <param name="target">The target.</param>

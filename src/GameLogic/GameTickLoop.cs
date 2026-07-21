@@ -97,6 +97,7 @@ public sealed class GameTickLoop
                 ResetMovementFlags();
                 await ProcessInputsAsync(ct).ConfigureAwait(false);
                 TickMovement(deltaTime);
+                await UpdateTilePositionsAsync(ct).ConfigureAwait(false);
                 await BroadcastSnapshotsAsync(ct).ConfigureAwait(false);
             }
             catch (Exception ex) when (!ct.IsCancellationRequested)
@@ -181,6 +182,25 @@ public sealed class GameTickLoop
             }
 
             player.HasMovedThisTick = true;
+        }
+    }
+
+    private async ValueTask UpdateTilePositionsAsync(CancellationToken ct)
+    {
+        foreach (var player in _map.Players)
+        {
+            if (ct.IsCancellationRequested)
+            {
+                break;
+            }
+
+            if (!player.HasMovedThisTick)
+            {
+                continue;
+            }
+
+            var newTile = player.ContinuousPosition.ToTile();
+            await player.UpdateMapTileAsync(newTile).ConfigureAwait(false);
         }
     }
 
