@@ -43,6 +43,7 @@ internal static class SkillExtensions
         builder.Ignore(s => s.PowerUpChance);
         builder.Ignore(s => s.PowerUpChancePvp);
         builder.Ignore(s => s.Attributes);
+        builder.Ignore(s => s.LastUsed);
     }
 
     /// <summary>
