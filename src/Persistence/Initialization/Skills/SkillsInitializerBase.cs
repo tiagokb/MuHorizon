@@ -68,7 +68,9 @@ internal abstract class SkillsInitializerBase : InitializerBase
         bool movesToTarget = false,
         bool movesTarget = false,
         int cooldownMinutes = 0,
-        byte hitsPerAttack = 1)
+        byte hitsPerAttack = 1,
+        bool hasProjectile = false,
+        float projectileSpeed = 0f)
     {
         var skill = this.Context.CreateNew<Skill>();
         this.GameConfiguration.Skills.Add(skill);
@@ -103,6 +105,8 @@ internal abstract class SkillsInitializerBase : InitializerBase
             this.ApplyElementalModifier(elementalModifier, skill);
         }
 
+        skill.HasProjectile = hasProjectile;
+        skill.ProjectileSpeed = projectileSpeed;
         skill.SetGuid(skill.Number);
     }
 

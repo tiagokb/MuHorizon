@@ -59,7 +59,9 @@ public sealed class SkillInput : IPlayerInput
             return;
         }
 
-        var skill = skillEntry?.Skill;
+        // Fall back to global config when the player doesn't own the skill (e.g. early test accounts).
+        var skill = skillEntry?.Skill
+            ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)_skillId);
         if (skill is { HasProjectile: true })
         {
             await SpawnProjectileAsync(player, target, plugin, skill).ConfigureAwait(false);
