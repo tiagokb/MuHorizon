@@ -107,7 +107,7 @@ internal class SkillsInitializer : SkillsInitializerBase
     /// </remarks>
     public override void Initialize()
     {
-        this.CreateSkill(SkillNumber.Poison, "Poison", CharacterClasses.AllMagicians, DamageType.Wizardry, 12, 6, manaConsumption: 42, energyRequirement: 140, elementalModifier: ElementalType.Poison);
+        this.CreateSkill(SkillNumber.Poison, "Poison", CharacterClasses.AllMagicians, DamageType.Wizardry, 12, 6, manaConsumption: 42, energyRequirement: 140, elementalModifier: ElementalType.Poison, hasProjectile: true, projectileSpeed: 160f);
         this.CreateSkill(SkillNumber.Meteorite, "Meteorite", CharacterClasses.AllMagicians | CharacterClasses.AllSummoners, DamageType.Wizardry, 21, 6, manaConsumption: 12, energyRequirement: 104, elementalModifier: ElementalType.Earth);
         this.CreateSkill(SkillNumber.Lightning, "Lightning", CharacterClasses.AllMagicians, DamageType.Wizardry, 17, 6, manaConsumption: 15, energyRequirement: 72, elementalModifier: ElementalType.Lightning);
         this.CreateSkill(SkillNumber.FireBall, "Fire Ball", CharacterClasses.AllMagicians | CharacterClasses.AllSummoners, DamageType.Wizardry, 8, 6, manaConsumption: 3, energyRequirement: 40, elementalModifier: ElementalType.Fire);
@@ -129,7 +129,7 @@ internal class SkillsInitializer : SkillsInitializerBase
         this.CreateSkill(SkillNumber.Inferno, "Inferno", CharacterClasses.AllMagicians, DamageType.Wizardry, 100, 4, manaConsumption: 200, energyRequirement: 578, elementalModifier: ElementalType.Fire, skillType: SkillType.AreaSkillAutomaticHits);
         this.CreateSkill(SkillNumber.TeleportAlly, "Teleport Ally", CharacterClasses.SoulMasterAndGrandMaster, distance: 6, abilityConsumption: 25, manaConsumption: 90, energyRequirement: 644, skillType: SkillType.Other);
         this.CreateSkill(SkillNumber.SoulBarrier, "Soul Barrier", CharacterClasses.SoulMasterAndGrandMaster, distance: 6, abilityConsumption: 22, manaConsumption: 70, energyRequirement: 408, skillType: SkillType.Buff, implicitTargetRange: 0, targetRestriction: SkillTargetRestriction.Party);
-        this.CreateSkill(SkillNumber.EnergyBall, "Energy Ball", CharacterClasses.AllMagicians, DamageType.Wizardry, 3, 6, manaConsumption: 1, hasProjectile: true, projectileSpeed: 160f);
+        this.CreateSkill(SkillNumber.EnergyBall, "Energy Ball", CharacterClasses.AllMagicians, DamageType.Wizardry, 3, 6, manaConsumption: 1);
         this.CreateSkill(SkillNumber.Defense, "Defense", CharacterClasses.AllKnightsLordsAndMGs, manaConsumption: 30, skillType: SkillType.Buff, implicitTargetRange: 0, targetRestriction: SkillTargetRestriction.Self);
         this.CreateSkill(SkillNumber.FallingSlash, "Falling Slash", CharacterClasses.AllKnightsLordsAndMGs | CharacterClasses.AllFighters, DamageType.Physical, distance: 3, manaConsumption: 9, movesToTarget: true, movesTarget: true);
         this.CreateSkill(SkillNumber.Lunge, "Lunge", CharacterClasses.AllKnightsLordsAndMGs, DamageType.Physical, distance: 2, manaConsumption: 9, movesToTarget: true, movesTarget: true);
