@@ -163,6 +163,32 @@ message S2CBuffExpired {
     uint32 effect_id = 2;
 }
 
+// ── Phase 5: Death & Drops ────────────────────────────────────────────────────
+
+message S2CEntityDied {
+    uint32 entity_id = 1;
+    uint32 killer_id = 2;
+}
+
+message S2CItemDropped {
+    uint32 drop_id     = 1;
+    float  x           = 2;
+    float  y           = 3;
+    uint32 item_number = 4;
+    uint32 item_group  = 5;
+    bool   is_money    = 6;
+    uint32 amount      = 7;
+}
+
+message C2SPickUpItem {
+    uint32 drop_id = 1;
+}
+
+message S2CPickUpResult {
+    bool   success = 1;
+    uint32 drop_id = 2;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -175,6 +201,7 @@ message ClientEnvelope {
         C2SDeleteCharacter      delete_character       = 6;
         C2SMove                 move                   = 7;
         C2SCastSkill            cast_skill             = 8;
+        C2SPickUpItem           pick_up_item           = 9;
     }
 }
 
@@ -194,5 +221,8 @@ message ServerEnvelope {
         S2CDamageResult          damage_result           = 12;
         S2CBuffApplied           buff_applied            = 13;
         S2CBuffExpired           buff_expired            = 14;
+        S2CEntityDied            entity_died             = 15;
+        S2CItemDropped           item_dropped            = 16;
+        S2CPickUpResult          pick_up_result          = 17;
     }
 }

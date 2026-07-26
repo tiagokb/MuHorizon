@@ -422,13 +422,17 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
         }
 
         var (generatedItems, droppedMoney) = await this._dropGenerator.GenerateItemDropsAsync(this.Definition, exp, killer).ConfigureAwait(false);
+
+        var itemList = generatedItems.ToList();
+        killer.Logger.LogInformation("[Phase5] Drop roll for '{Monster}' — items={ItemCount} money={Money}", this.Definition.Designation, itemList.Count, droppedMoney);
+
         if (droppedMoney > 0)
         {
             await this.HandleMoneyDropAsync(droppedMoney.Value, killer).ConfigureAwait(false);
         }
 
         var firstItem = !droppedMoney.HasValue;
-        foreach (var item in generatedItems)
+        foreach (var item in itemList)
         {
             Point dropCoordinates;
             if (firstItem)
@@ -456,7 +460,7 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
         }
         catch (Exception ex)
         {
-            player.Logger.LogDebug(ex, "Dropping an item failed after killing '{this}': {ex}", this, ex);
+            player.Logger.LogError(ex, "[Phase5] Drop failed after killing '{Monster}'", this.Definition?.Designation ?? "?");
         }
     }
 }

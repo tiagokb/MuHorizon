@@ -97,6 +97,14 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.PickUpItem:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new PickUpInput((ushort)envelope.PickUpItem.DropId));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.CastSkill:
                 var nowTick = Environment.TickCount64;
                 if (nowTick - _lastSkillDispatchTick >= SkillRateLimitMs && _player.InputQueue.Count < 32)

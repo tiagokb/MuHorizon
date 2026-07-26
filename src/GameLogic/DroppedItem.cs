@@ -4,7 +4,6 @@
 
 namespace MUnique.OpenMU.GameLogic;
 
-using System.Threading;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.Pathfinding;
 using Nito.AsyncEx;
@@ -32,8 +31,6 @@ public sealed class DroppedItem : AsyncDisposable, ILocateable
     private Player? _dropper;
 
     private IEnumerable<object>? _owners;
-
-    private Timer? _removeTimer;
 
     private bool _availableToPick = true;
 
@@ -66,7 +63,6 @@ public sealed class DroppedItem : AsyncDisposable, ILocateable
         this._dropper = dropper;
         this._owners = owners;
         this._wasItemPersisted = wasItemPersisted;
-        this._removeTimer = new Timer(this.DisposeAndDelete, null, (int)map.ItemDropDuration.TotalMilliseconds, Timeout.Infinite);
     }
 
     /// <summary>
@@ -142,35 +138,28 @@ public sealed class DroppedItem : AsyncDisposable, ILocateable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsyncCore()
     {
-        var timer = this._removeTimer;
-        if (timer != null)
-        {
-            this._removeTimer = null;
-            await timer.DisposeAsync().ConfigureAwait(false);
-            await this.CurrentMap.RemoveAsync(this).ConfigureAwait(false);
-            this._dropper = null;
-            this._owners = null;
-        }
-
+        await this.CurrentMap.RemoveAsync(this).ConfigureAwait(false);
+        this._dropper = null;
+        this._owners = null;
         await base.DisposeAsyncCore().ConfigureAwait(false);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "Catching all Exceptions.")]
-    private async void DisposeAndDelete(object? state)
+    /// <summary>
+    /// Gets the timestamp when the item was dropped; used by the tick loop for expiration.
+    /// </summary>
+    public DateTime DroppedAt => this._dropTimestamp;
+
+    /// <summary>
+    /// Called by the tick loop when the drop duration has elapsed.
+    /// Disposes the drop and deletes the item from the database if it was persisted.
+    /// </summary>
+    public async ValueTask ExpireAsync()
     {
         var player = this._dropper;
-        try
+        await this.DisposeAsync().ConfigureAwait(false);
+        if (player != null)
         {
-            await this.DisposeAsync().ConfigureAwait(false);
-            if (player != null)
-            {
-                await this.DeleteItemAsync(player).ConfigureAwait(false);
-            }
-        }
-        catch (Exception ex)
-        {
-            // we have to catch all errors, because it runs under a pooled thread without an additional safety net ;-)
-            player?.Logger.LogError(ex, "Error during DroppedItem.DisposeAndDeleteAsync");
+            await this.DeleteItemAsync(player).ConfigureAwait(false);
         }
     }
 
@@ -259,7 +248,7 @@ public sealed class DroppedItem : AsyncDisposable, ILocateable
         }
 
         player.Logger.LogInformation("Item '{0}' got picked up by player '{1}'. Durability of available stack {2} increased to {3}", this, player, stackTarget, stackTarget.Durability);
-        this.DisposeAndDelete(null);
+        await this.ExpireAsync().ConfigureAwait(false);
         if (player.GameContext.PlugInManager.GetPlugInPoint<PlugIns.IItemStackedPlugIn>() is { } itemStackedPlugIn)
         {
             await itemStackedPlugIn.ItemStackedAsync(player, this.Item, stackTarget).ConfigureAwait(false);

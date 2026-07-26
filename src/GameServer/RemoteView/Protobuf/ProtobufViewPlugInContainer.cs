@@ -8,6 +8,7 @@ using MUnique.OpenMU.GameLogic.Views;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Auth;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Characters;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Skills;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Items;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 using MUnique.OpenMU.PlugIns;
 
@@ -42,6 +43,12 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),
             new ProtobufDeactivateMagicEffectPlugIn(player),
+            new ProtobufObjectGotKilledPlugIn(player),
+            new ProtobufShowDroppedItemsPlugIn(player),
+            new ProtobufShowMoneyDropPlugIn(player),
+            new ProtobufDroppedItemsDisappearedPlugIn(player),
+            new ProtobufItemAppearPlugIn(player),
+            new ProtobufItemPickUpFailedPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

@@ -100,6 +100,21 @@ public class GameMap
     public IEnumerable<Player> Players => this._objectsInMap.Values.OfType<Player>();
 
     /// <summary>
+    /// Gets a snapshot of all monsters currently on this map.
+    /// </summary>
+    public IEnumerable<Monster> Monsters => this._objectsInMap.Values.OfType<Monster>();
+
+    /// <summary>
+    /// Gets a snapshot of all dropped items currently on this map.
+    /// </summary>
+    public IEnumerable<DroppedItem> DroppedItems => this._objectsInMap.Values.OfType<DroppedItem>();
+
+    /// <summary>
+    /// Gets a snapshot of all dropped money currently on this map.
+    /// </summary>
+    public IEnumerable<DroppedMoney> DroppedMoneys => this._objectsInMap.Values.OfType<DroppedMoney>();
+
+    /// <summary>
     /// Starts the game tick loop for this map using the supplied logger.
     /// </summary>
     public void StartTickLoop(Microsoft.Extensions.Logging.ILogger<GameTickLoop> logger)

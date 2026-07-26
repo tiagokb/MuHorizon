@@ -97,6 +97,8 @@ public sealed class GameTickLoop
                 ResetMovementFlags();
                 await ProcessInputsAsync(ct).ConfigureAwait(false);
                 TickMovement(deltaTime);
+                await TickNpcsAsync(deltaTime, ct).ConfigureAwait(false);
+                await TickDropExpirationAsync(ct).ConfigureAwait(false);
                 await UpdateTilePositionsAsync(ct).ConfigureAwait(false);
                 await BroadcastSnapshotsAsync(ct).ConfigureAwait(false);
             }
@@ -126,6 +128,44 @@ public sealed class GameTickLoop
         }
 
         _logger.LogDebug("GameTickLoop stopped for map {MapId}", _map.MapId);
+    }
+
+    private async ValueTask TickNpcsAsync(TimeSpan deltaTime, CancellationToken ct)
+    {
+        foreach (var monster in _map.Monsters)
+        {
+            if (ct.IsCancellationRequested)
+            {
+                break;
+            }
+
+            await monster.TickAsync(deltaTime).ConfigureAwait(false);
+        }
+    }
+
+    private async ValueTask TickDropExpirationAsync(CancellationToken ct)
+    {
+        var expireBefore = DateTime.UtcNow - _map.ItemDropDuration;
+
+        foreach (var drop in _map.DroppedItems.Where(d => d.DroppedAt < expireBefore).ToList())
+        {
+            if (ct.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await drop.ExpireAsync().ConfigureAwait(false);
+        }
+
+        foreach (var money in _map.DroppedMoneys.Where(m => m.DroppedAt < expireBefore).ToList())
+        {
+            if (ct.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await money.DisposeAsync().ConfigureAwait(false);
+        }
     }
 
     private void ResetMovementFlags()

@@ -16,7 +16,7 @@ using Nito.AsyncEx;
 /// <summary>
 /// The implementation of a monster, which can attack players.
 /// </summary>
-public sealed class Monster : AttackableNpcBase, IAttackable, IAttacker, ISupportWalk, IMovable, ISummonable
+public sealed class Monster : AttackableNpcBase, IAttackable, IAttacker, ISupportWalk, IMovable, ISummonable, IGameTickable
 {
     private readonly AsyncLock _moveLock = new();
     private readonly INpcIntelligence _intelligence;
@@ -223,6 +223,10 @@ public sealed class Monster : AttackableNpcBase, IAttackable, IAttacker, ISuppor
 
     /// <inheritdoc />
     public ValueTask StopWalkingAsync() => this._walker.StopAsync();
+
+    /// <inheritdoc />
+    public ValueTask TickAsync(TimeSpan deltaTime)
+        => (this._intelligence as IGameTickable)?.TickAsync(deltaTime) ?? ValueTask.CompletedTask;
 
     /// <inheritdoc />
     public override ValueTask ReflectDamageAsync(IAttacker reflector, uint damage)

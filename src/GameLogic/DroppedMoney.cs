@@ -4,8 +4,6 @@
 
 namespace MUnique.OpenMU.GameLogic;
 
-using System.Diagnostics;
-using System.Threading;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.Pathfinding;
 using Nito.AsyncEx;
@@ -20,7 +18,7 @@ public sealed class DroppedMoney : AsyncDisposable, ILocateable
     /// </summary>
     private readonly AsyncLock _pickupLock;
 
-    private Timer? _removeTimer;
+    private readonly DateTime _droppedAt = DateTime.UtcNow;
 
     private bool _availableToPick = true;
 
@@ -36,13 +34,17 @@ public sealed class DroppedMoney : AsyncDisposable, ILocateable
         this._pickupLock = new();
         this.Position = position;
         this.CurrentMap = map;
-        this._removeTimer = new Timer(this.OnTimerTimeout, null, (int)map.ItemDropDuration.TotalMilliseconds, Timeout.Infinite);
     }
 
     /// <summary>
     /// Gets the money item.
     /// </summary>
     public uint Amount { get; }
+
+    /// <summary>
+    /// Gets the timestamp when the money was dropped; used by the tick loop for expiration.
+    /// </summary>
+    public DateTime DroppedAt => this._droppedAt;
 
     /// <inheritdoc />
     public Point Position { get; set; }
@@ -141,33 +143,7 @@ public sealed class DroppedMoney : AsyncDisposable, ILocateable
     /// <inheritdoc />
     protected override async ValueTask DisposeAsyncCore()
     {
-        if (this._removeTimer is { } timer)
-        {
-            try
-            {
-                this._removeTimer = null;
-                await timer.DisposeAsync().ConfigureAwait(false);
-                await this.CurrentMap.RemoveAsync(this).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Debug.Fail(e.Message, e.StackTrace);
-            }
-        }
-
+        await this.CurrentMap.RemoveAsync(this).ConfigureAwait(false);
         await base.DisposeAsyncCore().ConfigureAwait(false);
-    }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "Catching all Exceptions.")]
-    private async void OnTimerTimeout(object? state)
-    {
-        try
-        {
-            await this.DisposeAsync().ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            Debug.Fail(ex.Message, ex.StackTrace);
-        }
     }
 }

@@ -1,29 +1,20 @@
-﻿// <copyright file="BasicMonsterIntelligence.cs" company="MUnique">
+// <copyright file="BasicMonsterIntelligence.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace MUnique.OpenMU.GameLogic.NPC;
 
-using System.Diagnostics;
-using System.Threading;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.Pathfinding;
 
 /// <summary>
 /// A basic monster AI which is pretty basic.
 /// </summary>
-public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
+public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
 {
-    private Timer? _aiTimer;
     private Monster? _monster;
-
-    /// <summary>
-    /// Finalizes an instance of the <see cref="BasicMonsterIntelligence"/> class.
-    /// </summary>
-    ~BasicMonsterIntelligence()
-    {
-        this.Dispose();
-    }
+    private TimeSpan _elapsed;
+    private bool _isPaused = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether this instance can walk on safezone.
@@ -54,26 +45,40 @@ public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
     /// <inheritdoc/>
     public void Start()
     {
-        var startDelay = this.Npc.Definition.AttackDelay + TimeSpan.FromMilliseconds(Rand.NextInt(0, 100));
+        // Stagger the first AI tick slightly so monsters on the same map don't all
+        // fire at exactly the same accumulated time after spawning.
+        this._elapsed = TimeSpan.FromMilliseconds(-Rand.NextInt(0, 100));
+        this._isPaused = false;
         this.OnStart();
-        this._aiTimer ??= new Timer(_ => this.SafeTick(), null, startDelay, this.Npc.Definition.AttackDelay);
     }
 
     /// <inheritdoc/>
     public void Pause()
     {
-        this._aiTimer?.Dispose();
-        this._aiTimer = null;
+        this._isPaused = true;
     }
 
     /// <inheritdoc/>
-    public void Dispose()
+    public async ValueTask TickAsync(TimeSpan deltaTime)
     {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
+        if (this._isPaused)
+        {
+            return;
+        }
+
+        this._elapsed += deltaTime;
+
+        if (this._elapsed < this.Npc.Definition.AttackDelay)
+        {
+            return;
+        }
+
+        this._elapsed -= this.Npc.Definition.AttackDelay;
+
+        await this.ExecuteAiAsync().ConfigureAwait(false);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public virtual void RegisterHit(IAttacker attacker)
     {
         if (this.CurrentTarget is null && attacker is IAttackable attackable)
@@ -82,7 +87,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public virtual bool CanWalkOn(Point target)
     {
         return this.Monster.CurrentMap.Terrain.AIgrid[target.X, target.Y] == 1;
@@ -101,16 +106,6 @@ public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
     protected virtual void OnStart()
     {
         // can be overwritten for additional logic.
-    }
-
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    /// <param name="managed"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-    protected virtual void Dispose(bool managed)
-    {
-        this._aiTimer?.Dispose();
-        this._aiTimer = null;
     }
 
     /// <summary>
@@ -178,32 +173,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
         return this.Monster.Observers.OfType<IAttacker>().Any();
     }
 
-    private async ValueTask<bool> IsTargetInObserversAsync(IAttackable target)
-    {
-        using (await this.Npc.ObserverLock.ReaderLockAsync())
-        {
-            return target is IWorldObserver worldObserver && this.Npc.Observers.Contains(worldObserver);
-        }
-    }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "Catching all Exceptions.")]
-    private async void SafeTick()
-    {
-        try
-        {
-            await this.TickAsync().ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            // expected during shutdown.
-        }
-        catch (Exception ex)
-        {
-            Debug.Fail(ex.Message, ex.StackTrace);
-        }
-    }
-
-    private async ValueTask TickAsync()
+    private async ValueTask ExecuteAiAsync()
     {
         if (!this.Monster.IsAlive)
         {
@@ -293,5 +263,13 @@ public class BasicMonsterIntelligence : INpcIntelligence, IDisposable
                && !this.CurrentTarget.IsTeleporting
                && !this.CurrentTarget.IsAtSafezone()
                && this.CurrentTarget.IsInRange(this.Monster.Position, this.Npc.Definition.ViewRange);
+    }
+
+    private async ValueTask<bool> IsTargetInObserversAsync(IAttackable target)
+    {
+        using (await this.Npc.ObserverLock.ReaderLockAsync())
+        {
+            return target is IWorldObserver worldObserver && this.Npc.Observers.Contains(worldObserver);
+        }
     }
 }

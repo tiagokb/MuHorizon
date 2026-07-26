@@ -62,7 +62,8 @@ services:
       - "44406:44406"
       - "55980:55980"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
     image: postgres
@@ -75,6 +76,11 @@ services:
       - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql #store data on volume
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "openmu"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
   nginx-443:
     image: nginx:alpine
