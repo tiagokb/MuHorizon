@@ -49,6 +49,9 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufDroppedItemsDisappearedPlugIn(player),
             new ProtobufItemAppearPlugIn(player),
             new ProtobufItemPickUpFailedPlugIn(player),
+            new ProtobufProjectileSpawnedPlugIn(player),
+            new ProtobufProjectileHitPlugIn(player),
+            new ProtobufProjectileExpiredPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

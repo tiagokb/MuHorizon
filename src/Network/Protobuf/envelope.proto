@@ -189,6 +189,27 @@ message S2CPickUpResult {
     uint32 drop_id = 2;
 }
 
+// ── Phase 6: Projectiles ─────────────────────────────────────────────────────
+
+message S2CProjectileSpawned {
+    uint32 projectile_id = 1;
+    uint32 owner_id      = 2;
+    uint32 skill_id      = 3;
+    float  origin_x      = 4;
+    float  origin_y      = 5;
+    float  velocity_x    = 6;
+    float  velocity_y    = 7;
+}
+
+message S2CProjectileHit {
+    uint32 projectile_id = 1;
+    uint32 target_id     = 2;
+}
+
+message S2CProjectileExpired {
+    uint32 projectile_id = 1;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -224,5 +245,8 @@ message ServerEnvelope {
         S2CEntityDied            entity_died             = 15;
         S2CItemDropped           item_dropped            = 16;
         S2CPickUpResult          pick_up_result          = 17;
+        S2CProjectileSpawned     projectile_spawned      = 18;
+        S2CProjectileHit         projectile_hit          = 19;
+        S2CProjectileExpired     projectile_expired      = 20;
     }
 }

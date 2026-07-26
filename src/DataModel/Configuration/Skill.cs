@@ -324,6 +324,18 @@ public partial class Skill
     /// </summary>
     public short NumberOfHitsPerAttack { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this skill fires a physical projectile
+    /// that travels through space before hitting the target.
+    /// </summary>
+    public bool HasProjectile { get; set; }
+
+    /// <summary>
+    /// Gets or sets the speed of the projectile in continuous units per second (1 tile = 8 units).
+    /// Only relevant when <see cref="HasProjectile"/> is <c>true</c>.
+    /// </summary>
+    public float ProjectileSpeed { get; set; }
+
     /// <inheritdoc />
     public override string? ToString()
     {

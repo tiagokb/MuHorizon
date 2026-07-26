@@ -98,6 +98,7 @@ public sealed class GameTickLoop
                 await ProcessInputsAsync(ct).ConfigureAwait(false);
                 TickMovement(deltaTime);
                 await TickNpcsAsync(deltaTime, ct).ConfigureAwait(false);
+                await TickProjectilesAsync(deltaTime, ct).ConfigureAwait(false);
                 await TickDropExpirationAsync(ct).ConfigureAwait(false);
                 await UpdateTilePositionsAsync(ct).ConfigureAwait(false);
                 await BroadcastSnapshotsAsync(ct).ConfigureAwait(false);
@@ -140,6 +141,19 @@ public sealed class GameTickLoop
             }
 
             await monster.TickAsync(deltaTime).ConfigureAwait(false);
+        }
+    }
+
+    private async ValueTask TickProjectilesAsync(TimeSpan deltaTime, CancellationToken ct)
+    {
+        foreach (var projectile in _map.Projectiles.ToList())
+        {
+            if (ct.IsCancellationRequested)
+            {
+                break;
+            }
+
+            await projectile.TickAsync(deltaTime).ConfigureAwait(false);
         }
     }
 

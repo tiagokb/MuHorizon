@@ -4,7 +4,9 @@
 
 namespace MUnique.OpenMU.GameLogic.Inputs;
 
+using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.PlugIns;
+using MUnique.OpenMU.GameLogic.Views.World;
 
 /// <summary>
 /// Processed by the tick loop: resolves the target, enforces server-side cooldown and
@@ -57,6 +59,43 @@ public sealed class SkillInput : IPlayerInput
             return;
         }
 
+        var skill = skillEntry?.Skill;
+        if (skill is { HasProjectile: true })
+        {
+            await SpawnProjectileAsync(player, target, plugin, skill).ConfigureAwait(false);
+            return;
+        }
+
         await plugin.PerformSkillAsync(player, target, _skillId).ConfigureAwait(false);
+    }
+
+    private async ValueTask SpawnProjectileAsync(Player player, IAttackable target, ITargetedSkillPlugin plugin, Skill skill)
+    {
+        var map = player.CurrentMap!;
+        var origin = player.ContinuousPosition;
+        var targetPos = Vector2F.FromTile(target.Position);
+        var speed = skill.ProjectileSpeed > 0f ? skill.ProjectileSpeed : 160f;
+
+        // Max range = skill range in tiles converted to continuous units.
+        var maxRange = skill.Range > 0 ? skill.Range * 8f : 160f;
+
+        var projectile = new Projectile(player, plugin, _skillId,
+            origin.X, origin.Y, targetPos.X, targetPos.Y, speed, maxRange);
+
+        map.AddProjectile(projectile);
+
+        var pId = projectile.Id;
+        var ownerId = (uint)player.Id;
+        var ox = origin.X;
+        var oy = origin.Y;
+        var vx = projectile.VelocityX;
+        var vy = projectile.VelocityY;
+        var sid = _skillId;
+
+        foreach (var observer in map.Players)
+        {
+            await observer.InvokeViewPlugInAsync<IProjectileSpawnedPlugIn>(
+                p => p.ProjectileSpawnedAsync(pId, ownerId, sid, ox, oy, vx, vy)).ConfigureAwait(false);
+        }
     }
 }

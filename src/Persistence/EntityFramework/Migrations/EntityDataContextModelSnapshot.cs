@@ -3257,6 +3257,12 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<int>("SkillType")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("HasProjectile")
+                        .HasColumnType("boolean");
+
+                    b.Property<float>("ProjectileSpeed")
+                        .HasColumnType("real");
+
                     b.Property<bool>("SkipElementalModifier")
                         .HasColumnType("boolean");
 

@@ -22,11 +22,15 @@ public class GameMap
 {
     private readonly IDictionary<ushort, ILocateable> _objectsInMap = new ConcurrentDictionary<ushort, ILocateable>();
 
+    private readonly ConcurrentDictionary<ushort, Projectile> _projectiles = new();
+
     private readonly IAreaOfInterestManager _areaOfInterestManager;
 
     private readonly IdGenerator _objectIdGenerator;
 
     private readonly IdGenerator _dropIdGenerator;
+
+    private readonly IdGenerator _projectileIdGenerator;
 
     private readonly ExitGate? _safezoneSpawnGate;
 
@@ -50,6 +54,7 @@ public class GameMap
         this._areaOfInterestManager = new BucketAreaOfInterestManager(chunkSize);
         this._objectIdGenerator = new IdGenerator(ViewExtensions.ConstantPlayerId + 1, 0x7FFF);
         this._dropIdGenerator = new IdGenerator(0, ViewExtensions.ConstantPlayerId - 1);
+        this._projectileIdGenerator = new IdGenerator(1, 0xFFFE);
 
         this._safezoneSpawnGate = this.Definition.GetSafezoneGate(this.Terrain);
     }
@@ -113,6 +118,31 @@ public class GameMap
     /// Gets a snapshot of all dropped money currently on this map.
     /// </summary>
     public IEnumerable<DroppedMoney> DroppedMoneys => this._objectsInMap.Values.OfType<DroppedMoney>();
+
+    /// <summary>
+    /// Gets a snapshot of all active projectiles on this map.
+    /// </summary>
+    public IEnumerable<Projectile> Projectiles => this._projectiles.Values;
+
+    /// <summary>
+    /// Assigns an ID to the projectile and registers it for tick processing.
+    /// </summary>
+    public void AddProjectile(Projectile projectile)
+    {
+        projectile.Id = (ushort)this._projectileIdGenerator.GenerateId();
+        this._projectiles[projectile.Id] = projectile;
+    }
+
+    /// <summary>
+    /// Unregisters a projectile (after hit or expiry).
+    /// </summary>
+    public void RemoveProjectile(Projectile projectile)
+    {
+        if (this._projectiles.TryRemove(projectile.Id, out _))
+        {
+            this._projectileIdGenerator.GiveBack(projectile.Id);
+        }
+    }
 
     /// <summary>
     /// Starts the game tick loop for this map using the supplied logger.
