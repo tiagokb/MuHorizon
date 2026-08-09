@@ -41,3 +41,21 @@
 **Decisão:** Usar `HttpListener` (BCL) para o `WebSocketGameServerListener`.
 
 **Por quê:** Não exige adicionar dependências ASP.NET Core ao projeto `GameServer`. `HttpListener` com prefixo `http://+:5000/ws/` funciona perfeitamente em Linux (Docker) com nginx na frente para TLS. Migrar para Kestrel se futuramente precisarmos de middleware de autenticação HTTP.
+
+---
+
+## Fase 7
+
+### D-F7-01 — Escopo da Fase 7 reduzido: AdminPanel mantido, remoções de features adiadas
+
+**Plano original:** Fase 7 incluía CLI de gestão (7.0), remoção do AdminPanel (7.6), remoção de frutas/reset (7.7–7.8), remoção de handlers/RemoteView legados (7.10–7.11), anti-multi-client (7.12), atualização de todos os testes (7.17) e load test (7.18).
+
+**Decisão:** Escopo reduzido a: remoção do código de rede legado (7.1–7.5, 7.9) e enforcement de camadas via Roslyn + auditorias CI (7.13–7.16). Tudo mais adiado indefinidamente.
+
+**Por quê:**
+- **AdminPanel mantido:** É o único editor de `GameConfiguration` disponível. Durante desenvolvimento ativo de novas features (skills, itens, mobs), remover o AdminPanel eliminaria a capacidade de configurar o jogo sem escrever código. O benefício de removê-lo é zero enquanto não existir uma alternativa equivalente.
+- **Frutas, reset, handlers legados:** São código morto inofensivo. Removê-los exige atualizar dezenas de seeds de inicialização e testes de integração sem nenhum ganho de gameplay. Custo alto, benefício praticamente zero neste momento do projeto.
+- **Anti-multi-client:** Feature nova que não é limpeza de legado. Faz sentido implementar quando houver jogadores reais, não durante a fase de prototipagem.
+- **Atualização de testes + load test:** Alto esforço, praticamente zero recompensa de gameplay. Os testes existentes testam comportamentos do protocolo legado que não é mais usado; reescrevê-los é trabalho de polimento, não de desenvolvimento de produto.
+
+**Impacto:** O `09-implementation-plan.md` foi atualizado para refletir este escopo. As tarefas adiadas permanecem documentadas na seção "Tarefas adiadas indefinidamente" da Fase 7 para referência futura.

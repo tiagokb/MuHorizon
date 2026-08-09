@@ -19,7 +19,7 @@
 - [Fase 4 — Skills e combate](#fase-4--skills-e-combate)
 - [Fase 5 — Mobs e AI](#fase-5--mobs-e-ai)
 - [Fase 6 — Skillshots e projéteis](#fase-6--skillshots-e-projéteis)
-- [Fase 7 — Hardening e remoção de legado](#fase-7--hardening-e-remoção-de-legado)
+- [Fase 7 — Remoção de legado de rede e enforcement de camadas](#fase-7--remoção-de-legado-de-rede-e-enforcement-de-camadas)
 - [Decisões em aberto](#decisões-em-aberto)
 
 ---
@@ -494,61 +494,66 @@ Skills de projétil (skillshots) viajam fisicamente pelo mundo em espaço contí
 
 ---
 
-## Fase 7 — Hardening e remoção de legado
+## Fase 7 — Remoção de legado de rede e enforcement de camadas
 
-### Objetivo
+### Objetivo (revisado em 2026-08-09)
 
-Código base limpo: zero referências ao protocolo binário legado, CLI de gestão de contas criado antes das remoções, auditoria completa contra P1–P8, anti-multi-client robusto. O servidor não compila mais nenhum código de protocolo antigo.
+Escopo intencionalmente estreitado: remover o código de protocolo de rede legado (SimpleModulus, PacketTwister, Xor, pacotes gerados, TCP listener) e ativar enforcement automático das regras de camada via Roslyn. **Nada mais.**
 
-### Tarefas
+**Decisões de escopo (ver `decisions.md` D-F7-01):**
+- **AdminPanel mantido** — continua sendo a ferramenta primária para configurar skills, mobs, mapas e itens durante o desenvolvimento ativo do jogo. Removê-lo agora eliminaria o único editor de `GameConfiguration` disponível.
+- **Frutas, reset de personagem, handlers legados, RemoteView legados** — código morto mas inofensivo; removê-los requer atualizar dezenas de testes e seeds de init sem nenhum ganho de gameplay. Adiado indefinidamente.
+- **Anti-multi-client** — feature nova com escopo próprio; não é "limpeza de legado". Adiado para quando o jogo tiver jogadores reais.
+- **Atualização de testes e load test** — alto esforço, praticamente zero recompensa de gameplay. Adiado.
+
+### Tarefas em escopo
 
 | # | Tarefa | Arquivo(s) afetado(s) | Complexidade | Depende de |
 |---|---|---|---|---|
-| 7.0 | **Criar CLI mínimo de gestão** antes de remover o AdminPanel: `dotnet run -- --create-admin --username x --password y`; suporta criar conta, resetar senha e listar contas | `src/Tools/AdminCli/Program.cs` (novo projeto) | Média | F6 concluída |
-| 7.1 | Remover `src/Network/SimpleModulus/` inteiro | Diretório completo (15+ arquivos) | Baixa | 7.0 |
-| 7.2 | Remover `src/Network/PacketTwister/` inteiro | Diretório completo (20+ arquivos) | Baixa | 7.0 |
-| 7.3 | Remover `src/Network/Xor/` inteiro | `PipelinedXor32Decryptor.cs`, `Xor3Decryptor.cs`, etc. | Baixa | 7.0 |
-| 7.4 | Remover `src/Network/Packets/` (structs geradas de pacotes legados C→S e S→C) | `ClientToServerPackets.cs`, `ServerToClientPackets.cs`, etc. | Baixa | 7.0 |
-| 7.5 | Remover `DefaultTcpGameServerListener` e todos os `INetworkEncryptionFactoryPlugIn` legados | `src/GameServer/DefaultTcpGameServerListener.cs`, `src/Network/PlugIns/` | Baixa | 7.0 |
-| 7.6 | Remover `src/AdminPanel/` (Blazor) inteiro — CLI em 7.0 já cobre as operações essenciais | Projeto `AdminPanel` | Média | 7.0 |
-| 7.7 | Remover sistema de frutas (`CharacterStatFruitAction`, seeds relacionadas, referências em CharacterClass) | `src/GameLogic/PlayerActions/Character/CharacterStatFruitAction.cs` | Média | 7.1–7.5 |
-| 7.8 | Remover sistema de reset de personagem (`CharacterResetAction` e UpdatePlugIns relacionados) | `src/GameLogic/PlayerActions/Character/CharacterResetAction.cs` (se existir) | Baixa | 7.1–7.5 |
+| 7.1 | Remover `src/Network/SimpleModulus/` inteiro | Diretório completo (15+ arquivos) | Baixa | F6 concluída |
+| 7.2 | Remover `src/Network/PacketTwister/` inteiro | Diretório completo (20+ arquivos) | Baixa | F6 concluída |
+| 7.3 | Remover `src/Network/Xor/` inteiro | `PipelinedXor32Decryptor.cs`, `Xor3Decryptor.cs`, etc. | Baixa | F6 concluída |
+| 7.4 | Remover `src/Network/Packets/` (structs geradas de pacotes legados C→S e S→C) | `ClientToServerPackets.cs`, `ServerToClientPackets.cs`, etc. | Baixa | 7.1–7.3 |
+| 7.5 | Remover `DefaultTcpGameServerListener` e todos os `INetworkEncryptionFactoryPlugIn` legados | `src/GameServer/DefaultTcpGameServerListener.cs`, `src/Network/PlugIns/` | Baixa | 7.1–7.4 |
 | 7.9 | Remover `ClientVersionResolver` e todo código de seleção de PlugIn por versão legada | `src/GameServer/ClientVersionResolver.cs` | Baixa | 7.1–7.5 |
-| 7.10 | Remover handlers legados (`CharacterWalkHandlerPlugIn`, `CharacterWalkHandlerPlugIn075`, `LogInHandlerPlugIn`, etc.) | `src/GameServer/MessageHandler/CharacterWalk*`, `LogIn*`, etc. | Média | 7.1–7.5 |
-| 7.11 | Remover RemoteView PlugIns legados (`ObjectMovedPlugIn`, `ObjectMovedPlugIn075`, etc.) | `src/GameServer/RemoteView/World/ObjectMovedPlugIn*.cs`, etc. | Média | 7.1–7.5 |
-| 7.12 | Implementar anti-multi-client por fingerprint de hardware: `C2SHandshake` com `device_fingerprint` (hash via `OS.GetUniqueId()` do Godot); `ILoginServer` rastreia por conta | `src/Network/Protobuf/auth.proto`, `src/GameServer/LoginServer.cs`, `src/Interfaces/ILoginServer.cs` | Alta | 7.1–7.5 |
 | 7.13 | Adicionar Roslyn analyzer de dependência de camada — qualquer `using MUnique.OpenMU.Network` em `src/GameLogic/` gera erro de build | `.editorconfig`, `src/GameLogic/GameLogic.csproj` | Média | 7.1–7.5 |
 | 7.14 | Auditoria P1: `grep -r "using MUnique.OpenMU.Network" src/GameLogic/` deve retornar zero | CI script | Baixa | 7.13 |
 | 7.15 | Auditoria P5: `grep -r "new Timer\|new System.Threading.Timer" src/GameLogic/` deve retornar zero | CI script | Baixa | 7.2 |
 | 7.16 | Auditoria P8: verificar que todas as deleções de `Character` passam por soft-delete | Teste de integração em `src/GameLogic.Tests/` | Baixa | 7.13 |
-| 7.17 | Revisar e atualizar todos os testes unitários e de integração para o novo protocolo | `src/GameLogic.Tests/`, `src/GameServer.Tests/` | Alta | 7.1–7.11 |
-| 7.18 | Executar load test: 100 conexões simultâneas, **30Hz** tick, medir P95 de latência do tick loop — critério: < 20ms | Script de load test (ex: k6 ou custom) | Média | 7.17 |
-| 7.19 | Documentar as 9 interfaces sagradas com `/// <remarks>SAGRADA — ver 08-refactoring-rules.md</remarks>` | `IConnection.cs`, `IViewPlugIn.cs`, `ILocateable.cs`, etc. | Baixa | 7.17 |
+
+### Tarefas adiadas indefinidamente
+
+| # | Tarefa | Motivo do adiamento |
+|---|---|---|
+| ~~7.0~~ | CLI mínimo de gestão | AdminPanel mantido; CLI desnecessário |
+| ~~7.6~~ | Remover AdminPanel | Mantido como editor de `GameConfiguration` durante desenvolvimento |
+| ~~7.7~~ | Remover sistema de frutas | Código inofensivo; remoção requer atualizar seeds/testes sem ganho |
+| ~~7.8~~ | Remover sistema de reset de personagem | Idem |
+| ~~7.10~~ | Remover message handlers legados | Dependências cruzadas complexas; adiado |
+| ~~7.11~~ | Remover RemoteView PlugIns legados | Idem |
+| ~~7.12~~ | Anti-multi-client por fingerprint | Feature nova, não limpeza; adiado para quando houver jogadores reais |
+| ~~7.17~~ | Atualizar todos os testes para o novo protocolo | Alto esforço, zero recompensa de gameplay |
+| ~~7.18~~ | Load test 100 conexões / P95 < 20ms | Adiado para quando o jogo tiver forma |
+| ~~7.19~~ | Documentar interfaces sagradas | Baixa prioridade |
 
 ### Dependências de entrada
 
-- Fase 6 concluída e checkpoint validado
-- **Nenhum cliente** conectando via protocolo legado em produção
-- CLI em 7.0 **obrigatoriamente** concluída e testada antes de qualquer remoção (7.1+)
+- Fase 6 concluída
+- `dotnet build` passando sem erros antes de começar as deleções
 
 ### Checkpoint de validação
 
 > **Critério de aprovação:**
-> 1. `dotnet build` sem nenhuma referência a `SimpleModulus`, `PacketTwister`, `Xor3`, `ClientToServerPackets` — verificado via CI.
-> 2. CLI admin funciona: `dotnet run -- --create-admin --username admin --password secret` cria a conta no banco.
-> 3. Roslyn analyzer de camada ativado: qualquer `using MUnique.OpenMU.Network` em `src/GameLogic/` quebra o build.
-> 4. `dotnet test` com todos os testes passando, incluindo integração com banco real.
-> 5. Load test: 100 jogadores simultâneos, P95 do tick loop < **20ms** a 30Hz.
-> 6. Anti-multi-client: mesma conta logando de dois clientes Godot simultâneos — o segundo recebe `ALREADY_LOGGED_IN`.
-> 7. Fingerprint diferente na mesma conta: log de alerta gerado (monitoramento, sem bloqueio imediato).
+> 1. `dotnet build MUnique.OpenMU.sln` sem nenhuma referência a `SimpleModulus`, `PacketTwister`, `Xor3`, `ClientToServerPackets`.
+> 2. Roslyn analyzer de camada ativado: qualquer `using MUnique.OpenMU.Network` em `src/GameLogic/` quebra o build.
+> 3. Auditorias P1, P5 e P8 passando (itens 7.14–7.16).
 
 ### Riscos
 
 | Risco | Probabilidade | Mitigação |
 |---|---|---|
-| Remoção do AdminPanel antes de ter o CLI causa perda de acesso administrativo | Muito Alta | Tarefa 7.0 é obrigatória e bloqueante — todas as remoções (7.1+) dependem de 7.0 |
-| Testes existentes testando comportamentos de protocolo legado | Alta | Marcar como `[Skip("Protocolo legado removido")]` na primeira passagem; reescrever os relevantes em seguida |
-| Load test a 30Hz revelar gargalo no `GameTickLoop` | Média | Instrumentar `GameTickLoop` com `Activity` e OpenTelemetry desde a Fase 2; ter dados de profiling antes da Fase 7 |
+| Remoção de 7.4 quebrar referências em handlers/RemoteView legados que ainda compilam | Alta | Remover 7.1–7.3 primeiro; deixar compilar a cada etapa antes de avançar |
+| Roslyn analyzer (7.13) revelar violações P1 já existentes no código | Média | Corrigir violações antes de ativar o analyzer como erro de build |
 
 ---
 
