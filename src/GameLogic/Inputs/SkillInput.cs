@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.GameLogic.Inputs;
 
 using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.World;
 
@@ -64,14 +65,19 @@ public sealed class SkillInput : IPlayerInput
             ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)_skillId);
         if (skill is { HasProjectile: true })
         {
-            await SpawnProjectileAsync(player, target, plugin, skill).ConfigureAwait(false);
+            if (!target.IsActive())
+            {
+                return;
+            }
+
+            await SpawnProjectileAsync(player, target, skill, skillEntry).ConfigureAwait(false);
             return;
         }
 
         await plugin.PerformSkillAsync(player, target, _skillId).ConfigureAwait(false);
     }
 
-    private async ValueTask SpawnProjectileAsync(Player player, IAttackable target, ITargetedSkillPlugin plugin, Skill skill)
+    private async ValueTask SpawnProjectileAsync(Player player, IAttackable target, Skill skill, SkillEntry? skillEntry)
     {
         var map = player.CurrentMap!;
         var origin = player.ContinuousPosition;
@@ -81,7 +87,14 @@ public sealed class SkillInput : IPlayerInput
         // Max range = skill range in tiles converted to continuous units.
         var maxRange = skill.Range > 0 ? skill.Range * 8f : 160f;
 
-        var projectile = new Projectile(player, plugin, _skillId,
+        // Build a transient SkillEntry for accounts that don't own the skill yet.
+        if (skillEntry is null)
+        {
+            skillEntry = new SkillEntry { Level = 0 };
+            skillEntry.Skill = skill;
+        }
+
+        var projectile = new Projectile(player, skillEntry, _skillId,
             origin.X, origin.Y, targetPos.X, targetPos.Y, speed, maxRange);
 
         map.AddProjectile(projectile);

@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.GameLogic.PlayerActions.Skills;
 
 using System.Runtime.InteropServices;
+using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlugIns;
@@ -66,10 +67,18 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
         }
 
         var skillEntry = player.SkillList?.GetSkill(skillId);
-        var skill = skillEntry?.Skill;
+        var skill = skillEntry?.Skill
+            ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)skillId);
         if (skill is null || skill.SkillType == SkillType.PassiveBoost)
         {
             return;
+        }
+
+        // Synthesize a transient SkillEntry when the player doesn't own the skill (e.g. test accounts).
+        if (skillEntry is null)
+        {
+            skillEntry = new MUnique.OpenMU.DataModel.Entities.SkillEntry { Level = 0 };
+            skillEntry.Skill = skill;
         }
 
         if (skill.SkillType != SkillType.Buff && skill.SkillType != SkillType.Regeneration && skill.SkillType != SkillType.SummonMonster)
@@ -145,7 +154,7 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
         if (skill.SkillType == SkillType.SummonMonster)
         {
             if (SummonSkillToMonsterMapping.TryGetValue(skill.Number, out var monsterNumber)
-                && player.GameContext.Configuration.Monsters.FirstOrDefault(m => m.Number == monsterNumber) is { } monsterDefinition)
+                && player.GameContext.Configuration?.Monsters.FirstOrDefault(m => m.Number == monsterNumber) is { } monsterDefinition)
             {
                 await player.CreateSummonedMonsterAsync(monsterDefinition).ConfigureAwait(false);
             }

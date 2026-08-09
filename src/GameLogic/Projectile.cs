@@ -4,7 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic;
 
-using MUnique.OpenMU.GameLogic.PlugIns;
+using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.Views.World;
 
 /// <summary>
@@ -15,7 +15,7 @@ using MUnique.OpenMU.GameLogic.Views.World;
 public sealed class Projectile : IGameTickable
 {
     private readonly Player _owner;
-    private readonly ITargetedSkillPlugin _hitPlugin;
+    private readonly SkillEntry _skillEntry;
     private readonly float _speedPerSec;
     private readonly float _maxRange;
     private readonly float _dirX;
@@ -30,7 +30,7 @@ public sealed class Projectile : IGameTickable
     /// </summary>
     public Projectile(
         Player owner,
-        ITargetedSkillPlugin hitPlugin,
+        SkillEntry skillEntry,
         ushort skillId,
         float originX,
         float originY,
@@ -40,7 +40,7 @@ public sealed class Projectile : IGameTickable
         float maxRange)
     {
         _owner = owner;
-        _hitPlugin = hitPlugin;
+        _skillEntry = skillEntry;
         SkillId = skillId;
         Map = owner.CurrentMap!;
         OwnerId = (uint)owner.Id;
@@ -112,7 +112,7 @@ public sealed class Projectile : IGameTickable
         }
 
         var tile = new Vector2F(_posX, _posY).ToTile();
-        var attackables = Map.GetAttackablesInRange(tile, 1);
+        var attackables = Map.GetAttackablesInRange(tile, 2);
         foreach (var target in attackables)
         {
             if ((uint)target.Id == OwnerId)
@@ -123,14 +123,19 @@ public sealed class Projectile : IGameTickable
             _done = true;
             Map.RemoveProjectile(this);
 
-            await _hitPlugin.PerformSkillAsync(_owner, target, SkillId).ConfigureAwait(false);
-
             var capturedId = Id;
             var capturedTargetId = (uint)target.Id;
             foreach (var observer in Map.Players)
             {
                 await observer.InvokeViewPlugInAsync<IProjectileHitPlugIn>(
                     p => p.ProjectileHitAsync(capturedId, capturedTargetId)).ConfigureAwait(false);
+            }
+
+            if (target.IsActive())
+            {
+                var hitInfo = await target.AttackByAsync(_owner, _skillEntry, false, 1, null).ConfigureAwait(false);
+                _owner.LastAttackedTarget.SetTarget(target);
+                await target.TryApplyElementalEffectsAsync(_owner, _skillEntry, hitInfo).ConfigureAwait(false);
             }
 
             return;
