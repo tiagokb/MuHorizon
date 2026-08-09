@@ -17,20 +17,20 @@ public class FriendServer : IFriendServer
     private readonly IPersistenceContextProvider _persistenceContextProvider;
     private readonly ILogger<FriendServer> _logger;
     private readonly IFriendNotifier _friendNotifier;
-    private readonly IChatServer _chatServer;
+    private readonly IChatServer? _chatServer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FriendServer" /> class.
     /// </summary>
     /// <param name="friendNotifier">The friend notifier.</param>
-    /// <param name="chatServer">The chat server.</param>
     /// <param name="persistenceContextProvider">The persistence context provider.</param>
     /// <param name="logger">The logger.</param>
-    public FriendServer(IFriendNotifier friendNotifier, IChatServer chatServer, IPersistenceContextProvider persistenceContextProvider, ILogger<FriendServer> logger)
+    /// <param name="chatServer">The chat server (optional — not yet implemented).</param>
+    public FriendServer(IFriendNotifier friendNotifier, IPersistenceContextProvider persistenceContextProvider, ILogger<FriendServer> logger, IChatServer? chatServer = null)
     {
         this._friendNotifier = friendNotifier;
-        this._chatServer = chatServer;
         this._persistenceContextProvider = persistenceContextProvider;
+        this._chatServer = chatServer;
         this._logger = logger;
         this.OnlineFriends = new Dictionary<string, OnlineFriend>();
     }
@@ -159,10 +159,11 @@ public class FriendServer : IFriendServer
             return;
         }
 
-        // TODO: Remove direct dependency to the chat server.
-        //       Instead of calling the chat server directly here, we could publish a request
-        //       to create the chat room to an pub/sub-system. An available chat server could then
-        //       process the request and notify the corresponding game servers.
+        if (this._chatServer is null)
+        {
+            return;
+        }
+
         var roomId = await this._chatServer.CreateChatRoomAsync().ConfigureAwait(false);
         if (await this._chatServer.RegisterClientAsync(roomId, playerName).ConfigureAwait(false) is { } authenticationInfoPlayer)
         {
@@ -198,7 +199,7 @@ public class FriendServer : IFriendServer
             return false;
         }
 
-        var authenticationInfoFriend = await this._chatServer.RegisterClientAsync(roomId, friendName).ConfigureAwait(false);
+        var authenticationInfoFriend = await this._chatServer!.RegisterClientAsync(roomId, friendName).ConfigureAwait(false);
         if (authenticationInfoFriend is not null)
         {
             await this._friendNotifier.ChatRoomCreatedAsync(friend.ServerId, authenticationInfoFriend, playerName).ConfigureAwait(false);
