@@ -19,7 +19,7 @@
 - [Fase 4 — Skills e combate](#fase-4--skills-e-combate)
 - [Fase 5 — Mobs e AI](#fase-5--mobs-e-ai)
 - [Fase 6 — Skillshots e projéteis](#fase-6--skillshots-e-projéteis)
-- [Fase 7 — Remoção de legado de rede e enforcement de camadas](#fase-7--remoção-de-legado-de-rede-e-enforcement-de-camadas)
+- [Fase 7 — Remoção de legado de rede e enforcement de camadas ✅ DONE](#fase-7--remoção-de-legado-de-rede-e-enforcement-de-camadas-done)
 - [Decisões em aberto](#decisões-em-aberto)
 
 ---
@@ -494,7 +494,7 @@ Skills de projétil (skillshots) viajam fisicamente pelo mundo em espaço contí
 
 ---
 
-## Fase 7 — Remoção de legado de rede e enforcement de camadas
+## Fase 7 — Remoção de legado de rede e enforcement de camadas ✅ DONE (2026-08-09)
 
 ### Objetivo (revisado em 2026-08-09)
 
