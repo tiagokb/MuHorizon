@@ -23,7 +23,6 @@ public static class Program
     /// <param name="args">The arguments.</param>
     public static void Main(string[] args)
     {
-        BenchmarkRunner.Run<EncryptionBenchmarks>();
         BenchmarkRunner.Run<PacketSending>();
     }
 }

@@ -48,7 +48,7 @@ public static class PlayerTestHelper
         gameConfig.Object.RecoveryInterval = int.MaxValue;
         gameConfig.Object.Maps.Add(map.Object);
 
-        var mapInitializer = new MapInitializer(gameConfig.Object, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfig.Object, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
         var gameContext = new GameContext(gameConfig.Object, new InMemoryPersistenceContextProvider(), mapInitializer, new NullLoggerFactory(), new PlugInManager(null, new NullLoggerFactory(), null, null), NullDropGenerator.Instance, new ConfigurationChangeMediator());
         mapInitializer.PlugInManager = gameContext.PlugInManager;
         mapInitializer.PathFinderPool = gameContext.PathFinderPool;

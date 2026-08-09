@@ -448,7 +448,7 @@ public class RivalGuildCacheTest
         var persistenceProvider = new InMemoryPersistenceContextProvider();
         var gameConfiguration = new BasicModel.GameConfiguration();
         gameConfiguration.Maps.Add(new BasicModel.GameMapDefinition());
-        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
         var ctx = new GameServerContext(
             new BasicModel.GameServerDefinition
             {
@@ -494,7 +494,7 @@ public class RivalGuildCombatTest
         var persistenceProvider = new InMemoryPersistenceContextProvider();
         var gameConfiguration = new BasicModel.GameConfiguration();
         gameConfiguration.Maps.Add(new BasicModel.GameMapDefinition());
-        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
         this._gameServerContext = new GameServerContext(
             new BasicModel.GameServerDefinition
             {

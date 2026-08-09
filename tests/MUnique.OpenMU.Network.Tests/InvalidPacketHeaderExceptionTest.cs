@@ -59,7 +59,7 @@ public class InvalidPacketHeaderExceptionTest
     {
         bool thrown = false;
         var duplexPipe = new DuplexPipe(new PipeOptions(pauseWriterThreshold: 1, resumeWriterThreshold: 1));
-        using var connection = new Connection(duplexPipe, null, new Xor.PipelinedXor32Encryptor(duplexPipe.Output), new NullLogger<Connection>());
+        using var connection = new Connection(duplexPipe, new NullLogger<Connection>());
         _ = connection.BeginReceiveAsync();
 
         try

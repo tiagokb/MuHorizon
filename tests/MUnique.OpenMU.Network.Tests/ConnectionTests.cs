@@ -22,7 +22,7 @@ public class ConnectionTests
     {
         var malformedData = new byte[] { 0xDE, 0xAD, 0xBE, 0xEF };
         var duplexPipe = new DuplexPipe();
-        using var connection = new Connection(duplexPipe, null, null, new NullLogger<Connection>());
+        using var connection = new Connection(duplexPipe, new NullLogger<Connection>());
         var disconnected = false;
         connection.Disconnected += async () => disconnected = true;
         _ = connection.BeginReceiveAsync();
@@ -44,33 +44,13 @@ public class ConnectionTests
     }
 
     /// <summary>
-    /// Tests if the reader (e.g. SocketConnection) gets an exception when it reads a malformed packet which leads to an exception.
-    /// The consumer (e.g. SocketConnection) will take care to call <see cref="PipeReader.Complete"/> or <see cref="PipeReader.CompleteAsync"/>.
-    /// </summary>
-    /// <returns>The async task.</returns>
-    [Test]
-    public async Task ExceptionWhenFailingToEncryptSentPacketAsync()
-    {
-        var malformedData = new byte[] { 0xDE, 0xAD, 0xBE, 0xEF };
-        var duplexPipe = new DuplexPipe();
-        using var connection = new Connection(duplexPipe, null, new Xor.PipelinedXor32Encryptor(duplexPipe.Output), new NullLogger<Connection>());
-
-        _ = connection.BeginReceiveAsync();
-        await connection.Output.WriteAsync(malformedData).ConfigureAwait(false);
-
-        Assert.That(
-            async () => await duplexPipe.SendPipe.Reader.ReadAsync().ConfigureAwait(false),
-            Throws.TypeOf<InvalidPacketHeaderException>());
-    }
-
-    /// <summary>
     /// Tests if the connection is initially connected.
     /// </summary>
     [Test]
     public void InitiallyConnected()
     {
         var duplexPipe = new DuplexPipe();
-        using var connection = new Connection(duplexPipe, null, null, new NullLogger<Connection>());
+        using var connection = new Connection(duplexPipe, new NullLogger<Connection>());
         Assert.That(connection.Connected, Is.True);
     }
 }

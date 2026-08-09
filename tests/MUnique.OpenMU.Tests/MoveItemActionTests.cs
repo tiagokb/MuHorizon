@@ -269,7 +269,7 @@ public class MoveItemActionTests
         gameConfig.Object.RecoveryInterval = int.MaxValue;
         gameConfig.Object.Maps.Add(map.Object);
 
-        var mapInitializer = new MapInitializer(gameConfig.Object, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfig.Object, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
         var gameContext = new GameContext(
             gameConfig.Object,
             new InMemoryPersistenceContextProvider(),

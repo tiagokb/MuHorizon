@@ -34,7 +34,7 @@ public class PacketSending
     {
         CancellationToken cancellationToken = default;
         var duplexPipe = new DuplexPipe();
-        using var connection = new Connection(duplexPipe, null, null, new NullLogger<Connection>());
+        using var connection = new Connection(duplexPipe, new NullLogger<Connection>());
         for (int i = 0; i < this.PacketCount && !cancellationToken.IsCancellationRequested; i++)
         {
             using var l = await connection.OutputLock.LockAsync(cancellationToken).ConfigureAwait(false);
@@ -58,7 +58,7 @@ public class PacketSending
     {
         CancellationToken cancellationToken = default;
         var duplexPipe = new DuplexPipe();
-        using var connection = new Connection(duplexPipe, null, null, new NullLogger<Connection>());
+        using var connection = new Connection(duplexPipe, new NullLogger<Connection>());
         for (int i = 0; i < this.PacketCount && !cancellationToken.IsCancellationRequested; i++)
         {
             using var l = await connection.OutputLock.LockAsync(cancellationToken).ConfigureAwait(false);

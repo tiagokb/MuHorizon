@@ -12,8 +12,5 @@ public static class Metrics
     /// <summary>
     /// Gets all available meters of this project.
     /// </summary>
-    public static IEnumerable<string> Meters
-    {
-        get { yield return Connection.MeterName; }
-    }
+    public static IEnumerable<string> Meters => Enumerable.Empty<string>();
 }

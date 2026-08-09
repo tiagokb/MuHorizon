@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.Network;
-using MUnique.OpenMU.Network.PlugIns;
 using MUnique.OpenMU.Persistence;
 
 /// <summary>
@@ -45,36 +44,8 @@ public class GameServerInitializer
     /// <summary>
     /// Initializes the game server.
     /// </summary>
-    public async ValueTask InitializeAsync()
+    public ValueTask InitializeAsync()
     {
-        foreach (var endpoint in this._definition.Endpoints)
-        {
-            this._gameServer.AddListener(new DefaultTcpGameServerListener(
-                endpoint,
-                this._gameServer.CreateServerInfo(),
-                this._gameServer.Context,
-                this._stateObserver,
-                this._ipResolver,
-                this._loggerFactory));
-        }
-
-        using var context = this._contextProvider.CreateNewConfigurationContext();
-        await this.LoadGameClientDefinitionsAsync(context).ConfigureAwait(false);
-    }
-
-    private async ValueTask LoadGameClientDefinitionsAsync(IContext persistenceContext)
-    {
-        var versions = (await persistenceContext.GetAsync<GameClientDefinition>().ConfigureAwait(false)).ToList();
-        foreach (var gameClientDefinition in versions)
-        {
-            ClientVersionResolver.Register(
-                gameClientDefinition.Version,
-                new ClientVersion(gameClientDefinition.Season, gameClientDefinition.Episode, gameClientDefinition.Language));
-        }
-
-        if (versions.FirstOrDefault() is { } firstVersion)
-        {
-            ClientVersionResolver.DefaultVersion = ClientVersionResolver.Resolve(firstVersion.Version);
-        }
+        return ValueTask.CompletedTask;
     }
 }

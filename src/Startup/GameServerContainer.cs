@@ -13,7 +13,6 @@ using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameServer;
 using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.Network;
-using MUnique.OpenMU.Network.PlugIns;
 using MUnique.OpenMU.Persistence;
 using MUnique.OpenMU.PlugIns;
 using MUnique.OpenMU.Web.AdminPanel.Services;
@@ -139,7 +138,6 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
     protected override async Task StartInnerAsync(CancellationToken cancellationToken)
     {
         using var persistenceContext = this._persistenceContextProvider.CreateNewConfigurationContext();
-        await this.LoadGameClientDefinitionsAsync(persistenceContext).ConfigureAwait(false);
 
         var gameServerDefinitions = await persistenceContext.GetAsync<GameServerDefinition>(cancellationToken).ConfigureAwait(false);
         foreach (var gameServerDefinition in gameServerDefinitions)
@@ -174,10 +172,6 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
     {
         using var loggerScope = this._logger.BeginScope("GameServer: {0}", gameServerDefinition.ServerID);
         var gameServer = new GameServer(gameServerDefinition, this._guildServer, this._eventPublisher, this._loginServer, this._persistenceContextProvider, this._friendServer, this._loggerFactory, this._plugInManager, this._changeMediator);
-        foreach (var endpoint in gameServerDefinition.Endpoints)
-        {
-            gameServer.AddListener(new DefaultTcpGameServerListener(endpoint, gameServer.CreateServerInfo(), gameServer.Context, this._connectServerContainer.GetObserver(endpoint.Client!), this._ipResolver, this._loggerFactory));
-        }
 
         if (this._webSocketListener is null)
         {
@@ -191,19 +185,4 @@ public sealed class GameServerContainer : ServerContainerBase, IGameServerInstan
         this._logger.LogInformation($"Game Server {gameServer.Id} - [{gameServer.Description}] initialized");
     }
 
-    private async ValueTask LoadGameClientDefinitionsAsync(IContext persistenceContext)
-    {
-        var versions = (await persistenceContext.GetAsync<GameClientDefinition>().ConfigureAwait(false)).ToList();
-        foreach (var gameClientDefinition in versions)
-        {
-            ClientVersionResolver.Register(
-                gameClientDefinition.Version,
-                new ClientVersion(gameClientDefinition.Season, gameClientDefinition.Episode, gameClientDefinition.Language));
-        }
-
-        if (versions.FirstOrDefault() is { } firstVersion)
-        {
-            ClientVersionResolver.DefaultVersion = ClientVersionResolver.Resolve(firstVersion.Version);
-        }
-    }
 }

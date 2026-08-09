@@ -277,7 +277,7 @@ public class ExperienceRateSplitTest
         map.ExpMultiplier = 1.0f;
         gameConfiguration.Maps.Add(map);
 
-        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
         var gameServerContext = new GameServerContext(
             new GameServerDefinition
             {

@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MUnique.OpenMU.ChatServer;
 using MUnique.OpenMU.ConnectServer;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.FriendServer;
@@ -149,11 +148,6 @@ internal sealed class Program : IDisposable
 
         if (autoStart)
         {
-            foreach (var chatServer in this._servers.OfType<ChatServer>())
-            {
-                await chatServer.StartAsync().ConfigureAwait(false);
-            }
-
             foreach (var gameServer in this._gameServers.Values)
             {
                 await gameServer.StartAsync().ConfigureAwait(false);
@@ -235,7 +229,6 @@ internal sealed class Program : IDisposable
         // Ensure GameLogic and GameServer Assemblies are loaded
         _ = GameLogic.Rand.NextInt(1, 2);
         _ = DataInitialization.Id;
-        _ = OpenMU.GameServer.ClientVersionResolver.DefaultVersion;
 
         var addAdminPanel = this.IsAdminPanelEnabled(args);
         await new ConfigFileDatabaseConnectionStringProvider().InitializeAsync(default).ConfigureAwait(false);
@@ -269,8 +262,6 @@ internal sealed class Program : IDisposable
             .AddSingleton<ILoginServer, LoginServer>()
             .AddSingleton<IGuildServer, GuildServer>()
             .AddSingleton<IFriendServer, FriendServer>()
-            .AddSingleton<ChatServer>()
-            .AddSingleton<IChatServer>(s => s.GetService<ChatServer>()!)
             .AddSingleton<ConnectServerFactory>()
             .AddSingleton<ConnectServerContainer>()
             .AddSingleton<IConnectServerInstanceManager>(provider => provider.GetService<ConnectServerContainer>()!)
@@ -296,7 +287,6 @@ internal sealed class Program : IDisposable
                 return referenceHandler;
             })
             .AddSingleton<IDataSource<GameConfiguration>, GameConfigurationDataSource>()
-            .AddHostedService<ChatServerContainer>()
             .AddHostedService<GameServerContainer>()
             .AddHostedService(provider => provider.GetService<GameServerContainer>()!)
             .AddHostedService(provider => provider.GetService<ConnectServerContainer>()!)

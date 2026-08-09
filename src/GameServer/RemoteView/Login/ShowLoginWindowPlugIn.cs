@@ -43,12 +43,10 @@ public class ShowLoginWindowPlugIn : IShowLoginWindowPlugIn
         {
             var size = GameServerEnteredRef.Length;
             var span = connection.Output.GetSpan(size)[..size];
-            var packet = new GameServerEnteredRef(span)
+            _ = new GameServerEnteredRef(span)
             {
                 PlayerId = ViewExtensions.ConstantPlayerId,
             };
-
-            ClientVersionResolver.Resolve(this._player.ClientVersion).CopyTo(packet.Version);
 
             return size;
         }

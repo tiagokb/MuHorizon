@@ -16,7 +16,6 @@ using GameServer = MUnique.OpenMU.GameServer.GameServer;
 
 // Ensure GameLogic and GameServer Assemblies are loaded
 _ = MUnique.OpenMU.GameLogic.Rand.NextInt(1, 2);
-_ = MUnique.OpenMU.GameServer.ClientVersionResolver.DefaultVersion;
 
 var gameServerId = byte.Parse(Environment.GetEnvironmentVariable("GS_ID") ?? "0");
 var serviceName = $"GameServer{gameServerId + 1}";

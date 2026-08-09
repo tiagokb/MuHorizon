@@ -389,7 +389,7 @@ public class PartyTest
         mapDef.TerrainData = new byte[ushort.MaxValue + 3];
         gameConfiguration.Maps.Add(mapDef);
 
-        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullDropGenerator.Instance, null);
+        var mapInitializer = new MapInitializer(gameConfiguration, new NullLogger<MapInitializer>(), NullLoggerFactory.Instance, NullDropGenerator.Instance, null);
 
         var gameServer = new GameServerContext(
             new GameServerDefinition
