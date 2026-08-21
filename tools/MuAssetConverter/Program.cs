@@ -12,6 +12,15 @@ using MuAssetConverter.Formats;
 //   heightmap.png   — 257×257 grayscale normalized heightmap
 //   texture_*.png   — decoded OZJ/OZT textures
 
+// --bmd <input.bmd> <output.glb>
+if (args.Length == 3 && args[0] == "--bmd")
+{
+    var bmd = BmdFile.Load(args[1]);
+    BmdGltfExporter.Export(bmd, args[2]);
+    Console.WriteLine($"Exported: {args[2]}  (meshes={bmd.Meshes.Length} bones={bmd.Bones.Length} actions={bmd.Actions.Length})");
+    return 0;
+}
+
 string? inputDir = null;
 string? outputDir = null;
 string? mapName = null;
