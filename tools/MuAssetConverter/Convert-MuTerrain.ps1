@@ -25,20 +25,76 @@ function Save-Bitmap([System.Drawing.Bitmap]$bmp, [string]$path) {
     $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
 }
 
+# ── MU map file decryption (from MuMain ZzzLodTerrain.h / _crypt.h) ──────────
+
+function Invoke-MapFileDecrypt([byte[]]$src) {
+    # Step 1: XOR key table + rolling key (MapFileDecrypt)
+    [byte[]]$xorKey = 0xD1,0x73,0x52,0xF6,0xD2,0x9A,0xCB,0x27,
+                      0x3E,0xAF,0x59,0x31,0x37,0xB3,0xE7,0xA2
+    $rollingKey = 0x5E
+    $dst = New-Object 'byte[]' $src.Length
+    for ($i = 0; $i -lt $src.Length; $i++) {
+        $dst[$i] = [byte]((($src[$i] -bxor $xorKey[$i % 16]) - $rollingKey) -band 0xFF)
+        $rollingKey = ($src[$i] + 0x3D) -band 0xFF
+    }
+    # Step 2: BuxConvert (XOR with {0xFC, 0xCF, 0xAB})
+    [byte[]]$bux = 0xFC,0xCF,0xAB
+    for ($i = 0; $i -lt $dst.Length; $i++) {
+        $dst[$i] = [byte]($dst[$i] -bxor $bux[$i % 3])
+    }
+    return $dst
+}
+
 # ── ATT → walkable.png ───────────────────────────────────────────────────────
+# Tile bit flags (from MuMain _define.h):
+#   0x01 TW_SAFEZONE  — safe zone (still walkable)
+#   0x02 TW_CHARACTER — character collision
+#   0x04 TW_NOMOVE    — obstacle/wall (cannot walk)
+#   0x10 TW_WATER     — water (not walkable)
+# Output pixel encoding:
+#   255 = normal walkable  (shader: bright green)
+#   128 = safezone         (shader: olive green)
+#     0 = wall / water     (shader: dark stone)
+
+function Resolve-AttBuffer([byte[]]$buf) {
+    # Returns [headerSize, isWord] if buf looks like valid ATT (Version==0, size matches), else $null.
+    if ($buf[0] -ne 0) { return $null }
+    $dataSize = 256 * 256
+    $extSize  = 256 * 256 * 2
+    foreach ($hdr in @(3, 4, 7)) {
+        $avail = $buf.Length - $hdr
+        if ($avail -eq $dataSize) { return @($hdr, $false) }
+        if ($avail -eq $extSize)  { return @($hdr, $true)  }
+    }
+    return $null
+}
 
 function Convert-Att([string]$attPath, [string]$outPath) {
-    $raw = [System.IO.File]::ReadAllBytes($attPath)
-    $dataSize   = 256 * 256
-    $headerSize = $raw.Length - $dataSize
-    if ($headerSize -lt 0) { throw "ATT too small: $($raw.Length) bytes" }
+    $fileBytes = [System.IO.File]::ReadAllBytes($attPath)
+
+    # Try plaintext first (MuMain dev assets are unencrypted),
+    # fall back to MapFileDecrypt+BuxConvert (production client files).
+    $resolved = Resolve-AttBuffer $fileBytes
+    $raw = $fileBytes
+    if ($null -eq $resolved) {
+        $raw      = Invoke-MapFileDecrypt $fileBytes
+        $resolved = Resolve-AttBuffer $raw
+    }
+    if ($null -eq $resolved) {
+        throw "ATT: unrecognised format for file of $($fileBytes.Length) bytes"
+    }
+    $headerSize = $resolved[0]
+    $isWord     = $resolved[1]
+
+    $stride = if ($isWord) { 2 } else { 1 }
 
     $bmp = New-Object System.Drawing.Bitmap(256, 256, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     try {
         for ($y = 0; $y -lt 256; $y++) {
             for ($x = 0; $x -lt 256; $x++) {
-                $tile = $raw[$headerSize + $x + $y * 256]
-                $v = switch ($tile) { 0 { 255 } 1 { 128 } default { 0 } }
+                $idx  = $headerSize + ($y * 256 + $x) * $stride
+                $tile = if ($isWord) { [int]$raw[$idx] -bor ([int]$raw[$idx + 1] -shl 8) } else { [int]$raw[$idx] }
+                $v    = if ($tile -band 0x14) { 0 } elseif ($tile -band 0x01) { 128 } else { 255 }
                 $bmp.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255, $v, $v, $v))
             }
         }
@@ -152,26 +208,154 @@ function Convert-Ozt([string]$oztPath, [string]$outPath) {
 }
 
 # ── OZJ (JPEG with optional prepended header) ─────────────────────────────────
+# OZJ files contain an outer JPEG wrapper (APP markers only, no image data) followed
+# by the actual JPEG at a fixed +24 byte offset, and sometimes a thumbnail after that.
+# Strategy: collect all FF D8 FF offsets, try each, keep the largest decoded image.
+# Fallback: patch non-standard DQT table indices (WebZen sometimes uses index 15).
 
-function Find-JpegOffset([byte[]]$raw) {
-    for ($i = 0; $i -le $raw.Length - 3; $i++) {
-        if ($raw[$i] -eq 0xFF -and $raw[$i+1] -eq 0xD8 -and $raw[$i+2] -eq 0xFF) { return $i }
+function Repair-JpegDqt([byte[]]$src, [int]$offset, [int]$length) {
+    $buf = New-Object 'byte[]' $length
+    [System.Array]::Copy($src, $offset, $buf, 0, $length)
+    $i = 0
+    while ($i -lt $buf.Length - 3) {
+        if ($buf[$i] -ne 0xFF) { $i++; continue }
+        $marker = $buf[$i + 1]
+        if ($marker -eq 0xDB) {
+            $segLen = ([int]$buf[$i + 2] -shl 8) -bor [int]$buf[$i + 3]
+            $segEnd = $i + 2 + $segLen
+            $j = $i + 4
+            while ($j -lt $segEnd -and $j -lt $buf.Length) {
+                $precIdx = $buf[$j]
+                $tblIdx  = $precIdx -band 0x0F
+                $prec    = ($precIdx -shr 4) -band 0x0F
+                if ($tblIdx -gt 3) { $buf[$j] = [byte](($precIdx -band 0xF0)) }
+                $j += 1 + 64 * ($prec + 1)
+            }
+            $i = $segEnd
+        } elseif ($marker -in @(0xD0,0xD1,0xD2,0xD3,0xD4,0xD5,0xD6,0xD7,0xD8,0xD9,0x01)) {
+            $i += 2
+        } else {
+            if ($i + 3 -lt $buf.Length) {
+                $segLen = ([int]$buf[$i + 2] -shl 8) -bor [int]$buf[$i + 3]
+                $i += [Math]::Max(2, 2 + $segLen)
+            } else { break }
+        }
     }
-    return -1
+    return $buf
 }
 
 function Convert-Ozj([string]$ozjPath, [string]$outPath) {
     $raw = [System.IO.File]::ReadAllBytes($ozjPath)
-    $off = Find-JpegOffset $raw
-    if ($off -lt 0) { throw "No JPEG magic bytes found" }
 
-    $jpegLen = $raw.Length - $off
-    $ms = New-Object System.IO.MemoryStream($raw, $off, $jpegLen, $false)
+    # Collect all FF D8 FF offsets (outer wrapper at 0, actual image at +24, thumbnail later)
+    [int[]]$offsets = @()
+    for ($i = 0; $i -le $raw.Length - 3; $i++) {
+        if ($raw[$i] -eq 0xFF -and $raw[$i+1] -eq 0xD8 -and $raw[$i+2] -eq 0xFF) {
+            $offsets += [int]$i
+        }
+    }
+    if ($offsets.Length -eq 0) { throw "No JPEG magic bytes found" }
+
+    $bestImg  = $null
+    $bestArea = 0
+
+    for ($oi = 0; $oi -lt $offsets.Length; $oi++) {
+        [int]$off = $offsets[$oi]
+        [int]$len = $raw.Length - $off
+        $ms = New-Object System.IO.MemoryStream($raw, $off, $len, $false)
+        try {
+            $img = [System.Drawing.Image]::FromStream($ms)
+            # Copy to standalone Bitmap — System.Drawing requires the source stream to stay
+            # open for the lifetime of the Image, so we detach immediately via DrawImage.
+            $copy = New-Object System.Drawing.Bitmap($img.Width, $img.Height, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+            $g = [System.Drawing.Graphics]::FromImage($copy)
+            try { $g.DrawImage($img, 0, 0) } finally { $g.Dispose() }
+            $img.Dispose()
+            [int]$area = $copy.Width * $copy.Height
+            if ($area -gt $bestArea) {
+                if ($null -ne $bestImg) { $bestImg.Dispose() }
+                $bestImg = $copy; $bestArea = $area
+            } else { $copy.Dispose() }
+        } catch { }
+        finally { $ms.Dispose() }
+    }
+
+    # Fallback: DQT index patch (WebZen sometimes uses non-standard table indices)
+    if ($null -eq $bestImg) {
+        for ($oi = 0; $oi -lt $offsets.Length; $oi++) {
+            [int]$off = $offsets[$oi]
+            [int]$len = $raw.Length - $off
+            $patched = Repair-JpegDqt $raw $off $len
+            $ms = New-Object System.IO.MemoryStream($patched, 0, $patched.Length, $false)
+            try {
+                $img = [System.Drawing.Image]::FromStream($ms)
+                $copy = New-Object System.Drawing.Bitmap($img.Width, $img.Height, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+                $g = [System.Drawing.Graphics]::FromImage($copy)
+                try { $g.DrawImage($img, 0, 0) } finally { $g.Dispose() }
+                $img.Dispose()
+                [int]$area = $copy.Width * $copy.Height
+                if ($area -gt $bestArea) {
+                    if ($null -ne $bestImg) { $bestImg.Dispose() }
+                    $bestImg = $copy; $bestArea = $area
+                } else { $copy.Dispose() }
+            } catch { }
+            finally { $ms.Dispose() }
+        }
+    }
+
+    if ($null -eq $bestImg) { throw "Could not decode any JPEG in the file" }
+    try { Save-Bitmap ([System.Drawing.Bitmap]$bestImg) $outPath }
+    finally { $bestImg.Dispose() }
+}
+
+# ── TerrainMapping (.map) → layer1/layer2/alpha PNGs ─────────────────────────
+# Format (unencrypted dev assets — same auto-detect pattern as ATT):
+#   1 byte  version (0x00)
+#   256×256 Layer1  — index into terrain texture array (main layer)
+#   256×256 Layer2  — index into terrain texture array (blend layer)
+#   256×256 Alpha   — blend weight Layer1→Layer2 (0 = full Layer1, 255 = full Layer2)
+
+function Resolve-MapBuffer([byte[]]$buf) {
+    if ($buf[0] -ne 0) { return $null }
+    $data = 3 * 256 * 256
+    foreach ($hdr in @(1, 2)) {
+        if ($buf.Length -eq $hdr + $data) { return $hdr }
+    }
+    return $null
+}
+
+function Convert-TerrainMap([string]$mapPath, [string]$outDir) {
+    $raw = [System.IO.File]::ReadAllBytes($mapPath)
+
+    $hdrSize = Resolve-MapBuffer $raw
+    $decrypted = $raw
+    if ($null -eq $hdrSize) {
+        $decrypted = Invoke-MapFileDecrypt $raw
+        $hdrSize   = Resolve-MapBuffer $decrypted
+    }
+    if ($null -eq $hdrSize) { throw "Terrain.map: unrecognised format ($($raw.Length) bytes)" }
+
+    $stride = 256 * 256
+    $bmpL1 = New-Object System.Drawing.Bitmap(256, 256, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+    $bmpL2 = New-Object System.Drawing.Bitmap(256, 256, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+    $bmpAl = New-Object System.Drawing.Bitmap(256, 256, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     try {
-        $img = [System.Drawing.Image]::FromStream($ms)
-        try { Save-Bitmap ([System.Drawing.Bitmap]$img) $outPath }
-        finally { $img.Dispose() }
-    } finally { $ms.Dispose() }
+        for ($y = 0; $y -lt 256; $y++) {
+            for ($x = 0; $x -lt 256; $x++) {
+                $base = $hdrSize + $y * 256 + $x
+                $v1 = [int]$decrypted[$base]
+                $v2 = [int]$decrypted[$base + $stride]
+                $va = [int]$decrypted[$base + $stride * 2]
+                $bmpL1.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255, $v1, $v1, $v1))
+                $bmpL2.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255, $v2, $v2, $v2))
+                $bmpAl.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255, $va, $va, $va))
+            }
+        }
+        Save-Bitmap $bmpL1 (Join-Path $outDir "mapping_layer1.png")
+        Save-Bitmap $bmpL2 (Join-Path $outDir "mapping_layer2.png")
+        Save-Bitmap $bmpAl (Join-Path $outDir "mapping_alpha.png")
+        Write-Host "  mapping_layer1/2/alpha.png (256x256, hdr=$hdrSize bytes)"
+    } finally { $bmpL1.Dispose(); $bmpL2.Dispose(); $bmpAl.Dispose() }
 }
 
 # ── main ──────────────────────────────────────────────────────────────────────
@@ -204,6 +388,15 @@ foreach ($mapName in $maps) {
             Write-Host "  walkable.png (256x256) from $($attFile.Name)"
         } catch { Write-Warning "  ATT failed: $_" }
     } else { Write-Host "  [SKIP] No .att file" }
+
+    # Terrain.map → mapping_layer1/2/alpha.png
+    $mapFile = Get-ChildItem $mapDir -Filter "Terrain.map" | Select-Object -First 1
+    if (-not $mapFile) { $mapFile = Get-ChildItem $mapDir -Filter "*.map" | Where-Object { $_.Name -notlike "Enc*" } | Select-Object -First 1 }
+    if (-not $mapFile) { $mapFile = Get-ChildItem $mapDir -Filter "*.map" | Select-Object -First 1 }
+    if ($mapFile) {
+        try { Convert-TerrainMap $mapFile.FullName $outMapDir }
+        catch { Write-Warning "  TerrainMap failed: $_" }
+    } else { Write-Host "  [SKIP] No .map file" }
 
     # OZB → heightmap.png
     $ozbFile = Get-ChildItem $mapDir | Where-Object { $_.Extension -ieq ".ozb" } | Select-Object -First 1

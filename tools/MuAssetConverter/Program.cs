@@ -12,12 +12,73 @@ using MuAssetConverter.Formats;
 //   heightmap.png   — 257×257 grayscale normalized heightmap
 //   texture_*.png   — decoded OZJ/OZT textures
 
-// --bmd <input.bmd> <output.glb>
-if (args.Length == 3 && args[0] == "--bmd")
+// --bmd <input.bmd> <output.glb> [--data-dir <dir>]
+//   --data-dir  root of the MU data tree to scan for textures (default: grandparent of the BMD)
+if (args.Length >= 3 && args[0] == "--bmd")
+{
+    string bmdFull  = Path.GetFullPath(args[1]);
+    string bmdDir   = Path.GetDirectoryName(bmdFull)!;
+    // Default: scan the parent of the BMD's folder (e.g. Data/ when BMD is in Data/NPC/)
+    string dataRoot = Path.GetDirectoryName(bmdDir) ?? bmdDir;
+    for (int i = 3; i < args.Length - 1; i++)
+        if (args[i] is "--data-dir" or "--texture-dir") dataRoot = args[i + 1];
+
+    Console.Write($"Indexing textures from '{dataRoot}'... ");
+    var texIndex = BmdGltfExporter.BuildTextureIndex(dataRoot);
+    Console.WriteLine($"{texIndex.Count} found.");
+
+    var bmd = BmdFile.Load(bmdFull);
+    BmdGltfExporter.Export(bmd, args[2], texIndex);
+    Console.WriteLine($"Exported: {args[2]}  (meshes={bmd.Meshes.Length} bones={bmd.Bones.Length} actions={bmd.Actions.Length})");
+    return 0;
+}
+
+// --bmd-dir <input-dir> <output-dir> [--data-dir <dir>]
+//   Batch-exports every .bmd in <input-dir> as <output-dir>/<stem>.glb.
+//   Texture index is built once from --data-dir (default: parent of input-dir).
+if (args.Length >= 3 && args[0] == "--bmd-dir")
+{
+    string inDir    = Path.GetFullPath(args[1]);
+    string outDir   = Path.GetFullPath(args[2]);
+    string dataRoot = Path.GetDirectoryName(inDir) ?? inDir;
+    for (int i = 3; i < args.Length - 1; i++)
+        if (args[i] is "--data-dir") dataRoot = args[i + 1];
+
+    Directory.CreateDirectory(outDir);
+
+    Console.Write($"Indexing textures from '{dataRoot}'... ");
+    var texIndex = BmdGltfExporter.BuildTextureIndex(dataRoot);
+    Console.WriteLine($"{texIndex.Count} found.");
+
+    var bmdFiles = Directory.EnumerateFiles(inDir, "*.bmd", SearchOption.TopDirectoryOnly).ToList();
+    Console.WriteLine($"Exporting {bmdFiles.Count} BMD(s) from '{Path.GetFileName(inDir)}'...");
+
+    int ok = 0, fail = 0;
+    foreach (var bmdPath in bmdFiles)
+    {
+        string stem   = Path.GetFileNameWithoutExtension(bmdPath);
+        string outGlb = Path.Combine(outDir, stem + ".glb");
+        try
+        {
+            var bmd = BmdFile.Load(bmdPath);
+            BmdGltfExporter.Export(bmd, outGlb, texIndex);
+            ok++;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"  FAIL {stem}.bmd: {ex.GetType().Name}: {ex.Message}");
+            fail++;
+        }
+    }
+    Console.WriteLine($"Done. {ok} exported, {fail} failed.");
+    return fail > 0 ? 1 : 0;
+}
+
+// --debug-bmd <input.bmd>  — dumps raw vertex/bone data without exporting
+if (args.Length == 2 && args[0] == "--debug-bmd")
 {
     var bmd = BmdFile.Load(args[1]);
-    BmdGltfExporter.Export(bmd, args[2]);
-    Console.WriteLine($"Exported: {args[2]}  (meshes={bmd.Meshes.Length} bones={bmd.Bones.Length} actions={bmd.Actions.Length})");
+    BmdGltfExporter.DumpDebug(bmd);
     return 0;
 }
 
