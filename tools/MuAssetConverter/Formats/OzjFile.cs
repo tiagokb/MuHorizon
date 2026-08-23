@@ -1,32 +1,53 @@
 namespace MuAssetConverter.Formats;
 
 /// <summary>
-/// Decodes .OZJ and .OZT files — these are standard JPEG files with a
-/// variable-length proprietary header prepended by WebZen.
-/// Strategy: scan forward until the JPEG magic bytes (FF D8 FF) are found.
+/// Decodes .OZJ files — these are standard JPEG files with a variable-length
+/// proprietary header prepended by WebZen.
+///
+/// Some OZJ files embed a small thumbnail JPEG before the main image. Each segment
+/// has its own DQT (FF DB) marker. We always extract from the LAST DQT, which
+/// belongs to the main high-resolution image, and prepend a fresh SOI (FF D8).
+/// This avoids "Bad Quantization Table" errors that ImageSharp throws when it tries
+/// to decode the thumbnail/metadata segment instead of the main image.
 /// </summary>
 public static class OzjFile
 {
-    private const byte JpegMagic0 = 0xFF;
-    private const byte JpegMagic1 = 0xD8;
-    private const byte JpegMagic2 = 0xFF;
+    public static byte[] ExtractJpeg(string path)
+        => ExtractJpeg(File.ReadAllBytes(path));
 
-    public static ReadOnlyMemory<byte> ExtractJpeg(string path)
+    public static byte[] ExtractJpeg(ReadOnlySpan<byte> raw)
     {
-        var raw = File.ReadAllBytes(path);
-        return ExtractJpeg(raw);
-    }
-
-    public static ReadOnlyMemory<byte> ExtractJpeg(ReadOnlySpan<byte> raw)
-    {
+        // Step 1 — skip the WebZen header: find the first SOI (FF D8 FF).
+        int soiAt = -1;
         for (int i = 0; i <= raw.Length - 3; i++)
         {
-            if (raw[i] == JpegMagic0 && raw[i + 1] == JpegMagic1 && raw[i + 2] == JpegMagic2)
+            if (raw[i] == 0xFF && raw[i + 1] == 0xD8 && raw[i + 2] == 0xFF)
             {
-                return raw[i..].ToArray();
+                soiAt = i;
+                break;
             }
         }
+        if (soiAt < 0)
+            throw new InvalidDataException("No JPEG magic bytes found — file may not be an OZJ.");
 
-        throw new InvalidDataException("No JPEG magic bytes found — file may not be an OZJ/OZT.");
+        var jpeg = raw[soiAt..];
+
+        // Step 2 — multi-segment OZJ files (thumbnail + main) each have their own DQT.
+        // Find the LAST DQT (FF DB) to skip over any thumbnail segments.
+        int lastDqt = -1;
+        for (int i = 0; i < jpeg.Length - 1; i++)
+            if (jpeg[i] == 0xFF && jpeg[i + 1] == 0xDB)
+                lastDqt = i;
+
+        // Single-DQT file: return from SOI as-is.
+        if (lastDqt < 0)
+            return jpeg.ToArray();
+
+        // Multi-DQT: reconstruct SOI + (everything from the last DQT onward).
+        var result = new byte[2 + jpeg.Length - lastDqt];
+        result[0] = 0xFF;
+        result[1] = 0xD8; // SOI
+        jpeg[lastDqt..].CopyTo(result.AsSpan(2));
+        return result;
     }
 }

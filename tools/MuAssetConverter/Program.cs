@@ -82,6 +82,20 @@ if (args.Length == 2 && args[0] == "--debug-bmd")
     return 0;
 }
 
+// --obj <input.obj> <output.json> [--plain]
+//   Parses EncTerrainN.obj (or plain Terrain.obj with --plain) and writes a JSON
+//   object list for Godot.
+//   Coordinates in JSON: tileX/tileY are in tile space (0–255); altUnits is raw
+//   MU world-unit altitude (divide by 100 to convert to tiles); angles are degrees.
+if (args.Length >= 3 && args[0] == "--obj")
+{
+    bool plain = args.Contains("--plain");
+    var  obj   = plain ? ObjFile.LoadPlain(args[1]) : ObjFile.LoadEncrypted(args[1]);
+    obj.WriteJson(args[2]);
+    Console.WriteLine($"Exported: {args[2]}  (map={obj.MapNumber} objects={obj.Objects.Length})");
+    return 0;
+}
+
 string? inputDir = null;
 string? outputDir = null;
 string? mapName = null;
@@ -195,6 +209,29 @@ foreach (var map in mapsToProcess)
         Console.WriteLine($"  [SKIP] No .ozb file found");
     }
 
+    // --- Terrain.map → mapping_layer1/2/alpha.png ---
+    // Prefer plain Terrain.map over EncTerrainN.map (both carry same data; plain is unencrypted).
+    var mapPath = FindFile(mapDir, "Terrain.map")
+               ?? FindFile(mapDir, "Terrain2.map")
+               ?? FindFile(mapDir, "*.map");
+    if (mapPath is not null)
+    {
+        try
+        {
+            var mapFile = MapFile.Load(mapPath);
+            TerrainExporter.ExportSplatmap(mapFile, outMapDir);
+            Console.WriteLine($"  mapping_layer1/2/alpha.png (256×256, splatmap)");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"  [WARN] Terrain.map failed: {ex.Message}");
+        }
+    }
+    else
+    {
+        Console.WriteLine($"  [SKIP] No .map file found");
+    }
+
     // --- OZJ/OZT → texture_*.png ---
     var textureFiles = Directory.EnumerateFiles(mapDir)
         .Where(f =>
@@ -205,15 +242,44 @@ foreach (var map in mapsToProcess)
         .OrderBy(f => f)
         .ToList();
 
-    int texCount = 0;
-    var seenStems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    // Export grass billboard textures (OZT with alpha) before deduplication so we can
+    // grab them even when an OZJ takes priority for the flat tile layer.
+    // Output: grass_{stem}.png — loaded separately by TerrainMesh for billboard grass.
     foreach (var texPath in textureFiles)
     {
-        var ext = Path.GetExtension(texPath).ToLowerInvariant();
+        var ext  = Path.GetExtension(texPath).ToLowerInvariant();
         var stem = Path.GetFileNameWithoutExtension(texPath);
-        // deduplicate: prefer OZJ over OZT for same stem
-        if (ext == ".ozt" && seenStems.Contains(stem)) continue;
-        seenStems.Add(stem);
+        if (ext != ".ozt" || !stem.StartsWith("TileGrass", StringComparison.OrdinalIgnoreCase)) continue;
+        var grassOut = Path.Combine(outMapDir, $"grass_{stem}.png");
+        try   { TerrainExporter.ExportOzt(texPath, grassOut); }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"  [WARN] grass_{stem}: [{ex.GetType().Name}] {ex.Message}");
+        }
+    }
+
+    int texCount = 0;
+    // Build a deduplicated map stem → best file, preferring OZJ > OZT for terrain tiles.
+    // OZJ (JPEG) = full-size square opaque ground texture.
+    // OZT (TGA RGBA) = smaller 256×64 billboard variant — handled separately above.
+    var bestTex = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    foreach (var texPath in textureFiles)
+    {
+        var ext  = Path.GetExtension(texPath).ToLowerInvariant();
+        var stem = Path.GetFileNameWithoutExtension(texPath);
+        if (!bestTex.TryGetValue(stem, out var existing))
+        {
+            bestTex[stem] = texPath;
+        }
+        else
+        {
+            var curExt = Path.GetExtension(existing).ToLowerInvariant();
+            if (ext == ".ozj" && curExt != ".ozj") bestTex[stem] = texPath;
+        }
+    }
+    foreach (var (stem, texPath) in bestTex.OrderBy(kv => kv.Key))
+    {
+        var ext = Path.GetExtension(texPath).ToLowerInvariant();
 
         var outPath = Path.Combine(outMapDir, $"texture_{stem}.png");
         try

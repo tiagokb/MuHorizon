@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.GameLogic.Views.World;
+using MUnique.OpenMU.Pathfinding;
 
 /// <summary>
 /// Drives the per-map game loop at a fixed rate (default 30 Hz).
@@ -28,6 +29,9 @@ public sealed class GameTickLoop
     private readonly ILogger<GameTickLoop> _logger;
     private CancellationTokenSource? _cts;
     private Task? _loopTask;
+
+    // Last tile position sent for each NPC/monster — used to detect movement between ticks.
+    private readonly Dictionary<int, Point> _lastNpcPositions = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GameTickLoop"/> class.
@@ -260,17 +264,27 @@ public sealed class GameTickLoop
 
     private async ValueTask BroadcastSnapshotsAsync(CancellationToken ct)
     {
-        var moved = _map.Players
+        var positions = _map.Players
             .Where(p => p.HasMovedThisTick)
             .Select(p => ((uint)p.Id, p.ContinuousPosition.X, p.ContinuousPosition.Y))
             .ToList();
 
-        if (moved.Count == 0)
+        // Include monsters whose tile position changed since the last broadcast.
+        foreach (var monster in _map.Monsters)
+        {
+            var pos = monster.Position;
+            if (!_lastNpcPositions.TryGetValue(monster.Id, out var last) || last != pos)
+            {
+                _lastNpcPositions[monster.Id] = pos;
+                var wp = Vector2F.FromTile(pos);
+                positions.Add(((uint)monster.Id, wp.X, wp.Y));
+            }
+        }
+
+        if (positions.Count == 0)
         {
             return;
         }
-
-        IReadOnlyList<(uint Id, float X, float Y)> positions = moved;
 
         foreach (var player in _map.Players)
         {

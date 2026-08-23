@@ -62,12 +62,46 @@ public static class TerrainExporter
     }
 
     /// <summary>
+    /// Exports the three splatmap layers from a terrain .map file.
+    /// Outputs mapping_layer1.png, mapping_layer2.png, mapping_alpha.png —
+    /// each a 256×256 grayscale PNG where R * 255 = tile texture array index.
+    /// </summary>
+    public static void ExportSplatmap(MapFile map, string outputDir)
+    {
+        const int Size = 256;
+
+        using var l1 = new Image<L8>(Size, Size);
+        using var l2 = new Image<L8>(Size, Size);
+        using var al = new Image<L8>(Size, Size);
+
+        l1.ProcessPixelRows(l2, al, (a1, a2, aA) =>
+        {
+            for (int y = 0; y < Size; y++)
+            {
+                var r1 = a1.GetRowSpan(y);
+                var r2 = a2.GetRowSpan(y);
+                var rA = aA.GetRowSpan(y);
+                for (int x = 0; x < Size; x++)
+                {
+                    r1[x] = new L8(map.Layer1[x, y]);
+                    r2[x] = new L8(map.Layer2[x, y]);
+                    rA[x] = new L8(map.Alpha[x, y]);
+                }
+            }
+        });
+
+        l1.SaveAsPng(Path.Combine(outputDir, "mapping_layer1.png"));
+        l2.SaveAsPng(Path.Combine(outputDir, "mapping_layer2.png"));
+        al.SaveAsPng(Path.Combine(outputDir, "mapping_alpha.png"));
+    }
+
+    /// <summary>
     /// Decodes an OZJ file (JPEG with optional prepended header) and saves as PNG.
     /// </summary>
     public static void ExportOzj(string ozjPath, string outputPath)
     {
         var jpeg = OzjFile.ExtractJpeg(ozjPath);
-        using var ms = new MemoryStream(jpeg.ToArray());
+        using var ms  = new MemoryStream(jpeg);
         using var img = Image.Load(ms);
         img.SaveAsPng(outputPath);
     }

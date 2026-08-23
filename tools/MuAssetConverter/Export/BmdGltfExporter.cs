@@ -46,7 +46,12 @@ public static class BmdGltfExporter
     public static void Export(BmdFile bmd, string outputPath, IReadOnlyDictionary<string, string>? textureIndex = null)
     {
         var (boneNodes, jointRemap) = BuildSkeleton(bmd);
-        var meshBld = BuildMesh(bmd, jointRemap, textureIndex);
+
+        // Determine up front whether a virtual root will be injected.
+        // If so, all joint indices in the mesh must be offset by +1 so that
+        // vertex joint=0 still refers to the first real bone, not the virtual root.
+        bool needsVirtualRoot = boneNodes.Count(n => n is not null && n.Parent is null) > 1;
+        var meshBld = BuildMesh(bmd, jointRemap, textureIndex, needsVirtualRoot ? 1 : 0);
         BuildAnimations(bmd, boneNodes, jointRemap);
 
         var scene = new SceneBuilder("default");
@@ -56,7 +61,7 @@ public static class BmdGltfExporter
         // so the joint array forms a valid tree.
         var roots = boneNodes.Where(n => n is not null && n.Parent is null).ToList();
         NodeBuilder? virtualRoot = null;
-        if (roots.Count > 1)
+        if (needsVirtualRoot)
         {
             virtualRoot = new NodeBuilder("_root");
             foreach (var r in roots)
@@ -202,7 +207,8 @@ public static class BmdGltfExporter
 
     private static MeshBld BuildMesh(
         BmdFile bmd, Dictionary<int, int> jointRemap,
-        IReadOnlyDictionary<string, string>? textureIndex)
+        IReadOnlyDictionary<string, string>? textureIndex,
+        int jointOffset = 0)
     {
         ComputeBoneWorldTransforms(bmd, out var boneWorldPos, out var boneWorldRot);
 
@@ -216,7 +222,11 @@ public static class BmdGltfExporter
 
             var mat = new MaterialBuilder(matName)
                 .WithDoubleSide(true)
-                .WithMetallicRoughnessShader();
+                .WithMetallicRoughnessShader()
+                // glTF 2.0 defaults metallicFactor=1, which makes objects appear black
+                // without IBL. MU assets are non-metallic painted surfaces.
+                .WithChannelParam(KnownChannel.MetallicRoughness, KnownProperty.MetallicFactor,  0f)
+                .WithChannelParam(KnownChannel.MetallicRoughness, KnownProperty.RoughnessFactor, 0.8f);
 
             if (textureIndex is not null)
             {
@@ -224,7 +234,12 @@ public static class BmdGltfExporter
                 if (texBytes is not null)
                 {
                     mat.UseChannel("BaseColor").UseTexture().PrimaryImage = new MemoryImage(texBytes);
-                    Console.WriteLine($"  tex[{mi}] OK   '{bmdMesh.TexturePath}'");
+                    // OZT/TGA sources export RGBA PNGs — foliage, wings, and sprites
+                    // use the alpha channel as a cutout mask. Without MASK mode, Godot
+                    // renders the transparent areas as black.
+                    if (PngIsRgba(texBytes))
+                        mat.WithAlpha(AlphaMode.MASK, 0.5f);
+                    Console.WriteLine($"  tex[{mi}] OK   '{bmdMesh.TexturePath}'{(PngIsRgba(texBytes) ? " [alpha-mask]" : "")}");
                 }
                 else
                 {
@@ -240,7 +255,7 @@ public static class BmdGltfExporter
                 bool ok = true;
                 for (int c = 0; c < tri.Polygon; c++)
                 {
-                    if (!TryMakeVertex(bmdMesh, tri, c, jointRemap, boneWorldPos, boneWorldRot, out var gv))
+                    if (!TryMakeVertex(bmdMesh, tri, c, jointRemap, boneWorldPos, boneWorldRot, jointOffset, out var gv))
                     { ok = false; break; }
                     v[c] = gv;
                 }
@@ -259,6 +274,7 @@ public static class BmdGltfExporter
         BmdMesh bmdMesh, BmdTriangle tri, int corner,
         Dictionary<int, int> jointRemap,
         Vector3[] boneWorldPos, Quaternion[] boneWorldRot,
+        int jointOffset,
         out GVB vertex)
     {
         vertex = default;
@@ -293,7 +309,7 @@ public static class BmdGltfExporter
 
         var pos    = YUp(modelPos);
         var normal = YUp(Vector3.Normalize(modelNrm));
-        int joint  = jointRemap.TryGetValue(boneIdx, out int ji) ? ji : 0;
+        int joint  = (jointRemap.TryGetValue(boneIdx, out int ji) ? ji : 0) + jointOffset;
 
         vertex = new GVB(
             new VertexPositionNormal(pos, normal),
@@ -345,7 +361,8 @@ public static class BmdGltfExporter
     // -------------------------------------------------------------------------
 
     // Scans <dataRoot> recursively and builds a stem→path map.
-    // OZJ beats OZT beats raw formats; first OZJ for a stem wins.
+    // OZT > OZJ > raw formats: OZT (TGA) is preferred because it preserves the
+    // alpha channel needed for foliage cutouts (JPEG has no alpha support).
     public static Dictionary<string, string> BuildTextureIndex(string dataRoot)
     {
         var index = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -362,16 +379,25 @@ public static class BmdGltfExporter
             }
             else
             {
-                // Prefer OZJ > OZT > everything else.
+                // Prefer OZT > OZJ > everything else.
+                // OZT is TGA-based (lossless, supports RGBA alpha) while OZJ is JPEG
+                // (lossy, no alpha). Foliage textures like tree_01, tree_02, grass_01
+                // have their alpha mask only in the OZT variant.
                 var cur = Path.GetExtension(existing).ToLowerInvariant();
-                if (ext == ".ozj" && cur != ".ozj")
+                if (ext == ".ozt" && cur != ".ozt")
                     index[stem] = file;
-                else if (ext == ".ozt" && cur is not ".ozj" and not ".ozt")
+                else if (ext == ".ozj" && cur is not ".ozt" and not ".ozj")
                     index[stem] = file;
             }
         }
         return index;
     }
+
+    // PNG IHDR color type 6 = RGBA. Offset 25 = sig(8) + chunk_len(4) + "IHDR"(4) + w(4) + h(4) + bit_depth(1).
+    private static bool PngIsRgba(byte[] png) =>
+        png.Length > 25 &&
+        png[1] == 0x50 && png[2] == 0x4E && png[3] == 0x47 && // "PNG"
+        png[25] == 6;
 
     // Returns decoded bytes or null if not found in the index.
     private static byte[]? TryLoadTexture(
@@ -407,34 +433,11 @@ public static class BmdGltfExporter
     private static byte[] OzjToPng(string ozjPath)
     {
         var jpeg = OzjFile.ExtractJpeg(ozjPath);
-        // OZJ files embed one or two thumbnail JPEGs inside APP1/APP13 before the
-        // main image.  The APP1 segment has a malformed declared length (too short),
-        // so after ImageSharp processes it the next bytes are raw scan data — not a
-        // valid marker — and it throws a NullReferenceException.
-        // Fix: locate the last DQT marker (0xFF 0xDB), which belongs to the main
-        // high-res image and comes after all thumbnail segments, then build a minimal
-        // SOI + DQT→EOI JPEG for ImageSharp.
-        var mainJpeg = ExtractMainJpeg(jpeg.Span);
-        using var ms    = new MemoryStream(mainJpeg);
+        using var ms    = new MemoryStream(jpeg);
         using var img   = Image.Load(ms);
         using var outMs = new MemoryStream();
         img.SaveAsPng(outMs);
         return outMs.ToArray();
-    }
-
-    private static byte[] ExtractMainJpeg(ReadOnlySpan<byte> jpeg)
-    {
-        int lastDqt = -1;
-        for (int i = 0; i < jpeg.Length - 1; i++)
-            if (jpeg[i] == 0xFF && jpeg[i + 1] == 0xDB)
-                lastDqt = i;
-
-        if (lastDqt < 0) return jpeg.ToArray();
-
-        var result = new byte[2 + jpeg.Length - lastDqt];
-        result[0] = 0xFF; result[1] = 0xD8; // SOI
-        jpeg[lastDqt..].CopyTo(result.AsSpan(2));
-        return result;
     }
 
     private static byte[] OztToPng(string oztPath)

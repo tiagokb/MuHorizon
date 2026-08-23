@@ -46,7 +46,7 @@ public class Storage : IStorage
 
         var lastSlot = numberOfSlots + slotOffset - 1;
         List<Item>? unfittingItems = null;
-        this.ItemStorage.Items
+        this.ItemStorage.Items.ToList()
             .Where(item => item.ItemSlot <= lastSlot && item.ItemSlot >= slotOffset)
             .Where(item => item.Definition is not null)
             .ForEach(item =>

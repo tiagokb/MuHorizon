@@ -121,9 +121,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "eWxvYWQqnQEKD0xvZ2luUmVzdWx0Q29kZRILCgdVTktOT1dOEAASBgoCT0sQ",
             "ARIUChBJTlZBTElEX1BBU1NXT1JEEAISEwoPQUNDT1VOVF9CTE9DS0VEEAMS",
             "HQoZQUNDT1VOVF9BTFJFQURZX0NPTk5FQ1RFRBAEEhQKEENPTk5FQ1RJT05f",
-            "RVJST1IQBRIVChFURU1QT1JBUllfQkxPQ0tFRBAGKiEKCkVudGl0eVR5cGUS",
-            "CgoGUExBWUVSEAASBwoDTlBDEAFCIqoCH01VbmlxdWUuT3Blbk1VLk5ldHdv",
-            "cmsuUHJvdG9idWZiBnByb3RvMw=="));
+            "RVJST1IQBRIVChFURU1QT1JBUllfQkxPQ0tFRBAGKi4KCkVudGl0eVR5cGUS",
+            "CgoGUExBWUVSEAASBwoDTlBDEAESCwoHTU9OU1RFUhACQiKqAh9NVW5pcXVl",
+            "Lk9wZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -180,6 +180,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
   public enum EntityType {
     [pbr::OriginalName("PLAYER")] Player = 0,
     [pbr::OriginalName("NPC")] Npc = 1,
+    [pbr::OriginalName("MONSTER")] Monster = 2,
   }
 
   #endregion

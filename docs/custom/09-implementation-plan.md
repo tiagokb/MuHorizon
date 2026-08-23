@@ -557,6 +557,42 @@ Escopo intencionalmente estreitado: remover o código de protocolo de rede legad
 
 ---
 
+## Futuras implementações
+
+Funcionalidades planejadas fora do escopo das Fases 0–7, a serem priorizadas quando chegarem.
+
+---
+
+### Pipeline inverso: Blender → BMD (asset creation tool)
+
+**Objetivo:** permitir criar novos assets (personagens, armas, decorações) no Blender e exportar direto para o formato do client MU Online, tanto para uso no MuHorizon quanto para venda a servidores privados.
+
+**Pipeline alvo:**
+```
+Blender → export GLB → muconv --glb-to-bmd → BMD + OZT → pasta do client
+```
+
+#### Tarefas
+
+| # | Tarefa | Arquivo | Notas |
+|---|---|---|---|
+| I.1 | **`OztEncoder`** — PNG/TGA → OZT | `tools/MuAssetConverter/Formats/OztEncoder.cs` | Header WebZen de 4 bytes + TGA BGRA 32-bit. Trivial (~1 dia). |
+| I.2 | **`OzjEncoder`** — PNG → OZJ (opcional) | `tools/MuAssetConverter/Formats/OzjEncoder.cs` | Maioria dos clients privados aceita `.jpg` puro com header mínimo; implementar se necessário. |
+| I.3 | **`BmdWriter`** — serializa `BmdFile` para binário | `tools/MuAssetConverter/Formats/BmdWriter.cs` | Inverso exato do `BmdFile` parser existente. Formato 100% conhecido. ~2-3 dias. |
+| I.4 | **`GltfBmdImporter`** — GLB → `BmdFile` | `tools/MuAssetConverter/Import/GltfBmdImporter.cs` | Lê mesh + skeleton + animações do GLB via SharpGLTF; converte vértices de model space para bone-local space (inverso de `ComputeBoneWorldTransforms`). Parte mais delicada: mapeamento de quaternion/euler entre Blender e BMD. ~3-5 dias. |
+| I.5 | **Comando `--glb-to-bmd`** no muconv | `tools/MuAssetConverter/Program.cs` | `muconv --glb-to-bmd <input.glb> <output.bmd> [--texture-dir <dir>]` |
+| I.6 | **Documentação de convenções** para artistas | `docs/custom/10-asset-pipeline.md` | Bone naming, coordinate system, UV layout, texture naming, animation naming (`Idle`, `Walk`, `Attack1`…). |
+
+#### Riscos
+
+| Risco | Mitigação |
+|---|---|
+| Bone space math nas animações — keyframes Blender em pose space vs BMD em bone-local space | Testar com o próprio Tree01.bmd como ground truth: exportar → reimportar → comparar |
+| Character multi-part (SM body/helm/weapon) tem attachment points via bone sockets | Mapear sockets do original antes de criar novo part; documentar em I.6 |
+| Clients privados mais velhos podem rejeitar BMDs com certas flags | Usar o `BmdFile` parser para ler um BMD original e replicar as flags exatas |
+
+---
+
 ## Decisões em aberto
 
 Pontos que ainda precisam de decisão antes ou durante a implementação.

@@ -51,7 +51,7 @@ internal sealed class ProtobufNewNpcsInScopePlugIn : INewNpcsInScopePlugIn
             ClassNumber   = (uint)(npc.Definition?.Number ?? 0),
             Name          = npc.Definition?.Designation ?? string.Empty,
             Level         = level,
-            EntityType    = EntityType.Npc,
+            EntityType    = npc is Monster ? EntityType.Monster : EntityType.Npc,
             MaxHealth     = maxHp,
             CurrentHealth = curHp,
         };

@@ -99,8 +99,9 @@ message S2CSnapshot {
 // ── Phase 2: World / AoI ──────────────────────────────────────────────────────
 
 enum EntityType {
-    PLAYER = 0;
-    NPC    = 1;
+    PLAYER  = 0;
+    NPC     = 1;
+    MONSTER = 2;
 }
 
 message EntityState {

@@ -1230,6 +1230,15 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         await this.InvokeViewPlugInAsync<Views.World.IEnteredWorldPlugIn>(p => p.EnteredWorldAsync()).ConfigureAwait(false);
         await this.CurrentMap!.AddAsync(this).ConfigureAwait(false);
 
+        // InfoRange covers only nearby buckets; send all active NPCs once on entry so
+        // the full visible area matches the client's camera viewport.
+        var allNpcs = this.CurrentMap!.GetNpcsInRange(this.Position, 255).WhereActive().ToList();
+        if (allNpcs.Count > 0)
+        {
+            await this.InvokeViewPlugInAsync<Views.World.INewNpcsInScopePlugIn>(
+                p => p.NewNpcsInScopeAsync(allNpcs, isSpawned: false)).ConfigureAwait(false);
+        }
+
         if (!this.CurrentMap.Terrain.WalkMap[this.SelectedCharacter.PositionX, this.SelectedCharacter.PositionY])
         {
             await this.WarpToSafezoneAsync().ConfigureAwait(false);
