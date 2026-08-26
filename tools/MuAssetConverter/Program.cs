@@ -28,7 +28,11 @@ if (args.Length >= 3 && args[0] == "--bmd")
     Console.WriteLine($"{texIndex.Count} found.");
 
     var bmd = BmdFile.Load(bmdFull);
+    bool isPlayer = Path.GetFileNameWithoutExtension(bmdFull).Equals("player", StringComparison.OrdinalIgnoreCase);
     BmdGltfExporter.Export(bmd, args[2], texIndex);
+    var manifest = BmdGltfExporter.BuildManifest(bmd, Path.GetFileName(bmdFull),
+        labels: isPlayer ? ModelManifest.PlayerActionLabels : null);
+    manifest.WriteTo(Path.ChangeExtension(args[2], ".manifest.json"));
     Console.WriteLine($"Exported: {args[2]}  (meshes={bmd.Meshes.Length} bones={bmd.Bones.Length} actions={bmd.Actions.Length})");
     return 0;
 }
@@ -61,7 +65,11 @@ if (args.Length >= 3 && args[0] == "--bmd-dir")
         try
         {
             var bmd = BmdFile.Load(bmdPath);
+            bool isPlayer = stem.Equals("player", StringComparison.OrdinalIgnoreCase);
             BmdGltfExporter.Export(bmd, outGlb, texIndex);
+            var manifest = BmdGltfExporter.BuildManifest(bmd, stem + ".bmd",
+                labels: isPlayer ? ModelManifest.PlayerActionLabels : null);
+            manifest.WriteTo(Path.ChangeExtension(outGlb, ".manifest.json"));
             ok++;
         }
         catch (Exception ex)
@@ -71,6 +79,123 @@ if (args.Length >= 3 && args[0] == "--bmd-dir")
         }
     }
     Console.WriteLine($"Done. {ok} exported, {fail} failed.");
+    return fail > 0 ? 1 : 0;
+}
+
+// --bake-player <player-bmd-dir> <output-dir> [--data-dir <dir>]
+//   Generates composed player GLBs by combining player.bmd (skeleton + animations) with
+//   the default outfit parts for each class group.
+//   Output:
+//     player_class.glb  — Dark Wizard (HelmClass01 + ArmorClass01 + PantClass01 + GloveClass01 + BootClass01)
+//     player_male.glb   — Dark Knight (HelmMale01  + ArmorMale01  + PantMale01  + GloveMale01  + BootMale01)
+//     player_elf.glb    — Elf         (HelmElf01   + ArmorElf01   + PantElf01   + GloveElf01   + BootElf01)
+//     player_monk.glb   — Rage Fighter (HelmMonk01 + ArmorMonk01 + PantMonk01  + BootMonk01; missing parts skipped)
+if (args.Length >= 3 && args[0] == "--bake-player")
+{
+    string playerDir = Path.GetFullPath(args[1]);
+    string outDir    = Path.GetFullPath(args[2]);
+    string dataRoot  = Path.GetDirectoryName(playerDir) ?? playerDir;
+    for (int i = 3; i < args.Length - 1; i++)
+        if (args[i] is "--data-dir") dataRoot = args[i + 1];
+
+    Directory.CreateDirectory(outDir);
+
+    Console.Write($"Indexing textures from '{dataRoot}'... ");
+    var texIndex = BmdGltfExporter.BuildTextureIndex(dataRoot);
+    Console.WriteLine($"{texIndex.Count} found.");
+
+    var skeletonPath = Path.Combine(playerDir, "player.bmd");
+    if (!File.Exists(skeletonPath))
+    {
+        Console.Error.WriteLine($"ERROR: skeleton not found at '{skeletonPath}'");
+        return 1;
+    }
+    var skeleton = BmdFile.Load(skeletonPath);
+    Console.WriteLine($"Skeleton: player.bmd  (bones={skeleton.Bones.Length} actions={skeleton.Actions.Length})");
+
+    static BmdFile? TryLoadPart(string dir, string name)
+    {
+        var path = Path.Combine(dir, name + ".bmd");
+        if (!File.Exists(path)) { Console.WriteLine($"  [SKIP] {name}.bmd not found"); return null; }
+        return BmdFile.Load(path);
+    }
+
+    static int BakeOutfit(BmdFile skeleton, (string Name, BmdFile? File)[] parts, string outPath,
+        string group, IReadOnlyDictionary<string, string> texIndex)
+    {
+        var valid      = parts.Where(p => p.File is not null).ToList();
+        int totalMeshes = valid.Sum(p => p.File!.Meshes.Length);
+        Console.WriteLine($"  Parts: {valid.Count}/5  Meshes: {totalMeshes}");
+        BmdGltfExporter.ExportCharacterBake(skeleton, valid.Select(p => p.File!), outPath, texIndex);
+        var partNames = valid.Select(p => p.Name).ToArray();
+        var manifest = BmdGltfExporter.BuildManifest(skeleton, "player.bmd", type: "bake", group: group,
+            parts: partNames, labels: ModelManifest.PlayerActionLabels);
+        manifest.WriteTo(Path.ChangeExtension(outPath, ".manifest.json"));
+        Console.WriteLine($"  -> {Path.GetFileName(outPath)}");
+        return 0;
+    }
+
+    int fail = 0;
+
+    // Dark Wizard
+    Console.WriteLine("\n[player_class] Dark Wizard default outfit:");
+    try
+    {
+        BakeOutfit(skeleton, [
+            ("HelmClass01",  TryLoadPart(playerDir, "HelmClass01")),
+            ("ArmorClass01", TryLoadPart(playerDir, "ArmorClass01")),
+            ("PantClass01",  TryLoadPart(playerDir, "PantClass01")),
+            ("GloveClass01", TryLoadPart(playerDir, "GloveClass01")),
+            ("BootClass01",  TryLoadPart(playerDir, "BootClass01")),
+        ], Path.Combine(outDir, "player_class.glb"), "class", texIndex);
+    }
+    catch (Exception ex) { Console.Error.WriteLine($"  FAIL: {ex.Message}"); fail++; }
+
+    // Dark Knight
+    Console.WriteLine("\n[player_male] Dark Knight default outfit:");
+    try
+    {
+        BakeOutfit(skeleton, [
+            ("HelmMale01",  TryLoadPart(playerDir, "HelmMale01")),
+            ("ArmorMale01", TryLoadPart(playerDir, "ArmorMale01")),
+            ("PantMale01",  TryLoadPart(playerDir, "PantMale01")),
+            ("GloveMale01", TryLoadPart(playerDir, "GloveMale01")),
+            ("BootMale01",  TryLoadPart(playerDir, "BootMale01")),
+        ], Path.Combine(outDir, "player_male.glb"), "male", texIndex);
+    }
+    catch (Exception ex) { Console.Error.WriteLine($"  FAIL: {ex.Message}"); fail++; }
+
+    // Elf
+    Console.WriteLine("\n[player_elf] Elf default outfit:");
+    try
+    {
+        BakeOutfit(skeleton, [
+            ("HelmElf01",  TryLoadPart(playerDir, "HelmElf01")),
+            ("ArmorElf01", TryLoadPart(playerDir, "ArmorElf01")),
+            ("PantElf01",  TryLoadPart(playerDir, "PantElf01")),
+            ("GloveElf01", TryLoadPart(playerDir, "GloveElf01")),
+            ("BootElf01",  TryLoadPart(playerDir, "BootElf01")),
+        ], Path.Combine(outDir, "player_elf.glb"), "elf", texIndex);
+    }
+    catch (Exception ex) { Console.Error.WriteLine($"  FAIL: {ex.Message}"); fail++; }
+
+    // Rage Fighter (GloveMonk doesn't exist — falls back to GloveMale01)
+    Console.WriteLine("\n[player_monk] Rage Fighter default outfit:");
+    try
+    {
+        var gloveMonk = TryLoadPart(playerDir, "GloveMonk01");
+        BakeOutfit(skeleton, [
+            ("HelmMonk01",  TryLoadPart(playerDir, "HelmMonk01")),
+            ("ArmorMonk01", TryLoadPart(playerDir, "ArmorMonk01")),
+            ("PantMonk01",  TryLoadPart(playerDir, "PantMonk01")),
+            (gloveMonk is not null ? "GloveMonk01" : "GloveMale01",
+             gloveMonk ?? TryLoadPart(playerDir, "GloveMale01")),
+            ("BootMonk01",  TryLoadPart(playerDir, "BootMonk01")),
+        ], Path.Combine(outDir, "player_monk.glb"), "monk", texIndex);
+    }
+    catch (Exception ex) { Console.Error.WriteLine($"  FAIL: {ex.Message}"); fail++; }
+
+    Console.WriteLine($"\nDone. {4 - fail} GLB(s) exported, {fail} failed.");
     return fail > 0 ? 1 : 0;
 }
 

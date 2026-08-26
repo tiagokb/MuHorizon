@@ -51,46 +51,86 @@ public static class BmdGltfExporter
         // If so, all joint indices in the mesh must be offset by +1 so that
         // vertex joint=0 still refers to the first real bone, not the virtual root.
         bool needsVirtualRoot = boneNodes.Count(n => n is not null && n.Parent is null) > 1;
-        var meshBld = BuildMesh(bmd, jointRemap, textureIndex, needsVirtualRoot ? 1 : 0);
+        ComputeBoneWorldTransforms(bmd, out var boneWorldPos, out var boneWorldRot);
+        var meshBld = BuildMesh(bmd.Name, bmd.Meshes, boneWorldPos, boneWorldRot, jointRemap, textureIndex, needsVirtualRoot ? 1 : 0);
         BuildAnimations(bmd, boneNodes, jointRemap);
 
         var scene = new SceneBuilder("default");
-
-        // SharpGLTF requires all skin joints to share a single root node.
-        // If the BMD has multiple root bones, attach them under a virtual root
-        // so the joint array forms a valid tree.
-        var roots = boneNodes.Where(n => n is not null && n.Parent is null).ToList();
-        NodeBuilder? virtualRoot = null;
-        if (needsVirtualRoot)
-        {
-            virtualRoot = new NodeBuilder("_root");
-            foreach (var r in roots)
-                virtualRoot.AddNode(r!);
-            scene.AddNode(virtualRoot);
-        }
-        else
-        {
-            foreach (var r in roots)
-                scene.AddNode(r!);
-        }
-
-        var joints = new NodeBuilder[jointRemap.Count];
-        foreach (var (bmdIdx, gltfIdx) in jointRemap)
-            joints[gltfIdx] = boneNodes[bmdIdx]!;
-
-        // When a virtual root was injected, include it as joint[0] and shift others.
-        if (virtualRoot is not null)
-        {
-            var expanded = new NodeBuilder[joints.Length + 1];
-            expanded[0] = virtualRoot;
-            Array.Copy(joints, 0, expanded, 1, joints.Length);
-            joints = expanded;
-        }
-
+        var joints = AssembleScene(scene, boneNodes, jointRemap);
         scene.AddSkinnedMesh(meshBld, Matrix4x4.Identity, joints);
 
         var model = scene.ToGltf2();
         model.SaveGLB(outputPath);
+    }
+
+    /// <summary>
+    /// Exports a composed character GLB: skeleton + animations from <paramref name="skeleton"/>
+    /// (player.bmd), with visible meshes from each equipment <paramref name="parts"/> BMD.
+    /// All parts share the same skeleton — vertex bone indices in equipment BMDs reference
+    /// player.bmd's bone array directly (matching how the original engine calls
+    /// <c>b->Transform(o->BoneTransform, ...)</c> with the character's bone transforms).
+    /// </summary>
+    public static void ExportCharacterBake(
+        BmdFile skeleton,
+        IEnumerable<BmdFile> parts,
+        string outputPath,
+        IReadOnlyDictionary<string, string>? textureIndex = null)
+    {
+        var (boneNodes, jointRemap) = BuildSkeleton(skeleton);
+        bool needsVirtualRoot = boneNodes.Count(n => n is not null && n.Parent is null) > 1;
+        int jointOffset = needsVirtualRoot ? 1 : 0;
+
+        ComputeBoneWorldTransforms(skeleton, out var boneWorldPos, out var boneWorldRot);
+        BuildAnimations(skeleton, boneNodes, jointRemap);
+
+        // Merge all equipment meshes into one MeshBuilder under the shared skeleton.
+        var meshBld = new MeshBld("character");
+        foreach (var part in parts)
+            AddMeshPrimitives(meshBld, part.Meshes, boneWorldPos, boneWorldRot, jointRemap, textureIndex, jointOffset);
+
+        var scene = new SceneBuilder("default");
+        var joints = AssembleScene(scene, boneNodes, jointRemap);
+        scene.AddSkinnedMesh(meshBld, Matrix4x4.Identity, joints);
+
+        var model = scene.ToGltf2();
+        model.SaveGLB(outputPath);
+    }
+
+    // -------------------------------------------------------------------------
+    //  Manifest
+    // -------------------------------------------------------------------------
+
+    /// <summary>
+    /// Builds a <see cref="ModelManifest"/> describing the animations and bones
+    /// in <paramref name="bmd"/>. Only animations that are actually exported to
+    /// the GLB (NumKeys &gt; 1) are included.
+    /// </summary>
+    public static ModelManifest BuildManifest(
+        BmdFile bmd,
+        string sourceName,
+        string type = "single",
+        string? group = null,
+        string[]? parts = null,
+        IReadOnlyDictionary<int, string>? labels = null)
+    {
+        var entries = new List<AnimEntry>();
+        for (int a = 0; a < bmd.Actions.Length; a++)
+        {
+            if (bmd.Actions[a].NumKeys <= 1) continue;
+            string? label = null;
+            labels?.TryGetValue(a, out label);
+            entries.Add(new AnimEntry(a, $"action_{a}", bmd.Actions[a].NumKeys, label));
+        }
+        return new ModelManifest
+        {
+            Source         = sourceName,
+            Type           = type,
+            Group          = group,
+            BoneCount      = bmd.Bones.Count(b => !b.IsDummy),
+            AnimationCount = entries.Count,
+            Parts          = parts,
+            Animations     = [.. entries],
+        };
     }
 
     /// <summary>Dumps raw BMD data to stdout for debugging.</summary>
@@ -202,22 +242,73 @@ public static class BmdGltfExporter
     }
 
     // -------------------------------------------------------------------------
+    //  Scene assembly (shared between Export and ExportCharacterBake)
+    // -------------------------------------------------------------------------
+
+    private static NodeBuilder[] AssembleScene(
+        SceneBuilder scene, NodeBuilder?[] boneNodes, Dictionary<int, int> jointRemap)
+    {
+        var roots = boneNodes.Where(n => n is not null && n.Parent is null).ToList();
+        bool needsVirtualRoot = roots.Count > 1;
+
+        NodeBuilder? virtualRoot = null;
+        if (needsVirtualRoot)
+        {
+            virtualRoot = new NodeBuilder("_root");
+            foreach (var r in roots) virtualRoot.AddNode(r!);
+            scene.AddNode(virtualRoot);
+        }
+        else
+        {
+            foreach (var r in roots) scene.AddNode(r!);
+        }
+
+        var joints = new NodeBuilder[jointRemap.Count];
+        foreach (var (bmdIdx, gltfIdx) in jointRemap)
+            joints[gltfIdx] = boneNodes[bmdIdx]!;
+
+        if (virtualRoot is not null)
+        {
+            var expanded = new NodeBuilder[joints.Length + 1];
+            expanded[0] = virtualRoot;
+            Array.Copy(joints, 0, expanded, 1, joints.Length);
+            joints = expanded;
+        }
+
+        return joints;
+    }
+
+    // -------------------------------------------------------------------------
     //  Mesh
     // -------------------------------------------------------------------------
 
     private static MeshBld BuildMesh(
-        BmdFile bmd, Dictionary<int, int> jointRemap,
+        string name,
+        BmdMesh[] meshes,
+        Vector3[] boneWorldPos,
+        Quaternion[] boneWorldRot,
+        Dictionary<int, int> jointRemap,
         IReadOnlyDictionary<string, string>? textureIndex,
         int jointOffset = 0)
     {
-        ComputeBoneWorldTransforms(bmd, out var boneWorldPos, out var boneWorldRot);
-
-        string meshName = bmd.Name.Length > 0 ? bmd.Name : "mesh";
+        string meshName = name.Length > 0 ? name : "mesh";
         var meshBld = new MeshBld(meshName);
+        AddMeshPrimitives(meshBld, meshes, boneWorldPos, boneWorldRot, jointRemap, textureIndex, jointOffset);
+        return meshBld;
+    }
 
-        for (int mi = 0; mi < bmd.Meshes.Length; mi++)
+    private static void AddMeshPrimitives(
+        MeshBld meshBld,
+        BmdMesh[] meshes,
+        Vector3[] boneWorldPos,
+        Quaternion[] boneWorldRot,
+        Dictionary<int, int> jointRemap,
+        IReadOnlyDictionary<string, string>? textureIndex,
+        int jointOffset)
+    {
+        for (int mi = 0; mi < meshes.Length; mi++)
         {
-            var bmdMesh = bmd.Meshes[mi];
+            var bmdMesh = meshes[mi];
             var matName = Path.GetFileNameWithoutExtension(bmdMesh.TexturePath);
 
             var mat = new MaterialBuilder(matName)
@@ -266,8 +357,6 @@ public static class BmdGltfExporter
                     prim.AddTriangle(v[0]!.Value, v[2]!.Value, v[3]!.Value);
             }
         }
-
-        return meshBld;
     }
 
     private static bool TryMakeVertex(
