@@ -39,6 +39,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufNewNpcsInScopePlugIn(player),
             new ProtobufObjectsOutOfScopePlugIn(player),
             new ProtobufSnapshotPlugIn(player),
+            new ProtobufShowAnimationPlugIn(player),
             new ProtobufShowSkillAnimationPlugIn(player),
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),

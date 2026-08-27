@@ -79,7 +79,7 @@ public class HitAction
             return;
         }
 
-        await player.ForEachWorldObserverAsync<IShowAnimationPlugIn>(p => p.ShowAnimationAsync(player, attackAnimation, target, lookingDirection), false).ConfigureAwait(false);
+        await player.ForEachWorldObserverAsync<IShowAnimationPlugIn>(p => p.ShowAnimationAsync(player, attackAnimation, target, lookingDirection), true).ConfigureAwait(false);
     }
 
     private async ValueTask<(Skill Skill, bool EffectApplied)?> ApplySkinnedMonstersSkillAsync(Player player, IAttackable target, short skin)

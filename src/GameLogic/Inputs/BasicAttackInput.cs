@@ -46,6 +46,9 @@ public sealed class BasicAttackInput : IPlayerInput
             return;
         }
 
+        await player.ForEachWorldObserverAsync<IShowAnimationPlugIn>(
+            p => p.ShowAnimationAsync(player, 0, target, player.Rotation), true).ConfigureAwait(false);
+
         var hitInfo = await target.AttackByAsync(player, null, false).ConfigureAwait(false);
         if (hitInfo is null)
         {
