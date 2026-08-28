@@ -6,6 +6,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf;
 
 using MUnique.OpenMU.GameLogic.Views;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Auth;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Character;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Characters;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Skills;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Items;
@@ -53,6 +54,10 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufProjectileSpawnedPlugIn(player),
             new ProtobufProjectileHitPlugIn(player),
             new ProtobufProjectileExpiredPlugIn(player),
+            new ProtobufUpdateCharacterStatePlugIn(player),
+            new ProtobufUpdateVitalsPlugIn(player),
+            new ProtobufAddExperiencePlugIn(player),
+            new ProtobufLevelUpPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

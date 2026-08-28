@@ -76,54 +76,76 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "BCABKAISEAoIb3JpZ2luX3kYBSABKAISEgoKdmVsb2NpdHlfeBgGIAEoAhIS",
             "Cgp2ZWxvY2l0eV95GAcgASgCIjwKEFMyQ1Byb2plY3RpbGVIaXQSFQoNcHJv",
             "amVjdGlsZV9pZBgBIAEoDRIRCgl0YXJnZXRfaWQYAiABKA0iLQoUUzJDUHJv",
-            "amVjdGlsZUV4cGlyZWQSFQoNcHJvamVjdGlsZV9pZBgBIAEoDSKyBAoOQ2xp",
-            "ZW50RW52ZWxvcGUSNAoMcGluZ19yZXF1ZXN0GAEgASgLMhwub3Blbm11LnBy",
-            "b3RvY29sLlBpbmdSZXF1ZXN0SAASOQoNbG9naW5fcmVxdWVzdBgCIAEoCzIg",
-            "Lm9wZW5tdS5wcm90b2NvbC5DMlNMb2dpblJlcXVlc3RIABJKChZjaGFyYWN0",
-            "ZXJfbGlzdF9yZXF1ZXN0GAMgASgLMigub3Blbm11LnByb3RvY29sLkMyU0No",
-            "YXJhY3Rlckxpc3RSZXF1ZXN0SAASPwoQY3JlYXRlX2NoYXJhY3RlchgEIAEo",
-            "CzIjLm9wZW5tdS5wcm90b2NvbC5DMlNDcmVhdGVDaGFyYWN0ZXJIABI/ChBz",
-            "ZWxlY3RfY2hhcmFjdGVyGAUgASgLMiMub3Blbm11LnByb3RvY29sLkMyU1Nl",
-            "bGVjdENoYXJhY3RlckgAEj8KEGRlbGV0ZV9jaGFyYWN0ZXIYBiABKAsyIy5v",
-            "cGVubXUucHJvdG9jb2wuQzJTRGVsZXRlQ2hhcmFjdGVySAASKAoEbW92ZRgH",
-            "IAEoCzIYLm9wZW5tdS5wcm90b2NvbC5DMlNNb3ZlSAASMwoKY2FzdF9za2ls",
-            "bBgIIAEoCzIdLm9wZW5tdS5wcm90b2NvbC5DMlNDYXN0U2tpbGxIABI2Cgxw",
-            "aWNrX3VwX2l0ZW0YCSABKAsyHi5vcGVubXUucHJvdG9jb2wuQzJTUGlja1Vw",
-            "SXRlbUgAQgkKB3BheWxvYWQiigoKDlNlcnZlckVudmVsb3BlEjYKDXBpbmdf",
-            "cmVzcG9uc2UYASABKAsyHS5vcGVubXUucHJvdG9jb2wuUGluZ1Jlc3BvbnNl",
-            "SAASNwoMbG9naW5fcmVzdWx0GAIgASgLMh8ub3Blbm11LnByb3RvY29sLlMy",
-            "Q0xvZ2luUmVzdWx0SAASOwoOY2hhcmFjdGVyX2xpc3QYAyABKAsyIS5vcGVu",
-            "bXUucHJvdG9jb2wuUzJDQ2hhcmFjdGVyTGlzdEgAEkwKF2NyZWF0ZV9jaGFy",
-            "YWN0ZXJfcmVzdWx0GAQgASgLMikub3Blbm11LnByb3RvY29sLlMyQ0NyZWF0",
-            "ZUNoYXJhY3RlclJlc3VsdEgAEkwKF3NlbGVjdF9jaGFyYWN0ZXJfcmVzdWx0",
-            "GAUgASgLMikub3Blbm11LnByb3RvY29sLlMyQ1NlbGVjdENoYXJhY3RlclJl",
-            "c3VsdEgAEkwKF2RlbGV0ZV9jaGFyYWN0ZXJfcmVzdWx0GAYgASgLMikub3Bl",
-            "bm11LnByb3RvY29sLlMyQ0RlbGV0ZUNoYXJhY3RlclJlc3VsdEgAEjkKDWVu",
-            "dGVyZWRfd29ybGQYByABKAsyIC5vcGVubXUucHJvdG9jb2wuUzJDRW50ZXJl",
-            "ZFdvcmxkSAASQAoRZW50aXRpZXNfaW5fc2NvcGUYCCABKAsyIy5vcGVubXUu",
-            "cHJvdG9jb2wuUzJDRW50aXRpZXNJblNjb3BlSAASRwoVZW50aXRpZXNfb3V0",
-            "X29mX3Njb3BlGAkgASgLMiYub3Blbm11LnByb3RvY29sLlMyQ0VudGl0aWVz",
-            "T3V0T2ZTY29wZUgAEjAKCHNuYXBzaG90GAogASgLMhwub3Blbm11LnByb3Rv",
-            "Y29sLlMyQ1NuYXBzaG90SAASPQoPc2tpbGxfYW5pbWF0aW9uGAsgASgLMiIu",
-            "b3Blbm11LnByb3RvY29sLlMyQ1NraWxsQW5pbWF0aW9uSAASOQoNZGFtYWdl",
-            "X3Jlc3VsdBgMIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNEYW1hZ2VSZXN1",
-            "bHRIABI3CgxidWZmX2FwcGxpZWQYDSABKAsyHy5vcGVubXUucHJvdG9jb2wu",
-            "UzJDQnVmZkFwcGxpZWRIABI3CgxidWZmX2V4cGlyZWQYDiABKAsyHy5vcGVu",
-            "bXUucHJvdG9jb2wuUzJDQnVmZkV4cGlyZWRIABI1CgtlbnRpdHlfZGllZBgP",
-            "IAEoCzIeLm9wZW5tdS5wcm90b2NvbC5TMkNFbnRpdHlEaWVkSAASNwoMaXRl",
-            "bV9kcm9wcGVkGBAgASgLMh8ub3Blbm11LnByb3RvY29sLlMyQ0l0ZW1Ecm9w",
-            "cGVkSAASOgoOcGlja191cF9yZXN1bHQYESABKAsyIC5vcGVubXUucHJvdG9j",
-            "b2wuUzJDUGlja1VwUmVzdWx0SAASQwoScHJvamVjdGlsZV9zcGF3bmVkGBIg",
-            "ASgLMiUub3Blbm11LnByb3RvY29sLlMyQ1Byb2plY3RpbGVTcGF3bmVkSAAS",
-            "OwoOcHJvamVjdGlsZV9oaXQYEyABKAsyIS5vcGVubXUucHJvdG9jb2wuUzJD",
-            "UHJvamVjdGlsZUhpdEgAEkMKEnByb2plY3RpbGVfZXhwaXJlZBgUIAEoCzIl",
-            "Lm9wZW5tdS5wcm90b2NvbC5TMkNQcm9qZWN0aWxlRXhwaXJlZEgAQgkKB3Bh",
-            "eWxvYWQqnQEKD0xvZ2luUmVzdWx0Q29kZRILCgdVTktOT1dOEAASBgoCT0sQ",
-            "ARIUChBJTlZBTElEX1BBU1NXT1JEEAISEwoPQUNDT1VOVF9CTE9DS0VEEAMS",
-            "HQoZQUNDT1VOVF9BTFJFQURZX0NPTk5FQ1RFRBAEEhQKEENPTk5FQ1RJT05f",
-            "RVJST1IQBRIVChFURU1QT1JBUllfQkxPQ0tFRBAGKi4KCkVudGl0eVR5cGUS",
-            "CgoGUExBWUVSEAASBwoDTlBDEAESCwoHTU9OU1RFUhACQiKqAh9NVW5pcXVl",
-            "Lk9wZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
+            "amVjdGlsZUV4cGlyZWQSFQoNcHJvamVjdGlsZV9pZBgBIAEoDSLgAgoRUzJD",
+            "Q2hhcmFjdGVyU3RhdGUSDQoFbGV2ZWwYASABKA0SFwoPbGV2ZWxfdXBfcG9p",
+            "bnRzGAIgASgNEhIKCmN1cnJlbnRfaHAYAyABKA0SDgoGbWF4X2hwGAQgASgN",
+            "EhIKCmN1cnJlbnRfbXAYBSABKA0SDgoGbWF4X21wGAYgASgNEhIKCmN1cnJl",
+            "bnRfc2QYByABKA0SDgoGbWF4X3NkGAggASgNEhIKCmN1cnJlbnRfYWcYCSAB",
+            "KA0SDgoGbWF4X2FnGAogASgNEhIKCmV4cGVyaWVuY2UYCyABKAQSFwoPZXhw",
+            "ZXJpZW5jZV9uZXh0GAwgASgEEg0KBW1vbmV5GA0gASgNEhAKCHN0cmVuZ3Ro",
+            "GA4gASgNEg8KB2FnaWxpdHkYDyABKA0SEAoIdml0YWxpdHkYECABKA0SDgoG",
+            "ZW5lcmd5GBEgASgNEhIKCmxlYWRlcnNoaXAYEiABKA0ioQEKD1MyQ1ZpdGFs",
+            "c1VwZGF0ZRISCgpjdXJyZW50X2hwGAEgASgNEg4KBm1heF9ocBgCIAEoDRIS",
+            "CgpjdXJyZW50X21wGAMgASgNEg4KBm1heF9tcBgEIAEoDRISCgpjdXJyZW50",
+            "X3NkGAUgASgNEg4KBm1heF9zZBgGIAEoDRISCgpjdXJyZW50X2FnGAcgASgN",
+            "Eg4KBm1heF9hZxgIIAEoDSJuChNTMkNFeHBlcmllbmNlR2FpbmVkEg4KBmdh",
+            "aW5lZBgBIAEoDRINCgV0b3RhbBgCIAEoBBISCgpuZXh0X2xldmVsGAMgASgE",
+            "EhEKCWtpbGxlZF9pZBgEIAEoDRIRCglpc19tYXN0ZXIYBSABKAgidAoKUzJD",
+            "TGV2ZWxVcBINCgVsZXZlbBgBIAEoDRIXCg9sZXZlbF91cF9wb2ludHMYAiAB",
+            "KA0SDgoGbWF4X2hwGAMgASgNEg4KBm1heF9tcBgEIAEoDRIOCgZtYXhfc2QY",
+            "BSABKA0SDgoGbWF4X2FnGAYgASgNIrIECg5DbGllbnRFbnZlbG9wZRI0Cgxw",
+            "aW5nX3JlcXVlc3QYASABKAsyHC5vcGVubXUucHJvdG9jb2wuUGluZ1JlcXVl",
+            "c3RIABI5Cg1sb2dpbl9yZXF1ZXN0GAIgASgLMiAub3Blbm11LnByb3RvY29s",
+            "LkMyU0xvZ2luUmVxdWVzdEgAEkoKFmNoYXJhY3Rlcl9saXN0X3JlcXVlc3QY",
+            "AyABKAsyKC5vcGVubXUucHJvdG9jb2wuQzJTQ2hhcmFjdGVyTGlzdFJlcXVl",
+            "c3RIABI/ChBjcmVhdGVfY2hhcmFjdGVyGAQgASgLMiMub3Blbm11LnByb3Rv",
+            "Y29sLkMyU0NyZWF0ZUNoYXJhY3RlckgAEj8KEHNlbGVjdF9jaGFyYWN0ZXIY",
+            "BSABKAsyIy5vcGVubXUucHJvdG9jb2wuQzJTU2VsZWN0Q2hhcmFjdGVySAAS",
+            "PwoQZGVsZXRlX2NoYXJhY3RlchgGIAEoCzIjLm9wZW5tdS5wcm90b2NvbC5D",
+            "MlNEZWxldGVDaGFyYWN0ZXJIABIoCgRtb3ZlGAcgASgLMhgub3Blbm11LnBy",
+            "b3RvY29sLkMyU01vdmVIABIzCgpjYXN0X3NraWxsGAggASgLMh0ub3Blbm11",
+            "LnByb3RvY29sLkMyU0Nhc3RTa2lsbEgAEjYKDHBpY2tfdXBfaXRlbRgJIAEo",
+            "CzIeLm9wZW5tdS5wcm90b2NvbC5DMlNQaWNrVXBJdGVtSABCCQoHcGF5bG9h",
+            "ZCL4CwoOU2VydmVyRW52ZWxvcGUSNgoNcGluZ19yZXNwb25zZRgBIAEoCzId",
+            "Lm9wZW5tdS5wcm90b2NvbC5QaW5nUmVzcG9uc2VIABI3Cgxsb2dpbl9yZXN1",
+            "bHQYAiABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJDTG9naW5SZXN1bHRIABI7",
+            "Cg5jaGFyYWN0ZXJfbGlzdBgDIAEoCzIhLm9wZW5tdS5wcm90b2NvbC5TMkND",
+            "aGFyYWN0ZXJMaXN0SAASTAoXY3JlYXRlX2NoYXJhY3Rlcl9yZXN1bHQYBCAB",
+            "KAsyKS5vcGVubXUucHJvdG9jb2wuUzJDQ3JlYXRlQ2hhcmFjdGVyUmVzdWx0",
+            "SAASTAoXc2VsZWN0X2NoYXJhY3Rlcl9yZXN1bHQYBSABKAsyKS5vcGVubXUu",
+            "cHJvdG9jb2wuUzJDU2VsZWN0Q2hhcmFjdGVyUmVzdWx0SAASTAoXZGVsZXRl",
+            "X2NoYXJhY3Rlcl9yZXN1bHQYBiABKAsyKS5vcGVubXUucHJvdG9jb2wuUzJD",
+            "RGVsZXRlQ2hhcmFjdGVyUmVzdWx0SAASOQoNZW50ZXJlZF93b3JsZBgHIAEo",
+            "CzIgLm9wZW5tdS5wcm90b2NvbC5TMkNFbnRlcmVkV29ybGRIABJAChFlbnRp",
+            "dGllc19pbl9zY29wZRgIIAEoCzIjLm9wZW5tdS5wcm90b2NvbC5TMkNFbnRp",
+            "dGllc0luU2NvcGVIABJHChVlbnRpdGllc19vdXRfb2Zfc2NvcGUYCSABKAsy",
+            "Ji5vcGVubXUucHJvdG9jb2wuUzJDRW50aXRpZXNPdXRPZlNjb3BlSAASMAoI",
+            "c25hcHNob3QYCiABKAsyHC5vcGVubXUucHJvdG9jb2wuUzJDU25hcHNob3RI",
+            "ABI9Cg9za2lsbF9hbmltYXRpb24YCyABKAsyIi5vcGVubXUucHJvdG9jb2wu",
+            "UzJDU2tpbGxBbmltYXRpb25IABI5Cg1kYW1hZ2VfcmVzdWx0GAwgASgLMiAu",
+            "b3Blbm11LnByb3RvY29sLlMyQ0RhbWFnZVJlc3VsdEgAEjcKDGJ1ZmZfYXBw",
+            "bGllZBgNIAEoCzIfLm9wZW5tdS5wcm90b2NvbC5TMkNCdWZmQXBwbGllZEgA",
+            "EjcKDGJ1ZmZfZXhwaXJlZBgOIAEoCzIfLm9wZW5tdS5wcm90b2NvbC5TMkNC",
+            "dWZmRXhwaXJlZEgAEjUKC2VudGl0eV9kaWVkGA8gASgLMh4ub3Blbm11LnBy",
+            "b3RvY29sLlMyQ0VudGl0eURpZWRIABI3CgxpdGVtX2Ryb3BwZWQYECABKAsy",
+            "Hy5vcGVubXUucHJvdG9jb2wuUzJDSXRlbURyb3BwZWRIABI6Cg5waWNrX3Vw",
+            "X3Jlc3VsdBgRIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNQaWNrVXBSZXN1",
+            "bHRIABJDChJwcm9qZWN0aWxlX3NwYXduZWQYEiABKAsyJS5vcGVubXUucHJv",
+            "dG9jb2wuUzJDUHJvamVjdGlsZVNwYXduZWRIABI7Cg5wcm9qZWN0aWxlX2hp",
+            "dBgTIAEoCzIhLm9wZW5tdS5wcm90b2NvbC5TMkNQcm9qZWN0aWxlSGl0SAAS",
+            "QwoScHJvamVjdGlsZV9leHBpcmVkGBQgASgLMiUub3Blbm11LnByb3RvY29s",
+            "LlMyQ1Byb2plY3RpbGVFeHBpcmVkSAASPQoPY2hhcmFjdGVyX3N0YXRlGBUg",
+            "ASgLMiIub3Blbm11LnByb3RvY29sLlMyQ0NoYXJhY3RlclN0YXRlSAASOQoN",
+            "dml0YWxzX3VwZGF0ZRgWIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNWaXRh",
+            "bHNVcGRhdGVIABJBChFleHBlcmllbmNlX2dhaW5lZBgXIAEoCzIkLm9wZW5t",
+            "dS5wcm90b2NvbC5TMkNFeHBlcmllbmNlR2FpbmVkSAASLwoIbGV2ZWxfdXAY",
+            "GCABKAsyGy5vcGVubXUucHJvdG9jb2wuUzJDTGV2ZWxVcEgAQgkKB3BheWxv",
+            "YWQqnQEKD0xvZ2luUmVzdWx0Q29kZRILCgdVTktOT1dOEAASBgoCT0sQARIU",
+            "ChBJTlZBTElEX1BBU1NXT1JEEAISEwoPQUNDT1VOVF9CTE9DS0VEEAMSHQoZ",
+            "QUNDT1VOVF9BTFJFQURZX0NPTk5FQ1RFRBAEEhQKEENPTk5FQ1RJT05fRVJS",
+            "T1IQBRIVChFURU1QT1JBUllfQkxPQ0tFRBAGKi4KCkVudGl0eVR5cGUSCgoG",
+            "UExBWUVSEAASBwoDTlBDEAESCwoHTU9OU1RFUhACQiKqAh9NVW5pcXVlLk9w",
+            "ZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -159,8 +181,12 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileSpawned), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileSpawned.Parser, new[]{ "ProjectileId", "OwnerId", "SkillId", "OriginX", "OriginY", "VelocityX", "VelocityY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileHit), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileHit.Parser, new[]{ "ProjectileId", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileExpired), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileExpired.Parser, new[]{ "ProjectileId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState), global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState.Parser, new[]{ "Level", "LevelUpPoints", "CurrentHp", "MaxHp", "CurrentMp", "MaxMp", "CurrentSd", "MaxSd", "CurrentAg", "MaxAg", "Experience", "ExperienceNext", "Money", "Strength", "Agility", "Vitality", "Energy", "Leadership" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate), global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate.Parser, new[]{ "CurrentHp", "MaxHp", "CurrentMp", "MaxMp", "CurrentSd", "MaxSd", "CurrentAg", "MaxAg" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained), global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained.Parser, new[]{ "Gained", "Total", "NextLevel", "KilledId", "IsMaster" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp), global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp.Parser, new[]{ "Level", "LevelUpPoints", "MaxHp", "MaxMp", "MaxSd", "MaxAg" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope), global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope.Parser, new[]{ "PingRequest", "LoginRequest", "CharacterListRequest", "CreateCharacter", "SelectCharacter", "DeleteCharacter", "Move", "CastSkill", "PickUpItem" }, new[]{ "Payload" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope), global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope.Parser, new[]{ "PingResponse", "LoginResult", "CharacterList", "CreateCharacterResult", "SelectCharacterResult", "DeleteCharacterResult", "EnteredWorld", "EntitiesInScope", "EntitiesOutOfScope", "Snapshot", "SkillAnimation", "DamageResult", "BuffApplied", "BuffExpired", "EntityDied", "ItemDropped", "PickUpResult", "ProjectileSpawned", "ProjectileHit", "ProjectileExpired" }, new[]{ "Payload" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope), global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope.Parser, new[]{ "PingResponse", "LoginResult", "CharacterList", "CreateCharacterResult", "SelectCharacterResult", "DeleteCharacterResult", "EnteredWorld", "EntitiesInScope", "EntitiesOutOfScope", "Snapshot", "SkillAnimation", "DamageResult", "BuffApplied", "BuffExpired", "EntityDied", "ItemDropped", "PickUpResult", "ProjectileSpawned", "ProjectileHit", "ProjectileExpired", "CharacterState", "VitalsUpdate", "ExperienceGained", "LevelUp" }, new[]{ "Payload" }, null, null, null)
           }));
     }
     #endregion
@@ -8312,6 +8338,2019 @@ namespace MUnique.OpenMU.Network.Protobuf {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S2CCharacterState : pb::IMessage<S2CCharacterState>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S2CCharacterState> _parser = new pb::MessageParser<S2CCharacterState>(() => new S2CCharacterState());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S2CCharacterState> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[32]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CCharacterState() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CCharacterState(S2CCharacterState other) : this() {
+      level_ = other.level_;
+      levelUpPoints_ = other.levelUpPoints_;
+      currentHp_ = other.currentHp_;
+      maxHp_ = other.maxHp_;
+      currentMp_ = other.currentMp_;
+      maxMp_ = other.maxMp_;
+      currentSd_ = other.currentSd_;
+      maxSd_ = other.maxSd_;
+      currentAg_ = other.currentAg_;
+      maxAg_ = other.maxAg_;
+      experience_ = other.experience_;
+      experienceNext_ = other.experienceNext_;
+      money_ = other.money_;
+      strength_ = other.strength_;
+      agility_ = other.agility_;
+      vitality_ = other.vitality_;
+      energy_ = other.energy_;
+      leadership_ = other.leadership_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CCharacterState Clone() {
+      return new S2CCharacterState(this);
+    }
+
+    /// <summary>Field number for the "level" field.</summary>
+    public const int LevelFieldNumber = 1;
+    private uint level_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Level {
+      get { return level_; }
+      set {
+        level_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "level_up_points" field.</summary>
+    public const int LevelUpPointsFieldNumber = 2;
+    private uint levelUpPoints_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint LevelUpPoints {
+      get { return levelUpPoints_; }
+      set {
+        levelUpPoints_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_hp" field.</summary>
+    public const int CurrentHpFieldNumber = 3;
+    private uint currentHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentHp {
+      get { return currentHp_; }
+      set {
+        currentHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_hp" field.</summary>
+    public const int MaxHpFieldNumber = 4;
+    private uint maxHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxHp {
+      get { return maxHp_; }
+      set {
+        maxHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_mp" field.</summary>
+    public const int CurrentMpFieldNumber = 5;
+    private uint currentMp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentMp {
+      get { return currentMp_; }
+      set {
+        currentMp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_mp" field.</summary>
+    public const int MaxMpFieldNumber = 6;
+    private uint maxMp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxMp {
+      get { return maxMp_; }
+      set {
+        maxMp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_sd" field.</summary>
+    public const int CurrentSdFieldNumber = 7;
+    private uint currentSd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentSd {
+      get { return currentSd_; }
+      set {
+        currentSd_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_sd" field.</summary>
+    public const int MaxSdFieldNumber = 8;
+    private uint maxSd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxSd {
+      get { return maxSd_; }
+      set {
+        maxSd_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_ag" field.</summary>
+    public const int CurrentAgFieldNumber = 9;
+    private uint currentAg_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentAg {
+      get { return currentAg_; }
+      set {
+        currentAg_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_ag" field.</summary>
+    public const int MaxAgFieldNumber = 10;
+    private uint maxAg_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxAg {
+      get { return maxAg_; }
+      set {
+        maxAg_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "experience" field.</summary>
+    public const int ExperienceFieldNumber = 11;
+    private ulong experience_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong Experience {
+      get { return experience_; }
+      set {
+        experience_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "experience_next" field.</summary>
+    public const int ExperienceNextFieldNumber = 12;
+    private ulong experienceNext_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ExperienceNext {
+      get { return experienceNext_; }
+      set {
+        experienceNext_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "money" field.</summary>
+    public const int MoneyFieldNumber = 13;
+    private uint money_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Money {
+      get { return money_; }
+      set {
+        money_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "strength" field.</summary>
+    public const int StrengthFieldNumber = 14;
+    private uint strength_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Strength {
+      get { return strength_; }
+      set {
+        strength_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "agility" field.</summary>
+    public const int AgilityFieldNumber = 15;
+    private uint agility_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Agility {
+      get { return agility_; }
+      set {
+        agility_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "vitality" field.</summary>
+    public const int VitalityFieldNumber = 16;
+    private uint vitality_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Vitality {
+      get { return vitality_; }
+      set {
+        vitality_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "energy" field.</summary>
+    public const int EnergyFieldNumber = 17;
+    private uint energy_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Energy {
+      get { return energy_; }
+      set {
+        energy_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "leadership" field.</summary>
+    public const int LeadershipFieldNumber = 18;
+    private uint leadership_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Leadership {
+      get { return leadership_; }
+      set {
+        leadership_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S2CCharacterState);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S2CCharacterState other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Level != other.Level) return false;
+      if (LevelUpPoints != other.LevelUpPoints) return false;
+      if (CurrentHp != other.CurrentHp) return false;
+      if (MaxHp != other.MaxHp) return false;
+      if (CurrentMp != other.CurrentMp) return false;
+      if (MaxMp != other.MaxMp) return false;
+      if (CurrentSd != other.CurrentSd) return false;
+      if (MaxSd != other.MaxSd) return false;
+      if (CurrentAg != other.CurrentAg) return false;
+      if (MaxAg != other.MaxAg) return false;
+      if (Experience != other.Experience) return false;
+      if (ExperienceNext != other.ExperienceNext) return false;
+      if (Money != other.Money) return false;
+      if (Strength != other.Strength) return false;
+      if (Agility != other.Agility) return false;
+      if (Vitality != other.Vitality) return false;
+      if (Energy != other.Energy) return false;
+      if (Leadership != other.Leadership) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Level != 0) hash ^= Level.GetHashCode();
+      if (LevelUpPoints != 0) hash ^= LevelUpPoints.GetHashCode();
+      if (CurrentHp != 0) hash ^= CurrentHp.GetHashCode();
+      if (MaxHp != 0) hash ^= MaxHp.GetHashCode();
+      if (CurrentMp != 0) hash ^= CurrentMp.GetHashCode();
+      if (MaxMp != 0) hash ^= MaxMp.GetHashCode();
+      if (CurrentSd != 0) hash ^= CurrentSd.GetHashCode();
+      if (MaxSd != 0) hash ^= MaxSd.GetHashCode();
+      if (CurrentAg != 0) hash ^= CurrentAg.GetHashCode();
+      if (MaxAg != 0) hash ^= MaxAg.GetHashCode();
+      if (Experience != 0UL) hash ^= Experience.GetHashCode();
+      if (ExperienceNext != 0UL) hash ^= ExperienceNext.GetHashCode();
+      if (Money != 0) hash ^= Money.GetHashCode();
+      if (Strength != 0) hash ^= Strength.GetHashCode();
+      if (Agility != 0) hash ^= Agility.GetHashCode();
+      if (Vitality != 0) hash ^= Vitality.GetHashCode();
+      if (Energy != 0) hash ^= Energy.GetHashCode();
+      if (Leadership != 0) hash ^= Leadership.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Level != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Level);
+      }
+      if (LevelUpPoints != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(LevelUpPoints);
+      }
+      if (CurrentHp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        output.WriteRawTag(72);
+        output.WriteUInt32(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(80);
+        output.WriteUInt32(MaxAg);
+      }
+      if (Experience != 0UL) {
+        output.WriteRawTag(88);
+        output.WriteUInt64(Experience);
+      }
+      if (ExperienceNext != 0UL) {
+        output.WriteRawTag(96);
+        output.WriteUInt64(ExperienceNext);
+      }
+      if (Money != 0) {
+        output.WriteRawTag(104);
+        output.WriteUInt32(Money);
+      }
+      if (Strength != 0) {
+        output.WriteRawTag(112);
+        output.WriteUInt32(Strength);
+      }
+      if (Agility != 0) {
+        output.WriteRawTag(120);
+        output.WriteUInt32(Agility);
+      }
+      if (Vitality != 0) {
+        output.WriteRawTag(128, 1);
+        output.WriteUInt32(Vitality);
+      }
+      if (Energy != 0) {
+        output.WriteRawTag(136, 1);
+        output.WriteUInt32(Energy);
+      }
+      if (Leadership != 0) {
+        output.WriteRawTag(144, 1);
+        output.WriteUInt32(Leadership);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Level != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Level);
+      }
+      if (LevelUpPoints != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(LevelUpPoints);
+      }
+      if (CurrentHp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        output.WriteRawTag(72);
+        output.WriteUInt32(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(80);
+        output.WriteUInt32(MaxAg);
+      }
+      if (Experience != 0UL) {
+        output.WriteRawTag(88);
+        output.WriteUInt64(Experience);
+      }
+      if (ExperienceNext != 0UL) {
+        output.WriteRawTag(96);
+        output.WriteUInt64(ExperienceNext);
+      }
+      if (Money != 0) {
+        output.WriteRawTag(104);
+        output.WriteUInt32(Money);
+      }
+      if (Strength != 0) {
+        output.WriteRawTag(112);
+        output.WriteUInt32(Strength);
+      }
+      if (Agility != 0) {
+        output.WriteRawTag(120);
+        output.WriteUInt32(Agility);
+      }
+      if (Vitality != 0) {
+        output.WriteRawTag(128, 1);
+        output.WriteUInt32(Vitality);
+      }
+      if (Energy != 0) {
+        output.WriteRawTag(136, 1);
+        output.WriteUInt32(Energy);
+      }
+      if (Leadership != 0) {
+        output.WriteRawTag(144, 1);
+        output.WriteUInt32(Leadership);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Level != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Level);
+      }
+      if (LevelUpPoints != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(LevelUpPoints);
+      }
+      if (CurrentHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxAg);
+      }
+      if (Experience != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Experience);
+      }
+      if (ExperienceNext != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ExperienceNext);
+      }
+      if (Money != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Money);
+      }
+      if (Strength != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Strength);
+      }
+      if (Agility != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Agility);
+      }
+      if (Vitality != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeUInt32Size(Vitality);
+      }
+      if (Energy != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeUInt32Size(Energy);
+      }
+      if (Leadership != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeUInt32Size(Leadership);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S2CCharacterState other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Level != 0) {
+        Level = other.Level;
+      }
+      if (other.LevelUpPoints != 0) {
+        LevelUpPoints = other.LevelUpPoints;
+      }
+      if (other.CurrentHp != 0) {
+        CurrentHp = other.CurrentHp;
+      }
+      if (other.MaxHp != 0) {
+        MaxHp = other.MaxHp;
+      }
+      if (other.CurrentMp != 0) {
+        CurrentMp = other.CurrentMp;
+      }
+      if (other.MaxMp != 0) {
+        MaxMp = other.MaxMp;
+      }
+      if (other.CurrentSd != 0) {
+        CurrentSd = other.CurrentSd;
+      }
+      if (other.MaxSd != 0) {
+        MaxSd = other.MaxSd;
+      }
+      if (other.CurrentAg != 0) {
+        CurrentAg = other.CurrentAg;
+      }
+      if (other.MaxAg != 0) {
+        MaxAg = other.MaxAg;
+      }
+      if (other.Experience != 0UL) {
+        Experience = other.Experience;
+      }
+      if (other.ExperienceNext != 0UL) {
+        ExperienceNext = other.ExperienceNext;
+      }
+      if (other.Money != 0) {
+        Money = other.Money;
+      }
+      if (other.Strength != 0) {
+        Strength = other.Strength;
+      }
+      if (other.Agility != 0) {
+        Agility = other.Agility;
+      }
+      if (other.Vitality != 0) {
+        Vitality = other.Vitality;
+      }
+      if (other.Energy != 0) {
+        Energy = other.Energy;
+      }
+      if (other.Leadership != 0) {
+        Leadership = other.Leadership;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Level = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            LevelUpPoints = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            CurrentHp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            CurrentMp = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            CurrentSd = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 72: {
+            CurrentAg = input.ReadUInt32();
+            break;
+          }
+          case 80: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+          case 88: {
+            Experience = input.ReadUInt64();
+            break;
+          }
+          case 96: {
+            ExperienceNext = input.ReadUInt64();
+            break;
+          }
+          case 104: {
+            Money = input.ReadUInt32();
+            break;
+          }
+          case 112: {
+            Strength = input.ReadUInt32();
+            break;
+          }
+          case 120: {
+            Agility = input.ReadUInt32();
+            break;
+          }
+          case 128: {
+            Vitality = input.ReadUInt32();
+            break;
+          }
+          case 136: {
+            Energy = input.ReadUInt32();
+            break;
+          }
+          case 144: {
+            Leadership = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Level = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            LevelUpPoints = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            CurrentHp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            CurrentMp = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            CurrentSd = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 72: {
+            CurrentAg = input.ReadUInt32();
+            break;
+          }
+          case 80: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+          case 88: {
+            Experience = input.ReadUInt64();
+            break;
+          }
+          case 96: {
+            ExperienceNext = input.ReadUInt64();
+            break;
+          }
+          case 104: {
+            Money = input.ReadUInt32();
+            break;
+          }
+          case 112: {
+            Strength = input.ReadUInt32();
+            break;
+          }
+          case 120: {
+            Agility = input.ReadUInt32();
+            break;
+          }
+          case 128: {
+            Vitality = input.ReadUInt32();
+            break;
+          }
+          case 136: {
+            Energy = input.ReadUInt32();
+            break;
+          }
+          case 144: {
+            Leadership = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S2CVitalsUpdate : pb::IMessage<S2CVitalsUpdate>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S2CVitalsUpdate> _parser = new pb::MessageParser<S2CVitalsUpdate>(() => new S2CVitalsUpdate());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S2CVitalsUpdate> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[33]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CVitalsUpdate() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CVitalsUpdate(S2CVitalsUpdate other) : this() {
+      currentHp_ = other.currentHp_;
+      maxHp_ = other.maxHp_;
+      currentMp_ = other.currentMp_;
+      maxMp_ = other.maxMp_;
+      currentSd_ = other.currentSd_;
+      maxSd_ = other.maxSd_;
+      currentAg_ = other.currentAg_;
+      maxAg_ = other.maxAg_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CVitalsUpdate Clone() {
+      return new S2CVitalsUpdate(this);
+    }
+
+    /// <summary>Field number for the "current_hp" field.</summary>
+    public const int CurrentHpFieldNumber = 1;
+    private uint currentHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentHp {
+      get { return currentHp_; }
+      set {
+        currentHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_hp" field.</summary>
+    public const int MaxHpFieldNumber = 2;
+    private uint maxHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxHp {
+      get { return maxHp_; }
+      set {
+        maxHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_mp" field.</summary>
+    public const int CurrentMpFieldNumber = 3;
+    private uint currentMp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentMp {
+      get { return currentMp_; }
+      set {
+        currentMp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_mp" field.</summary>
+    public const int MaxMpFieldNumber = 4;
+    private uint maxMp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxMp {
+      get { return maxMp_; }
+      set {
+        maxMp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_sd" field.</summary>
+    public const int CurrentSdFieldNumber = 5;
+    private uint currentSd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentSd {
+      get { return currentSd_; }
+      set {
+        currentSd_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_sd" field.</summary>
+    public const int MaxSdFieldNumber = 6;
+    private uint maxSd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxSd {
+      get { return maxSd_; }
+      set {
+        maxSd_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "current_ag" field.</summary>
+    public const int CurrentAgFieldNumber = 7;
+    private uint currentAg_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint CurrentAg {
+      get { return currentAg_; }
+      set {
+        currentAg_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_ag" field.</summary>
+    public const int MaxAgFieldNumber = 8;
+    private uint maxAg_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxAg {
+      get { return maxAg_; }
+      set {
+        maxAg_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S2CVitalsUpdate);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S2CVitalsUpdate other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (CurrentHp != other.CurrentHp) return false;
+      if (MaxHp != other.MaxHp) return false;
+      if (CurrentMp != other.CurrentMp) return false;
+      if (MaxMp != other.MaxMp) return false;
+      if (CurrentSd != other.CurrentSd) return false;
+      if (MaxSd != other.MaxSd) return false;
+      if (CurrentAg != other.CurrentAg) return false;
+      if (MaxAg != other.MaxAg) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (CurrentHp != 0) hash ^= CurrentHp.GetHashCode();
+      if (MaxHp != 0) hash ^= MaxHp.GetHashCode();
+      if (CurrentMp != 0) hash ^= CurrentMp.GetHashCode();
+      if (MaxMp != 0) hash ^= MaxMp.GetHashCode();
+      if (CurrentSd != 0) hash ^= CurrentSd.GetHashCode();
+      if (MaxSd != 0) hash ^= MaxSd.GetHashCode();
+      if (CurrentAg != 0) hash ^= CurrentAg.GetHashCode();
+      if (MaxAg != 0) hash ^= MaxAg.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (CurrentHp != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MaxAg);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (CurrentHp != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MaxAg);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (CurrentHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentHp);
+      }
+      if (MaxHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxHp);
+      }
+      if (CurrentMp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentMp);
+      }
+      if (MaxMp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxMp);
+      }
+      if (CurrentSd != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentSd);
+      }
+      if (MaxSd != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxSd);
+      }
+      if (CurrentAg != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CurrentAg);
+      }
+      if (MaxAg != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxAg);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S2CVitalsUpdate other) {
+      if (other == null) {
+        return;
+      }
+      if (other.CurrentHp != 0) {
+        CurrentHp = other.CurrentHp;
+      }
+      if (other.MaxHp != 0) {
+        MaxHp = other.MaxHp;
+      }
+      if (other.CurrentMp != 0) {
+        CurrentMp = other.CurrentMp;
+      }
+      if (other.MaxMp != 0) {
+        MaxMp = other.MaxMp;
+      }
+      if (other.CurrentSd != 0) {
+        CurrentSd = other.CurrentSd;
+      }
+      if (other.MaxSd != 0) {
+        MaxSd = other.MaxSd;
+      }
+      if (other.CurrentAg != 0) {
+        CurrentAg = other.CurrentAg;
+      }
+      if (other.MaxAg != 0) {
+        MaxAg = other.MaxAg;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            CurrentHp = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            CurrentMp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            CurrentSd = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            CurrentAg = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            CurrentHp = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            CurrentMp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            CurrentSd = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            CurrentAg = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S2CExperienceGained : pb::IMessage<S2CExperienceGained>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S2CExperienceGained> _parser = new pb::MessageParser<S2CExperienceGained>(() => new S2CExperienceGained());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S2CExperienceGained> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[34]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CExperienceGained() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CExperienceGained(S2CExperienceGained other) : this() {
+      gained_ = other.gained_;
+      total_ = other.total_;
+      nextLevel_ = other.nextLevel_;
+      killedId_ = other.killedId_;
+      isMaster_ = other.isMaster_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CExperienceGained Clone() {
+      return new S2CExperienceGained(this);
+    }
+
+    /// <summary>Field number for the "gained" field.</summary>
+    public const int GainedFieldNumber = 1;
+    private uint gained_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Gained {
+      get { return gained_; }
+      set {
+        gained_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "total" field.</summary>
+    public const int TotalFieldNumber = 2;
+    private ulong total_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong Total {
+      get { return total_; }
+      set {
+        total_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "next_level" field.</summary>
+    public const int NextLevelFieldNumber = 3;
+    private ulong nextLevel_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong NextLevel {
+      get { return nextLevel_; }
+      set {
+        nextLevel_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "killed_id" field.</summary>
+    public const int KilledIdFieldNumber = 4;
+    private uint killedId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint KilledId {
+      get { return killedId_; }
+      set {
+        killedId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_master" field.</summary>
+    public const int IsMasterFieldNumber = 5;
+    private bool isMaster_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsMaster {
+      get { return isMaster_; }
+      set {
+        isMaster_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S2CExperienceGained);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S2CExperienceGained other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Gained != other.Gained) return false;
+      if (Total != other.Total) return false;
+      if (NextLevel != other.NextLevel) return false;
+      if (KilledId != other.KilledId) return false;
+      if (IsMaster != other.IsMaster) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Gained != 0) hash ^= Gained.GetHashCode();
+      if (Total != 0UL) hash ^= Total.GetHashCode();
+      if (NextLevel != 0UL) hash ^= NextLevel.GetHashCode();
+      if (KilledId != 0) hash ^= KilledId.GetHashCode();
+      if (IsMaster != false) hash ^= IsMaster.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Gained != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Gained);
+      }
+      if (Total != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Total);
+      }
+      if (NextLevel != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(NextLevel);
+      }
+      if (KilledId != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(KilledId);
+      }
+      if (IsMaster != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(IsMaster);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Gained != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Gained);
+      }
+      if (Total != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Total);
+      }
+      if (NextLevel != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(NextLevel);
+      }
+      if (KilledId != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(KilledId);
+      }
+      if (IsMaster != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(IsMaster);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Gained != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Gained);
+      }
+      if (Total != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Total);
+      }
+      if (NextLevel != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(NextLevel);
+      }
+      if (KilledId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(KilledId);
+      }
+      if (IsMaster != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S2CExperienceGained other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Gained != 0) {
+        Gained = other.Gained;
+      }
+      if (other.Total != 0UL) {
+        Total = other.Total;
+      }
+      if (other.NextLevel != 0UL) {
+        NextLevel = other.NextLevel;
+      }
+      if (other.KilledId != 0) {
+        KilledId = other.KilledId;
+      }
+      if (other.IsMaster != false) {
+        IsMaster = other.IsMaster;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Gained = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            Total = input.ReadUInt64();
+            break;
+          }
+          case 24: {
+            NextLevel = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            KilledId = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            IsMaster = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Gained = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            Total = input.ReadUInt64();
+            break;
+          }
+          case 24: {
+            NextLevel = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            KilledId = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            IsMaster = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S2CLevelUp : pb::IMessage<S2CLevelUp>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S2CLevelUp> _parser = new pb::MessageParser<S2CLevelUp>(() => new S2CLevelUp());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S2CLevelUp> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[35]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CLevelUp() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CLevelUp(S2CLevelUp other) : this() {
+      level_ = other.level_;
+      levelUpPoints_ = other.levelUpPoints_;
+      maxHp_ = other.maxHp_;
+      maxMp_ = other.maxMp_;
+      maxSd_ = other.maxSd_;
+      maxAg_ = other.maxAg_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CLevelUp Clone() {
+      return new S2CLevelUp(this);
+    }
+
+    /// <summary>Field number for the "level" field.</summary>
+    public const int LevelFieldNumber = 1;
+    private uint level_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Level {
+      get { return level_; }
+      set {
+        level_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "level_up_points" field.</summary>
+    public const int LevelUpPointsFieldNumber = 2;
+    private uint levelUpPoints_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint LevelUpPoints {
+      get { return levelUpPoints_; }
+      set {
+        levelUpPoints_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_hp" field.</summary>
+    public const int MaxHpFieldNumber = 3;
+    private uint maxHp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxHp {
+      get { return maxHp_; }
+      set {
+        maxHp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_mp" field.</summary>
+    public const int MaxMpFieldNumber = 4;
+    private uint maxMp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxMp {
+      get { return maxMp_; }
+      set {
+        maxMp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_sd" field.</summary>
+    public const int MaxSdFieldNumber = 5;
+    private uint maxSd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxSd {
+      get { return maxSd_; }
+      set {
+        maxSd_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_ag" field.</summary>
+    public const int MaxAgFieldNumber = 6;
+    private uint maxAg_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxAg {
+      get { return maxAg_; }
+      set {
+        maxAg_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S2CLevelUp);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S2CLevelUp other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Level != other.Level) return false;
+      if (LevelUpPoints != other.LevelUpPoints) return false;
+      if (MaxHp != other.MaxHp) return false;
+      if (MaxMp != other.MaxMp) return false;
+      if (MaxSd != other.MaxSd) return false;
+      if (MaxAg != other.MaxAg) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Level != 0) hash ^= Level.GetHashCode();
+      if (LevelUpPoints != 0) hash ^= LevelUpPoints.GetHashCode();
+      if (MaxHp != 0) hash ^= MaxHp.GetHashCode();
+      if (MaxMp != 0) hash ^= MaxMp.GetHashCode();
+      if (MaxSd != 0) hash ^= MaxSd.GetHashCode();
+      if (MaxAg != 0) hash ^= MaxAg.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Level != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Level);
+      }
+      if (LevelUpPoints != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(LevelUpPoints);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(MaxHp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxMp);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MaxSd);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxAg);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Level != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Level);
+      }
+      if (LevelUpPoints != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(LevelUpPoints);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(MaxHp);
+      }
+      if (MaxMp != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(MaxMp);
+      }
+      if (MaxSd != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MaxSd);
+      }
+      if (MaxAg != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxAg);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Level != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Level);
+      }
+      if (LevelUpPoints != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(LevelUpPoints);
+      }
+      if (MaxHp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxHp);
+      }
+      if (MaxMp != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxMp);
+      }
+      if (MaxSd != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxSd);
+      }
+      if (MaxAg != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxAg);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S2CLevelUp other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Level != 0) {
+        Level = other.Level;
+      }
+      if (other.LevelUpPoints != 0) {
+        LevelUpPoints = other.LevelUpPoints;
+      }
+      if (other.MaxHp != 0) {
+        MaxHp = other.MaxHp;
+      }
+      if (other.MaxMp != 0) {
+        MaxMp = other.MaxMp;
+      }
+      if (other.MaxSd != 0) {
+        MaxSd = other.MaxSd;
+      }
+      if (other.MaxAg != 0) {
+        MaxAg = other.MaxAg;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Level = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            LevelUpPoints = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Level = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            LevelUpPoints = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            MaxHp = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            MaxMp = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            MaxSd = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            MaxAg = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ClientEnvelope : pb::IMessage<ClientEnvelope>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -8326,7 +10365,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[32]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8991,7 +11030,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[33]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9071,6 +11110,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
           break;
         case PayloadOneofCase.ProjectileExpired:
           ProjectileExpired = other.ProjectileExpired.Clone();
+          break;
+        case PayloadOneofCase.CharacterState:
+          CharacterState = other.CharacterState.Clone();
+          break;
+        case PayloadOneofCase.VitalsUpdate:
+          VitalsUpdate = other.VitalsUpdate.Clone();
+          break;
+        case PayloadOneofCase.ExperienceGained:
+          ExperienceGained = other.ExperienceGained.Clone();
+          break;
+        case PayloadOneofCase.LevelUp:
+          LevelUp = other.LevelUp.Clone();
           break;
       }
 
@@ -9323,6 +11374,54 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "character_state" field.</summary>
+    public const int CharacterStateFieldNumber = 21;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState CharacterState {
+      get { return payloadCase_ == PayloadOneofCase.CharacterState ? (global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.CharacterState;
+      }
+    }
+
+    /// <summary>Field number for the "vitals_update" field.</summary>
+    public const int VitalsUpdateFieldNumber = 22;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate VitalsUpdate {
+      get { return payloadCase_ == PayloadOneofCase.VitalsUpdate ? (global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.VitalsUpdate;
+      }
+    }
+
+    /// <summary>Field number for the "experience_gained" field.</summary>
+    public const int ExperienceGainedFieldNumber = 23;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained ExperienceGained {
+      get { return payloadCase_ == PayloadOneofCase.ExperienceGained ? (global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.ExperienceGained;
+      }
+    }
+
+    /// <summary>Field number for the "level_up" field.</summary>
+    public const int LevelUpFieldNumber = 24;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp LevelUp {
+      get { return payloadCase_ == PayloadOneofCase.LevelUp ? (global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.LevelUp;
+      }
+    }
+
     private object payload_;
     /// <summary>Enum of possible cases for the "payload" oneof.</summary>
     public enum PayloadOneofCase {
@@ -9347,6 +11446,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
       ProjectileSpawned = 18,
       ProjectileHit = 19,
       ProjectileExpired = 20,
+      CharacterState = 21,
+      VitalsUpdate = 22,
+      ExperienceGained = 23,
+      LevelUp = 24,
     }
     private PayloadOneofCase payloadCase_ = PayloadOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9397,6 +11500,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (!object.Equals(ProjectileSpawned, other.ProjectileSpawned)) return false;
       if (!object.Equals(ProjectileHit, other.ProjectileHit)) return false;
       if (!object.Equals(ProjectileExpired, other.ProjectileExpired)) return false;
+      if (!object.Equals(CharacterState, other.CharacterState)) return false;
+      if (!object.Equals(VitalsUpdate, other.VitalsUpdate)) return false;
+      if (!object.Equals(ExperienceGained, other.ExperienceGained)) return false;
+      if (!object.Equals(LevelUp, other.LevelUp)) return false;
       if (PayloadCase != other.PayloadCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -9425,6 +11532,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (payloadCase_ == PayloadOneofCase.ProjectileSpawned) hash ^= ProjectileSpawned.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ProjectileHit) hash ^= ProjectileHit.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ProjectileExpired) hash ^= ProjectileExpired.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.CharacterState) hash ^= CharacterState.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.VitalsUpdate) hash ^= VitalsUpdate.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.ExperienceGained) hash ^= ExperienceGained.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.LevelUp) hash ^= LevelUp.GetHashCode();
       hash ^= (int) payloadCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -9524,6 +11635,22 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(162, 1);
         output.WriteMessage(ProjectileExpired);
       }
+      if (payloadCase_ == PayloadOneofCase.CharacterState) {
+        output.WriteRawTag(170, 1);
+        output.WriteMessage(CharacterState);
+      }
+      if (payloadCase_ == PayloadOneofCase.VitalsUpdate) {
+        output.WriteRawTag(178, 1);
+        output.WriteMessage(VitalsUpdate);
+      }
+      if (payloadCase_ == PayloadOneofCase.ExperienceGained) {
+        output.WriteRawTag(186, 1);
+        output.WriteMessage(ExperienceGained);
+      }
+      if (payloadCase_ == PayloadOneofCase.LevelUp) {
+        output.WriteRawTag(194, 1);
+        output.WriteMessage(LevelUp);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -9614,6 +11741,22 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(162, 1);
         output.WriteMessage(ProjectileExpired);
       }
+      if (payloadCase_ == PayloadOneofCase.CharacterState) {
+        output.WriteRawTag(170, 1);
+        output.WriteMessage(CharacterState);
+      }
+      if (payloadCase_ == PayloadOneofCase.VitalsUpdate) {
+        output.WriteRawTag(178, 1);
+        output.WriteMessage(VitalsUpdate);
+      }
+      if (payloadCase_ == PayloadOneofCase.ExperienceGained) {
+        output.WriteRawTag(186, 1);
+        output.WriteMessage(ExperienceGained);
+      }
+      if (payloadCase_ == PayloadOneofCase.LevelUp) {
+        output.WriteRawTag(194, 1);
+        output.WriteMessage(LevelUp);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -9683,6 +11826,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (payloadCase_ == PayloadOneofCase.ProjectileExpired) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(ProjectileExpired);
+      }
+      if (payloadCase_ == PayloadOneofCase.CharacterState) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(CharacterState);
+      }
+      if (payloadCase_ == PayloadOneofCase.VitalsUpdate) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(VitalsUpdate);
+      }
+      if (payloadCase_ == PayloadOneofCase.ExperienceGained) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(ExperienceGained);
+      }
+      if (payloadCase_ == PayloadOneofCase.LevelUp) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LevelUp);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -9816,6 +11971,30 @@ namespace MUnique.OpenMU.Network.Protobuf {
             ProjectileExpired = new global::MUnique.OpenMU.Network.Protobuf.S2CProjectileExpired();
           }
           ProjectileExpired.MergeFrom(other.ProjectileExpired);
+          break;
+        case PayloadOneofCase.CharacterState:
+          if (CharacterState == null) {
+            CharacterState = new global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState();
+          }
+          CharacterState.MergeFrom(other.CharacterState);
+          break;
+        case PayloadOneofCase.VitalsUpdate:
+          if (VitalsUpdate == null) {
+            VitalsUpdate = new global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate();
+          }
+          VitalsUpdate.MergeFrom(other.VitalsUpdate);
+          break;
+        case PayloadOneofCase.ExperienceGained:
+          if (ExperienceGained == null) {
+            ExperienceGained = new global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained();
+          }
+          ExperienceGained.MergeFrom(other.ExperienceGained);
+          break;
+        case PayloadOneofCase.LevelUp:
+          if (LevelUp == null) {
+            LevelUp = new global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp();
+          }
+          LevelUp.MergeFrom(other.LevelUp);
           break;
       }
 
@@ -10018,6 +12197,42 @@ namespace MUnique.OpenMU.Network.Protobuf {
             ProjectileExpired = subBuilder;
             break;
           }
+          case 170: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState();
+            if (payloadCase_ == PayloadOneofCase.CharacterState) {
+              subBuilder.MergeFrom(CharacterState);
+            }
+            input.ReadMessage(subBuilder);
+            CharacterState = subBuilder;
+            break;
+          }
+          case 178: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate();
+            if (payloadCase_ == PayloadOneofCase.VitalsUpdate) {
+              subBuilder.MergeFrom(VitalsUpdate);
+            }
+            input.ReadMessage(subBuilder);
+            VitalsUpdate = subBuilder;
+            break;
+          }
+          case 186: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained();
+            if (payloadCase_ == PayloadOneofCase.ExperienceGained) {
+              subBuilder.MergeFrom(ExperienceGained);
+            }
+            input.ReadMessage(subBuilder);
+            ExperienceGained = subBuilder;
+            break;
+          }
+          case 194: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp();
+            if (payloadCase_ == PayloadOneofCase.LevelUp) {
+              subBuilder.MergeFrom(LevelUp);
+            }
+            input.ReadMessage(subBuilder);
+            LevelUp = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -10215,6 +12430,42 @@ namespace MUnique.OpenMU.Network.Protobuf {
             }
             input.ReadMessage(subBuilder);
             ProjectileExpired = subBuilder;
+            break;
+          }
+          case 170: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState();
+            if (payloadCase_ == PayloadOneofCase.CharacterState) {
+              subBuilder.MergeFrom(CharacterState);
+            }
+            input.ReadMessage(subBuilder);
+            CharacterState = subBuilder;
+            break;
+          }
+          case 178: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate();
+            if (payloadCase_ == PayloadOneofCase.VitalsUpdate) {
+              subBuilder.MergeFrom(VitalsUpdate);
+            }
+            input.ReadMessage(subBuilder);
+            VitalsUpdate = subBuilder;
+            break;
+          }
+          case 186: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained();
+            if (payloadCase_ == PayloadOneofCase.ExperienceGained) {
+              subBuilder.MergeFrom(ExperienceGained);
+            }
+            input.ReadMessage(subBuilder);
+            ExperienceGained = subBuilder;
+            break;
+          }
+          case 194: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp();
+            if (payloadCase_ == PayloadOneofCase.LevelUp) {
+              subBuilder.MergeFrom(LevelUp);
+            }
+            input.ReadMessage(subBuilder);
+            LevelUp = subBuilder;
             break;
           }
         }

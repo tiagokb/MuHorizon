@@ -211,6 +211,57 @@ message S2CProjectileExpired {
     uint32 projectile_id = 1;
 }
 
+// ── Phase 10: Character State ─────────────────────────────────────────────────
+
+message S2CCharacterState {
+    uint32 level            = 1;
+    uint32 level_up_points  = 2;
+    uint32 current_hp       = 3;
+    uint32 max_hp           = 4;
+    uint32 current_mp       = 5;
+    uint32 max_mp           = 6;
+    uint32 current_sd       = 7;
+    uint32 max_sd           = 8;
+    uint32 current_ag       = 9;
+    uint32 max_ag           = 10;
+    uint64 experience       = 11;
+    uint64 experience_next  = 12;
+    uint32 money            = 13;
+    uint32 strength         = 14;
+    uint32 agility          = 15;
+    uint32 vitality         = 16;
+    uint32 energy           = 17;
+    uint32 leadership       = 18;
+}
+
+message S2CVitalsUpdate {
+    uint32 current_hp = 1;
+    uint32 max_hp     = 2;
+    uint32 current_mp = 3;
+    uint32 max_mp     = 4;
+    uint32 current_sd = 5;
+    uint32 max_sd     = 6;
+    uint32 current_ag = 7;
+    uint32 max_ag     = 8;
+}
+
+message S2CExperienceGained {
+    uint32 gained     = 1;
+    uint64 total      = 2;
+    uint64 next_level = 3;
+    uint32 killed_id  = 4;
+    bool   is_master  = 5;
+}
+
+message S2CLevelUp {
+    uint32 level           = 1;
+    uint32 level_up_points = 2;
+    uint32 max_hp          = 3;
+    uint32 max_mp          = 4;
+    uint32 max_sd          = 5;
+    uint32 max_ag          = 6;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -249,5 +300,9 @@ message ServerEnvelope {
         S2CProjectileSpawned     projectile_spawned      = 18;
         S2CProjectileHit         projectile_hit          = 19;
         S2CProjectileExpired     projectile_expired      = 20;
+        S2CCharacterState        character_state         = 21;
+        S2CVitalsUpdate          vitals_update           = 22;
+        S2CExperienceGained      experience_gained       = 23;
+        S2CLevelUp               level_up                = 24;
     }
 }

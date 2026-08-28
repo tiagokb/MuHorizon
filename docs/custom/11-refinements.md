@@ -149,55 +149,10 @@ Low priority.
 
 ## R-06 — Walk animation wrong for player model placeholder
 
-**Status:** attempted fix (2026-08-23) — still not fully resolved  
-**Affects:** Module 8.5 (player model)
-
-### Problem
-Wizard01 (used as male player placeholder) has 3 animations. The generic walk-detection heuristic
-`HasAnimation("action_2") ? "action_2" : "action_1"` picks action_2 for Wizard01, which is a casting
-animation, not walk. The player plays the casting animation while walking.
-
-### Root cause
-Heuristic assumes any model with action_2 uses it for walk (true for monsters: idle1/idle2/walk).
-Wizard01 and other NPC models follow a different convention.
-
-### Attempted fix (2026-08-23)
-Added `WalkAnim string` field to `EntityAnimState`. Set to `"action_2"` for monsters and `"action_1"`
-for players/NPCs at spawn time. All walk-detection sites now use `state.WalkAnim`.
-Requires verifying what action index Wizard01 actually uses for walk — check BMD animation names
-in muconv or inspect GLB in Godot animation tree.
-
-### Proper fix
-1. Open `NPC/Wizard01.glb` in Godot editor and inspect the AnimationPlayer actions to identify
-   the walk animation index.
-2. If needed, rename in the GLB or adjust the `WalkAnim` value used for NPCs.
-3. Long-term: when proper player GLBs are composed (Phase 9), they will use standard action indices.
+**Status:** resolved (2026-08-28)
 
 ---
 
 ## R-07 — Shock animation blocked when defender is mid-attack
 
-**Status:** attempted fix (2026-08-23) — still not fully resolved  
-**Affects:** Module 8.4 (combat animations)
-
-### Problem
-When a monster attacks the player, the monster plays action_3 (attack) with `AnimPriority.Attack`.
-If the player then hits the monster during that window, `PlayCombatAnim` tries to play action_5
-(shock) with `AnimPriority.Shock`. Because Shock was previously lower priority than Attack, the
-shock was silently discarded. The monster shows no hit reaction while its own attack was playing.
-
-### Root cause
-Original `AnimPriority` order: `Idle=0, Walk=1, Shock=2, Attack=3, Die=4`.  
-In MU Online, taking damage interrupts the attacker's swing. The priority ordering was inverted
-for the defender case.
-
-### Attempted fix (2026-08-23)
-Reordered to `Idle=0, Walk=1, Attack=2, Shock=3, Die=4` so Shock outranks Attack.  
-User reports the issue persists — the shock might not be triggered at all (S2CSkillAnimation
-may arrive with `TargetId=0` for certain skill types, or the TargetId doesn't match the entity
-ID stored in `_entityAnims`).
-
-### Investigation path
-Add a debug log in `HandleSkillAnimation` printing `AttackerId` and `TargetId` to verify the
-message is arriving with the correct target. Cross-check that the monster's entity ID in
-`_entityAnims` matches `msg.TargetId`.
+**Status:** resolved (2026-08-28)
