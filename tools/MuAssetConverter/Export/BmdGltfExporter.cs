@@ -435,10 +435,15 @@ public static class BmdGltfExporter
                 var tCrv = nb.UseTranslation(animName);
                 var rCrv = nb.UseRotation(animName);
 
+                // Root bones (no parent) are in-place: the server controls world position.
+                // Pin their translation to frame 0 so the mesh stays at the model origin
+                // while the skeleton animates naturally.
+                var rootPos = bone.Parent < 0 ? YUp(mat.Positions[0]) : default;
+
                 for (int k = 0; k < action.NumKeys; k++)
                 {
                     float t = k / Fps;
-                    tCrv.SetPoint(t, YUp(mat.Positions[k]));
+                    tCrv.SetPoint(t, bone.Parent < 0 ? rootPos : YUp(mat.Positions[k]));
                     rCrv.SetPoint(t, YUp(mat.Quaternions[k]));
                 }
             }
