@@ -4,9 +4,9 @@
 
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.Items;
 
-using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 using MUnique.OpenMU.Network.Protobuf;
 
 internal sealed class ProtobufItemAppearPlugIn : IItemAppearPlugIn
@@ -15,12 +15,18 @@ internal sealed class ProtobufItemAppearPlugIn : IItemAppearPlugIn
 
     public ProtobufItemAppearPlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask ItemAppearAsync(Item newItem)
+    public async ValueTask ItemAppearAsync(Item newItem)
     {
-        _player.Logger.LogInformation("[Phase5] Pickup success — item={ItemName}", newItem.Definition?.Name.ToString() ?? "?");
-        return _player.SendEnvelopeAsync(new ServerEnvelope
+        await _player.SendEnvelopeAsync(new ServerEnvelope
         {
             PickUpResult = new S2CPickUpResult { Success = true, DropId = 0 },
-        });
+        }).ConfigureAwait(false);
+
+        if (newItem.Definition is null) return;
+
+        await _player.SendEnvelopeAsync(new ServerEnvelope
+        {
+            ItemAppeared = new S2CItemAppeared { Item = ProtobufUpdateInventoryListPlugIn.BuildItemData(newItem) },
+        }).ConfigureAwait(false);
     }
 }

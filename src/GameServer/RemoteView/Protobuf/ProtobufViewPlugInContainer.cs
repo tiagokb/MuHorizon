@@ -10,6 +10,7 @@ using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Character;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Characters;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Skills;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Items;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 using MUnique.OpenMU.PlugIns;
 
@@ -58,6 +59,8 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufUpdateVitalsPlugIn(player),
             new ProtobufAddExperiencePlugIn(player),
             new ProtobufLevelUpPlugIn(player),
+            new ProtobufUpdateInventoryListPlugIn(player),
+            new ProtobufItemRemovedPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

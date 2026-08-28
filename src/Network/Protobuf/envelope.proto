@@ -262,6 +262,32 @@ message S2CLevelUp {
     uint32 max_ag          = 6;
 }
 
+// ── Phase 11: Inventory ───────────────────────────────────────────────────────
+
+message ItemData {
+    uint32 slot          = 1;  // 0-11 equipment, 12+ bag
+    uint32 number        = 2;  // ItemDefinition.Number
+    uint32 group         = 3;  // ItemDefinition.Group (0=Swords…14=Rings)
+    uint32 level         = 4;
+    bool   has_skill     = 5;
+    bool   has_luck      = 6;
+    bool   has_option    = 7;  // additional option (+4/+8/+12 dmg or def)
+    bool   has_excellent = 8;
+    bool   has_ancient   = 9;
+}
+
+message S2CInventory {
+    repeated ItemData items = 1;
+}
+
+message S2CItemAppeared {
+    ItemData item = 1;
+}
+
+message S2CItemRemoved {
+    uint32 slot = 1;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -304,5 +330,8 @@ message ServerEnvelope {
         S2CVitalsUpdate          vitals_update           = 22;
         S2CExperienceGained      experience_gained       = 23;
         S2CLevelUp               level_up                = 24;
+        S2CInventory             inventory               = 25;
+        S2CItemAppeared          item_appeared           = 26;
+        S2CItemRemoved           item_removed            = 27;
     }
 }
