@@ -557,9 +557,64 @@ Escopo intencionalmente estreitado: remover o código de protocolo de rede legad
 
 ---
 
+## Fase 8 — Entity 3D Model Rendering  ✅ DONE
+
+Documento normativo: `docs/custom/10-model-rendering.md`
+
+| Módulo | Status | Descrição |
+|---|---|---|
+| 8.1 | ✅ | Proto: `EntityType` enum (MONSTER=2) em `EntityState` |
+| 8.2 | ✅ | Client: GLB spawn por `classNumber` (lookup de `ZzzCharacter.cpp`) |
+| 8.3 | ✅ | Animações idle/walk + lerp client-side; `AnimationFinished` sem nomes hardcoded |
+| 8.4 | ✅ | Combat animations: attack/shock/die com priority system |
+| 8.5 | ✅ | Player model: Man01/Female01 por class, animações walk/idle |
+| 8.6 | ✅ | Player attack animations: fix `BasicAttackInput` + `ShowAnimationAsync`; fix `Direction` bug no backend |
+
+Tools associados: `tools/MuAssetConverter/Export/BmdGltfExporter.cs` (mesh + skeleton + animations + textures).  
+Fix root motion (2026-08-27): corrigido sliding via delta correto de bind pose.
+
+---
+
+## Fase 9 — Modularização do Client  ✅ DONE
+
+WorldScreen reduzido de 1094 → 78 linhas. Ver `MuHorizonClient/docs/architecture.md`.
+
+| Fase | Deliverable | Data |
+|---|---|---|
+| 9.1 | `EntityAnimator` extraído | 2026-08-27 |
+| 9.2 | `EntityVisual` + `EntityHpBar` | 2026-08-27 |
+| 9.3 | `EntityRegistry` | 2026-08-27 |
+| 9.4 | `CombatSystem` | 2026-08-27 |
+| 9.5 | `InputController` + `WorldCamera` + `WorldMap` + `OwnPlayer` | 2026-08-27 |
+| 9.6 | `MessageRouter` | 2026-08-28 |
+| 9.7 | EntityConfig `SkillInfo`/`TargetingType` + InteractionType routing + fix `_pendingSlot` bug | 2026-08-28 |
+
+HUD adicionado em paralelo com 9.5: `PlayerHud` (skill bar Q–F, HP bar, char info).
+
+---
+
+## Fase 10 — Character State Pipeline  ✅ DONE (2026-08-28)
+
+Documento normativo: `MuHorizonClient/docs/character-data-pipeline.md`
+
+4 novas mensagens S2C (campos 21–24 em `ServerEnvelope`):
+
+| Mensagem | Interface implementada | Quando |
+|---|---|---|
+| `S2CCharacterState` | `IUpdateCharacterStatsPlugIn` | Entrada no mundo (uma vez) |
+| `S2CVitalsUpdate` | `IUpdateStatsPlugIn` | Toda mudança de vital (HP/MP/SD/AG) |
+| `S2CExperienceGained` | `IAddExperiencePlugIn` | Ao matar mobs |
+| `S2CLevelUp` | `IUpdateLevelPlugIn` | Ao subir de nível |
+
+4 novos plugins em `src/GameServer/RemoteView/Protobuf/Character/`, registrados em `ProtobufViewPlugInContainer`.
+
+**GameState** do client ganhou 18 campos de own-player. HUD: HP bar, XP bar, nível.
+
+---
+
 ## Futuras implementações
 
-Funcionalidades planejadas fora do escopo das Fases 0–7, a serem priorizadas quando chegarem.
+Funcionalidades planejadas fora do escopo das Fases 0–10, a serem priorizadas quando chegarem.
 
 ---
 

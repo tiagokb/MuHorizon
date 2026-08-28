@@ -95,11 +95,15 @@ Walker runs outside the tick loop via `Task.Delay` — this is existing legacy b
 
 ---
 
-## Module 8.4 — Combat Animations
+## Module 8.4 — Combat Animations  ✅ DONE
 
 - `S2CSkillAnimation` → play `action_3` (ATTACK1); return to idle after animation ends
 - `S2CDamageResult` → play `action_5` (SHOCK / hit reaction) on target
 - `S2CEntityDied` → play `action_6` (DIE), remove node after animation ends
+
+Priority system (AnimState enum): Die > Shock > Attack > Walk > Idle.  
+`AnimationFinished` never names animations — any non-idle/walk one-shot returns to idle.  
+`FlashEntity` fixed to walk the GLB subtree for `MeshInstance3D` (no longer cylinder-only).
 
 **Deliverable:** combat visually readable, death properly animated.
 
@@ -145,18 +149,57 @@ The animation system detects which is available via `HasAnimation()`.
 
 ---
 
-## Module 8.6 — NPC Model Name (deferred)
+## Module 8.6 — Player Attack Animations  ✅ DONE
 
-NPC GLBs are named by BMD stem (e.g. `Breeder.glb`, `ElfWizard01.glb`) — no numeric convention.  
-Options:
-- Add `string model_name` to `EntityState` proto; server sends BMD stem; client uses directly.
-- Maintain client-side lookup table `Definition.Number → stem` (fragile, large).
+Player attack animations require both a server fix and a client hook.
 
-Recommended: proto field approach — one server-side table, zero client maintenance.
+**Server:** `BasicAttackInput` was not calling `ShowAnimationAsync` on the attacker.  
+Fix: call `await player.InvokeViewPlugInAsync<IShowAnimationPlugIn>(...)` inside  
+`PlayerAttackAction` after the attack resolves.  
+Also fixed: `Direction` was not being set on `C2SCastSkill`, causing `SkillInput` to  
+receive `Direction = 0` — players always faced East regardless of click target.
+
+**Client:** player attack animations use `action_0` through `action_N` from their GLB.  
+The player model (Man01/Female01) has a dedicated attack track; class-number determines  
+which offset to use (same `EntityConfig.PlayerAttackAnim(classNumber)` lookup).
+
+**Deliverable:** player visibly attacks when hitting enemies; faces the correct direction.
 
 ---
 
-## Phase 9 — Equipment Rendering (future)
+## NPC Model Name (deferred)
+
+NPC GLBs are named by BMD stem (e.g. `Breeder.glb`, `ElfWizard01.glb`) — no numeric convention.  
+Current approach: client-side lookup table `Definition.Number → stem` in `EntityConfig.NpcAssets`.  
+This is maintainable for the known NPC roster; extend as new NPCs are added.
+
+---
+
+## Phase 9 — Client Modularization  ✅ DONE (2026-08-28)
+
+WorldScreen reduced from 1094 → 78 lines. Extracted modules:
+
+| Module | Script | Phase |
+|---|---|---|
+| EntityAnimator | `scripts/EntityAnimator.cs` | 9.1 |
+| EntityVisual + EntityHpBar | `scripts/EntityVisual.cs`, `EntityHpBar.cs` | 9.2 |
+| EntityRegistry | `scripts/EntityRegistry.cs` | 9.3 |
+| CombatSystem | `scripts/CombatSystem.cs` | 9.4 |
+| WorldCamera + WorldMap + InputController + OwnPlayer | respective scripts | 9.5 |
+| MessageRouter | `scripts/MessageRouter.cs` | 9.6 |
+| EntityConfig SkillInfo/TargetingType + InteractionType routing | `scripts/EntityConfig.cs` | 9.7 |
+
+See `MuHorizonClient/docs/architecture.md` for full architecture reference.
+
+---
+
+## Phase 10 — Character State Pipeline  ✅ DONE (2026-08-28)
+
+Full character data on world entry and real-time updates. See `character-data-pipeline.md`.
+
+---
+
+## Future — Equipment Rendering
 
 - Server adds visible item slots to `EntityState` (weapon, armor set, wing)
 - Client attaches equipment GLBs to skeleton bone sockets per slot
@@ -165,7 +208,7 @@ Recommended: proto field approach — one server-side table, zero client mainten
 
 ---
 
-## Phase 10 — Performance & Polish (future)
+## Future — Performance & Polish
 
 - LOD: beyond N tiles, swap GLB for billboard or low-poly mesh
 - Particle effects: skill hit, death, spawn burst
