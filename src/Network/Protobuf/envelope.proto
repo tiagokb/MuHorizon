@@ -185,6 +185,23 @@ message C2SPickUpItem {
     uint32 drop_id = 1;
 }
 
+message C2SMoveItem {
+    uint32 from_slot = 1;
+    uint32 to_slot   = 2;
+}
+
+enum StatType {
+    STAT_STRENGTH   = 0;
+    STAT_AGILITY    = 1;
+    STAT_VITALITY   = 2;
+    STAT_ENERGY     = 3;
+    STAT_LEADERSHIP = 4;
+}
+
+message C2SAddStatPoint {
+    StatType stat = 1;
+}
+
 message S2CPickUpResult {
     bool   success = 1;
     uint32 drop_id = 2;
@@ -265,7 +282,7 @@ message S2CLevelUp {
 // ── Phase 11: Inventory ───────────────────────────────────────────────────────
 
 message ItemData {
-    uint32 slot          = 1;  // 0-11 equipment, 12+ bag
+    uint32 slot          = 1;  // 0-11 equipment, 12+ bag (top-left corner)
     uint32 number        = 2;  // ItemDefinition.Number
     uint32 group         = 3;  // ItemDefinition.Group (0=Swords…14=Rings)
     uint32 level         = 4;
@@ -274,6 +291,8 @@ message ItemData {
     bool   has_option    = 7;  // additional option (+4/+8/+12 dmg or def)
     bool   has_excellent = 8;
     bool   has_ancient   = 9;
+    uint32 width         = 10; // ItemDefinition.Width  (cells)
+    uint32 height        = 11; // ItemDefinition.Height (cells)
 }
 
 message S2CInventory {
@@ -286,6 +305,32 @@ message S2CItemAppeared {
 
 message S2CItemRemoved {
     uint32 slot = 1;
+}
+
+message S2CMoneyUpdate {
+    uint32 money = 1;
+}
+
+// ── Phase 12: Item Definitions ───────────────────────────────────────────────
+
+message ItemDefinitionData {
+    uint32 group                        = 1;
+    uint32 number                       = 2;
+    string name                         = 3;
+    uint32 width                        = 4;
+    uint32 height                       = 5;
+    uint32 drop_level                   = 6;
+    repeated uint32 qualified_class_numbers = 7;  // CharacterClass.Number values
+    repeated uint32 equip_slots         = 8;      // ItemSlotType.ItemSlots indices (0-11)
+    uint32 req_strength                 = 9;
+    uint32 req_agility                  = 10;
+    uint32 req_energy                   = 11;
+    uint32 req_vitality                 = 12;
+    uint32 req_leadership               = 13;
+}
+
+message S2CItemDefinitions {
+    repeated ItemDefinitionData items = 1;
 }
 
 // ── Envelopes ─────────────────────────────────────────────────────────────────
@@ -301,6 +346,8 @@ message ClientEnvelope {
         C2SMove                 move                   = 7;
         C2SCastSkill            cast_skill             = 8;
         C2SPickUpItem           pick_up_item           = 9;
+        C2SMoveItem             move_item              = 10;
+        C2SAddStatPoint         add_stat_point         = 11;
     }
 }
 
@@ -333,5 +380,7 @@ message ServerEnvelope {
         S2CInventory             inventory               = 25;
         S2CItemAppeared          item_appeared           = 26;
         S2CItemRemoved           item_removed            = 27;
+        S2CMoneyUpdate           money_update            = 28;
+        S2CItemDefinitions       item_definitions        = 29;
     }
 }

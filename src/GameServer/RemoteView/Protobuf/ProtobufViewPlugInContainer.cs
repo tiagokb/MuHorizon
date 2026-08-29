@@ -56,11 +56,15 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufProjectileHitPlugIn(player),
             new ProtobufProjectileExpiredPlugIn(player),
             new ProtobufUpdateCharacterStatePlugIn(player),
+            new ProtobufStatIncreaseResultPlugIn(player),
             new ProtobufUpdateVitalsPlugIn(player),
             new ProtobufAddExperiencePlugIn(player),
             new ProtobufLevelUpPlugIn(player),
             new ProtobufUpdateInventoryListPlugIn(player),
             new ProtobufItemRemovedPlugIn(player),
+            new ProtobufUpdateMoneyPlugIn(player),
+            new ProtobufItemMovedPlugIn(player),
+            new ProtobufItemMoveFailedPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

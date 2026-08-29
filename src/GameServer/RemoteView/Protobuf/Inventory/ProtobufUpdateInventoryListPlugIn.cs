@@ -42,6 +42,8 @@ internal sealed class ProtobufUpdateInventoryListPlugIn : IUpdateInventoryListPl
             HasOption    = opts.Any(o => o.ItemOption?.OptionType == ItemOptionTypes.Option),
             HasExcellent = opts.Any(o => o.ItemOption?.OptionType == ItemOptionTypes.Excellent),
             HasAncient   = opts.Any(o => o.ItemOption?.OptionType == ItemOptionTypes.AncientOption),
+            Width        = item.Definition.Width,
+            Height       = item.Definition.Height,
         };
     }
 }

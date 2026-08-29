@@ -11,7 +11,11 @@ using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameLogic.Inputs;
 using MUnique.OpenMU.GameLogic.PlayerActions;
+using MUnique.OpenMU.AttributeSystem;
+using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.PlayerActions.Character;
+using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
 
@@ -26,6 +30,8 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly CreateCharacterAction CreateCharacterAction = new();
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
+    private static readonly MoveItemAction MoveItemAction = new();
+    private static readonly IncreaseStatsAction IncreaseStatsAction = new();
 
     private const int SkillRateLimitMs = 100;
 
@@ -118,6 +124,29 @@ internal sealed class ProtobufPacketDispatcher
                     _player.InputQueue.Enqueue(input);
                 }
 
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MoveItem:
+                await MoveItemAction.MoveItemAsync(
+                    _player,
+                    (byte)envelope.MoveItem.FromSlot,
+                    Storages.Inventory,
+                    (byte)envelope.MoveItem.ToSlot,
+                    Storages.Inventory).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.AddStatPoint:
+                var attr = envelope.AddStatPoint.Stat switch
+                {
+                    StatType.StatStrength   => Stats.BaseStrength,
+                    StatType.StatAgility    => Stats.BaseAgility,
+                    StatType.StatVitality   => Stats.BaseVitality,
+                    StatType.StatEnergy     => Stats.BaseEnergy,
+                    StatType.StatLeadership => Stats.BaseLeadership,
+                    _ => null,
+                };
+                if (attr is not null)
+                    await IncreaseStatsAction.IncreaseStatsAsync(_player, attr).ConfigureAwait(false);
                 break;
 
             default:

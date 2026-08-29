@@ -59,6 +59,8 @@
   <!-- Exclude generated files from the SDK default glob to avoid duplicates -->
   <ItemGroup>
     <Compile Remove="Protobuf/Generated/**" />
+    <!-- Grpc.Tools auto-generates this in obj/ for non-container builds; exclude the checked-in copy -->
+    <Compile Remove="Protobuf/Envelope.cs" />
   </ItemGroup>
   <!-- Non-container builds: generate from .proto files (requires glibc protoc from Grpc.Tools) -->
   <ItemGroup Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'">

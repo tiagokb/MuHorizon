@@ -4,21 +4,36 @@
 
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 
+using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.Network.Protobuf;
 
 internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
 {
+    // Built once on first world entry, reused forever. Avoids N+1 EF lazy-load on every login.
+    private static ServerEnvelope? _cachedDefsEnvelope;
+    private static readonly object _defsLock = new();
+
     private readonly ProtobufRemotePlayer _player;
 
     public ProtobufEnteredWorldPlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask EnteredWorldAsync()
+    public async ValueTask EnteredWorldAsync()
     {
+        try
+        {
+            var defs = GetOrBuildDefs();
+            await _player.SendEnvelopeAsync(defs).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Item definitions are best-effort — a failure must not block world entry.
+        }
+
         var map = _player.CurrentMap ?? throw new InvalidOperationException("Player has no current map.");
         var pos = _player.ContinuousPosition;
 
-        return _player.SendEnvelopeAsync(new ServerEnvelope
+        await _player.SendEnvelopeAsync(new ServerEnvelope
         {
             EnteredWorld = new S2CEnteredWorld
             {
@@ -27,6 +42,62 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
                 Y = pos.Y,
                 OwnId = _player.Id,
             },
-        });
+        }).ConfigureAwait(false);
     }
+
+    private ServerEnvelope GetOrBuildDefs()
+    {
+        if (_cachedDefsEnvelope is not null)
+            return _cachedDefsEnvelope;
+
+        lock (_defsLock)
+            return _cachedDefsEnvelope ??= BuildDefsEnvelope();
+    }
+
+    private ServerEnvelope BuildDefsEnvelope()
+    {
+        var msg = new S2CItemDefinitions();
+
+        foreach (var item in _player.GameContext.Configuration.Items)
+        {
+            try
+            {
+                var data = new ItemDefinitionData
+                {
+                    Group     = item.Group,
+                    Number    = (uint)item.Number,
+                    Name      = item.GetNameForLevel(0),
+                    Width     = item.Width,
+                    Height    = item.Height,
+                    DropLevel = item.DropLevel,
+                    ReqStrength   = GetReq(item, "Strength"),
+                    ReqAgility    = GetReq(item, "Agility"),
+                    ReqEnergy     = GetReq(item, "Energy"),
+                    ReqVitality   = GetReq(item, "Vitality"),
+                    ReqLeadership = GetReq(item, "Leadership"),
+                };
+
+                try { foreach (var cc in item.QualifiedCharacters) data.QualifiedClassNumbers.Add(cc.Number); }
+                catch { /* lazy-load unavailable for this item */ }
+
+                try
+                {
+                    if (item.ItemSlot is { } slot)
+                        foreach (var s in slot.ItemSlots)
+                            data.EquipSlots.Add((uint)s);
+                }
+                catch { /* lazy-load unavailable for this item */ }
+
+                msg.Items.Add(data);
+            }
+            catch { /* skip item entirely on unexpected failure */ }
+        }
+
+        return new ServerEnvelope { ItemDefinitions = msg };
+    }
+
+    private static uint GetReq(ItemDefinition item, string stat) =>
+        (uint)(item.Requirements
+            .FirstOrDefault(r => r.Attribute?.Designation?.Contains(stat, StringComparison.OrdinalIgnoreCase) == true)
+            ?.MinimumValue ?? 0);
 }
