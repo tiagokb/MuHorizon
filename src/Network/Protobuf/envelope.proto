@@ -114,6 +114,7 @@ message EntityState {
     EntityType entity_type    = 7;
     uint32     max_health     = 8;
     uint32     current_health = 9;
+    uint32     move_delay_ms  = 10; // MonsterDefinition.MoveDelay; 0 for players/NPCs
 }
 
 message S2CEnteredWorld {

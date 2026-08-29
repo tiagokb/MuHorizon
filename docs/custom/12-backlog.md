@@ -25,17 +25,17 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 
 ## Entity Rendering (refinements)
 
-- [ ] **R-01** — Rotação de monstros: adicionar `direction` ao `EntitySnapshot` no proto; client lerpa `Rotation.Y`
-- [ ] **R-02** — Lerp speed por monstro: adicionar `move_delay_ms` ao `EntityState`; client usa como `LerpDuration`
-- [ ] **R-03** — Terrain Y durante lerp: amostrar heightmap a cada frame no XZ interpolado
-- [ ] **R-04** — Animações cortadas: ignorar animação de prioridade menor se a atual ainda não terminou
-- [ ] **R-05** — Pop ao mob re-entrar no AoI: iniciar lerp suave no spawn (baixa prioridade)
+- [x] **R-01** — Rotação de monstros: client deriva `Rotation.Y` do delta de posição (Atan2) no lerp
+- [x] **R-02** — Lerp speed por monstro: `move_delay_ms` em `EntityState`; client usa como `LerpDuration`
+- [x] **R-03** — Terrain Y durante lerp: amostrar heightmap a cada frame no XZ interpolado
+- [x] **R-04** — Animações cortadas: já resolvido pelo `AnimState` priority system no `EntityAnimator`
+- [ ] **R-05** — Pop ao mob re-entrar no AoI: pop é negligível, adiado
 
 ---
 
 ## Gameplay
 
-- [ ] Character sheet (base stats — dados já em `GameState`)
+- [x] Character sheet (base stats + stat points — `CharacterSheet.cs`, tecla C)
 - [ ] Lista de skills do personagem (pipeline S2C não implementado)
 - [ ] NPC interaction: diálogo + loja
 

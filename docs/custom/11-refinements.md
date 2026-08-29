@@ -7,7 +7,7 @@ Each entry documents: what's wrong, root cause, and the implementation path.
 
 ## R-01 — Monster rotation / heading direction
 
-**Status:** not started  
+**Status:** resolved (2026-08-29)  
 **Affects:** Module 8.3 (walk animation)
 
 ### Problem
@@ -38,7 +38,7 @@ or expose `Monster._walker` current step direction.
 
 ## R-02 — Per-monster lerp speed calibration
 
-**Status:** not started  
+**Status:** resolved (2026-08-29)  
 **Affects:** Module 8.3 (walk animation)
 
 ### Problem
@@ -70,7 +70,7 @@ Recommendation: Option A — clean and exact.
 
 ## R-03 — Terrain Y interpolation during entity lerp
 
-**Status:** not started  
+**Status:** resolved (2026-08-29)  
 **Affects:** Module 8.3 (walk animation)
 
 ### Problem
@@ -98,7 +98,7 @@ Acceptable for the entity counts expected in a single map instance.
 
 ## R-04 — Animation timing mismatch on fast actions
 
-**Status:** not started  
+**Status:** resolved (2026-08-29) — AnimState priority system in EntityAnimator already handles this.  
 **Affects:** Module 8.4 (combat animations, future)
 
 ### Problem
@@ -126,7 +126,7 @@ Any  → Die           (terminal — no return, node removed after anim)
 
 ## R-05 — Lerp state persistence across AoI re-entry
 
-**Status:** not started  
+**Status:** deferred — pop is negligible at AoI boundary crossings  
 **Affects:** Module 8.3 (walk animation)
 
 ### Problem

@@ -54,6 +54,7 @@ internal sealed class ProtobufNewNpcsInScopePlugIn : INewNpcsInScopePlugIn
             EntityType    = npc is Monster ? EntityType.Monster : EntityType.Npc,
             MaxHealth     = maxHp,
             CurrentHealth = curHp,
+            MoveDelayMs   = (uint)(npc.Definition?.MoveDelay.TotalMilliseconds ?? 0),
         };
     }
 }
