@@ -334,6 +334,37 @@ message S2CItemDefinitions {
     repeated ItemDefinitionData items = 1;
 }
 
+// ── Phase 13: NPC Interaction ─────────────────────────────────────────────────
+
+message C2SInteractNpc {
+    uint32 npc_id = 1;
+}
+
+message C2SBuyNpcItem {
+    uint32 slot = 1;
+}
+
+message C2SCloseShop {}
+
+message ShopItem {
+    uint32 slot       = 1;
+    uint32 number     = 2;
+    uint32 group      = 3;
+    uint64 price      = 4;
+    uint32 level      = 5;
+    bool   has_skill  = 6;
+    bool   has_luck   = 7;
+    bool   has_option = 8;
+    uint32 width      = 9;
+    uint32 height     = 10;
+}
+
+message S2CShopItems {
+    uint32            npc_id   = 1;
+    string            npc_name = 2;
+    repeated ShopItem items    = 3;
+}
+
 // ── Envelopes ─────────────────────────────────────────────────────────────────
 
 message ClientEnvelope {
@@ -349,6 +380,9 @@ message ClientEnvelope {
         C2SPickUpItem           pick_up_item           = 9;
         C2SMoveItem             move_item              = 10;
         C2SAddStatPoint         add_stat_point         = 11;
+        C2SInteractNpc          interact_npc           = 12;
+        C2SBuyNpcItem           buy_npc_item           = 13;
+        C2SCloseShop            close_shop             = 14;
     }
 }
 
@@ -383,5 +417,6 @@ message ServerEnvelope {
         S2CItemRemoved           item_removed            = 27;
         S2CMoneyUpdate           money_update            = 28;
         S2CItemDefinitions       item_definitions        = 29;
+        S2CShopItems             shop_items              = 30;
     }
 }

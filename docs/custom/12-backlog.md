@@ -37,7 +37,7 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 
 - [x] Character sheet (base stats + stat points — `CharacterSheet.cs`, tecla C)
 - [ ] Lista de skills do personagem (pipeline S2C não implementado)
-- [ ] NPC interaction: diálogo + loja
+- [x] NPC interaction: loja (C2SInteractNpc → S2CShopItems → C2SBuyNpcItem)
 
 ---
 

@@ -124,6 +124,39 @@ Any  → Die           (terminal — no return, node removed after anim)
 
 ---
 
+## R-08 — Scroll bleed-through ao atingir o fim da lista na loja
+
+**Status:** pendente  
+**Affects:** NpcShopWindow (Phase 13)
+
+### Problem
+Quando o `ScrollContainer` da loja chega ao limite de scroll (topo ou fundo da lista),
+eventos de scroll adicionais não são consumidos pelo UI e vazam para o `WorldCamera`,
+acionando o zoom da câmera.
+
+### Root cause
+Godot 4: `ScrollContainer` só marca o evento como handled enquanto consegue scrollar.
+No limite, o evento cai em `_UnhandledInput` do `WorldCamera`.
+
+### Implementation path
+Em `NpcShopWindow`, sobrescrever `_UnhandledInput` e consumir eventos de scroll do mouse
+enquanto a janela está visível e o cursor está sobre ela:
+
+```csharp
+public override void _UnhandledInput(InputEvent @event)
+{
+    if (!Visible) return;
+    if (@event is not InputEventMouseButton mb) return;
+    if (mb.ButtonIndex is MouseButton.WheelUp or MouseButton.WheelDown)
+        GetViewport().SetInputAsHandled();
+}
+```
+
+Isso garante que qualquer scroll sobre a janela (mesmo no limite da lista) nunca
+chega ao zoom da câmera.
+
+---
+
 ## R-05 — Lerp state persistence across AoI re-entry
 
 **Status:** deferred — pop is negligible at AoI boundary crossings  

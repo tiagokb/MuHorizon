@@ -15,6 +15,7 @@ using MUnique.OpenMU.AttributeSystem;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.PlayerActions.Character;
 using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
@@ -32,6 +33,8 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
     private static readonly MoveItemAction MoveItemAction = new();
     private static readonly IncreaseStatsAction IncreaseStatsAction = new();
+    private static readonly TalkNpcAction TalkNpcAction = new();
+    private static readonly BuyNpcItemAction BuyNpcItemAction = new();
 
     private const int SkillRateLimitMs = 100;
 
@@ -147,6 +150,23 @@ internal sealed class ProtobufPacketDispatcher
                 };
                 if (attr is not null)
                     await IncreaseStatsAction.IncreaseStatsAsync(_player, attr).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.InteractNpc:
+                var npcId = (ushort)envelope.InteractNpc.NpcId;
+                if (_player.CurrentMap?.GetObject(npcId) is NonPlayerCharacter npc)
+                    await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
+                // Non-merchant NPCs leave state in NpcDialogOpened (no client-close packet for unsupported dialogs).
+                // Merchant NPCs already reset state in IShowMerchantStoreItemListPlugIn — this is a no-op for them.
+                await _player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.BuyNpcItem:
+                await BuyNpcItemAction.BuyItemAsync(_player, (byte)envelope.BuyNpcItem.Slot).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CloseShop:
+                _player.OpenedNpc = null;
                 break;
 
             default:
