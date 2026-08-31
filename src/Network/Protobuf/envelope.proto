@@ -187,8 +187,10 @@ message C2SPickUpItem {
 }
 
 message C2SMoveItem {
-    uint32 from_slot = 1;
-    uint32 to_slot   = 2;
+    uint32 from_slot    = 1;
+    uint32 to_slot      = 2;
+    uint32 from_storage = 3;  // 0=Inventory (default), 2=Vault
+    uint32 to_storage   = 4;  // 0=Inventory (default), 2=Vault
 }
 
 enum StatType {
@@ -294,6 +296,7 @@ message ItemData {
     bool   has_ancient   = 9;
     uint32 width         = 10; // ItemDefinition.Width  (cells)
     uint32 height        = 11; // ItemDefinition.Height (cells)
+    uint32 durability    = 12; // current stack count (stackable) or durability (wearable)
 }
 
 message S2CInventory {
@@ -328,10 +331,34 @@ message ItemDefinitionData {
     uint32 req_energy                   = 11;
     uint32 req_vitality                 = 12;
     uint32 req_leadership               = 13;
+    bool   is_stackable                 = 14; // true for potions, jewels, etc.
+    bool   is_consumable                = 15; // true for items that can be right-clicked to use
 }
 
 message S2CItemDefinitions {
     repeated ItemDefinitionData items = 1;
+}
+
+// ── Phase 15: Vault ───────────────────────────────────────────────────────────
+
+message S2CVaultOpened {
+    repeated ItemData items       = 1;
+    uint32            money       = 2;
+    bool              is_extended = 3;
+}
+
+message C2SCloseVault {}
+
+// ── Phase 14: Skill List ─────────────────────────────────────────────────────
+
+message SkillData {
+    uint32 slot   = 1;  // ordinal in the list (0-N)
+    uint32 number = 2;  // Skill.Number
+    uint32 level  = 3;  // master skill level (0 for normal skills)
+}
+
+message S2CSkillList {
+    repeated SkillData skills = 1;
 }
 
 // ── Phase 13: NPC Interaction ─────────────────────────────────────────────────
@@ -347,16 +374,47 @@ message C2SBuyNpcItem {
 message C2SCloseShop {}
 
 message ShopItem {
+    uint32 slot         = 1;
+    uint32 number       = 2;
+    uint32 group        = 3;
+    uint64 price        = 4;
+    uint32 level        = 5;
+    bool   has_skill    = 6;
+    bool   has_luck     = 7;
+    bool   has_option   = 8;
+    uint32 width        = 9;
+    uint32 height       = 10;
+    bool   has_excellent = 11;
+    bool   has_ancient   = 12;
+}
+
+// ── Phase 16: Sell to NPC ─────────────────────────────────────────────────────
+
+// ── Phase 17: Item Use ────────────────────────────────────────────────────────
+
+message C2SUseItem {
+    uint32 slot        = 1;  // inventory bag slot (12+)
+    uint32 target_slot = 2;  // target item slot (for jewels used on equipment); 0 = self
+}
+
+message C2SSellNpcItem {
+    uint32 slot      = 1;
+    bool   confirmed = 2;  // true = player confirmed sell of valuable item
+}
+
+message S2CSellConfirmRequired {
     uint32 slot       = 1;
-    uint32 number     = 2;
-    uint32 group      = 3;
-    uint64 price      = 4;
-    uint32 level      = 5;
-    bool   has_skill  = 6;
-    bool   has_luck   = 7;
-    bool   has_option = 8;
-    uint32 width      = 9;
-    uint32 height     = 10;
+    string item_name  = 2;
+    uint64 sell_price = 3;
+}
+
+message SellPriceEntry {
+    uint32 slot  = 1;
+    uint64 price = 2;
+}
+
+message S2CSellPriceList {
+    repeated SellPriceEntry entries = 1;
 }
 
 message S2CShopItems {
@@ -383,6 +441,9 @@ message ClientEnvelope {
         C2SInteractNpc          interact_npc           = 12;
         C2SBuyNpcItem           buy_npc_item           = 13;
         C2SCloseShop            close_shop             = 14;
+        C2SCloseVault           close_vault            = 15;
+        C2SSellNpcItem          sell_npc_item          = 16;
+        C2SUseItem              use_item               = 17;
     }
 }
 
@@ -418,5 +479,9 @@ message ServerEnvelope {
         S2CMoneyUpdate           money_update            = 28;
         S2CItemDefinitions       item_definitions        = 29;
         S2CShopItems             shop_items              = 30;
+        S2CSkillList             skill_list              = 31;
+        S2CVaultOpened           vault_opened            = 32;
+        S2CSellConfirmRequired   sell_confirm_required   = 33;
+        S2CSellPriceList         sell_price_list         = 34;
     }
 }

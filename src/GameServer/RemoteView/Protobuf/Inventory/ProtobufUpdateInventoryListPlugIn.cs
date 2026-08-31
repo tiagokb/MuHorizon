@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 
+using MUnique.OpenMU.DataModel;
 using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -44,6 +45,7 @@ internal sealed class ProtobufUpdateInventoryListPlugIn : IUpdateInventoryListPl
             HasAncient   = opts.Any(o => o.ItemOption?.OptionType == ItemOptionTypes.AncientOption),
             Width        = item.Definition.Width,
             Height       = item.Definition.Height,
+            Durability   = item.Durability(),
         };
     }
 }

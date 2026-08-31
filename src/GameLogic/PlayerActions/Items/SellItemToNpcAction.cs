@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic.PlayerActions.Items;
 
+using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -28,7 +29,8 @@ public class SellItemToNpcAction
     /// </summary>
     /// <param name="player">The player.</param>
     /// <param name="slot">The slot.</param>
-    public async ValueTask SellItemAsync(Player player, byte slot)
+    /// <param name="confirmed">True when the player has already confirmed selling a valuable item.</param>
+    public async ValueTask SellItemAsync(Player player, byte slot, bool confirmed = false)
     {
         using var loggerScope = player.Logger.BeginScope(this.GetType());
         var item = player.Inventory?.GetItem(slot);
@@ -52,7 +54,23 @@ public class SellItemToNpcAction
             return;
         }
 
+        var sellingPrice = this._itemPriceCalculator.CalculateSellingPrice(item, item.Durability());
+        if (!confirmed && RequiresConfirmation(item, sellingPrice))
+        {
+            await player.InvokeViewPlugInAsync<IItemSellConfirmRequiredPlugIn>(
+                p => p.ItemSellConfirmRequiredAsync(item, sellingPrice)).ConfigureAwait(false);
+            return;
+        }
+
         await this.SellItemAsync(player, item).ConfigureAwait(false);
+    }
+
+    private static bool RequiresConfirmation(Item item, long sellingPrice)
+    {
+        if (sellingPrice >= 50_000) return true;
+        var opts = item.ItemOptions;
+        return opts.Any(o => o.ItemOption?.OptionType == ItemOptionTypes.Excellent ||
+                             o.ItemOption?.OptionType == ItemOptionTypes.AncientOption);
     }
 
     private async ValueTask SellItemAsync(Player player, Item item)

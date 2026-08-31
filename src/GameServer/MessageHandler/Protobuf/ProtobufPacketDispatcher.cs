@@ -17,6 +17,8 @@ using MUnique.OpenMU.GameLogic.PlayerActions.Character;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
+using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
+using MUnique.OpenMU.GameLogic.Views.Inventory;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
 
@@ -35,6 +37,8 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly IncreaseStatsAction IncreaseStatsAction = new();
     private static readonly TalkNpcAction TalkNpcAction = new();
     private static readonly BuyNpcItemAction BuyNpcItemAction = new();
+    private static readonly SellItemToNpcAction SellItemToNpcAction = new();
+    private static readonly ItemConsumeAction ItemConsumeAction = new();
 
     private const int SkillRateLimitMs = 100;
 
@@ -133,9 +137,15 @@ internal sealed class ProtobufPacketDispatcher
                 await MoveItemAction.MoveItemAsync(
                     _player,
                     (byte)envelope.MoveItem.FromSlot,
-                    Storages.Inventory,
+                    (Storages)envelope.MoveItem.FromStorage,
                     (byte)envelope.MoveItem.ToSlot,
-                    Storages.Inventory).ConfigureAwait(false);
+                    (Storages)envelope.MoveItem.ToStorage).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CloseVault:
+                _player.Vault = null;
+                _player.OpenedNpc = null;
+                await _player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.AddStatPoint:
@@ -156,9 +166,10 @@ internal sealed class ProtobufPacketDispatcher
                 var npcId = (ushort)envelope.InteractNpc.NpcId;
                 if (_player.CurrentMap?.GetObject(npcId) is NonPlayerCharacter npc)
                     await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
-                // Non-merchant NPCs leave state in NpcDialogOpened (no client-close packet for unsupported dialogs).
-                // Merchant NPCs already reset state in IShowMerchantStoreItemListPlugIn — this is a no-op for them.
-                await _player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false);
+                // Vault NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed passes.
+                // All other NPCs (merchants, unsupported dialogs) can return to EnteredWorld immediately.
+                if (_player.OpenedNpc?.Definition.NpcWindow != NpcWindow.VaultStorage)
+                    await _player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.BuyNpcItem:
@@ -167,6 +178,22 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.CloseShop:
                 _player.OpenedNpc = null;
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.SellNpcItem:
+                await SellItemToNpcAction.SellItemAsync(
+                    _player,
+                    (byte)envelope.SellNpcItem.Slot,
+                    envelope.SellNpcItem.Confirmed).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.UseItem:
+                var useSlot = (byte)envelope.UseItem.Slot;
+                var targetSlot = envelope.UseItem.TargetSlot > 0
+                    ? (byte)envelope.UseItem.TargetSlot
+                    : useSlot;
+                await ItemConsumeAction.HandleConsumeRequestAsync(
+                    _player, useSlot, targetSlot, FruitUsage.Undefined).ConfigureAwait(false);
                 break;
 
             default:

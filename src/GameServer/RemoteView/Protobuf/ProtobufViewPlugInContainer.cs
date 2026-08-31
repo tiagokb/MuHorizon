@@ -12,6 +12,7 @@ using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Skills;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Items;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.NPC;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Vault;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 using MUnique.OpenMU.PlugIns;
 
@@ -70,6 +71,12 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufBuyNpcItemFailedPlugIn(player),
             new ProtobufShowMerchantStoreItemListPlugIn(player),
             new ProtobufOpenNpcWindowPlugIn(player),
+            new ProtobufSkillListViewPlugIn(player),
+            new ProtobufShowVaultPlugIn(player),
+            new ProtobufCloseVaultPlugIn(player),
+            new ProtobufItemSoldToNpcPlugIn(player),
+            new ProtobufItemSellConfirmRequiredPlugIn(player),
+            new ProtobufItemDurabilityChangedPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

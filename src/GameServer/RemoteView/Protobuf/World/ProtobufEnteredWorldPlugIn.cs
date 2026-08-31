@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 
+using MUnique.OpenMU.DataModel;
 using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.Network.Protobuf;
@@ -62,19 +63,22 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
         {
             try
             {
+                var isWearable = item.ItemSlot is not null;
                 var data = new ItemDefinitionData
                 {
-                    Group     = item.Group,
-                    Number    = (uint)item.Number,
-                    Name      = item.GetNameForLevel(0),
-                    Width     = item.Width,
-                    Height    = item.Height,
-                    DropLevel = item.DropLevel,
-                    ReqStrength   = GetReq(item, "Strength"),
-                    ReqAgility    = GetReq(item, "Agility"),
-                    ReqEnergy     = GetReq(item, "Energy"),
-                    ReqVitality   = GetReq(item, "Vitality"),
+                    Group        = item.Group,
+                    Number       = (uint)item.Number,
+                    Name         = item.GetNameForLevel(0),
+                    Width        = item.Width,
+                    Height       = item.Height,
+                    DropLevel    = item.DropLevel,
+                    ReqStrength  = GetReq(item, "Strength"),
+                    ReqAgility   = GetReq(item, "Agility"),
+                    ReqEnergy    = GetReq(item, "Energy"),
+                    ReqVitality  = GetReq(item, "Vitality"),
                     ReqLeadership = GetReq(item, "Leadership"),
+                    IsStackable  = !isWearable && item.Durability > 1,
+                    IsConsumable = !isWearable,
                 };
 
                 try { foreach (var cc in item.QualifiedCharacters) data.QualifiedClassNumbers.Add(cc.Number); }

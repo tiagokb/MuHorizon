@@ -7,6 +7,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Vault;
 
 // Sends a full inventory refresh after any item move — simplest correct response
 // given IItemMovedPlugIn doesn't expose the original (from) slot.
@@ -16,9 +17,11 @@ internal sealed class ProtobufItemMovedPlugIn : IItemMovedPlugIn
 
     public ProtobufItemMovedPlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask ItemMovedAsync(Item item, byte toSlot, Storages storage)
+    public async ValueTask ItemMovedAsync(Item item, byte toSlot, Storages storage)
     {
-        var plugin = new ProtobufUpdateInventoryListPlugIn(_player);
-        return plugin.UpdateInventoryListAsync();
+        await new ProtobufUpdateInventoryListPlugIn(_player).UpdateInventoryListAsync().ConfigureAwait(false);
+
+        if (_player.Vault is not null)
+            await new ProtobufShowVaultPlugIn(_player).ShowVaultAsync().ConfigureAwait(false);
     }
 }
