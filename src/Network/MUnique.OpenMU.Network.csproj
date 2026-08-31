@@ -94,4 +94,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <!-- After a non-container build, sync the Grpc.Tools output back to Generated/ so Docker builds stay current -->
+  <Target Name="SyncGeneratedProto" AfterTargets="Build" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'">
+    <Copy
+      SourceFiles="$(IntermediateOutputPath)Protobuf\Envelope.cs"
+      DestinationFiles="$(MSBuildThisFileDirectory)Protobuf\Generated\Envelope.cs"
+      SkipUnchangedFiles="true" />
+  </Target>
+
 </Project>
