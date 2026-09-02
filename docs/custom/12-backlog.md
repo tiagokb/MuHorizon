@@ -51,14 +51,14 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 
 ## Combat Visual Feedback (targeting / range indicators)
 
-- [ ] **Range ring (A-click)** — ao pressionar A, exibir círculo no chão em torno do player com raio = `AttackRange` do personagem; some ao soltar A ou ao clicar
-- [ ] **Skill range indicator** — ao selecionar skill na skill bar (Q-F), mostrar o indicador adequado ao tipo da skill que segue o mouse:
-  - **Circle** (AoE ground-target): anel/disco colorido centrado no cursor, raio = alcance da skill
-  - **Line / skillshot** (projétil, cone): retângulo ou cone rotacionado na direção cursor→player, comprimento = alcance
+- [x] **Range ring (A-click)** — ao pressionar A, exibir círculo no chão em torno do player com raio = `AttackRange` do personagem; some ao soltar A ou ao clicar (`RangeIndicatorManager.ShowAttackRing`)
+- [x] **Skill range indicator** — ao selecionar skill na skill bar (Q-F), mostrar o indicador adequado ao tipo da skill que segue o mouse:
+  - **Circle** (AoE ground-target): anel/disco azul centrado no cursor, raio = `SkillInfo.RangeWorld`
+  - **Line / skillshot** (projétil, cone): retângulo rotacionado na direção cursor→player, comprimento = alcance
   - **Self / instant**: sem indicador (cast imediato)
-  - **Target**: cursor muda de forma (não precisa de indicador de área)
-- [ ] **Cancela indicador** ao pressionar ESC ou trocar de skill
-- [ ] **Cor do indicador**: azul amigável / vermelho hostil (convenção LoL); por enquanto azul fixo
+  - **Target**: sem indicador de área (cursor shape change adiado)
+- [x] **Cancela indicador** ao pressionar ESC, soltar A, trocar de skill ou clicar (`CancelSkillCharging`/`GoIdle`)
+- [x] **Cor do indicador**: azul fixo (`ColBlue` em `RangeIndicatorManager`)
 
 ## Tools
 
