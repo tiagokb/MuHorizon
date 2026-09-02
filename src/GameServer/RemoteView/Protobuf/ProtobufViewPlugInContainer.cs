@@ -80,6 +80,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufItemDurabilityChangedPlugIn(player),
             new ProtobufItemDropResultPlugIn(player),
             new ProtobufTeleportPlugIn(player),
+            new ProtobufSafezonePlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

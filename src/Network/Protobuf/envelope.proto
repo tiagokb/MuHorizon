@@ -409,6 +409,10 @@ message C2STeleport {
     uint32 target_y = 2;  // tile row
 }
 
+message S2CSafezoneChanged {
+    bool in_safezone = 1;  // true = player entered a safe zone; false = left safe zone
+}
+
 message C2SDropItem {
     uint32 slot = 1;  // inventory slot to drop (12+ for bag items)
 }
@@ -501,5 +505,6 @@ message ServerEnvelope {
         S2CVaultOpened           vault_opened            = 32;
         S2CSellConfirmRequired   sell_confirm_required   = 33;
         S2CSellPriceList         sell_price_list         = 34;
+        S2CSafezoneChanged       safezone_changed        = 35;
     }
 }

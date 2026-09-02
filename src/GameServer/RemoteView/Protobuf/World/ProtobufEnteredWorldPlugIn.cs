@@ -45,6 +45,12 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
                 OwnId = _player.Id,
             },
         }).ConfigureAwait(false);
+
+        // Send initial safezone status so the client can set up combat/off-combat mode.
+        var tile = _player.Position;
+        var isInSafezone = map.Terrain.SafezoneMap[tile.X, tile.Y];
+        await _player.InvokeViewPlugInAsync<ISafezoneChangedPlugIn>(
+            p => p.SafezoneChangedAsync(isInSafezone)).ConfigureAwait(false);
     }
 
     private ServerEnvelope GetOrBuildDefs()
