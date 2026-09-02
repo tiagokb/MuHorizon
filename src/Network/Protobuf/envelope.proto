@@ -297,6 +297,12 @@ message ItemData {
     uint32 width         = 10; // ItemDefinition.Width  (cells)
     uint32 height        = 11; // ItemDefinition.Height (cells)
     uint32 durability    = 12; // current stack count (stackable) or durability (wearable)
+    uint32 option_level  = 13; // 0=none, 1=+4, 2=+8, 3=+12 (ItemOptionTypes.Option level)
+    uint32 min_dmg       = 14; // min physical damage at current item level (0 for non-weapons)
+    uint32 max_dmg       = 15; // max physical damage at current item level (0 for non-weapons)
+    uint32 defense       = 16; // defense at current item level (0 for non-armor/shield)
+    uint32 defense_rate  = 17; // shield block rate at current item level (0 for non-shields)
+    uint32 wizardry_rise = 18; // wizardry/pet-atk rise % at current item level (staffs/books/scepters)
 }
 
 message S2CInventory {
@@ -333,6 +339,7 @@ message ItemDefinitionData {
     uint32 req_leadership               = 13;
     bool   is_stackable                 = 14; // true for potions, jewels, etc.
     bool   is_consumable                = 15; // true for items that can be right-clicked to use
+    uint32 attack_speed                 = 16; // attack speed bonus from weapon (0 for non-weapons)
 }
 
 message S2CItemDefinitions {
@@ -397,6 +404,15 @@ message C2SUseItem {
     uint32 target_slot = 2;  // target item slot (for jewels used on equipment); 0 = self
 }
 
+message C2STeleport {
+    uint32 target_x = 1;  // tile column
+    uint32 target_y = 2;  // tile row
+}
+
+message C2SDropItem {
+    uint32 slot = 1;  // inventory slot to drop (12+ for bag items)
+}
+
 message C2SSellNpcItem {
     uint32 slot      = 1;
     bool   confirmed = 2;  // true = player confirmed sell of valuable item
@@ -444,6 +460,8 @@ message ClientEnvelope {
         C2SCloseVault           close_vault            = 15;
         C2SSellNpcItem          sell_npc_item          = 16;
         C2SUseItem              use_item               = 17;
+        C2SDropItem             drop_item              = 18;
+        C2STeleport             teleport               = 19;
     }
 }
 

@@ -6,6 +6,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 
 using MUnique.OpenMU.DataModel;
 using MUnique.OpenMU.DataModel.Configuration.Items;
+using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.Network.Protobuf;
 
@@ -79,6 +80,9 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
                     ReqLeadership = GetReq(item, "Leadership"),
                     IsStackable  = !isWearable && item.Durability > 1,
                     IsConsumable = !isWearable,
+                    AttackSpeed  = (uint)(item.BasePowerUpAttributes
+                        .FirstOrDefault(p => p.TargetAttribute?.Id == Stats.AttackSpeedByWeapon.Id)
+                        ?.BaseValue ?? 0),
                 };
 
                 try { foreach (var cc in item.QualifiedCharacters) data.QualifiedClassNumbers.Add(cc.Number); }

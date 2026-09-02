@@ -29,6 +29,7 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 - [x] **R-02** — Lerp speed por monstro: `move_delay_ms` em `EntityState`; client usa como `LerpDuration`
 - [x] **R-03** — Terrain Y durante lerp: amostrar heightmap a cada frame no XZ interpolado
 - [x] **R-04** — Animações cortadas: já resolvido pelo `AnimState` priority system no `EntityAnimator`
+- [x] **Walkability client-side** — `walkable.png` (256×256) carregada no `WorldMap`; `IsWalkable(serverX,serverY)` filtra `C2SMove` antes de enviar; `MuAssetConverter` corrigido para preferir `Terrain.att` sobre `EncTerrain*.att`
 - [ ] **R-05** — Pop ao mob re-entrar no AoI: adiado (provavelmente resolvido pelo fog of war)
 - [ ] **Fog of War** — shader de distância XZ centrado no player (~13 tiles AoI); fade-in/out nas bordas; decisões: cor, afeta terreno ou só entidades
 
@@ -42,8 +43,22 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 - [x] Baú (Vault) — grid 8×15 com scroll, moves cross-janela inventory↔vault, `S2CVaultOpened` / `C2SCloseVault`
 - [x] Shop grid — loja NPC como grid real (8 cols, tamanhos reais, ItemTooltip com preço de compra)
 - [x] Venda a NPC — mover item do inventário pro shop vende; `S2CSellPriceList` mostra preço de venda no tooltip; confirmação server-side para itens valiosos (≥50K zen ou Exc/Ancient)
+- [x] Usar itens — right-click em item do inventário envia `C2SUseItem`; potions recuperam HP/MP; scrolls aprendem skills; durabilidade atualizada via `S2CItemAppeared`
+- [x] Stack count — badge amarelo no canto de itens stackable (poções, joias); `ItemData.durability` + `ItemDefinitionData.is_stackable`
+- [x] Buff da Elfa — interação com NPC #257 (Elf Soldier) aplica `ElfSoldierBuff` (def +50+lvl/5, dmg +45+lvl/3, 60min); `S2CBuffApplied`/`S2CBuffExpired` → `ActiveBuffIds`
 
 ---
+
+## Combat Visual Feedback (targeting / range indicators)
+
+- [ ] **Range ring (A-click)** — ao pressionar A, exibir círculo no chão em torno do player com raio = `AttackRange` do personagem; some ao soltar A ou ao clicar
+- [ ] **Skill range indicator** — ao selecionar skill na skill bar (Q-F), mostrar o indicador adequado ao tipo da skill que segue o mouse:
+  - **Circle** (AoE ground-target): anel/disco colorido centrado no cursor, raio = alcance da skill
+  - **Line / skillshot** (projétil, cone): retângulo ou cone rotacionado na direção cursor→player, comprimento = alcance
+  - **Self / instant**: sem indicador (cast imediato)
+  - **Target**: cursor muda de forma (não precisa de indicador de área)
+- [ ] **Cancela indicador** ao pressionar ESC ou trocar de skill
+- [ ] **Cor do indicador**: azul amigável / vermelho hostil (convenção LoL); por enquanto azul fixo
 
 ## Tools
 

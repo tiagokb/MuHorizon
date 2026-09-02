@@ -14,6 +14,7 @@ using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Inventory;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.NPC;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Vault;
 using MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
+using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.PlugIns;
 
 /// <summary>
@@ -77,6 +78,8 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufItemSoldToNpcPlugIn(player),
             new ProtobufItemSellConfirmRequiredPlugIn(player),
             new ProtobufItemDurabilityChangedPlugIn(player),
+            new ProtobufItemDropResultPlugIn(player),
+            new ProtobufTeleportPlugIn(player),
         };
 
         _plugins = new Dictionary<Type, IViewPlugIn>();

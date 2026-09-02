@@ -1,4 +1,4 @@
-// <copyright file="ProtobufPacketDispatcher.cs" company="MUnique">
+﻿// <copyright file="ProtobufPacketDispatcher.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -18,6 +18,7 @@ using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
+using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
@@ -34,13 +35,16 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
     private static readonly MoveItemAction MoveItemAction = new();
+    private static readonly DropItemAction DropItemAction = new();
     private static readonly IncreaseStatsAction IncreaseStatsAction = new();
     private static readonly TalkNpcAction TalkNpcAction = new();
+    private static readonly NpcBuffRequestAction NpcBuffRequestAction = new();
     private static readonly BuyNpcItemAction BuyNpcItemAction = new();
     private static readonly SellItemToNpcAction SellItemToNpcAction = new();
     private static readonly ItemConsumeAction ItemConsumeAction = new();
 
     private const int SkillRateLimitMs = 100;
+    private const int InteractionRangeTiles = 4;
 
     private readonly ProtobufRemotePlayer _player;
     private readonly ILogger<ProtobufPacketDispatcher> _logger;
@@ -113,7 +117,10 @@ internal sealed class ProtobufPacketDispatcher
             case ClientEnvelope.PayloadOneofCase.PickUpItem:
                 if (_player.InputQueue.Count < 32)
                 {
-                    _player.InputQueue.Enqueue(new PickUpInput((ushort)envelope.PickUpItem.DropId));
+                    var pickDropId = (ushort)envelope.PickUpItem.DropId;
+                    var pickObj = _player.CurrentMap?.GetObject(pickDropId);
+                    if (pickObj is not null && IsWithinInteractionRange(pickObj.Position))
+                        _player.InputQueue.Enqueue(new PickUpInput(pickDropId));
                 }
 
                 break;
@@ -164,8 +171,11 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.InteractNpc:
                 var npcId = (ushort)envelope.InteractNpc.NpcId;
-                if (_player.CurrentMap?.GetObject(npcId) is NonPlayerCharacter npc)
+                if (_player.CurrentMap?.GetObject(npcId) is NonPlayerCharacter npc && IsWithinInteractionRange(npc.Position))
+                {
                     await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
+                    await NpcBuffRequestAction.RequestBuffAsync(_player).ConfigureAwait(false);
+                }
                 // Vault NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed passes.
                 // All other NPCs (merchants, unsupported dialogs) can return to EnteredWorld immediately.
                 if (_player.OpenedNpc?.Definition.NpcWindow != NpcWindow.VaultStorage)
@@ -196,10 +206,43 @@ internal sealed class ProtobufPacketDispatcher
                     _player, useSlot, targetSlot, FruitUsage.Undefined).ConfigureAwait(false);
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.DropItem:
+                await DropItemAction.DropItemAsync(
+                    _player,
+                    (byte)envelope.DropItem.Slot,
+                    _player.Position).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.Teleport:
+            {
+                var telTarget = new Pathfinding.Point(
+                    (byte)envelope.Teleport.TargetX,
+                    (byte)envelope.Teleport.TargetY);
+                if (_player.IsActive()
+                    && _player.CurrentMap is { } telMap
+                    && telMap.Terrain.WalkMap[telTarget.X, telTarget.Y]
+                    && !telMap.Terrain.SafezoneMap[telTarget.X, telTarget.Y])
+                {
+                    var telSkill = _player.SkillList?.GetSkill(6)?.Skill
+                        ?? _player.GameContext.Configuration.Skills
+                            .FirstOrDefault(s => s.Number == 6);
+                    if (telSkill is not null)
+                        _ = Task.Run(() => _player.TeleportAsync(telTarget, telSkill));
+                }
+                break;
+            }
+
             default:
                 _logger.LogDebug("Unhandled payload case {Case} from {EndPoint}", envelope.PayloadCase, _player.Connection?.EndPoint);
                 break;
         }
+    }
+
+    private bool IsWithinInteractionRange(Pathfinding.Point other)
+    {
+        var p = _player.Position;
+        return Math.Abs(p.X - other.X) <= InteractionRangeTiles
+            && Math.Abs(p.Y - other.Y) <= InteractionRangeTiles;
     }
 
     private async ValueTask HandlePingAsync(PingRequest ping)

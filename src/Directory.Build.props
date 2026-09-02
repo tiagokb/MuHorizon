@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+    <!-- In-container builds: redirect obj/ and bin/ to a Linux-native volume so that
+         (a) Windows path fragments never land in project.assets.json, and
+         (b) incremental build state survives container restarts. -->
+    <PropertyGroup Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+        <BaseIntermediateOutputPath>/build-cache/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
+        <BaseOutputPath>/build-cache/$(MSBuildProjectName)/bin/</BaseOutputPath>
+    </PropertyGroup>
+
     <ItemGroup Label="commom configuration code style.">
         
         <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">

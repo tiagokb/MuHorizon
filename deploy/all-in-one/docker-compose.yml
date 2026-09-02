@@ -40,11 +40,13 @@ services:
     volumes:
       - ../../src:/app/src:cached
       - nuget-cache:/root/.nuget/packages
+      - build-cache:/build-cache
     working_dir: /app/src/Startup
-    # Deleting project.assets.json forces a clean Linux restore (fixes Windows-path issues).
-    # project.nuget.cache is NOT deleted — it lets restore skip Grpc.Tools targets and avoids
-    # the tool regenerating Protobuf/Generated/Envelope.cs with glibc protoc on Alpine.
-    command: sh -c "find /app/src -name 'project.assets.json' -delete && dotnet restore -p:ci=true && dotnet run --no-restore --no-launch-profile -p:ci=true"
+    # build-cache volume holds obj/ and bin/ for all projects (Linux-native paths, set via
+    # Directory.Build.props BaseIntermediateOutputPath/BaseOutputPath when DOTNET_RUNNING_IN_CONTAINER=true).
+    # This means project.assets.json never has Windows paths and build state persists across restarts,
+    # so only changed files are recompiled — first build ~10 min, subsequent restarts ~30-60 s.
+    command: sh -c "dotnet restore -p:ci=true && dotnet run --no-restore --no-launch-profile -p:ci=true"
     environment:
       DB_HOST: database
       ASPNETCORE_URLS: http://+:8080
@@ -97,3 +99,4 @@ services:
 volumes:
   dbdata:
   nuget-cache:
+  build-cache:

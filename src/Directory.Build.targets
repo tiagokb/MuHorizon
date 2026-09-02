@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+    <!-- When running in-container with the build-cache volume (BaseIntermediateOutputPath →
+         /build-cache/…), the SDK's default obj\** glob exclusion is lost because it only
+         excludes the absolute /build-cache path.  The Windows-built obj/ and bin/ dirs are
+         still present on the mounted src/ volume and their auto-generated *.AssemblyAttributes.cs
+         files get picked up by the **/*.cs default glob, causing CS0579 duplicates.
+         This targets file runs after SDK item collection and removes them. -->
+    <ItemGroup Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+        <Compile Remove="obj/**" />
+        <Compile Remove="bin/**" />
+    </ItemGroup>
+
+</Project>

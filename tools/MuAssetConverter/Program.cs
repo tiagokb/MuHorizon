@@ -293,7 +293,11 @@ foreach (var map in mapsToProcess)
     Console.WriteLine($"[{map}] Processing...");
 
     // --- ATT → walkable.png ---
-    var attPath = FindFile(mapDir, "*.att");
+    // Prefer plain (unencrypted) ATT files; encrypted variants (EncTerrain*.att) contain raw
+    // encrypted bytes that AttFile.Load reads as-is, producing all-blocked output.
+    var attPath = Directory.EnumerateFiles(mapDir, "*.att", SearchOption.TopDirectoryOnly)
+        .OrderBy(f => Path.GetFileName(f).StartsWith("Enc", StringComparison.OrdinalIgnoreCase) ? 1 : 0)
+        .FirstOrDefault();
     if (attPath is not null)
     {
         try
