@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic.Inputs;
 
+using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic.PlugIns;
@@ -38,6 +39,7 @@ public sealed class SkillInput : IPlayerInput
 
         if (map.GetObject(_targetId) is not IAttackable target)
         {
+            player.Logger.LogDebug("[COMBAT] SkillCast id={SkillId}: target {TargetId} not found on map", _skillId, _targetId);
             return;
         }
 
@@ -57,12 +59,25 @@ public sealed class SkillInput : IPlayerInput
                      ?? player.GameContext.PlugInManager.GetStrategy<short, ITargetedSkillPlugin>(0);
         if (plugin is null)
         {
+            player.Logger.LogDebug("[COMBAT] SkillCast id={SkillId}: no ITargetedSkillPlugin found", _skillId);
             return;
         }
 
         // Fall back to global config when the player doesn't own the skill (e.g. early test accounts).
         var skill = skillEntry?.Skill
             ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)_skillId);
+
+        var targetName = target is Player tp ? tp.Name : target.GetType().Name;
+        player.Logger.LogDebug(
+            "[COMBAT] SkillCast  id={SkillId}  skill={Skill}  type={DmgType}  hasProjectile={Proj}  inSkillList={InList}  plugin={Plugin}  target={Target}",
+            _skillId,
+            skill?.Name ?? "<none>",
+            skill?.DamageType.ToString() ?? "<none>",
+            skill?.HasProjectile ?? false,
+            skillEntry is not null,
+            plugin.GetType().Name,
+            targetName);
+
         if (skill is { HasProjectile: true })
         {
             if (!target.IsActive())

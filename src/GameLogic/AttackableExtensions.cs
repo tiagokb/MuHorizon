@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic;
 
+using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.AttributeSystem;
 using MUnique.OpenMU.DataModel.Attributes;
 using MUnique.OpenMU.DataModel.Configuration;
@@ -69,6 +70,13 @@ public static class AttackableExtensions
     {
         if (!attacker.IsAttackSuccessfulTo(defender))
         {
+            if (attacker is Player missPlayer)
+            {
+                var missTarget = defender is Player mdp ? mdp.Name : defender.GetType().Name;
+                missPlayer.Logger.LogDebug("[COMBAT] MISS  {Player}→{Target}  (attack unsuccessful / blocked)",
+                    missPlayer.Name, missTarget);
+            }
+
             return new HitInfo(0, 0, DamageAttributes.Undefined);
         }
 
@@ -301,6 +309,15 @@ public static class AttackableExtensions
                 // Further halve damage in Chaos Castle for classic PvP
                 dmg /= 2;
             }
+        }
+
+        if (attacker is Player logPlayer)
+        {
+            var skillName  = skill?.Skill?.Name ?? "BasicAttack";
+            var targetName = defender is Player dp ? dp.Name : defender.GetType().Name;
+            logPlayer.Logger.LogDebug(
+                "[COMBAT] HIT  {Player}→{Target}  skill={Skill}  type={Type}  base=[{Min}–{Max}]  def={Def}  dmg={Dmg}  attr={Attr}",
+                logPlayer.Name, targetName, skillName, damageType, baseMinDamage, baseMaxDamage, defense, dmg, attributes);
         }
 
         return defender.GetHitInfo((uint)dmg, attributes, attacker, (uint)manaToll);

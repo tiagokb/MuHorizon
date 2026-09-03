@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic.Inputs;
 
+using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.GameLogic.Views.World;
 
 /// <summary>
@@ -46,12 +47,16 @@ public sealed class BasicAttackInput : IPlayerInput
             return;
         }
 
+        var targetName = target is Player tp ? tp.Name : target.GetType().Name;
+        player.Logger.LogDebug("[COMBAT] BasicAttack  player={Player}  target={Target}", player.Name, targetName);
+
         await player.ForEachWorldObserverAsync<IShowAnimationPlugIn>(
             p => p.ShowAnimationAsync(player, 0, target, player.Rotation), true).ConfigureAwait(false);
 
         var hitInfo = await target.AttackByAsync(player, null, false).ConfigureAwait(false);
         if (hitInfo is null)
         {
+            player.Logger.LogDebug("[COMBAT] BasicAttack  player={Player}  target={Target}  → no hitInfo (immune/safe)", player.Name, targetName);
             return;
         }
 

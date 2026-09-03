@@ -127,15 +127,24 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.CastSkill:
                 var nowTick = Environment.TickCount64;
-                if (nowTick - _lastSkillDispatchTick >= SkillRateLimitMs && _player.InputQueue.Count < 32)
+                var rateLimitMs = nowTick - _lastSkillDispatchTick;
+                if (rateLimitMs >= SkillRateLimitMs && _player.InputQueue.Count < 32)
                 {
                     _lastSkillDispatchTick = nowTick;
-                    var skillId = (ushort)envelope.CastSkill.SkillId;
+                    var skillId  = (ushort)envelope.CastSkill.SkillId;
                     var targetId = (ushort)envelope.CastSkill.TargetId;
+                    var inputKind = skillId == 0 ? "BasicAttack" : "SkillCast";
+                    _logger.LogDebug("[COMBAT] Dispatch  {Kind}  skillId={SkillId}  targetId={TargetId}  player={Player}",
+                        inputKind, skillId, targetId, _player.Name);
                     IPlayerInput input = skillId == 0
                         ? new BasicAttackInput(targetId)
                         : new SkillInput(skillId, targetId);
                     _player.InputQueue.Enqueue(input);
+                }
+                else if (rateLimitMs < SkillRateLimitMs)
+                {
+                    _logger.LogDebug("[COMBAT] Dispatch RATE-LIMITED  skillId={SkillId}  elapsed={Elapsed}ms  min={Min}ms",
+                        envelope.CastSkill.SkillId, rateLimitMs, SkillRateLimitMs);
                 }
 
                 break;
