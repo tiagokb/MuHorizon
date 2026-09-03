@@ -22,8 +22,9 @@ public sealed class GameTickLoop
     private const int TargetTickMs = 33;
     private const int OvershotWarningMs = 20;
 
-    // TODO: read from GameConfiguration
-    private const float MoveSpeedUnitsPerSec = 80f;
+    // Movement speed is derived per-player from Player.MovementSpeedServerUnitsPerSec,
+    // which converts the legacy step-delay formula to server-units/sec (speed × 2).
+    // Base DW: 12 × 2 = 24 units/sec = 3 tiles/sec; with running boots: 15 × 2 = 30 units/sec.
 
     private readonly GameMap _map;
     private readonly ILogger<GameTickLoop> _logger;
@@ -224,7 +225,7 @@ public sealed class GameTickLoop
             var dx = target.X - pos.X;
             var dy = target.Y - pos.Y;
             var distSq = dx * dx + dy * dy;
-            var stepDist = MoveSpeedUnitsPerSec * dt;
+            var stepDist = player.MovementSpeedServerUnitsPerSec * dt;
 
             if (distSq <= stepDist * stepDist)
             {

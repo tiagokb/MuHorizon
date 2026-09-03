@@ -43,6 +43,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 {
     private const double WalkMovementSpeed = 12.0;
 
+    /// <summary>
+    /// Gets the movement speed in server units per second for use by <see cref="GameTickLoop"/>.
+    /// Derived from the legacy step-delay formula: speed × (8 units/tile) / (40ms × 100 / 1000s) = speed × 2.
+    /// </summary>
+    internal float MovementSpeedServerUnitsPerSec => (float)(this.GetClientMovementSpeed() * 2.0);
+
     private static readonly MagicEffectDefinition GMEffect = new GMMagicEffectDefinition
     {
         InformObservers = true,
