@@ -51,6 +51,10 @@ internal sealed class ProtobufUpdateCharacterStatePlugIn : IUpdateCharacterStats
             Leadership     = (uint)attrs[Stats.BaseLeadership],
             AttackSpeed    = (uint)attrs[Stats.AttackSpeed],
             MagicSpeed     = (uint)attrs[Stats.MagicSpeed],
+            MinPhysDmg     = (uint)Math.Max(0f, attrs[Stats.MinimumPhysBaseDmg]),
+            MaxPhysDmg     = (uint)Math.Max(0f, attrs[Stats.MaximumPhysBaseDmg]),
+            MinWizDmg      = (uint)Math.Max(0f, attrs[Stats.MinimumWizBaseDmg]),
+            MaxWizDmg      = (uint)Math.Max(0f, attrs[Stats.MaximumWizBaseDmg]),
         };
     }
 }

@@ -254,6 +254,10 @@ message S2CCharacterState {
     uint32 leadership       = 18;
     uint32 attack_speed     = 19; // total computed attack speed (agility/class formula + weapon)
     uint32 magic_speed      = 20; // total computed magic speed (agility/class formula + weapon)
+    uint32 min_phys_dmg     = 21; // minimum physical base damage
+    uint32 max_phys_dmg     = 22; // maximum physical base damage
+    uint32 min_wiz_dmg      = 23; // minimum wizardry base damage
+    uint32 max_wiz_dmg      = 24; // maximum wizardry base damage
 }
 
 message S2CVitalsUpdate {
