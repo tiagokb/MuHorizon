@@ -75,3 +75,4 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 ## Tools
 
 - [ ] Pipeline inverso Blender → BMD: `BmdWriter` + `GltfBmdImporter` (ver seção I no `09-implementation-plan.md`)
+- [ ] **Git tags por fase** — criar tags retroativas nos dois repos (`openMU` + `MuHorizonClient`) para cada fase concluída, facilitando `git checkout fase-X` para gravar vídeos de progresso sem risco de perder estado atual
