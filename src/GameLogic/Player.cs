@@ -883,6 +883,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             var previous = this.Position;
             this.Position = target;
 
+            // Stop tick-loop movement so TickMovement/UpdateMapTileAsync don't undo this.Position
+            // during the animation delays. ContinuousPosition is re-confirmed by ShowTeleportedAsync.
+            this.ContinuousWalkTarget = null;
+            this.ContinuousPosition   = Vector2F.FromTile(target);
+
             await this.ForEachWorldObserverAsync<IShowSkillAnimationPlugIn>(p => p.ShowSkillAnimationAsync(this, this, teleportSkill, true), true).ConfigureAwait(false);
 
             await Task.Delay(300).ConfigureAwait(false);
