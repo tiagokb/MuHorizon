@@ -7,8 +7,11 @@ Itens com `[ ]` pendentes, `[x]` concluídos.
 
 ## World feel — escala e movimento
 
-- [ ] **Investigar velocidade de movimento aparente** — o personagem parece se mover em speedhack. Provável causa: a velocidade base do MU (`Stats.Speed`) foi calibrada para a engine original; em Godot com `ServerToWorld = 0.1f` a proporção câmera/tile pode ampliar visualmente essa velocidade. Investigar: comparar tiles percorridos/segundo com o MU original, ajustar `Stats.Speed` na `GameConfiguration` ou a distância da câmera.
-- [ ] **Ajuste de câmera** — FOV, distância e ângulo calibrados para o tamanho real do mundo (256×256 tiles × 0.8f = 204.8 world units). Atualmente parece que o mundo é pequeno pq a câmera está muito próxima para a escala dos assets.
+- [x] **Velocidade de movimento** — corrigido: `GameTickLoop` usava `MoveSpeedUnitsPerSec = 80f` (10 tiles/sec); agora usa `player.MovementSpeedServerUnitsPerSec` derivado da fórmula legada (base DW: 24 units/sec = 3 tiles/sec).
+- [ ] **Sensação de lentidão** — 3 tiles/sec é correto para MU base, mas na perspectiva 3D parece estranho. Avaliar ajuste de câmera (distância/FOV) para compensar a percepção, ou aceitar e ajustar junto com o sistema de running boots que já aumenta para 3.75 tiles/sec.
+- [ ] **Animação de walk dessincronizada** — após corrigir a velocidade, a animação de andar toca na velocidade original (calibrada para ~10 tiles/sec), resultando em "30 passos por 1 tile". Fix: escalar `AnimationPlayer.SpeedScale` proporcionalmente à velocidade atual do personagem. Referência: `speedScale = currentTilesPerSec / referenceAnimTilesPerSec` onde reference ≈ 3.
+- [ ] **Tamanho dos mobs inconsistente** — alguns mobs aparecem gigantes, outros minúsculos. O client legado tinha ajustes manuais de escala por monster ID (`ObjectScale` no `ObjectModel`). Precisa mapear esses fatores e aplicar em `EntityVisual.Configure` via `EntityConfig`. Investigar: `ZzzObject.cpp` / `Object.cpp` do client legado para extrair a tabela de escalas.
+- [ ] **Ajuste de câmera** — FOV, distância e ângulo calibrados para o tamanho real do mundo (256×256 tiles × 0.8f = 204.8 world units).
 - [ ] **Iluminação** — luz direcional + ambient calibrados para o tamanho de tile do MU; sombras suaves.
 
 ---
