@@ -252,6 +252,8 @@ message S2CCharacterState {
     uint32 vitality         = 16;
     uint32 energy           = 17;
     uint32 leadership       = 18;
+    uint32 attack_speed     = 19; // total computed attack speed (agility/class formula + weapon)
+    uint32 magic_speed      = 20; // total computed magic speed (agility/class formula + weapon)
 }
 
 message S2CVitalsUpdate {

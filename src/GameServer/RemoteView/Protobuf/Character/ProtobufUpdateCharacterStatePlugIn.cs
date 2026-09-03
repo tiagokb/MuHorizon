@@ -49,6 +49,8 @@ internal sealed class ProtobufUpdateCharacterStatePlugIn : IUpdateCharacterStats
             Vitality       = (uint)attrs[Stats.BaseVitality],
             Energy         = (uint)attrs[Stats.BaseEnergy],
             Leadership     = (uint)attrs[Stats.BaseLeadership],
+            AttackSpeed    = (uint)attrs[Stats.AttackSpeed],
+            MagicSpeed     = (uint)attrs[Stats.MagicSpeed],
         };
     }
 }
