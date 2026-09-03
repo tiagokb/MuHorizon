@@ -12,7 +12,7 @@ Atualizar conforme feedback de playtest.
 - [x] **Directional** — dispara na direção do cursor sem restrição de distância. Correto, não cancelar.
 - [x] **GroundTarget (Teleport)** — clamp ao range máximo na direção do clique; nunca rejeita.
 - [ ] **GroundTarget AoE (Flame, Hellfire, etc.)** — mesmo comportamento do teleport: se clicar além do range, solta no ponto máximo na direção do clique. Hoje cai no `StartPathTo` (bug). Bloqueado por falta de posição em `C2SCastSkill` — precisa adicionar `float target_x / target_y` ao proto e handler no servidor.
-- [ ] **Targeted fora do range** — em vez de cancelar silenciosamente, o personagem deve **andar em direção ao alvo até entrar no range e então soltar automaticamente** (igual ao `_pendingNpcInteractId`). Implementação: campo `_pendingSkillCast = (slot, targetId)` + check em `_Process`.
+- [x] **Targeted fora do range** — personagem anda em direção ao alvo e solta automaticamente ao entrar no range (`_pendingSkillCast`). ESC/right-click cancela.
 
 ---
 
@@ -27,6 +27,10 @@ O objetivo final é ter um sistema de **cast lock** onde cada skill tem uma jane
 - Snipe de cast: ver o mago cavar um Meteor de 2s → entrar no direcional nele antes de sair do range
 - Interrupt: skill de stun/empurrão cancela o cast do oponente
 - Animation cancel consciente: o player experiente sabe exatamente quando pode mover sem cancelar
+
+### Problemas ativos (pré-condição para o sistema de cast lock)
+
+- [ ] **Imunidade durante teleporte** — hoje o `_castLockSec` bloqueia movimento mas não bloqueia input de skills. O player pode TP + combo imediato no PvP sem janela de resposta. Fix: checar `_castLockSec > 0` no início de `ExecuteSkillCast` e `_UnhandledInput` para skills (não para movimento). Isso é pré-condição para qualquer balanceamento de PvP.
 
 ### O que precisa ser construído
 
