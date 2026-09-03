@@ -52,13 +52,25 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 ## Combat Visual Feedback (targeting / range indicators)
 
 - [x] **Range ring (A-click)** — ao pressionar A, exibir círculo no chão em torno do player com raio = `AttackRange` do personagem; some ao soltar A ou ao clicar (`RangeIndicatorManager.ShowAttackRing`)
-- [x] **Skill range indicator** — ao selecionar skill na skill bar (Q-F), mostrar o indicador adequado ao tipo da skill que segue o mouse:
-  - **Circle** (AoE ground-target): anel/disco azul centrado no cursor, raio = `SkillInfo.RangeWorld`
-  - **Line / skillshot** (projétil, cone): retângulo rotacionado na direção cursor→player, comprimento = alcance
-  - **Self / instant**: sem indicador (cast imediato)
-  - **Target**: sem indicador de área (cursor shape change adiado)
+- [x] **Skill range indicator** — ao selecionar skill na skill bar (Q-F), mostrar o indicador adequado ao tipo da skill:
+  - **AoE ground-target** (`RangeWorld > 0`): anel no cursor com raio = `SkillInfo.RangeWorld`
+  - **Destination ground-target** (Teleport — `RangeWorld == 0`): anel ao redor do player com raio = `CastRangeWorld`
+  - **Targeted**: anel ao redor do player com raio = `CastRangeWorld` (padrão 48f = 6 tiles)
+  - **Line / skillshot** (projétil, cone): retângulo rotacionado na direção cursor→player
+  - **Self / instant**: sem indicador
+- [x] **Snap de alvo para skills targeted**: se o ray miss o hitbox do mob, busca o mob mais próximo do ponto no chão em raio ≤ 8 world units (1 tile); skills GroundTarget não fazem snap (clique intencional no chão)
+- [x] **Cooldown overlay no HUD**: slot escurece + exibe segundos restantes enquanto em cooldown
 - [x] **Cancela indicador** ao pressionar ESC, soltar A, trocar de skill ou clicar (`CancelSkillCharging`/`GoIdle`)
 - [x] **Cor do indicador**: azul fixo (`ColBlue` em `RangeIndicatorManager`)
+
+---
+
+## Segurança / Anti-cheat (dívida crítica — implementar antes de qualquer sessão multiplayer real)
+
+- [ ] **CRÍTICO — Server-side attack speed**: o rate-limit em `ProtobufPacketDispatcher` usa timer hardcoded (100ms); deve usar `Stats.AttackSpeed` do player para rejeitar rafagas acima do permitido
+- [ ] **CRÍTICO — Server-side skill range validation**: `C2SCastSkill` e `C2STeleport` não verificam distância no servidor; um cliente modificado pode castá-los de qualquer lugar do mapa
+- [ ] **CRÍTICO — Server-side interaction range**: `C2SInteractNpc` não verifica proximidade no servidor; cliente calcula e enforça, mas o servidor aceita qualquer ID
+- [ ] **Documentação**: todas as validações acima são atualmente client-authoritative por herança do protocolo legado do MU Online
 
 ## Tools
 
