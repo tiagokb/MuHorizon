@@ -24,7 +24,7 @@ public sealed class GameTickLoop
 
     // Movement speed is derived per-player from Player.MovementSpeedServerUnitsPerSec,
     // which converts the legacy step-delay formula to server-units/sec (speed × 2).
-    // Base DW: 12 × 2 = 24 units/sec = 3 tiles/sec; with running boots: 15 × 2 = 30 units/sec.
+    // Base DW (run speed floor): 15 × 2 = 30 units/sec = 3.75 tiles/sec; with running boots: higher.
 
     private readonly GameMap _map;
     private readonly ILogger<GameTickLoop> _logger;

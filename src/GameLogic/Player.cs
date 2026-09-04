@@ -41,11 +41,15 @@ using Nito.AsyncEx;
 /// </summary>
 public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacker, ITrader, IPartyMember, IRotatable, IHasBucketInformation, ISupportWalk, IMovable, ILoggerOwner<Player>
 {
-    private const double WalkMovementSpeed = 12.0;
+    // Original MU speed table: 12 = safezone/walk, 15 = run (normal gameplay), 17-19 = mounts/wings.
+    // DarkWizard has no MovementSpeed attribute relationship, so Stats.MovementSpeed = 0 and the
+    // floor kicks in. Using 15 matches the effective run speed players experienced in original MU.
+    private const double WalkMovementSpeed = 15.0;
 
     /// <summary>
     /// Gets the movement speed in server units per second for use by <see cref="GameTickLoop"/>.
     /// Derived from the legacy step-delay formula: speed × (8 units/tile) / (40ms × 100 / 1000s) = speed × 2.
+    /// Base DW at run speed: 15 × 2 = 30 units/sec = 3.75 tiles/sec.
     /// </summary>
     internal float MovementSpeedServerUnitsPerSec => (float)(this.GetClientMovementSpeed() * 2.0);
 
