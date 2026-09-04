@@ -29,6 +29,8 @@ Itens com `[ ]` pendentes, `[x]` concluídos.
 - [ ] **Sprites extraídos** — `MuAssetConverter` exporta os sprites 2D de cada item (OZJ/PNG) mapeados por `(group, number)` para uso no inventário e tooltips.
 - [ ] **Alternativa render-to-texture** — renderizar o modelo 3D do item em um `SubViewport` e usar como ícone (melhor qualidade, mais custoso; decidir conforme volume de itens).
 
+> **GLBs de drop gerados**: `muconv --items` exportou 314 GLBs para `assets/items/{group}_{number}.glb`. Mapeamento baseado em `ZzzOpenData.cpp OpenItems()`. Gaps no range (ex: `7_3..15` faltando) são esperados — arquivos não existem no data set original.
+
 ---
 
 ## Equipamentos no personagem
