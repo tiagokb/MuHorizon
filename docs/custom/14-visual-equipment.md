@@ -18,9 +18,9 @@ Itens com `[ ]` pendentes, `[x]` concluídos.
 
 ## Itens no chão
 
-- [ ] **Modelo 3D do drop** — converter BMDs de itens para GLB (estende o `MuAssetConverter` existente). `EntityRegistry.SpawnDrop` já cria o `Area3D`; adicionar o GLB como filho.
-- [ ] **Fallback** — se o GLB não existir, usar uma esfera/quad colorida por categoria de item (arma, armadura, joia, poção).
-- [ ] **Billboard label** — nome do item acima do drop (aparece ao passar o mouse ou sempre, dependendo da configuração).
+- [x] **Modelo 3D do drop** — `SpawnDrop` tenta `res://assets/items/{group}_{number}.glb`; se existir, instancia o GLB; senão usa fallback colorido. Categorias: vermelho=arma (0-5), azul=armadura (6-11), roxo=wings (12), verde=misc.
+- [x] **Fallback** — esfera colorida por `item_group` via `MakeDropOrb(ItemDropColor(group))`.
+- [x] **Billboard label** — `Label3D` acima do drop com nome via `ItemDatabase.Get()` ou `"X Zen"` para dinheiro; outline para legibilidade.
 
 ---
 
