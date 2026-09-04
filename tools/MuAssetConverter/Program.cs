@@ -199,6 +199,53 @@ if (args.Length >= 3 && args[0] == "--bake-player")
     return fail > 0 ? 1 : 0;
 }
 
+// --items <data-root> <output-dir>
+//   Batch-exports item 3D models as {group}_{number}.glb based on ZzzOpenData.cpp mappings.
+//   Weapons/shields/wings come from Data/Item/; armor comes from Data/Player/.
+//   Files that don't exist on disk are silently skipped (many item numbers have gaps).
+if (args.Length >= 3 && args[0] == "--items")
+{
+    string dataRoot = Path.GetFullPath(args[1]);
+    string outDir   = Path.GetFullPath(args[2]);
+    Directory.CreateDirectory(outDir);
+
+    Console.Write($"Indexing textures from '{dataRoot}'... ");
+    var texIndex = BmdGltfExporter.BuildTextureIndex(dataRoot);
+    Console.WriteLine($"{texIndex.Count} found.");
+
+    int ok = 0, skipped = 0, failed = 0;
+
+    foreach (var (group, number, subdir, stem) in ItemBmdMappings())
+    {
+        var bmdDir  = Path.Combine(dataRoot, subdir);
+        var bmdPath = Directory.EnumerateFiles(bmdDir, stem + ".bmd",
+                          SearchOption.TopDirectoryOnly)
+                      .FirstOrDefault()
+                   ?? Directory.EnumerateFiles(bmdDir, stem + ".BMD",
+                          SearchOption.TopDirectoryOnly)
+                      .FirstOrDefault();
+
+        if (bmdPath is null) { skipped++; continue; }
+
+        var outPath = Path.Combine(outDir, $"{group}_{number}.glb");
+        try
+        {
+            var bmd = BmdFile.Load(bmdPath);
+            BmdGltfExporter.Export(bmd, outPath, texIndex);
+            Console.WriteLine($"  {group}_{number}.glb  <- {subdir}/{stem}.bmd");
+            ok++;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"  FAIL {group}_{number} ({stem}.bmd): {ex.GetType().Name}: {ex.Message}");
+            failed++;
+        }
+    }
+
+    Console.WriteLine($"\nDone. {ok} exported, {skipped} not found, {failed} failed.");
+    return failed > 0 ? 1 : 0;
+}
+
 // --debug-bmd <input.bmd>  — dumps raw vertex/bone data without exporting
 if (args.Length == 2 && args[0] == "--debug-bmd")
 {
@@ -442,6 +489,79 @@ static string? FindFile(string dir, string pattern)
     // Try uppercase variant on case-sensitive file systems
     var upper = pattern.ToUpperInvariant();
     return Directory.EnumerateFiles(dir, upper, SearchOption.TopDirectoryOnly).FirstOrDefault();
+}
+
+// Mapping table derived from ZzzOpenData.cpp OpenItems().
+// Returns (group, itemNumber, dataSubdir, bmdStem) for every item with a known 3D model.
+// Files that don't exist on disk are skipped by the caller.
+static IEnumerable<(int group, int number, string subdir, string stem)> ItemBmdMappings()
+{
+    // ── Group 0: Swords ─── Data/Item/Sword{n+1:D2}.bmd ──────────────────────
+    for (int n = 0; n <= 35; n++)
+        yield return (0, n, "Item", $"Sword{n + 1:D2}");
+
+    // ── Group 1: Axes ─────────────────────────────────────────────────────────
+    for (int n = 0; n <= 8; n++)
+        yield return (1, n, "Item", $"Axe{n + 1:D2}");
+
+    // ── Group 2: Maces / Scepters ─────────────────────────────────────────────
+    for (int n = 0; n <= 12; n++)
+        yield return (2, n, "Item", $"Mace{n + 1:D2}");
+    yield return (2, 13, "Item", "saint");                  // Divine Scepter of Archangel
+
+    // ── Group 3: Spears ───────────────────────────────────────────────────────
+    for (int n = 0; n <= 10; n++)
+        yield return (3, n, "Item", $"Spear{n + 1:D2}");
+
+    // ── Group 4: Bows + CrossBows ─────────────────────────────────────────────
+    for (int n = 0; n <= 6; n++)
+        yield return (4, n, "Item", $"Bow{n + 1:D2}");
+    yield return (4, 7,  "Item", "Arrows01");               // Bolt
+    for (int n = 8; n <= 14; n++)
+        yield return (4, n, "Item", $"CrossBow{n - 7:D2}");
+    yield return (4, 15, "Item", "Arrows02");               // Arrows
+
+    // ── Group 5: Staffs ───────────────────────────────────────────────────────
+    for (int n = 0; n <= 10; n++)
+        yield return (5, n, "Item", $"Staff{n + 1:D2}");
+    yield return (5, 11, "Item", "Archangelus");            // Divine Stick of Archangel
+    yield return (5, 12, "Item", "Staff12");                // Staff of Kundun (file = 12, not 13)
+    for (int n = 14; n <= 21; n++)
+        yield return (5, n, "Item", $"Staff{n + 1:D2}");
+
+    // ── Group 6: Shields ──────────────────────────────────────────────────────
+    for (int n = 0; n <= 16; n++)
+        yield return (6, n, "Item", $"Shield{n + 1:D2}");
+
+    // ── Groups 7-11: Armor ─ Data/Player/ ────────────────────────────────────
+    // Each armor set index n maps to a class-specific BMD. We emit the DK (Male),
+    // DW (Class) and Elf variants; the caller keeps whichever file exists first.
+    // The client loads res://assets/items/{group}_{number}.glb — the first export
+    // that succeeds for a given (group, number) wins; duplicates are overwritten.
+    string[] prefixes   = ["Male", "Class", "Elf"];
+    string[] armorNames = ["Helm", "Armor", "Pant", "Glove", "Boot"];
+    for (int n = 0; n <= 30; n++)
+    {
+        for (int part = 0; part < armorNames.Length; part++)
+        {
+            foreach (var pfx in prefixes)
+                yield return (7 + part, n, "Player", $"{armorNames[part]}{pfx}{n + 1:D2}");
+        }
+    }
+
+    // ── Group 12: Wings ───────────────────────────────────────────────────────
+    for (int n = 0; n <= 11; n++)
+        yield return (12, n, "Item", $"Wing{n + 1:D2}");
+    // 2nd tier wings (Wing42-44 = numbers 36-38)
+    for (int n = 36; n <= 38; n++)
+        yield return (12, n, "Item", $"Wing{n + 6:D2}");
+    // Cape of Lord and higher
+    for (int n = 49; n <= 51; n++)
+        yield return (12, n, "Item", $"Wing{n + 1:D2}");
+
+    // ── Group 14: Potions ─────────────────────────────────────────────────────
+    for (int n = 0; n <= 6; n++)
+        yield return (14, n, "Item", $"Potion{n + 1:D2}");
 }
 
 static void PrintUsage()
