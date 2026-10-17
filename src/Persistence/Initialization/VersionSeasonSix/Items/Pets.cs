@@ -51,22 +51,22 @@ public class Pets : InitializerBase
             (Stats.AttackDamageIncrease, 1.3f, AggregateType.Multiplicate));
         this.AddItemToJewelItemDrop(imp);
         var uniria = this.CreatePet(2, 0, 1, 1, "Horn of Uniria", 25, true, true,
-            (Stats.MovementSpeed, MovementSpeedConstants.BasicMountMovementSpeed, AggregateType.Maximum),
-            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.BasicMountMovementSpeed, AggregateType.Maximum));
+            (Stats.MovementSpeed, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw),
+            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw));
         this.AddItemToJewelItemDrop(uniria);
 
         var dinorant = this.CreatePet(3, SkillNumber.FireBreath, 1, 1, "Horn of Dinorant", 110, false, true,
             (Stats.IsDinorantEquipped, 1, AggregateType.AddRaw),
-            (Stats.MovementSpeed, MovementSpeedConstants.BasicMountMovementSpeed, AggregateType.Maximum),
-            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.BasicMountMovementSpeed, AggregateType.Maximum),
+            (Stats.MovementSpeed, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw),
+            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw),
             (Stats.DamageReceiveDecrement, 0.9f, AggregateType.Multiplicate),
             (Stats.AttackDamageIncrease, 1.15f, AggregateType.Multiplicate));
         this.AddDinorantOptions(dinorant);
 
         var darkHorse = this.CreatePet(4, SkillNumber.Earthshake, 1, 1, "Dark Horse", 218, false, false,
             (Stats.IsHorseEquipped, 1, AggregateType.AddRaw),
-            (Stats.MovementSpeed, MovementSpeedConstants.HorseOrFenrirMovementSpeed, AggregateType.Maximum),
-            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.HorseOrFenrirMovementSpeed, AggregateType.Maximum));
+            (Stats.MovementSpeed, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw),
+            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw));
         this.AddDarkHorseOptions(darkHorse);
         this.GameConfiguration.DetermineCharacterClasses(CharacterClasses.AllLords).ForEach(darkHorse.QualifiedCharacters.Add);
         darkHorse.PetExperienceFormula = PetExperienceFormula;
@@ -80,8 +80,8 @@ public class Pets : InitializerBase
 
         var fenrir = this.CreatePet(37, SkillNumber.PlasmaStorm, 2, 2, "Horn of Fenrir", 300, false, true,
             (Stats.CanFly, 1.0f, AggregateType.AddRaw),
-            (Stats.MovementSpeed, MovementSpeedConstants.HorseOrFenrirMovementSpeed, AggregateType.Maximum),
-            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.HorseOrFenrirMovementSpeed, AggregateType.Maximum));
+            (Stats.MovementSpeed, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw),
+            (Stats.MovementSpeedUnderwater, MovementSpeedConstants.MountMovementSpeedBonus, AggregateType.AddRaw));
         this.AddFenrirOptions(fenrir);
 
         this.CreatePet(64, 0, 1, 1, "Demon", 1, false, true,
@@ -341,7 +341,7 @@ public class Pets : InitializerBase
         combinationBonus.Description = $"{optionType.Name}: {targetAttribute.Designation}";
         combinationBonus.AppliesMultipleTimes = false;
         combinationBonus.Requirements.Add(this.CreateFenrirMovementSpeedRequirement(optionType));
-        combinationBonus.Bonus = this.CreatePowerUpDefinition(targetAttribute, MovementSpeedConstants.UpgradedFenrirMovementSpeed, AggregateType.Maximum);
+        combinationBonus.Bonus = this.CreatePowerUpDefinition(targetAttribute, MovementSpeedConstants.UpgradedFenrirMovementSpeedBonus, AggregateType.AddRaw);
         this.GameConfiguration.ItemOptionCombinationBonuses.Add(combinationBonus);
     }
 

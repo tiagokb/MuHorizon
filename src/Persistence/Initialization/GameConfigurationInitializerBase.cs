@@ -282,5 +282,9 @@ public abstract class GameConfigurationInitializerBase : InitializerBase
         this.GameConfiguration.GlobalBaseAttributeValues.Add(randomExperienceMaxMultiplier);
 
         this.GameConfiguration.GlobalBaseAttributeValues.Add(this.Context.CreateNew<ConstValueAttribute>(1f, Stats.MovementSpeedFactor.GetPersistent(this.GameConfiguration)));
+
+        // Movement speed is additive: this base plus item bonuses (boots, wings, mounts).
+        this.GameConfiguration.GlobalBaseAttributeValues.Add(this.Context.CreateNew<ConstValueAttribute>(MovementSpeedConstants.BaseMovementSpeed, Stats.MovementSpeed.GetPersistent(this.GameConfiguration)));
+        this.GameConfiguration.GlobalBaseAttributeValues.Add(this.Context.CreateNew<ConstValueAttribute>(MovementSpeedConstants.BaseMovementSpeed, Stats.MovementSpeedUnderwater.GetPersistent(this.GameConfiguration)));
     }
 }
