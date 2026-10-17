@@ -25,6 +25,19 @@ param([switch]$NoWatch)
 $ErrorActionPreference = 'Stop'
 $compose = Join-Path $PSScriptRoot 'deploy/all-in-one/docker-compose.yml'
 
+# PostgreSQL needs Docker; start Docker Desktop when it isn't running (e.g. right after boot).
+docker version --format '{{.Server.Version}}' 2>$null | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    $dockerDesktop = Join-Path $env:ProgramFiles 'Docker\Docker\Docker Desktop.exe'
+    if (-not (Test-Path $dockerDesktop)) { throw 'Docker Desktop not found; it is needed for PostgreSQL.' }
+    Write-Host 'Starting Docker Desktop...'
+    Start-Process $dockerDesktop
+    do {
+        Start-Sleep -Seconds 3
+        docker version --format '{{.Server.Version}}' 2>$null | Out-Null
+    } while ($LASTEXITCODE -ne 0)
+}
+
 # The containerized server would hold the same ports.
 docker compose -f $compose stop openmu-dev | Out-Null
 docker compose -f $compose up -d database | Out-Null
