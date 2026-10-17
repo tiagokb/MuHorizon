@@ -31,6 +31,17 @@ dotnet test tests/MUnique.OpenMU.GameLogic.Tests/
 dotnet test tests/MUnique.OpenMU.GameLogic.Tests/ --filter "FullyQualifiedName~TestMethodName"
 ```
 
+### Fast dev loop (recommended)
+
+```powershell
+./dev-server.ps1     # Postgres in Docker, server on the host under `dotnet watch` (hot reload)
+./regen-proto.ps1    # after editing a .proto (regenerates Generated/Envelope.cs, also used by the Godot client)
+```
+
+Method-body edits apply in ~1 s without restarting; structural edits restart automatically.
+WebSocket on `ws://localhost:5050/ws/`, admin panel on `http://localhost:8081`. The `openmu-dev`
+container (full rebuild on every start, ~5 min) is only for a production-like run.
+
 ### Prerequisites for manual development
 - PostgreSQL running locally; configure `src/Persistence/EntityFramework/ConnectionSettings.xml`
 - .NET SDK 10

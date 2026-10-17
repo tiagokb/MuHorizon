@@ -79,11 +79,12 @@ Medido em 2026-10-17: restart do `openmu-dev` (Docker) ≈ **4 min 50 s** = rest
 
 Causas: repos dentro do OneDrive (filtro em todo acesso a arquivo; no Docker ainda passa pela montagem do WSL2); grafo do `Startup` com ~30 projetos incluindo Blazor (static web assets reprocessados todo build); fora de `ci=true` rodam em todo build `npx xslt3` (docs de pacotes legados, 4×), `dotnet run` do gerador de modelo da Persistence (2×, reescreve `.Generated.cs` e força recompilação) e `sass`; StyleCop (+70 s).
 
-- [ ] **1. Servidor nativo + `dotnet watch` (hot reload)** — só o Postgres no Docker; listener WebSocket configurável para `localhost` (dispensa admin/urlacl); perfil `Development` com connection string local. Edições em corpo de método sem restart.
-- [ ] **2. Repos fora do OneDrive** (ex.: `C:\dev\`) + exclusão do Windows Defender para a pasta (ação do usuário) — remedir o build vazio.
-- [ ] **3. Perfil de build de dev** — `ci=true` + `RunAnalyzers=false` por padrão em dev; script para regenerar `Envelope.cs` quando o `.proto` mudar (o `ci=true` pula o protoc).
-- [ ] **4. Startup de dev sem o admin panel Blazor** no build do dia a dia.
-- [ ] **5. Investigar os 25 s de inicialização** (carga da `GameConfiguration`, descoberta de plugins).
+- [x] **1. Servidor nativo + `dotnet watch` (hot reload)** — `./dev-server.ps1`: só o Postgres no Docker; servidor no host com `dotnet watch`; `appsettings.Development.json` põe o WebSocket em `localhost` (`GameServer:WebSocketHost`, sem admin/urlacl). Medido: edição em corpo de método aplicada em **0,25–1,8 s** sem restart (antes ~5 min). Primeiro start ~2 min (build + 15 s carregando projetos + 27 s host).
+- [x] **2. Repos fora do OneDrive** — movidos para `C:\dev\` (cópias verificadas por contagem de arquivos e `git fsck`; originais mantidos em `OneDrive\Documentos\repos` até confirmação). Build vazio caiu só de 62 s para 54 s: o OneDrive não era a causa principal do build nativo. Exclusão do Windows Defender para `C:\dev` ainda é recomendada (ação do usuário).
+- [x] **3. Perfil de build de dev** — `dev-server.ps1` usa `ci=true` + `RunAnalyzers=false`; `./regen-proto.ps1` regenera `Envelope.cs` após editar `.proto` (o watch reinicia sozinho).
+- [ ] **4. Build de dev sem o admin panel** — adiado: `ServerContainerBase`, `GameServerContainer` e `ConnectServerContainer` dependem de `Web.AdminPanel.Services`, e o admin panel é o único editor de configuração (inclusive updates). Exige mover esses serviços para outro projeto; ganho estimado ~20 s só em restarts.
+- [ ] **5. Inicialização de 27 s** — medido: ~20 s carregando a `GameConfiguration` do Postgres (grafo inteiro via EF) e ~6 s inicializando os 3 game servers/mapas. Caminhos: modelo compilado do EF (`dotnet ef dbcontext optimize`), cache da configuração, ou subir só 1 game server em dev.
+- [ ] **Restart do watch (edição estrutural)** ainda paga ~1 min de overhead do MSBuild (varredura transitiva de ~24 projetos + static web assets do Blazor) + 27 s de host.
 
 ## Tools
 

@@ -19,6 +19,7 @@ using MUnique.OpenMU.PlugIns;
 public sealed class WebSocketGameServerListener : IGameServerListener
 {
     private readonly int _port;
+    private readonly string _host;
     private readonly IGameServerContext _gameContext;
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<WebSocketGameServerListener> _logger;
@@ -31,9 +32,12 @@ public sealed class WebSocketGameServerListener : IGameServerListener
     /// <param name="port">The TCP port to listen on.</param>
     /// <param name="gameContext">The game server context used to create players.</param>
     /// <param name="loggerFactory">The logger factory.</param>
-    public WebSocketGameServerListener(int port, IGameServerContext gameContext, ILoggerFactory loggerFactory)
+    /// <param name="host">The HttpListener host: "+" for all interfaces (needs a URL reservation
+    /// or admin rights on Windows), "localhost" for local development without either.</param>
+    public WebSocketGameServerListener(int port, IGameServerContext gameContext, ILoggerFactory loggerFactory, string host = "+")
     {
         _port = port;
+        _host = host;
         _gameContext = gameContext;
         _loggerFactory = loggerFactory;
         _logger = loggerFactory.CreateLogger<WebSocketGameServerListener>();
@@ -47,9 +51,9 @@ public sealed class WebSocketGameServerListener : IGameServerListener
     {
         _cts = new CancellationTokenSource();
         _httpListener = new HttpListener();
-        _httpListener.Prefixes.Add($"http://+:{_port}/ws/");
+        _httpListener.Prefixes.Add($"http://{_host}:{_port}/ws/");
         _httpListener.Start();
-        _logger.LogInformation("WebSocket listener started on port {Port}", _port);
+        _logger.LogInformation("WebSocket listener started on {Host}:{Port}", _host, _port);
 
         _ = Task.Run(() => AcceptLoopAsync(_cts.Token));
 
