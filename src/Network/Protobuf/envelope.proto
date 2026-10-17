@@ -176,6 +176,14 @@ message S2CAreaSkillAnimation {
     float  target_y    = 4;
 }
 
+// Sent when a skill goes on cooldown (cast accepted: full cooldown) and when a cast is
+// rejected because the skill is still cooling down (remaining time), so the client's
+// cooldown always follows the server's.
+message S2CSkillCooldown {
+    uint32 skill_id     = 1;
+    uint32 remaining_ms = 2;
+}
+
 message S2CDamageResult {
     uint32 target_id        = 1;
     uint32 health_damage    = 2;
@@ -404,6 +412,7 @@ message SkillData {
     SkillArea area_shape  = 5;
     float     area_radius = 6;  // tiles: circle radius, or cone length for CONE
     float     area_width  = 7;  // tiles: cone width at its far end (CONE only)
+    uint32    cooldown_ms = 8;  // Skill.CooldownMilliseconds; 0 = only paced by attack speed
 }
 
 enum SkillArea {
@@ -571,5 +580,6 @@ message ServerEnvelope {
         S2CMovementSpeed         movement_speed          = 37;
         S2CAttackInterval        attack_interval         = 38;
         S2CAreaSkillAnimation    area_skill_animation    = 39;
+        S2CSkillCooldown         skill_cooldown          = 40;
     }
 }

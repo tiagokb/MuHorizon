@@ -336,6 +336,12 @@ public partial class Skill
     /// </summary>
     public float ProjectileSpeed { get; set; }
 
+    /// <summary>
+    /// Gets or sets the time in milliseconds after a cast before the skill can be cast again.
+    /// 0 means the skill is only limited by the attack speed.
+    /// </summary>
+    public int CooldownMilliseconds { get; set; }
+
     /// <inheritdoc />
     public override string? ToString()
     {

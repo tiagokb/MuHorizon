@@ -71,6 +71,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     private readonly AsyncLock _moveLock = new();
     private readonly AsyncLock _experienceLock = new();
 
+    /// <summary>
+    /// When each skill on cooldown (<see cref="Skill.CooldownMilliseconds"/>) can be cast again, by skill number.
+    /// </summary>
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<short, DateTime> _skillReadyAt = new();
+
     private readonly Walker _walker;
 
     private readonly AppearanceDataAdapter _appearanceData;
@@ -1628,14 +1633,24 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
     /// <summary>
     /// Tries to consume the <see cref="Skill.ConsumeRequirements"/> of a skill.
+    /// Every cast goes through here before it takes effect, so this is also where the
+    /// <see cref="Skill.CooldownMilliseconds"/> is enforced and started.
     /// </summary>
     /// <param name="skill">The skill which should get performed.</param>
     /// <returns>
-    ///     <c>True</c>, if the <see cref="Skill.ConsumeRequirements"/> and <see cref="Skill.Requirements"/>
+    ///     <c>True</c>, if the skill isn't on cooldown, the <see cref="Skill.ConsumeRequirements"/> and <see cref="Skill.Requirements"/>
     ///     are being met, and the <see cref="Skill.ConsumeRequirements"/> have been consumed; Otherwise, <c>false</c>.
     /// </returns>
     public async ValueTask<bool> TryConsumeForSkillAsync(Skill skill)
     {
+        var now = DateTime.UtcNow;
+        if (this._skillReadyAt.TryGetValue(skill.Number, out var readyAt) && readyAt > now)
+        {
+            this.Logger.LogDebug("[COMBAT] Skill {Skill} rejected: on cooldown for {Remaining} ms", skill.Number, (int)(readyAt - now).TotalMilliseconds);
+            await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, readyAt - now)).ConfigureAwait(false);
+            return false;
+        }
+
         if (skill.Requirements.Any(r => r.MinimumValue > this.Attributes![r.Attribute]))
         {
             return false;
@@ -1651,6 +1666,13 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         foreach (var requirement in skill.ConsumeRequirements)
         {
             this.Attributes![requirement.Attribute] -= this.GetRequiredValue(requirement, addExtraManaCost);
+        }
+
+        if (skill.CooldownMilliseconds > 0)
+        {
+            var cooldown = TimeSpan.FromMilliseconds(skill.CooldownMilliseconds);
+            this._skillReadyAt[skill.Number] = now + cooldown;
+            await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, cooldown)).ConfigureAwait(false);
         }
 
         return true;

@@ -334,4 +334,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AdjustAreaSkillsForMobaPlugInSeason6"/>.
     /// </summary>
     AdjustAreaSkillsForMobaSeason6 = 100,
+
+    /// <summary>
+    /// The version of the <see cref="AddSkillCooldownsPlugInSeason6"/>.
+    /// </summary>
+    AddSkillCooldownsSeason6 = 101,
 }
