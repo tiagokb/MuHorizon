@@ -549,15 +549,41 @@ static IEnumerable<(int group, int number, string subdir, string stem)> ItemBmdM
         }
     }
 
-    // ── Group 12: Wings ───────────────────────────────────────────────────────
-    for (int n = 0; n <= 11; n++)
+    // ── Group 12: Wings, Orbs, Scrolls, Jewels ───────────────────────────────
+    // Tier-1 wings (0-2) and tier-2 wings (3-6): Wing01-07.bmd
+    for (int n = 0; n <= 6; n++)
         yield return (12, n, "Item", $"Wing{n + 1:D2}");
-    // 2nd tier wings (Wing42-44 = numbers 36-38)
-    for (int n = 36; n <= 38; n++)
-        yield return (12, n, "Item", $"Wing{n + 6:D2}");
-    // Cape of Lord and higher
-    for (int n = 49; n <= 51; n++)
+    // Orbs (7-19 except 15): mirrors ZzzOpenData.cpp loop — for(i=0..12) if(i+7!=15) Gem{i+1}
+    // Gap at Gem09: i=8 is skipped (n=15), so i=9 → Gem10, not Gem09.
+    for (int i = 0; i < 13; i++)
+    {
+        int n = i + 7;
+        if (n == 15) continue;  // Jewel of Chaos has its own BMD
+        yield return (12, n, "Item", $"Gem{i + 1:D2}");
+    }
+    yield return (12, 15, "Item", "Jewel15");               // Jewel of Chaos
+    yield return (12, 20, "Item", "Gem14");                  // MODEL_WING+20
+    // Scrolls (21-24, 35, 48): all share SkillScroll.bmd
+    foreach (int n in new[] { 21, 22, 23, 24, 35, 48 })
+        yield return (12, n, "Item", "SkillScroll");
+    // Packed Jewels of Bless/Soul (30-31 = MODEL_COMPILED_CELE/SOUL): Jewel01/02 models
+    yield return (12, 30, "Item", "Jewel01");
+    yield return (12, 31, "Item", "Jewel02");
+    // Ribbon/gift boxes (32-34)
+    yield return (12, 32, "Item", "giftbox_r");
+    yield return (12, 33, "Item", "giftbox_g");
+    yield return (12, 34, "Item", "giftbox_b");
+    // Tier-3 wings (36-39): wing08-11.bmd  (MODEL_WING_OF_STORM = MODEL_WING+36)
+    for (int n = 36; n <= 39; n++)
+        yield return (12, n, "Item", $"Wing{n - 28:D2}");   // 36→08 .. 39→11
+    // Cape of Emperor (40)
+    yield return (12, 40, "Item", "DarkLordRobe02");
+    // Extra wings (41-43): Wing42-44.bmd  (Curse, Despair, Dimension)
+    for (int n = 41; n <= 43; n++)
         yield return (12, n, "Item", $"Wing{n + 1:D2}");
+    // Capes of Fighter/Overrule (49-50): Wing50-51.bmd
+    yield return (12, 49, "Item", "Wing50");
+    yield return (12, 50, "Item", "Wing51");
 
     // ── Group 14: Potions ─────────────────────────────────────────────────────
     for (int n = 0; n <= 6; n++)
