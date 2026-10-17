@@ -41,16 +41,35 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
             if (entry.Skill is null)
                 continue;
 
+            var (shape, radius, width) = GetArea(entry.Skill);
             msg.Skills.Add(new SkillData
             {
-                Slot   = slot++,
-                Number = (uint)entry.Skill.Number,
-                Level  = entry.Skill.MasterDefinition is not null ? (uint)entry.Level : 0u,
-                Range  = (uint)entry.Skill.Range,
+                Slot       = slot++,
+                Number     = (uint)entry.Skill.Number,
+                Level      = entry.Skill.MasterDefinition is not null ? (uint)entry.Level : 0u,
+                Range      = (uint)entry.Skill.Range,
+                AreaShape  = shape,
+                AreaRadius = radius,
+                AreaWidth  = width,
             });
         }
 
         await _player.SendEnvelopeAsync(new ServerEnvelope { SkillList = msg }).ConfigureAwait(false);
+    }
+
+    // Mirrors how AreaSkillAttackAction picks targets: a cone (frustum) from the caster, a circle
+    // of TargetAreaDiameter around the point, or everything within EffectRange (else Range) of it.
+    private static (SkillArea Shape, float Radius, float Width) GetArea(Skill skill)
+    {
+        if (skill.SkillType is not (SkillType.AreaSkillAutomaticHits or SkillType.AreaSkillExplicitHits or SkillType.AreaSkillExplicitTarget))
+            return (SkillArea.None, 0f, 0f);
+
+        var settings = skill.AreaSkillSettings;
+        if (settings is { UseFrustumFilter: true })
+            return (SkillArea.Cone, settings.FrustumDistance, settings.FrustumEndWidth);
+        if (settings is { UseTargetAreaFilter: true })
+            return (SkillArea.Circle, settings.TargetAreaDiameter / 2f, 0f);
+        return (SkillArea.Circle, settings?.EffectRange > 0 ? settings.EffectRange : skill.Range, 0f);
     }
 
     public Skill? GetSkillByIndex(byte skillIndex)

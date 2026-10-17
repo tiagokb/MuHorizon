@@ -399,6 +399,17 @@ message SkillData {
     uint32 number = 2;  // Skill.Number
     uint32 level  = 3;  // master skill level (0 for normal skills)
     uint32 range  = 4;  // Skill.Range in tiles — the server validates casts against it (+2 tiles tolerance)
+    // The area the skill hits, derived from its AreaSkillSettings, so the client's preview
+    // shows exactly what the server will hit. NONE for single-target skills.
+    SkillArea area_shape  = 5;
+    float     area_radius = 6;  // tiles: circle radius, or cone length for CONE
+    float     area_width  = 7;  // tiles: cone width at its far end (CONE only)
+}
+
+enum SkillArea {
+    SKILL_AREA_NONE   = 0;
+    SKILL_AREA_CIRCLE = 1; // around the aimed ground point
+    SKILL_AREA_CONE   = 2; // from the caster towards the aimed point
 }
 
 message S2CSkillList {

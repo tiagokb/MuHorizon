@@ -133,8 +133,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "Iy5vcGVubXUucHJvdG9jb2wuSXRlbURlZmluaXRpb25EYXRhIl4KDlMyQ1Zh",
             "dWx0T3BlbmVkEigKBWl0ZW1zGAEgAygLMhkub3Blbm11LnByb3RvY29sLkl0",
             "ZW1EYXRhEg0KBW1vbmV5GAIgASgNEhMKC2lzX2V4dGVuZGVkGAMgASgIIg8K",
-            "DUMyU0Nsb3NlVmF1bHQiRwoJU2tpbGxEYXRhEgwKBHNsb3QYASABKA0SDgoG",
-            "bnVtYmVyGAIgASgNEg0KBWxldmVsGAMgASgNEg0KBXJhbmdlGAQgASgNIjoK",
+            "DUMyU0Nsb3NlVmF1bHQioAEKCVNraWxsRGF0YRIMCgRzbG90GAEgASgNEg4K",
+            "Bm51bWJlchgCIAEoDRINCgVsZXZlbBgDIAEoDRINCgVyYW5nZRgEIAEoDRIu",
+            "CgphcmVhX3NoYXBlGAUgASgOMhoub3Blbm11LnByb3RvY29sLlNraWxsQXJl",
+            "YRITCgthcmVhX3JhZGl1cxgGIAEoAhISCgphcmVhX3dpZHRoGAcgASgCIjoK",
             "DFMyQ1NraWxsTGlzdBIqCgZza2lsbHMYASADKAsyGi5vcGVubXUucHJvdG9j",
             "b2wuU2tpbGxEYXRhIiAKDkMyU0ludGVyYWN0TnBjEg4KBm5wY19pZBgBIAEo",
             "DSIdCg1DMlNCdXlOcGNJdGVtEgwKBHNsb3QYASABKA0iDgoMQzJTQ2xvc2VT",
@@ -242,11 +244,13 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "TVBPUkFSWV9CTE9DS0VEEAYqLgoKRW50aXR5VHlwZRIKCgZQTEFZRVIQABIH",
             "CgNOUEMQARILCgdNT05TVEVSEAIqaAoIU3RhdFR5cGUSEQoNU1RBVF9TVFJF",
             "TkdUSBAAEhAKDFNUQVRfQUdJTElUWRABEhEKDVNUQVRfVklUQUxJVFkQAhIP",
-            "CgtTVEFUX0VORVJHWRADEhMKD1NUQVRfTEVBREVSU0hJUBAEQiKqAh9NVW5p",
-            "cXVlLk9wZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
+            "CgtTVEFUX0VORVJHWRADEhMKD1NUQVRfTEVBREVSU0hJUBAEKkwKCVNraWxs",
+            "QXJlYRITCg9TS0lMTF9BUkVBX05PTkUQABIVChFTS0lMTF9BUkVBX0NJUkNM",
+            "RRABEhMKD1NLSUxMX0FSRUFfQ09ORRACQiKqAh9NVW5pcXVlLk9wZW5NVS5O",
+            "ZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), typeof(global::MUnique.OpenMU.Network.Protobuf.StatType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), typeof(global::MUnique.OpenMU.Network.Protobuf.StatType), typeof(global::MUnique.OpenMU.Network.Protobuf.SkillArea), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingRequest), global::MUnique.OpenMU.Network.Protobuf.PingRequest.Parser, new[]{ "TimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingResponse), global::MUnique.OpenMU.Network.Protobuf.PingResponse.Parser, new[]{ "ClientTimestampMs", "ServerTimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest), global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
@@ -297,7 +301,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CItemDefinitions), global::MUnique.OpenMU.Network.Protobuf.S2CItemDefinitions.Parser, new[]{ "Items" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CVaultOpened), global::MUnique.OpenMU.Network.Protobuf.S2CVaultOpened.Parser, new[]{ "Items", "Money", "IsExtended" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SCloseVault), global::MUnique.OpenMU.Network.Protobuf.C2SCloseVault.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.SkillData), global::MUnique.OpenMU.Network.Protobuf.SkillData.Parser, new[]{ "Slot", "Number", "Level", "Range" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.SkillData), global::MUnique.OpenMU.Network.Protobuf.SkillData.Parser, new[]{ "Slot", "Number", "Level", "Range", "AreaShape", "AreaRadius", "AreaWidth" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CSkillList), global::MUnique.OpenMU.Network.Protobuf.S2CSkillList.Parser, new[]{ "Skills" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SInteractNpc), global::MUnique.OpenMU.Network.Protobuf.C2SInteractNpc.Parser, new[]{ "NpcId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SBuyNpcItem), global::MUnique.OpenMU.Network.Protobuf.C2SBuyNpcItem.Parser, new[]{ "Slot" }, null, null, null, null),
@@ -344,6 +348,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [pbr::OriginalName("STAT_VITALITY")] StatVitality = 2,
     [pbr::OriginalName("STAT_ENERGY")] StatEnergy = 3,
     [pbr::OriginalName("STAT_LEADERSHIP")] StatLeadership = 4,
+  }
+
+  public enum SkillArea {
+    [pbr::OriginalName("SKILL_AREA_NONE")] None = 0,
+    /// <summary>
+    /// around the aimed ground point
+    /// </summary>
+    [pbr::OriginalName("SKILL_AREA_CIRCLE")] Circle = 1,
+    /// <summary>
+    /// from the caster towards the aimed point
+    /// </summary>
+    [pbr::OriginalName("SKILL_AREA_CONE")] Cone = 2,
   }
 
   #endregion
@@ -15418,6 +15434,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       number_ = other.number_;
       level_ = other.level_;
       range_ = other.range_;
+      areaShape_ = other.areaShape_;
+      areaRadius_ = other.areaRadius_;
+      areaWidth_ = other.areaWidth_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -15487,6 +15506,52 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "area_shape" field.</summary>
+    public const int AreaShapeFieldNumber = 5;
+    private global::MUnique.OpenMU.Network.Protobuf.SkillArea areaShape_ = global::MUnique.OpenMU.Network.Protobuf.SkillArea.None;
+    /// <summary>
+    /// The area the skill hits, derived from its AreaSkillSettings, so the client's preview
+    /// shows exactly what the server will hit. NONE for single-target skills.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.SkillArea AreaShape {
+      get { return areaShape_; }
+      set {
+        areaShape_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "area_radius" field.</summary>
+    public const int AreaRadiusFieldNumber = 6;
+    private float areaRadius_;
+    /// <summary>
+    /// tiles: circle radius, or cone length for CONE
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float AreaRadius {
+      get { return areaRadius_; }
+      set {
+        areaRadius_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "area_width" field.</summary>
+    public const int AreaWidthFieldNumber = 7;
+    private float areaWidth_;
+    /// <summary>
+    /// tiles: cone width at its far end (CONE only)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float AreaWidth {
+      get { return areaWidth_; }
+      set {
+        areaWidth_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -15506,6 +15571,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (Number != other.Number) return false;
       if (Level != other.Level) return false;
       if (Range != other.Range) return false;
+      if (AreaShape != other.AreaShape) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AreaRadius, other.AreaRadius)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AreaWidth, other.AreaWidth)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -15517,6 +15585,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (Number != 0) hash ^= Number.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       if (Range != 0) hash ^= Range.GetHashCode();
+      if (AreaShape != global::MUnique.OpenMU.Network.Protobuf.SkillArea.None) hash ^= AreaShape.GetHashCode();
+      if (AreaRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AreaRadius);
+      if (AreaWidth != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AreaWidth);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -15551,6 +15622,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(32);
         output.WriteUInt32(Range);
       }
+      if (AreaShape != global::MUnique.OpenMU.Network.Protobuf.SkillArea.None) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) AreaShape);
+      }
+      if (AreaRadius != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AreaRadius);
+      }
+      if (AreaWidth != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(AreaWidth);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -15577,6 +15660,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(32);
         output.WriteUInt32(Range);
       }
+      if (AreaShape != global::MUnique.OpenMU.Network.Protobuf.SkillArea.None) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) AreaShape);
+      }
+      if (AreaRadius != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AreaRadius);
+      }
+      if (AreaWidth != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(AreaWidth);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -15598,6 +15693,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (Range != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Range);
+      }
+      if (AreaShape != global::MUnique.OpenMU.Network.Protobuf.SkillArea.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AreaShape);
+      }
+      if (AreaRadius != 0F) {
+        size += 1 + 4;
+      }
+      if (AreaWidth != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -15622,6 +15726,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (other.Range != 0) {
         Range = other.Range;
+      }
+      if (other.AreaShape != global::MUnique.OpenMU.Network.Protobuf.SkillArea.None) {
+        AreaShape = other.AreaShape;
+      }
+      if (other.AreaRadius != 0F) {
+        AreaRadius = other.AreaRadius;
+      }
+      if (other.AreaWidth != 0F) {
+        AreaWidth = other.AreaWidth;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -15658,6 +15771,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
             Range = input.ReadUInt32();
             break;
           }
+          case 40: {
+            AreaShape = (global::MUnique.OpenMU.Network.Protobuf.SkillArea) input.ReadEnum();
+            break;
+          }
+          case 53: {
+            AreaRadius = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            AreaWidth = input.ReadFloat();
+            break;
+          }
         }
       }
     #endif
@@ -15691,6 +15816,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
           }
           case 32: {
             Range = input.ReadUInt32();
+            break;
+          }
+          case 40: {
+            AreaShape = (global::MUnique.OpenMU.Network.Protobuf.SkillArea) input.ReadEnum();
+            break;
+          }
+          case 53: {
+            AreaRadius = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            AreaWidth = input.ReadFloat();
             break;
           }
         }

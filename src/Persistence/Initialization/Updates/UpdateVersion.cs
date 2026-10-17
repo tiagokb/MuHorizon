@@ -329,4 +329,9 @@ public enum UpdateVersion
     /// The version of the <see cref="MakeMovementSpeedAdditivePlugInSeason6"/>.
     /// </summary>
     MakeMovementSpeedAdditiveSeason6 = 99,
+
+    /// <summary>
+    /// The version of the <see cref="AdjustAreaSkillsForMobaPlugInSeason6"/>.
+    /// </summary>
+    AdjustAreaSkillsForMobaSeason6 = 100,
 }
