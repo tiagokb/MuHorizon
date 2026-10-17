@@ -12,7 +12,8 @@ using MUnique.OpenMU.GameLogic.Views.NPC;
 /// </summary>
 public class ItemCraftAction
 {
-    private readonly IDictionary<ItemCrafting, IItemCraftingHandler> _craftingHandlerCache = new Dictionary<ItemCrafting, IItemCraftingHandler>();
+    // Shared by all players (previews run on every item move), so it must be thread-safe.
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<ItemCrafting, IItemCraftingHandler> _craftingHandlerCache = new();
 
     /// <summary>
     /// Mixes the items at the currently opened crafting NPC.
@@ -31,12 +32,7 @@ public class ItemCraftAction
             return;
         }
 
-        if (!this._craftingHandlerCache.TryGetValue(crafting, out var craftingHandler))
-        {
-            craftingHandler = this.CreateCraftingHandler(crafting);
-            this._craftingHandlerCache.Add(crafting, craftingHandler);
-        }
-
+        var craftingHandler = this.GetCraftingHandler(crafting);
         (CraftingResult, Item?) result;
         try
         {
@@ -61,29 +57,44 @@ public class ItemCraftAction
     /// </summary>
     /// <param name="player">The player.</param>
     /// <returns>The relevant <see cref="ItemCrafting"/>.</returns>
-    public ItemCrafting? FindAppropriateCraftingByItems(Player player)
-    {
-        if (player.OpenedNpc?.Definition is { } npc)
-        {
-            // Wing crafting is similar but has one extra requirement (chaos weapon) than
-            // chaos weapon crafting, so we set a descending order so it gets get checked first
-            foreach (var itemCrafting in npc.ItemCraftings.OrderByDescending(c => c.Number))
-            {
-                if (!this._craftingHandlerCache.TryGetValue(itemCrafting, out var craftingHandler))
-                {
-                    craftingHandler = this.CreateCraftingHandler(itemCrafting);
-                    this._craftingHandlerCache.Add(itemCrafting, craftingHandler);
-                }
+    public ItemCrafting? FindAppropriateCraftingByItems(Player player) => this.GetMixPreview(player)?.Crafting;
 
-                if (craftingHandler.TryGetRequiredItems(player, out _, out _) is null)
+    /// <summary>
+    /// Finds the crafting the items in the <see cref="Player.TemporaryStorage"/> fit, with its success rate
+    /// and price, so the client can show what a mix would do (the legacy client worked this out itself).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>The crafting, success rate and price; <c>null</c>, if the items fit no crafting of the opened NPC.</returns>
+    public (ItemCrafting Crafting, byte SuccessRate, int Price)? GetMixPreview(Player player)
+    {
+        if (player.OpenedNpc?.Definition is not { } npc)
+        {
+            return null;
+        }
+
+        // Wing crafting is similar but has one extra requirement (chaos weapon) than
+        // chaos weapon crafting, so we set a descending order so it gets get checked first
+        foreach (var itemCrafting in npc.ItemCraftings.OrderByDescending(c => c.Number))
+        {
+            var craftingHandler = this.GetCraftingHandler(itemCrafting);
+            if (craftingHandler is BaseItemCraftingHandler baseHandler)
+            {
+                if (baseHandler.TryGetPreview(player, out var successRate, out var price) is null)
                 {
-                    return itemCrafting;
+                    return (itemCrafting, successRate, price);
                 }
+            }
+            else if (craftingHandler.TryGetRequiredItems(player, out _, out var successRate) is null)
+            {
+                return (itemCrafting, successRate, 0);
             }
         }
 
         return null;
     }
+
+    private IItemCraftingHandler GetCraftingHandler(ItemCrafting crafting) =>
+        this._craftingHandlerCache.GetOrAdd(crafting, this.CreateCraftingHandler);
 
     private IItemCraftingHandler CreateCraftingHandler(ItemCrafting crafting)
     {

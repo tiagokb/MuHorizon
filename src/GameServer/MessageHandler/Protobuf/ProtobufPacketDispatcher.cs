@@ -35,6 +35,7 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly CreateCharacterAction CreateCharacterAction = new();
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly LogoutAction LogoutAction = new();
+    private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
     private static readonly MoveItemAction MoveItemAction = new();
     private static readonly DropItemAction DropItemAction = new();
@@ -198,9 +199,9 @@ internal sealed class ProtobufPacketDispatcher
                     await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
                     await NpcBuffRequestAction.RequestBuffAsync(_player).ConfigureAwait(false);
                 }
-                // Vault NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed passes.
-                // All other NPCs (merchants, unsupported dialogs) can return to EnteredWorld immediately.
-                if (_player.OpenedNpc?.Definition.NpcWindow != NpcWindow.VaultStorage)
+                // Vault and chaos machine NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed
+                // passes. All other NPCs (merchants, unsupported dialogs) can return to EnteredWorld immediately.
+                if (_player.OpenedNpc?.Definition.NpcWindow is not (NpcWindow.VaultStorage or NpcWindow.ChaosMachine))
                     await _player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false);
                 break;
 
@@ -221,7 +222,7 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.UseItem:
                 var useSlot = (byte)envelope.UseItem.Slot;
-                var targetSlot = envelope.UseItem.TargetSlot > 0
+                var targetSlot = envelope.UseItem.HasTargetSlot
                     ? (byte)envelope.UseItem.TargetSlot
                     : useSlot;
                 await ItemConsumeAction.HandleConsumeRequestAsync(
@@ -259,6 +260,23 @@ internal sealed class ProtobufPacketDispatcher
                     await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
                 }
 
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.ChaosMix:
+                // The recipe follows from the items in the machine (S2CChaosMachine shows it).
+                if (RemoteView.Protobuf.NPC.ProtobufChaosMachine.CraftAction.GetMixPreview(_player) is { } mix)
+                {
+                    await RemoteView.Protobuf.NPC.ProtobufChaosMachine.CraftAction.MixItemsAsync(_player, mix.Crafting.Number, 0).ConfigureAwait(false);
+                }
+                else
+                {
+                    await _player.ShowBlueMessageAsync("These items can't be mixed.").ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.CloseNpcDialog:
+                await CloseNpcDialogAction.CloseNpcDialogAsync(_player).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.Logout:

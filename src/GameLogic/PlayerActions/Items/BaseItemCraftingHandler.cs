@@ -71,6 +71,25 @@ public abstract class BaseItemCraftingHandler : IItemCraftingHandler
         return (CraftingResult.Failed, null);
     }
 
+    /// <summary>
+    /// Gets the success rate and price of mixing the current items, without mixing them.
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <param name="successRate">The success rate in percent.</param>
+    /// <param name="price">The price in zen.</param>
+    /// <returns>The error why the items can't be mixed; <c>null</c>, if they can.</returns>
+    public CraftingResult? TryGetPreview(Player player, out byte successRate, out int price)
+    {
+        price = 0;
+        if (this.TryGetRequiredItems(player, out var items, out successRate) is { } error)
+        {
+            return error;
+        }
+
+        price = this.GetPrice(successRate, items);
+        return null;
+    }
+
     /// <inheritdoc/>
     public abstract CraftingResult? TryGetRequiredItems(Player player, out IList<CraftingRequiredItemLink> items, out byte successRateByItems);
 

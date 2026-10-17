@@ -23,5 +23,7 @@ internal sealed class ProtobufItemMovedPlugIn : IItemMovedPlugIn
 
         if (_player.Vault is not null)
             await new ProtobufShowVaultPlugIn(_player).ShowVaultAsync().ConfigureAwait(false);
+
+        await NPC.ProtobufChaosMachine.SendAsync(_player).ConfigureAwait(false);
     }
 }

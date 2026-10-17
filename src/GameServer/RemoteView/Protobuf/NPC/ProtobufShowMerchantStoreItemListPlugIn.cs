@@ -20,6 +20,13 @@ internal sealed class ProtobufShowMerchantStoreItemListPlugIn : IShowMerchantSto
 
     public async ValueTask ShowMerchantStoreItemListAsync(ICollection<Item> storeItems, StoreKind storeKind)
     {
+        // After a mix the crafting action lists the chaos machine's items: that's not a shop.
+        if (storeKind != StoreKind.Normal)
+        {
+            await ProtobufChaosMachine.SendAsync(_player).ConfigureAwait(false);
+            return;
+        }
+
         var npc = _player.OpenedNpc;
         var msg = new S2CShopItems
         {

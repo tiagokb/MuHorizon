@@ -4,6 +4,8 @@
 
 namespace MUnique.OpenMU.GameLogic.PlayerActions;
 
+using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.Views.NPC;
 
 /// <summary>
@@ -11,7 +13,7 @@ using MUnique.OpenMU.GameLogic.Views.NPC;
 /// </summary>
 public class CloseNpcDialogAction
 {
-    private const ushort ChaosGoblinId = 238;
+    private static readonly MoveItemAction MoveItemAction = new();
 
     /// <summary>
     /// Closes the currently opened npc dialog.
@@ -21,13 +23,19 @@ public class CloseNpcDialogAction
     {
         using var loggerScope = player.Logger.BeginScope(this.GetType());
         var npc = player.OpenedNpc;
+        var isChaosMachine = npc?.Definition.NpcWindow == NpcWindow.ChaosMachine;
+        if (isChaosMachine && !await ReturnChaosMachineItemsAsync(player).ConfigureAwait(false))
+        {
+            return;
+        }
+
         if (npc != null && await player.PlayerState.TryAdvanceToAsync(PlayerState.EnteredWorld).ConfigureAwait(false))
         {
             player.Logger.LogDebug($"Player {player.SelectedCharacter?.Name} closes NPC {player.OpenedNpc}");
             player.OpenedNpc = null;
             player.Vault = null;
             await player.InvokeViewPlugInAsync<INpcDialogClosedPlugIn>(p => p.DialogClosedAsync(npc.Definition)).ConfigureAwait(false);
-            if (npc.Id == ChaosGoblinId)
+            if (isChaosMachine)
             {
                 try
                 {
@@ -46,5 +54,30 @@ public class CloseNpcDialogAction
         {
             player.Logger.LogDebug($"Dialog of NPC {player.OpenedNpc} could not be closed by player {player.SelectedCharacter?.Name} because the player has the wrong state {player.PlayerState}");
         }
+    }
+
+    /// <summary>
+    /// Moves the items left in the chaos machine back to the inventory.
+    /// </summary>
+    /// <returns><c>false</c>, if the inventory has no room for them; the dialog then stays open.</returns>
+    private static async ValueTask<bool> ReturnChaosMachineItemsAsync(Player player)
+    {
+        if (player.TemporaryStorage is not { } machine || player.Inventory is not { } inventory)
+        {
+            return true;
+        }
+
+        foreach (var item in machine.Items.ToList())
+        {
+            if (inventory.CheckInvSpace(item) is not { } freeSlot)
+            {
+                await player.ShowBlueMessageAsync("Not enough inventory space for the items in the chaos machine.").ConfigureAwait(false);
+                return false;
+            }
+
+            await MoveItemAction.MoveItemAsync(player, item.ItemSlot, Storages.ChaosMachine, freeSlot, Storages.Inventory).ConfigureAwait(false);
+        }
+
+        return true;
     }
 }

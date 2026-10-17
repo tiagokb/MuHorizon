@@ -196,6 +196,16 @@ message S2CWarpList {
     repeated WarpEntry entries = 1;
 }
 
+// The chaos machine's items (storage 3) and what mixing them would do; sent when it opens and
+// after every change. mix_name is empty when the items fit no recipe.
+message S2CChaosMachine {
+    repeated ItemData items        = 1;
+    string            mix_name     = 2;
+    uint32            success_rate = 3; // percent
+    uint32            price        = 4; // zen
+    bool              opened       = 5; // true when the player just opened it (talked to the goblin)
+}
+
 // The character left the game (C2SLogout); for LOGIN_SCREEN the connection is closed next.
 message S2CLogout {
     LogoutKind kind = 1;
@@ -511,8 +521,9 @@ message ShopItem {
 // ── Phase 17: Item Use ────────────────────────────────────────────────────────
 
 message C2SUseItem {
-    uint32 slot        = 1;  // inventory bag slot (12+)
-    uint32 target_slot = 2;  // target item slot (for jewels used on equipment); 0 = self
+    uint32 slot            = 1;
+    uint32 target_slot     = 2; // the item a jewel is applied to (has_target_slot)
+    bool   has_target_slot = 3; // slot 0 is the left hand, so "no target" needs its own flag
 }
 
 message C2STeleport {
@@ -536,6 +547,12 @@ enum LogoutKind {
     LOGOUT_KIND_CHARACTER_SELECT = 0; // back to the character selection, still logged in
     LOGOUT_KIND_LOGIN_SCREEN     = 1; // log out: the server disconnects
 }
+
+// Chaos Goblin: the server finds the recipe the items in the machine fit (S2CChaosMachine) and mixes them.
+message C2SChaosMix {}
+
+// Closes the opened NPC window; the chaos machine returns its items to the inventory first.
+message C2SCloseNpcDialog {}
 
 message C2SLogout {
     LogoutKind kind = 1;
@@ -636,6 +653,8 @@ message ClientEnvelope {
         C2SGetWarpList          get_warp_list          = 22;
         C2SWarp                 warp                   = 23;
         C2SLogout               logout                 = 24;
+        C2SChaosMix             chaos_mix              = 25;
+        C2SCloseNpcDialog       close_npc_dialog       = 26;
     }
 }
 
@@ -687,5 +706,6 @@ message ServerEnvelope {
         S2CWarpList              warp_list               = 44;
         S2CSystemMessage         system_message          = 45;
         S2CLogout                logout                  = 46;
+        S2CChaosMachine          chaos_machine           = 47;
     }
 }
