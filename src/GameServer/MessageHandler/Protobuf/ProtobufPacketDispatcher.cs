@@ -19,6 +19,7 @@ using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
+using MUnique.OpenMU.GameLogic.Views.Login;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
@@ -33,6 +34,7 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly RequestCharacterListAction RequestCharacterListAction = new();
     private static readonly CreateCharacterAction CreateCharacterAction = new();
     private static readonly SelectCharacterAction SelectCharacterAction = new();
+    private static readonly LogoutAction LogoutAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
     private static readonly MoveItemAction MoveItemAction = new();
     private static readonly DropItemAction DropItemAction = new();
@@ -255,6 +257,16 @@ internal sealed class ProtobufPacketDispatcher
                     && !_player.PlayerState.CurrentState.IsDisconnectedOrFinished())
                 {
                     await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.Logout:
+                if (_player.SelectedCharacter is not null)
+                {
+                    await LogoutAction.LogoutAsync(
+                        _player,
+                        envelope.Logout.Kind == LogoutKind.LoginScreen ? LogoutType.CloseGame : LogoutType.BackToCharacterSelection).ConfigureAwait(false);
                 }
 
                 break;

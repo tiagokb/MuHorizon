@@ -31,10 +31,11 @@ internal static class SkillCastRules
             : null;
 
     /// <summary>
-    /// Gets a value indicating whether the player is able to attack: not stunned, asleep or in a safezone.
+    /// Gets a value indicating whether the player is able to attack: alive, not stunned, asleep or in a safezone.
     /// </summary>
     internal static bool CanAttack(Player player) =>
-        player.Attributes is { } attributes
+        player.IsAlive
+        && player.Attributes is { } attributes
         && attributes[Stats.IsStunned] <= 0
         && attributes[Stats.IsAsleep] <= 0
         && !player.IsAtSafezone();

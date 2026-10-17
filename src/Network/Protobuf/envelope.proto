@@ -196,6 +196,11 @@ message S2CWarpList {
     repeated WarpEntry entries = 1;
 }
 
+// The character left the game (C2SLogout); for LOGIN_SCREEN the connection is closed next.
+message S2CLogout {
+    LogoutKind kind = 1;
+}
+
 // A message for the player, e.g. why a warp was refused.
 message S2CSystemMessage {
     string text = 1;
@@ -527,6 +532,15 @@ message C2SMapLoaded {}
 
 message C2SGetWarpList {}
 
+enum LogoutKind {
+    LOGOUT_KIND_CHARACTER_SELECT = 0; // back to the character selection, still logged in
+    LOGOUT_KIND_LOGIN_SCREEN     = 1; // log out: the server disconnects
+}
+
+message C2SLogout {
+    LogoutKind kind = 1;
+}
+
 // Warps to a destination of S2CWarpList (level and zen requirements are checked by the server).
 message C2SWarp {
     uint32 index = 1; // WarpEntry.index
@@ -621,6 +635,7 @@ message ClientEnvelope {
         C2SMapLoaded            map_loaded             = 21;
         C2SGetWarpList          get_warp_list          = 22;
         C2SWarp                 warp                   = 23;
+        C2SLogout               logout                 = 24;
     }
 }
 
@@ -671,5 +686,6 @@ message ServerEnvelope {
         S2CMapChanged            map_changed             = 43;
         S2CWarpList              warp_list               = 44;
         S2CSystemMessage         system_message          = 45;
+        S2CLogout                logout                  = 46;
     }
 }

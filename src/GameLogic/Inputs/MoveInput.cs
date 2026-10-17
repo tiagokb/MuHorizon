@@ -25,6 +25,11 @@ public sealed class MoveInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
+        if (!player.IsAlive)
+        {
+            return;
+        }
+
         // Casting roots the player: walking cancels it. Charging allows walking (slowed).
         if (player.ActiveCast is { Complete: not null })
         {

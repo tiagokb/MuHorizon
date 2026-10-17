@@ -255,6 +255,15 @@ public class GameMap
     /// <param name="player">The player to register.</param>
     public void PreparePlayer(Player player)
     {
+        // A respawn on the same map (InitRespawnAsync) keeps the player in the map: drop the old
+        // entry, otherwise the player is in the map twice and the tick loop moves it twice per tick.
+        if (this._objectsInMap.TryGetValue(player.Id, out var existing) && existing == player
+            && this._objectsInMap.Remove(player.Id))
+        {
+            this._objectIdGenerator.GiveBack(player.Id);
+            Interlocked.Decrement(ref this._playerCount);
+        }
+
         player.Id = (ushort)this._objectIdGenerator.GenerateId();
         Interlocked.Increment(ref this._playerCount);
         this._objectsInMap.Add(player.Id, player);

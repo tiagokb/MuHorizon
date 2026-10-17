@@ -25,6 +25,21 @@ param([switch]$NoWatch)
 $ErrorActionPreference = 'Stop'
 $compose = Join-Path $PSScriptRoot 'deploy/all-in-one/docker-compose.yml'
 
+# A click in a console with QuickEdit starts a text selection, which pauses the console output:
+# every server thread that logs then blocks (game loop, connection receive loops) until Esc.
+# Turn QuickEdit off for this window (selection is still possible from the window menu).
+Add-Type -Namespace Win32 -Name ConsoleMode -MemberDefinition @'
+[DllImport("kernel32.dll")] public static extern IntPtr GetStdHandle(int nStdHandle);
+[DllImport("kernel32.dll")] public static extern bool GetConsoleMode(IntPtr handle, out uint mode);
+[DllImport("kernel32.dll")] public static extern bool SetConsoleMode(IntPtr handle, uint mode);
+'@
+$stdin = [Win32.ConsoleMode]::GetStdHandle(-10)
+$mode = [uint32]0
+if ([Win32.ConsoleMode]::GetConsoleMode($stdin, [ref]$mode)) {
+    $quickEdit = 0x40; $extendedFlags = 0x80
+    [Win32.ConsoleMode]::SetConsoleMode($stdin, ($mode -band (-bnot $quickEdit)) -bor $extendedFlags) | Out-Null
+}
+
 # PostgreSQL needs Docker; start Docker Desktop when it isn't running (e.g. right after boot).
 docker version --format '{{.Server.Version}}' 2>$null | Out-Null
 if ($LASTEXITCODE -ne 0) {
