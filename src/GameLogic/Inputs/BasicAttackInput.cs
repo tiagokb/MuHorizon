@@ -47,7 +47,7 @@ public sealed class BasicAttackInput : IPlayerInput
             return;
         }
 
-        if (!SkillCastRules.CanAttack(player) || !player.IsInRange(target.Position, 3))
+        if (!SkillCastRules.CanAttack(player) || !player.IsInRange(target.Position, BasicAttackRules.GetAttackRange(player) + 1))
         {
             return;
         }

@@ -546,8 +546,18 @@ message S2CMovementSpeed {
 
 // Own player's minimum interval between attacks and skill casts, as enforced by the server's
 // speed-hack check. Sent on world entry and whenever attack speed changes.
+// The own player's basic attack: pacing, and range and weapon (resent when the weapon changes).
 message S2CAttackInterval {
-    uint32 min_interval_ms = 1;
+    uint32       min_interval_ms = 1; // 0 = unknown
+    uint32       attack_range    = 2; // tiles
+    AttackWeapon weapon          = 3;
+}
+
+enum AttackWeapon {
+    ATTACK_WEAPON_MELEE    = 0;
+    ATTACK_WEAPON_SPEAR    = 1;
+    ATTACK_WEAPON_BOW      = 2;
+    ATTACK_WEAPON_CROSSBOW = 3;
 }
 
 message S2CSafezoneChanged {

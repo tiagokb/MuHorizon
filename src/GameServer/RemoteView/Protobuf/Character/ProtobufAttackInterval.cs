@@ -4,6 +4,8 @@
 
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.Character;
 
+using MUnique.OpenMU.AttributeSystem;
+using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.Network.Protobuf;
 
@@ -14,23 +16,34 @@ using MUnique.OpenMU.Network.Protobuf;
 /// </summary>
 internal static class ProtobufAttackInterval
 {
+    /// <summary>Attributes whose change can change the attack range or weapon.</summary>
+    internal static readonly HashSet<AttributeDefinition> WeaponInputs =
+    [
+        Stats.IsBowEquipped, Stats.IsCrossBowEquipped, Stats.EquippedWeaponCount,
+    ];
+
     internal static async ValueTask SendAsync(ProtobufRemotePlayer player)
     {
-        if (player.GameContext.PlugInManager.GetPlugInPoint<ISpeedHackCheatCheckPlugIn>() is not { } speedCheck)
+        // Without an active speed-hack check the interval is unknown (0): the client keeps its own pacing.
+        var minIntervalMs = 0u;
+        if (player.GameContext.PlugInManager.GetPlugInPoint<ISpeedHackCheatCheckPlugIn>() is { } speedCheck)
         {
-            return; // no check active: the client keeps its own pacing
-        }
-
-        var eventArgs = new AttackIntervalEventArgs();
-        await speedCheck.GetMinimumAttackIntervalAsync(player, eventArgs).ConfigureAwait(false);
-        if (eventArgs.MinimumInterval is not { } interval)
-        {
-            return;
+            var eventArgs = new AttackIntervalEventArgs();
+            await speedCheck.GetMinimumAttackIntervalAsync(player, eventArgs).ConfigureAwait(false);
+            if (eventArgs.MinimumInterval is { } interval)
+            {
+                minIntervalMs = (uint)Math.Ceiling(interval.TotalMilliseconds);
+            }
         }
 
         await player.SendEnvelopeAsync(new ServerEnvelope
         {
-            AttackInterval = new S2CAttackInterval { MinIntervalMs = (uint)Math.Ceiling(interval.TotalMilliseconds) },
+            AttackInterval = new S2CAttackInterval
+            {
+                MinIntervalMs = minIntervalMs,
+                AttackRange   = (uint)GameLogic.Inputs.BasicAttackRules.GetAttackRange(player),
+                Weapon        = (AttackWeapon)GameLogic.Inputs.BasicAttackRules.GetAttackWeapon(player),
+            },
         }).ConfigureAwait(false);
     }
 }

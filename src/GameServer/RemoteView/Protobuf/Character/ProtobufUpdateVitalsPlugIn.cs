@@ -30,7 +30,7 @@ internal sealed class ProtobufUpdateVitalsPlugIn : IUpdateStatsPlugIn
         if (ProtobufMovementSpeed.Inputs.Contains(attribute))
             return _player.SendEnvelopeAsync(ProtobufMovementSpeed.Build(_player));
 
-        if (attribute == Stats.AttackSpeed)
+        if (attribute == Stats.AttackSpeed || ProtobufAttackInterval.WeaponInputs.Contains(attribute))
             return ProtobufAttackInterval.SendAsync(_player);
 
         if (!VitalAttributes.Contains(attribute))
