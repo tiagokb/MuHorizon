@@ -154,6 +154,10 @@ message S2CEntitiesOutOfScope {
 message C2SCastSkill {
     uint32 skill_id  = 1;
     uint32 target_id = 2;
+    // Area and directional skills aim at a ground point instead of an entity.
+    bool   has_target_position = 3;
+    float  target_x            = 4; // server units (1 tile = 8)
+    float  target_y            = 5;
 }
 
 message S2CSkillAnimation {
@@ -161,6 +165,15 @@ message S2CSkillAnimation {
     uint32 target_id      = 2;
     uint32 skill_id       = 3;
     bool   effect_applied = 4;
+}
+
+// An area or directional skill cast at a ground point (Flame, Evil Spirit, Aqua Beam...).
+// Hits on each target arrive separately as S2CDamageResult.
+message S2CAreaSkillAnimation {
+    uint32 attacker_id = 1;
+    uint32 skill_id    = 2;
+    float  target_x    = 3; // server units, tile center
+    float  target_y    = 4;
 }
 
 message S2CDamageResult {
@@ -385,6 +398,7 @@ message SkillData {
     uint32 slot   = 1;  // ordinal in the list (0-N)
     uint32 number = 2;  // Skill.Number
     uint32 level  = 3;  // master skill level (0 for normal skills)
+    uint32 range  = 4;  // Skill.Range in tiles — the server validates casts against it (+2 tiles tolerance)
 }
 
 message S2CSkillList {
@@ -437,6 +451,12 @@ message C2STeleport {
 message S2CMovementSpeed {
     float movement_speed = 1; // legacy MU units: 15 = base run, 16-19 = fast wings/mounts
     float tiles_per_sec  = 2; // what GameTickLoop actually moves the character by
+}
+
+// Own player's minimum interval between attacks and skill casts, as enforced by the server's
+// speed-hack check. Sent on world entry and whenever attack speed changes.
+message S2CAttackInterval {
+    uint32 min_interval_ms = 1;
 }
 
 message S2CSafezoneChanged {
@@ -538,5 +558,7 @@ message ServerEnvelope {
         S2CSafezoneChanged       safezone_changed        = 35;
         S2CAppearanceChanged     appearance_changed      = 36;
         S2CMovementSpeed         movement_speed          = 37;
+        S2CAttackInterval        attack_interval         = 38;
+        S2CAreaSkillAnimation    area_skill_animation    = 39;
     }
 }

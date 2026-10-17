@@ -11,7 +11,8 @@ Atualizar conforme feedback de playtest.
 
 - [x] **Directional** — dispara na direção do cursor sem restrição de distância. Correto, não cancelar.
 - [x] **GroundTarget (Teleport)** — clamp ao range máximo na direção do clique; nunca rejeita.
-- [ ] **GroundTarget AoE (Flame, Hellfire, etc.)** — mesmo comportamento do teleport: se clicar além do range, solta no ponto máximo na direção do clique. Hoje cai no `StartPathTo` (bug). Bloqueado por falta de posição em `C2SCastSkill` — precisa adicionar `float target_x / target_y` ao proto e handler no servidor.
+- [x] **GroundTarget AoE (Flame, Hellfire, etc.) e Directional (Aqua Beam, Power Wave...)** — `C2SCastSkill` com `has_target_position/target_x/target_y`; o cliente faz clamp ao range do servidor e o servidor executa via `AreaSkillAttackAction` (rotação calculada do player até o ponto, usada pelas skills em cone). Antes, AoE no chão disparava teleport e direcionais só andavam. Animação para observadores: `S2CAreaSkillAnimation`.
+- [ ] **BUG — Flame (e AoE em geral) ainda age como alvo único no jogo** (reportado 2026-10-17): o preview da área aparece, mas a skill exige um alvo e o dano vai só no alvo selecionado. No teste via cliente de diagnóstico (C2SCastSkill com posição) o servidor executou a área e enviou `S2CAreaSkillAnimation`, então suspeitar primeiro do cliente: clique sobre mob pode estar caindo no auto-ataque/`AttackTargetId` ou no caminho targeted em vez do `CastAtGround`; conferir também `AreaSkillSettings` do Flame (`EffectRange`, `UseTargetAreaFilter`) e se os hits de área geram `S2CDamageResult` para cada alvo.
 - [x] **Targeted fora do range** — personagem anda em direção ao alvo e solta automaticamente ao entrar no range (`_pendingSkillCast`). ESC/right-click cancela.
 
 ---

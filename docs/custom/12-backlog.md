@@ -67,10 +67,11 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 
 ## Segurança / Anti-cheat (dívida crítica — implementar antes de qualquer sessão multiplayer real)
 
-- [ ] **CRÍTICO — Server-side attack speed**: o rate-limit em `ProtobufPacketDispatcher` usa timer hardcoded (100ms); deve usar `Stats.AttackSpeed` do player para rejeitar rafagas acima do permitido
-- [ ] **CRÍTICO — Server-side skill range validation**: `C2SCastSkill` e `C2STeleport` não verificam distância no servidor; um cliente modificado pode castá-los de qualquer lugar do mapa
-- [ ] **CRÍTICO — Server-side interaction range**: `C2SInteractNpc` não verifica proximidade no servidor; cliente calcula e enforça, mas o servidor aceita qualquer ID
-- [ ] **Documentação**: todas as validações acima são atualmente client-authoritative por herança do protocolo legado do MU Online
+- [x] **Server-side attack speed** (2026-10-17): ataque básico e projéteis agora passam pelo `ISpeedHackCheatCheckPlugIn` (intervalo mínimo derivado de `Stats.AttackSpeed`, como skills e áreas já faziam). O servidor envia o intervalo ao cliente (`S2CAttackInterval`) e o cliente pacing por ele — evita falso positivo/AutoBan em personagens rápidos. O rate-limit de 100ms no dispatcher ficou só como proteção da fila.
+- [x] **Server-side skill range validation** (2026-10-17): `SkillCastRules` (GameLogic/Inputs) — só skills aprendidas (removido o fallback para a configuração global em `SkillInput` e `TargetedSkillDefaultPlugin`), alcance `Skill.Range + 2` para alvo, projétil, área (`AreaSkillInput`) e teleport (`TeleportInput`, agora na `InputQueue`, com custo de mana e sem teleport duplo). `S2CSkillList` envia o `range` e o cliente usa esse valor no indicador e no clamp.
+- [x] **Server-side interaction range**: já estava validado (`IsWithinInteractionRange`, 4 tiles) para NPC e pickup.
+- [ ] **Cooldown de skills no servidor**: não existe (só advisory no cliente, `EntityConfig.SkillInfo.CooldownMs`). Exige campo novo no modelo de `Skill` (migração) — só o intervalo de ataque global é aplicado hoje.
+- [ ] **Posição em tile fora de sincronia**: o movimento contínuo (`GameTickLoop`) não checa `WalkMap`, então o player pode parar em tile não andável. No login seguinte `ClientReadyAfterMapChangeAsync` chama `WarpToSafezoneAsync`, que deixa `CurrentMap = null` esperando o ack de troca de mapa (F3 12) que o cliente Protobuf nunca manda — o player fica fora do mapa (não ataca, não é visto) com a `ContinuousPosition` antiga. Precisa: (1) bloquear movimento contínuo em tile não andável; (2) warp/troca de mapa no fluxo Protobuf.
 
 ## Tools
 

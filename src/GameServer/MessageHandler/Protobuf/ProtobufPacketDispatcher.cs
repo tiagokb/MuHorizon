@@ -43,8 +43,13 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly SellItemToNpcAction SellItemToNpcAction = new();
     private static readonly ItemConsumeAction ItemConsumeAction = new();
 
+    // Flood guard for the input queue only; the real attack-speed limit is the speed-hack check
+    // done by the inputs (ISpeedHackCheatCheckPlugIn).
     private const int SkillRateLimitMs = 100;
     private const int InteractionRangeTiles = 4;
+
+    // Continuous coordinates of a 256x256 tile map (1 tile = 8 units).
+    private const float MapSizeUnits = 256 * 8f;
 
     private readonly ProtobufRemotePlayer _player;
     private readonly ILogger<ProtobufPacketDispatcher> _logger;
@@ -131,15 +136,21 @@ internal sealed class ProtobufPacketDispatcher
                 if (rateLimitMs >= SkillRateLimitMs && _player.InputQueue.Count < 32)
                 {
                     _lastSkillDispatchTick = nowTick;
-                    var skillId  = (ushort)envelope.CastSkill.SkillId;
-                    var targetId = (ushort)envelope.CastSkill.TargetId;
-                    var inputKind = skillId == 0 ? "BasicAttack" : "SkillCast";
+                    var cast     = envelope.CastSkill;
+                    var skillId  = (ushort)cast.SkillId;
+                    var targetId = (ushort)cast.TargetId;
+                    IPlayerInput? input = (skillId, cast.HasTargetPosition) switch
+                    {
+                        (0, _) => new BasicAttackInput(targetId),
+                        (_, true) when IsOnMap(cast.TargetX, cast.TargetY)
+                            => new AreaSkillInput(skillId, new Vector2F(cast.TargetX, cast.TargetY)),
+                        (_, true) => null,
+                        _ => new SkillInput(skillId, targetId),
+                    };
                     _logger.LogDebug("[COMBAT] Dispatch  {Kind}  skillId={SkillId}  targetId={TargetId}  player={Player}",
-                        inputKind, skillId, targetId, _player.Name);
-                    IPlayerInput input = skillId == 0
-                        ? new BasicAttackInput(targetId)
-                        : new SkillInput(skillId, targetId);
-                    _player.InputQueue.Enqueue(input);
+                        input?.GetType().Name ?? "Rejected", skillId, targetId, _player.Name);
+                    if (input is not null)
+                        _player.InputQueue.Enqueue(input);
                 }
                 else if (rateLimitMs < SkillRateLimitMs)
                 {
@@ -223,29 +234,24 @@ internal sealed class ProtobufPacketDispatcher
                 break;
 
             case ClientEnvelope.PayloadOneofCase.Teleport:
-            {
-                var telTarget = new Pathfinding.Point(
-                    (byte)envelope.Teleport.TargetX,
-                    (byte)envelope.Teleport.TargetY);
-                if (_player.IsActive()
-                    && _player.CurrentMap is { } telMap
-                    && telMap.Terrain.WalkMap[telTarget.X, telTarget.Y]
-                    && !telMap.Terrain.SafezoneMap[telTarget.X, telTarget.Y])
+                if (envelope.Teleport.TargetX <= byte.MaxValue && envelope.Teleport.TargetY <= byte.MaxValue
+                    && _player.InputQueue.Count < 32)
                 {
-                    var telSkill = _player.SkillList?.GetSkill(6)?.Skill
-                        ?? _player.GameContext.Configuration.Skills
-                            .FirstOrDefault(s => s.Number == 6);
-                    if (telSkill is not null)
-                        _ = Task.Run(() => _player.TeleportAsync(telTarget, telSkill));
+                    _player.InputQueue.Enqueue(new TeleportInput(new Pathfinding.Point(
+                        (byte)envelope.Teleport.TargetX,
+                        (byte)envelope.Teleport.TargetY)));
                 }
+
                 break;
-            }
 
             default:
                 _logger.LogDebug("Unhandled payload case {Case} from {EndPoint}", envelope.PayloadCase, _player.Connection?.EndPoint);
                 break;
         }
     }
+
+    private static bool IsOnMap(float x, float y) =>
+        x is >= 0 and < MapSizeUnits && y is >= 0 and < MapSizeUnits;
 
     private bool IsWithinInteractionRange(Pathfinding.Point other)
     {

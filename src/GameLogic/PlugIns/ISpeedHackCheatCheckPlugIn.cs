@@ -33,6 +33,14 @@ public interface ISpeedHackCheatCheckPlugIn
     ValueTask AttackCheatCheckAsync(Player player, SpeedHackCheckEventArgs eventArgs);
 
     /// <summary>
+    /// Reports the minimum interval between attacks that <see cref="AttackCheatCheckAsync"/>
+    /// accepts for the player at its current attack speed, so clients can pace themselves.
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <param name="eventArgs">The event args which receive the interval.</param>
+    ValueTask GetMinimumAttackIntervalAsync(Player player, AttackIntervalEventArgs eventArgs);
+
+    /// <summary>
     /// Resets the movement speed check state for the player.
     /// </summary>
     /// <param name="player">The player.</param>

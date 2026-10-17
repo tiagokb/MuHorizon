@@ -67,18 +67,10 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
         }
 
         var skillEntry = player.SkillList?.GetSkill(skillId);
-        var skill = skillEntry?.Skill
-            ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)skillId);
+        var skill = skillEntry?.Skill;
         if (skill is null || skill.SkillType == SkillType.PassiveBoost)
         {
             return;
-        }
-
-        // Synthesize a transient SkillEntry when the player doesn't own the skill (e.g. test accounts).
-        if (skillEntry is null)
-        {
-            skillEntry = new MUnique.OpenMU.DataModel.Entities.SkillEntry { Level = 0 };
-            skillEntry.Skill = skill;
         }
 
         if (skill.SkillType != SkillType.Buff && skill.SkillType != SkillType.Regeneration && skill.SkillType != SkillType.SummonMonster)

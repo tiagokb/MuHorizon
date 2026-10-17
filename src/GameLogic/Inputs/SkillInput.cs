@@ -11,8 +11,8 @@ using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.World;
 
 /// <summary>
-/// Processed by the tick loop: resolves the target, enforces server-side cooldown and
-/// line-of-sight, then dispatches to the appropriate <see cref="ITargetedSkillPlugin"/>.
+/// Processed by the tick loop: resolves the target, requires a learned skill and line-of-sight,
+/// then spawns a projectile or dispatches to the appropriate <see cref="ITargetedSkillPlugin"/>.
 /// </summary>
 public sealed class SkillInput : IPlayerInput
 {
@@ -43,10 +43,15 @@ public sealed class SkillInput : IPlayerInput
             return;
         }
 
-        var skillEntry = player.SkillList?.GetSkill(_skillId);
+        // Only learned skills can be cast; the client may request any skill number.
+        if (SkillCastRules.GetCastableSkill(player, _skillId) is not { Skill: { } skill } skillEntry)
+        {
+            player.Logger.LogDebug("[COMBAT] SkillCast id={SkillId}: skill not learned", _skillId);
+            return;
+        }
 
         // Line-of-sight check for ranged skills (range > 1 tile).
-        if (skillEntry?.Skill is { Range: > 1 })
+        if (skill.Range > 1)
         {
             if (!LineOfSight.HasLineOfSight(player.Position, target.Position, map))
             {
@@ -63,24 +68,24 @@ public sealed class SkillInput : IPlayerInput
             return;
         }
 
-        // Fall back to global config when the player doesn't own the skill (e.g. early test accounts).
-        var skill = skillEntry?.Skill
-            ?? player.GameContext.Configuration?.Skills.FirstOrDefault(s => s.Number == (short)_skillId);
-
         var targetName = target is Player tp ? tp.Name : target.GetType().Name;
         player.Logger.LogDebug(
-            "[COMBAT] SkillCast  id={SkillId}  skill={Skill}  type={DmgType}  hasProjectile={Proj}  inSkillList={InList}  plugin={Plugin}  target={Target}",
+            "[COMBAT] SkillCast  id={SkillId}  skill={Skill}  type={DmgType}  hasProjectile={Proj}  plugin={Plugin}  target={Target}",
             _skillId,
-            skill?.Name ?? "<none>",
-            skill?.DamageType.ToString() ?? "<none>",
-            skill?.HasProjectile ?? false,
-            skillEntry is not null,
+            skill.Name,
+            skill.DamageType.ToString(),
+            skill.HasProjectile,
             plugin.GetType().Name,
             targetName);
 
-        if (skill is { HasProjectile: true })
+        if (skill.HasProjectile)
         {
-            if (!target.IsActive())
+            // Projectiles bypass the skill plugin, so they enforce the plugin's checks here.
+            if (!SkillCastRules.CanAttack(player)
+                || !target.IsActive()
+                || !player.IsInRange(target.Position, skill.Range + SkillCastRules.RangeTolerance)
+                || await SkillCastRules.IsTooFastAsync(player).ConfigureAwait(false)
+                || !await player.TryConsumeForSkillAsync(skill).ConfigureAwait(false))
             {
                 return;
             }
@@ -92,7 +97,7 @@ public sealed class SkillInput : IPlayerInput
         await plugin.PerformSkillAsync(player, target, _skillId).ConfigureAwait(false);
     }
 
-    private async ValueTask SpawnProjectileAsync(Player player, IAttackable target, Skill skill, SkillEntry? skillEntry)
+    private async ValueTask SpawnProjectileAsync(Player player, IAttackable target, Skill skill, SkillEntry skillEntry)
     {
         var map = player.CurrentMap!;
         var origin = player.ContinuousPosition;
@@ -101,13 +106,6 @@ public sealed class SkillInput : IPlayerInput
 
         // Max range = skill range in tiles converted to continuous units.
         var maxRange = skill.Range > 0 ? skill.Range * 8f : 160f;
-
-        // Build a transient SkillEntry for accounts that don't own the skill yet.
-        if (skillEntry is null)
-        {
-            skillEntry = new SkillEntry { Level = 0 };
-            skillEntry.Skill = skill;
-        }
 
         var projectile = new Projectile(player, skillEntry, _skillId,
             origin.X, origin.Y, targetPos.X, targetPos.Y, speed, maxRange);

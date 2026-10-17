@@ -42,7 +42,12 @@ public sealed class BasicAttackInput : IPlayerInput
             return;
         }
 
-        if (!player.IsInRange(target.Position, 3))
+        if (!SkillCastRules.CanAttack(player) || !player.IsInRange(target.Position, 3))
+        {
+            return;
+        }
+
+        if (await SkillCastRules.IsTooFastAsync(player).ConfigureAwait(false))
         {
             return;
         }

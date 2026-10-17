@@ -168,6 +168,27 @@ public class SpeedHackAntiCheatTests
     }
 
     /// <summary>
+    /// Tests that the reported minimum attack interval follows the same formula the attack check
+    /// enforces (base delay minus scaled attack speed; attack speed itself is capped at 200).
+    /// </summary>
+    /// <param name="attackSpeed">The attack speed.</param>
+    /// <param name="expectedMs">The expected minimum interval in milliseconds.</param>
+    [TestCase(20, 426)]
+    [TestCase(100, 330)]
+    [TestCase(400, 210)]
+    public async Task TestMinimumAttackIntervalMatchesAttackSpeedAsync(int attackSpeed, int expectedMs)
+    {
+        var player = await CreatePlayerWithSpeedAttributesAsync().ConfigureAwait(false);
+        player.Attributes![Stats.AttackSpeed] = attackSpeed;
+
+        var args = new AttackIntervalEventArgs();
+        await player.GameContext.PlugInManager.GetPlugInPoint<ISpeedHackCheatCheckPlugIn>()!
+            .GetMinimumAttackIntervalAsync(player, args).ConfigureAwait(false);
+
+        Assert.That(args.MinimumInterval?.TotalMilliseconds, Is.EqualTo(expectedMs).Within(0.001));
+    }
+
+    /// <summary>
     /// Tests that teleporting/warping to a different coordinate clears recent walks
     /// and doesn't trigger speed hack warnings on subsequent movements.
     /// </summary>

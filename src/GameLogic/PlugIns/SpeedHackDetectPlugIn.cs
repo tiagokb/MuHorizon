@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MUnique.OpenMU.AttributeSystem;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.Pathfinding;
@@ -150,10 +151,9 @@ public class SpeedHackDetectPlugIn : IFeaturePlugIn, ISupportCustomConfiguration
             return;
         }
 
-        var attackSpeed = attributes[Stats.AttackSpeed];
         var now = DateTime.UtcNow;
 
-        var minIntervalMs = Math.Max(config.AttackSpeedMinIntervalMs, config.AttackSpeedBaseDelayMs - (attackSpeed * config.AttackSpeedScalingFactor));
+        var minIntervalMs = GetMinimumAttackIntervalMs(attributes, config);
         var state = this.GetState(player);
         bool shouldRecordViolation = false;
 
@@ -186,6 +186,17 @@ public class SpeedHackDetectPlugIn : IFeaturePlugIn, ISupportCustomConfiguration
             eventArgs.IsCheatDetected = true;
             await this.RecordViolationAsync(player, state, config).ConfigureAwait(false);
         }
+    }
+
+    /// <inheritdoc/>
+    public ValueTask GetMinimumAttackIntervalAsync(Player player, AttackIntervalEventArgs eventArgs)
+    {
+        if (player.Attributes is { } attributes && this.Configuration is { } config)
+        {
+            eventArgs.MinimumInterval = TimeSpan.FromMilliseconds(GetMinimumAttackIntervalMs(attributes, config));
+        }
+
+        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -311,6 +322,9 @@ public class SpeedHackDetectPlugIn : IFeaturePlugIn, ISupportCustomConfiguration
 
         public Point StartPoint { get; init; }
     }
+
+    private static double GetMinimumAttackIntervalMs(IAttributeSystem attributes, SpeedHackDetectConfiguration config) =>
+        Math.Max(config.AttackSpeedMinIntervalMs, config.AttackSpeedBaseDelayMs - (attributes[Stats.AttackSpeed] * config.AttackSpeedScalingFactor));
 
     private class SpeedHackState
     {

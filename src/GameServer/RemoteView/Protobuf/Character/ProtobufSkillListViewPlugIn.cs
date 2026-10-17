@@ -46,6 +46,7 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
                 Slot   = slot++,
                 Number = (uint)entry.Skill.Number,
                 Level  = entry.Skill.MasterDefinition is not null ? (uint)entry.Level : 0u,
+                Range  = (uint)entry.Skill.Range,
             });
         }
 
