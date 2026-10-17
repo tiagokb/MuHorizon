@@ -142,8 +142,9 @@ public static class BmdGltfExporter
         for (int mi = 0; mi < bmd.Meshes.Length; mi++)
         {
             var m = bmd.Meshes[mi];
-            Console.WriteLine($"\nMesh[{mi}] texture='{m.TexturePath}' verts={m.Vertices.Length} tris={m.Triangles.Length}");
-            int show = Math.Min(8, m.Vertices.Length);
+            var nodeSet = m.Vertices.Select(v => v.Node).Distinct().OrderBy(n => n).ToArray();
+            Console.WriteLine($"\nMesh[{mi}] texture='{m.TexturePath}' verts={m.Vertices.Length} tris={m.Triangles.Length}  nodes=[{string.Join(",", nodeSet)}]");
+            int show = Math.Min(4, m.Vertices.Length);
             for (int i = 0; i < show; i++)
             {
                 var v = m.Vertices[i];
@@ -153,7 +154,7 @@ public static class BmdGltfExporter
 
         Console.WriteLine("\nBones:");
         ComputeBoneWorldTransforms(bmd, out var wPos, out var wRot);
-        for (int i = 0; i < Math.Min(12, bmd.Bones.Length); i++)
+        for (int i = 0; i < bmd.Bones.Length; i++)
         {
             var b = bmd.Bones[i];
             if (b.IsDummy) { Console.WriteLine($"  bone[{i}] DUMMY"); continue; }
@@ -493,12 +494,28 @@ public static class BmdGltfExporter
         png[1] == 0x50 && png[2] == 0x4E && png[3] == 0x47 && // "PNG"
         png[25] == 6;
 
-    // Returns decoded bytes or null if not found in the index.
+    // Returns decoded PNG bytes or null if not found in the index.
     private static byte[]? TryLoadTexture(
         string texturePath, IReadOnlyDictionary<string, string> textureIndex)
     {
-        var stem = Path.GetFileNameWithoutExtension(texturePath);
+        var stem    = Path.GetFileNameWithoutExtension(texturePath);
+        var origExt = Path.GetExtension(texturePath).ToLowerInvariant();
         if (!textureIndex.TryGetValue(stem, out var path)) return null;
+
+        // When the BMD references a JPEG (.jpg/.jpeg) but the index resolved to an OZT
+        // (TGA with alpha), prefer the OZJ companion in the same directory instead.
+        // OZT and OZJ often contain DIFFERENT content: OZT = alpha/specular overlay,
+        // OZJ = the actual RGB body texture. Using OZT for a JPEG-referenced mesh causes
+        // geometry whose UVs land in the OZT's transparent region to become invisible
+        // (e.g. Budge Dragon head, whose UV region has alpha=0 in p_d.OZT).
+        if (origExt is ".jpg" or ".jpeg"
+            && Path.GetExtension(path).Equals(".ozt", StringComparison.OrdinalIgnoreCase))
+        {
+            var dir     = Path.GetDirectoryName(path)!;
+            var ozjPath = Path.Combine(dir, stem + ".OZJ");
+            if (!File.Exists(ozjPath)) ozjPath = Path.Combine(dir, stem + ".ozj");
+            if (File.Exists(ozjPath)) path = ozjPath;
+        }
 
         var ext = Path.GetExtension(path).ToLowerInvariant();
         try
