@@ -176,6 +176,31 @@ message S2CAreaSkillAnimation {
     float  target_y    = 4;
 }
 
+// The own player is moving to another map (warp, gate) or another spot of the same map:
+// the client clears the entities, loads the map and answers with C2SMapLoaded.
+message S2CMapChanged {
+    uint32 map_id = 1;
+    float  x      = 2; // server units, tile center
+    float  y      = 3;
+}
+
+message WarpEntry {
+    uint32 index             = 1;
+    string name              = 2;
+    uint32 cost              = 3; // zen
+    uint32 level_requirement = 4; // already adjusted for the character's class
+    uint32 map_id            = 5;
+}
+
+message S2CWarpList {
+    repeated WarpEntry entries = 1;
+}
+
+// A message for the player, e.g. why a warp was refused.
+message S2CSystemMessage {
+    string text = 1;
+}
+
 // A player in scope (or the own player) started charging or casting a skill.
 message S2CCastStarted {
     uint32   caster_id   = 1;
@@ -496,6 +521,17 @@ enum CastAction {
     CAST_ACTION_CANCEL       = 2; // cancels the charge or cast; the skill still goes on cooldown
 }
 
+// The client finished loading the map of S2CMapChanged; the server then places the player
+// on it and answers with S2CEnteredWorld and the entities in scope.
+message C2SMapLoaded {}
+
+message C2SGetWarpList {}
+
+// Warps to a destination of S2CWarpList (level and zen requirements are checked by the server).
+message C2SWarp {
+    uint32 index = 1; // WarpEntry.index
+}
+
 message C2SCastControl {
     CastAction action   = 1;
     uint32     skill_id = 2; // START_CHARGE only
@@ -572,6 +608,9 @@ message ClientEnvelope {
         C2SDropItem             drop_item              = 18;
         C2STeleport             teleport               = 19;
         C2SCastControl          cast_control           = 20;
+        C2SMapLoaded            map_loaded             = 21;
+        C2SGetWarpList          get_warp_list          = 22;
+        C2SWarp                 warp                   = 23;
     }
 }
 
@@ -619,5 +658,8 @@ message ServerEnvelope {
         S2CSkillCooldown         skill_cooldown          = 40;
         S2CCastStarted           cast_started            = 41;
         S2CCastEnded             cast_ended              = 42;
+        S2CMapChanged            map_changed             = 43;
+        S2CWarpList              warp_list               = 44;
+        S2CSystemMessage         system_message          = 45;
     }
 }

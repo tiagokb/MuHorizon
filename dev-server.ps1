@@ -61,4 +61,12 @@ $command = if ($NoWatch) { 'dotnet run --no-launch-profile' } else { 'dotnet wat
 
 # cmd merges stderr into stdout before PowerShell sees it: in Windows PowerShell 5.1 a native
 # command's stderr piped through 2>&1 turns into error records, which stop this script.
-cmd /c "chcp 65001 >nul & $command 2>&1" | Tee-Object -FilePath $watchLog
+# dotnet watch itself sometimes crashes when files are added while it reloads the projects
+# ("Cannot find the old value"), so it's restarted until this window is closed (or Ctrl+C).
+Clear-Content $watchLog -ErrorAction SilentlyContinue
+while ($true) {
+    cmd /c "chcp 65001 >nul & $command 2>&1" | Tee-Object -FilePath $watchLog -Append
+    if ($NoWatch) { break }
+    Write-Host 'dotnet watch stopped; restarting in 3 s (close the window or Ctrl+C to quit)...'
+    Start-Sleep -Seconds 3
+}

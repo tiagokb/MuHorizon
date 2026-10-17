@@ -49,6 +49,8 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufShowAreaSkillAnimationPlugIn(player),
             new ProtobufSkillCooldownPlugIn(player),
             new ProtobufShowCastPlugIn(player),
+            new ProtobufMapChangePlugIn(player),
+            new ProtobufShowMessagePlugIn(player),
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),
             new ProtobufDeactivateMagicEffectPlugIn(player),

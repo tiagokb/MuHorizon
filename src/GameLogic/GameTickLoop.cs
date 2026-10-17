@@ -7,6 +7,7 @@ namespace MUnique.OpenMU.GameLogic;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.Pathfinding;
 
@@ -260,10 +261,21 @@ public sealed class GameTickLoop
                 continue;
             }
 
+            var oldTile = player.Position;
             var newTile = player.ContinuousPosition.ToTile();
             await player.UpdateMapTileAsync(newTile).ConfigureAwait(false);
+
+            // Stepping onto a gate warps the player; processed with its inputs in the next tick.
+            if (newTile != oldTile && FindEnterGate(newTile) is { } gate)
+            {
+                player.InputQueue.Enqueue(new Inputs.EnterGateInput(gate));
+            }
         }
     }
+
+    private EnterGate? FindEnterGate(Point tile) =>
+        _map.Definition.EnterGates.FirstOrDefault(g =>
+            tile.X >= g.X1 && tile.X <= g.X2 && tile.Y >= g.Y1 && tile.Y <= g.Y2);
 
     private async ValueTask BroadcastSnapshotsAsync(CancellationToken ct)
     {

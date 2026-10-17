@@ -249,6 +249,28 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.MapLoaded:
+                // Only after a warp (S2CMapChanged): the player is off the map until now.
+                if (_player.CurrentMap is null && _player.SelectedCharacter?.CurrentMap is not null
+                    && !_player.PlayerState.CurrentState.IsDisconnectedOrFinished())
+                {
+                    await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GetWarpList:
+                await SendWarpListAsync().ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.Warp:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new WarpInput((int)envelope.Warp.Index));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.Teleport:
                 if (envelope.Teleport.TargetX <= byte.MaxValue && envelope.Teleport.TargetY <= byte.MaxValue
                     && _player.InputQueue.Count < 32)
@@ -287,6 +309,24 @@ internal sealed class ProtobufPacketDispatcher
                 ServerTimestampMs = serverTs,
             },
         }).ConfigureAwait(false);
+    }
+
+    private ValueTask SendWarpListAsync()
+    {
+        var list = new S2CWarpList();
+        foreach (var warp in _player.GameContext.Configuration.WarpList.Where(w => w.Gate?.Map is not null).OrderBy(w => w.Index))
+        {
+            list.Entries.Add(new WarpEntry
+            {
+                Index = (uint)warp.Index,
+                Name = warp.Name.ToString(),
+                Cost = (uint)Math.Max(0, warp.Costs),
+                LevelRequirement = (uint)Math.Max(0, _player.SelectedCharacter?.GetEffectiveMoveLevelRequirement(warp.LevelRequirement) ?? warp.LevelRequirement),
+                MapId = (uint)warp.Gate!.Map!.Number,
+            });
+        }
+
+        return _player.SendEnvelopeAsync(new ServerEnvelope { WarpList = list });
     }
 
     private async ValueTask HandleSelectCharacterAsync(string characterName)
