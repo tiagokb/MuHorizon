@@ -26,6 +26,11 @@ public sealed class BasicAttackInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
+        if (player.ActiveCast is not null)
+        {
+            return;
+        }
+
         var map = player.CurrentMap;
         if (map is null)
         {

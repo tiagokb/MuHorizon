@@ -208,6 +208,8 @@ public sealed class GameTickLoop
             {
                 await input.HandleAsync(player).ConfigureAwait(false);
             }
+
+            await Inputs.CastController.UpdateAsync(player).ConfigureAwait(false);
         }
     }
 

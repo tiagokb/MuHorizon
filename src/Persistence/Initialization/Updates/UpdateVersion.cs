@@ -339,4 +339,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AddSkillCooldownsPlugInSeason6"/>.
     /// </summary>
     AddSkillCooldownsSeason6 = 101,
+
+    /// <summary>
+    /// The version of the <see cref="AddSkillCastingPlugInSeason6"/>.
+    /// </summary>
+    AddSkillCastingSeason6 = 102,
 }

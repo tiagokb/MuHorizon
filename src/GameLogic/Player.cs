@@ -277,6 +277,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public System.Collections.Concurrent.ConcurrentQueue<Inputs.IPlayerInput> InputQueue { get; } = new();
 
     /// <summary>
+    /// Gets or sets the skill the player is currently charging or casting; advanced by the tick loop.
+    /// </summary>
+    public Inputs.ActiveCast? ActiveCast { get; set; }
+
+    /// <summary>
     /// Gets the selected character.
     /// </summary>
     public Character? SelectedCharacter => this._selectedCharacter;
@@ -1643,11 +1648,8 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// </returns>
     public async ValueTask<bool> TryConsumeForSkillAsync(Skill skill)
     {
-        var now = DateTime.UtcNow;
-        if (this._skillReadyAt.TryGetValue(skill.Number, out var readyAt) && readyAt > now)
+        if (await this.IsOnCooldownAsync(skill).ConfigureAwait(false))
         {
-            this.Logger.LogDebug("[COMBAT] Skill {Skill} rejected: on cooldown for {Remaining} ms", skill.Number, (int)(readyAt - now).TotalMilliseconds);
-            await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, readyAt - now)).ConfigureAwait(false);
             return false;
         }
 
@@ -1668,14 +1670,42 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             this.Attributes![requirement.Attribute] -= this.GetRequiredValue(requirement, addExtraManaCost);
         }
 
-        if (skill.CooldownMilliseconds > 0)
+        await this.StartCooldownAsync(skill).ConfigureAwait(false);
+        return true;
+    }
+
+    /// <summary>
+    /// Determines whether the skill is still cooling down; if so, the client is told the remaining time.
+    /// </summary>
+    /// <param name="skill">The skill.</param>
+    /// <returns><c>true</c>, if the skill can't be cast yet.</returns>
+    public async ValueTask<bool> IsOnCooldownAsync(Skill skill)
+    {
+        var now = DateTime.UtcNow;
+        if (!this._skillReadyAt.TryGetValue(skill.Number, out var readyAt) || readyAt <= now)
         {
-            var cooldown = TimeSpan.FromMilliseconds(skill.CooldownMilliseconds);
-            this._skillReadyAt[skill.Number] = now + cooldown;
-            await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, cooldown)).ConfigureAwait(false);
+            return false;
         }
 
+        this.Logger.LogDebug("[COMBAT] Skill {Skill} rejected: on cooldown for {Remaining} ms", skill.Number, (int)(readyAt - now).TotalMilliseconds);
+        await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, readyAt - now)).ConfigureAwait(false);
         return true;
+    }
+
+    /// <summary>
+    /// Puts the skill on its <see cref="Skill.CooldownMilliseconds"/> and tells the client.
+    /// </summary>
+    /// <param name="skill">The skill.</param>
+    public async ValueTask StartCooldownAsync(Skill skill)
+    {
+        if (skill.CooldownMilliseconds <= 0)
+        {
+            return;
+        }
+
+        var cooldown = TimeSpan.FromMilliseconds(skill.CooldownMilliseconds);
+        this._skillReadyAt[skill.Number] = DateTime.UtcNow + cooldown;
+        await this.InvokeViewPlugInAsync<ISkillCooldownPlugIn>(p => p.ShowSkillCooldownAsync(skill.Number, cooldown)).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -176,6 +176,21 @@ message S2CAreaSkillAnimation {
     float  target_y    = 4;
 }
 
+// A player in scope (or the own player) started charging or casting a skill.
+message S2CCastStarted {
+    uint32   caster_id   = 1;
+    uint32   skill_id    = 2;
+    CastType cast_type   = 3;
+    uint32   duration_ms = 4; // cast time, or time to full charge
+    uint32   hold_ms     = 5; // CHARGE: a full charge is held this long, then released automatically
+}
+
+message S2CCastEnded {
+    uint32 caster_id = 1;
+    uint32 skill_id  = 2;
+    bool   completed = 3; // false: cancelled or interrupted
+}
+
 // Sent when a skill goes on cooldown (cast accepted: full cooldown) and when a cast is
 // rejected because the skill is still cooling down (remaining time), so the client's
 // cooldown always follows the server's.
@@ -413,6 +428,15 @@ message SkillData {
     float     area_radius = 6;  // tiles: circle radius, or cone length for CONE
     float     area_width  = 7;  // tiles: cone width at its far end (CONE only)
     uint32    cooldown_ms = 8;  // Skill.CooldownMilliseconds; 0 = only paced by attack speed
+    CastType  cast_type    = 9;
+    uint32    cast_time_ms = 10; // CHARGE: time to full charge; CAST_TIME: time to complete
+}
+
+// How a skill is cast (Skill.CastType).
+enum CastType {
+    CAST_TYPE_INSTANT   = 0;
+    CAST_TYPE_CHARGE    = 1; // hold the key to charge (C2SCastControl START_CHARGE), release it to fire (RELEASE)
+    CAST_TYPE_CAST_TIME = 2; // cast normally (C2SCastSkill); it takes effect after cast_time_ms
 }
 
 enum SkillArea {
@@ -464,6 +488,17 @@ message C2SUseItem {
 message C2STeleport {
     uint32 target_x = 1;  // tile column
     uint32 target_y = 2;  // tile row
+}
+
+enum CastAction {
+    CAST_ACTION_START_CHARGE = 0;
+    CAST_ACTION_RELEASE      = 1; // releases the charge
+    CAST_ACTION_CANCEL       = 2; // cancels the charge or cast; the skill still goes on cooldown
+}
+
+message C2SCastControl {
+    CastAction action   = 1;
+    uint32     skill_id = 2; // START_CHARGE only
 }
 
 // Own player's effective movement speed — sent on world entry, on changes of speed-related
@@ -536,6 +571,7 @@ message ClientEnvelope {
         C2SUseItem              use_item               = 17;
         C2SDropItem             drop_item              = 18;
         C2STeleport             teleport               = 19;
+        C2SCastControl          cast_control           = 20;
     }
 }
 
@@ -581,5 +617,7 @@ message ServerEnvelope {
         S2CAttackInterval        attack_interval         = 38;
         S2CAreaSkillAnimation    area_skill_animation    = 39;
         S2CSkillCooldown         skill_cooldown          = 40;
+        S2CCastStarted           cast_started            = 41;
+        S2CCastEnded             cast_ended              = 42;
     }
 }

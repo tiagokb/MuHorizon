@@ -10,8 +10,6 @@ using MUnique.OpenMU.Persistence.Initialization.Skills;
 /// <summary>
 /// The skill cooldowns of the MOBA-style client, used by the <see cref="SkillsInitializer"/>
 /// and the update which adds them to existing databases.
-/// Nova is left out: it consumes its skill once per charge stage, so it needs the casting
-/// mechanic before it can get a cooldown.
 /// </summary>
 internal static class SkillCooldowns
 {
@@ -37,6 +35,7 @@ internal static class SkillCooldowns
         { SkillNumber.EnergyBall, 1000 },
         { SkillNumber.Decay, 2000 },
         { SkillNumber.IceStorm, 2000 },
+        { SkillNumber.Nova, SkillCasting.NovaCooldownMilliseconds },
 
         // Dark Knight
         { SkillNumber.FallingSlash, 1000 },

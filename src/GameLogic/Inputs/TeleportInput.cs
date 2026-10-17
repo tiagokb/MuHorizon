@@ -25,7 +25,7 @@ public sealed class TeleportInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
-        if (!player.IsAlive || player.IsTeleporting || !SkillCastRules.CanAttack(player))
+        if (!player.IsAlive || player.IsTeleporting || player.ActiveCast is not null || !SkillCastRules.CanAttack(player))
         {
             return;
         }

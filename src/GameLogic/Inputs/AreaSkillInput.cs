@@ -35,8 +35,16 @@ public sealed class AreaSkillInput : IPlayerInput
     }
 
     /// <inheritdoc />
-    public async ValueTask HandleAsync(Player player)
+    public ValueTask HandleAsync(Player player) => this.HandleAsync(player, true);
+
+    private async ValueTask HandleAsync(Player player, bool startCastTime)
     {
+        if (player.ActiveCast is not null)
+        {
+            player.Logger.LogDebug("[COMBAT] AreaSkill id={SkillId}: already casting", _skillId);
+            return;
+        }
+
         if (player.CurrentMap is null || !SkillCastRules.CanAttack(player))
         {
             player.Logger.LogDebug("[COMBAT] AreaSkill id={SkillId}: player can't attack (safezone, stun or sleep)", _skillId);
@@ -53,6 +61,11 @@ public sealed class AreaSkillInput : IPlayerInput
         if (!player.IsInRange(center, skill.Range + SkillCastRules.RangeTolerance))
         {
             player.Logger.LogDebug("[COMBAT] AreaSkill id={SkillId}: {Center} out of range from {Position}", _skillId, center, player.Position);
+            return;
+        }
+
+        if (startCastTime && await CastController.TryStartCastTimeAsync(player, skill, p => this.HandleAsync(p, false)).ConfigureAwait(false))
+        {
             return;
         }
 

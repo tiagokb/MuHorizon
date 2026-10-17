@@ -447,6 +447,7 @@ internal class SkillsInitializer : SkillsInitializerBase
         this.CreateSkillCombos();
         this.InitializeSkillAttributes();
         SkillCooldowns.Apply(this.GameConfiguration);
+        SkillCasting.Apply(this.GameConfiguration);
     }
 
     // ReSharper disable once UnusedMember.Local

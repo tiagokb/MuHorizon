@@ -23,9 +23,14 @@ public sealed class MoveInput : IPlayerInput
     }
 
     /// <inheritdoc />
-    public ValueTask HandleAsync(Player player)
+    public async ValueTask HandleAsync(Player player)
     {
+        // Casting roots the player: walking cancels it. Charging allows walking (slowed).
+        if (player.ActiveCast is { Complete: not null })
+        {
+            await CastController.CancelAsync(player, "moved").ConfigureAwait(false);
+        }
+
         player.ContinuousWalkTarget = new Vector2F(_targetX, _targetY);
-        return ValueTask.CompletedTask;
     }
 }

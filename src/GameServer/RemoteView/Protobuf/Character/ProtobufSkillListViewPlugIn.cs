@@ -52,6 +52,8 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
                 AreaRadius = radius,
                 AreaWidth  = width,
                 CooldownMs = (uint)Math.Max(0, entry.Skill.CooldownMilliseconds),
+                CastType   = (CastType)entry.Skill.CastType,
+                CastTimeMs = (uint)Math.Max(0, entry.Skill.CastTimeMilliseconds),
             });
         }
 

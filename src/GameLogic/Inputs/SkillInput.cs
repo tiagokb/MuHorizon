@@ -29,8 +29,16 @@ public sealed class SkillInput : IPlayerInput
     }
 
     /// <inheritdoc />
-    public async ValueTask HandleAsync(Player player)
+    public ValueTask HandleAsync(Player player) => this.HandleAsync(player, true);
+
+    private async ValueTask HandleAsync(Player player, bool startCastTime)
     {
+        if (player.ActiveCast is not null)
+        {
+            player.Logger.LogDebug("[COMBAT] SkillCast id={SkillId}: already casting", _skillId);
+            return;
+        }
+
         var map = player.CurrentMap;
         if (map is null)
         {
@@ -57,6 +65,17 @@ public sealed class SkillInput : IPlayerInput
             {
                 return;
             }
+        }
+
+        // Charge skills are started and released by CastControlInput.
+        if (skill.CastType == SkillCastType.Charge)
+        {
+            return;
+        }
+
+        if (startCastTime && await CastController.TryStartCastTimeAsync(player, skill, p => this.HandleAsync(p, false)).ConfigureAwait(false))
+        {
+            return;
         }
 
         // Fall back to the default attack plugin (key=0) when no specific plugin is registered.

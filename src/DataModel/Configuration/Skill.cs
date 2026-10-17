@@ -342,6 +342,17 @@ public partial class Skill
     /// </summary>
     public int CooldownMilliseconds { get; set; }
 
+    /// <summary>
+    /// Gets or sets how the skill is cast.
+    /// </summary>
+    public SkillCastType CastType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cast time in milliseconds: the time to fully charge a <see cref="SkillCastType.Charge"/>
+    /// skill, or to complete a <see cref="SkillCastType.CastTime"/> skill.
+    /// </summary>
+    public int CastTimeMilliseconds { get; set; }
+
     /// <inheritdoc />
     public override string? ToString()
     {

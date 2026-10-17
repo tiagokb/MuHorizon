@@ -3257,6 +3257,12 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<int>("SkillType")
                         .HasColumnType("integer");
 
+                    b.Property<int>("CastTimeMilliseconds")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CastType")
+                        .HasColumnType("integer");
+
                     b.Property<int>("CooldownMilliseconds")
                         .HasColumnType("integer");
 

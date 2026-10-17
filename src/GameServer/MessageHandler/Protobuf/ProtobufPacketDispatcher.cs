@@ -233,6 +233,22 @@ internal sealed class ProtobufPacketDispatcher
                     _player.Position).ConfigureAwait(false);
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.CastControl:
+                if (_player.InputQueue.Count < 32)
+                {
+                    var control = envelope.CastControl;
+                    _player.InputQueue.Enqueue(new CastControlInput(
+                        control.Action switch
+                        {
+                            CastAction.StartCharge => CastControlInput.CastControlAction.StartCharge,
+                            CastAction.Release => CastControlInput.CastControlAction.Release,
+                            _ => CastControlInput.CastControlAction.Cancel,
+                        },
+                        (ushort)control.SkillId));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.Teleport:
                 if (envelope.Teleport.TargetX <= byte.MaxValue && envelope.Teleport.TargetY <= byte.MaxValue
                     && _player.InputQueue.Count < 32)
