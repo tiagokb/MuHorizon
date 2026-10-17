@@ -51,9 +51,14 @@ $env:RunAnalyzers = 'false'
 $env:DOTNET_WATCH_RESTART_ON_RUDE_EDIT = 'true'
 
 Set-Location (Join-Path $PSScriptRoot 'src/Startup')
-if ($NoWatch) {
-    dotnet run --no-launch-profile
-}
-else {
-    dotnet watch --non-interactive run --no-launch-profile
-}
+
+# The console output (build errors, hot reload results, restarts) is also kept in logs/watch.log,
+# so it can be followed from another terminal or tool while this window runs the server.
+New-Item -ItemType Directory -Force logs | Out-Null
+$watchLog = Join-Path (Get-Location) 'logs/watch.log'
+[Console]::OutputEncoding = [Text.Encoding]::UTF8
+$command = if ($NoWatch) { 'dotnet run --no-launch-profile' } else { 'dotnet watch --non-interactive run --no-launch-profile' }
+
+# cmd merges stderr into stdout before PowerShell sees it: in Windows PowerShell 5.1 a native
+# command's stderr piped through 2>&1 turns into error records, which stop this script.
+cmd /c "chcp 65001 >nul & $command 2>&1" | Tee-Object -FilePath $watchLog
