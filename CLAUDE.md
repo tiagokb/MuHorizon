@@ -112,6 +112,21 @@ Two systems coexist:
 
 Conversions: `Vector2F.ToTile()` divides by 8 (never cast directly or use `MathF.Floor`). `Vector2F.FromTile(p)` returns the tile center (`p.X * 8f + 4f`).
 
+### World Scale Reference (Godot client)
+
+MU Online is a miniature world — scale everything with this in mind:
+
+| Quantity | Value |
+|---|---|
+| 1 tile | 0.8 Godot units (`WorldMap.TileSize = 8f * ServerToWorld`) |
+| Server coord unit | 0.1 Godot units (`WorldMap.ServerToWorld = 0.1f`) |
+| Server unit → tile | server coord / 8 = tile (server sends tile × 8 as float) |
+| Full map | 256 tiles × 0.8 = **204.8 × 204.8 Godot units** |
+| Character height | ≈ 1.8 Godot units |
+| Camera (zoom=1) | BaseDist ≈ 10 units, pitch ≈ 65° — ≈25 tiles visible |
+
+Consequence: `WorldCamera.MaxZoom` must be kept small (≤ 2.2). At BaseDist=10 and zoom=1.7 the camera is ~17 units from the player (~44 tiles visible). The original `BaseDist=31.3` (the MU client's raw camera offset) was 10× too large because `ServerToWorld=0.1` shrinks everything.
+
 ### Plugin System
 
 Plugin interfaces require two attributes: `[Guid("...")]` (fixed GUID — required for stable configuration references) and either `[PlugInPoint]`, `[CustomPlugInContainer]`, or `[PlugIn]`. Plugins are discovered at startup and can be activated/deactivated from the admin panel. Custom plugins can be loaded from external assemblies (in a `plugins/` subfolder) or from C# source compiled at runtime by Roslyn.
