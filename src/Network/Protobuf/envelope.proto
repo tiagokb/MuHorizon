@@ -206,6 +206,9 @@ message S2CChaosMachine {
     bool              opened       = 5; // true when the player just opened it (talked to the goblin)
 }
 
+// The opened NPC window was closed by the server (e.g. the player walked away): the client hides it.
+message S2CNpcDialogClosed {}
+
 // The character left the game (C2SLogout); for LOGIN_SCREEN the connection is closed next.
 message S2CLogout {
     LogoutKind kind = 1;
@@ -707,5 +710,6 @@ message ServerEnvelope {
         S2CSystemMessage         system_message          = 45;
         S2CLogout                logout                  = 46;
         S2CChaosMachine          chaos_machine           = 47;
+        S2CNpcDialogClosed       npc_dialog_closed       = 48;
     }
 }

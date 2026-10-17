@@ -2280,6 +2280,26 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// <summary>
     /// Restores the temporary storage items placed in an NPC or trade dialog when player is disconnected.
     /// </summary>
+    /// <summary>
+    /// Gets the account's vault to put items in which can't go back to the inventory.
+    /// </summary>
+    private IStorage? GetVaultForRescue()
+    {
+        if (this.Vault is { } openedVault)
+        {
+            return openedVault;
+        }
+
+        if (this.Account is not { } account)
+        {
+            return null;
+        }
+
+        account.Vault ??= this.PersistenceContext.CreateNew<ItemStorage>();
+        var size = account.IsVaultExtended ? InventoryConstants.WarehouseSize * 2 : InventoryConstants.WarehouseSize;
+        return new Storage(size, account.Vault);
+    }
+
     private async ValueTask RestoreTemporaryStorageItemsAsync()
     {
         try
@@ -2339,14 +2359,24 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
                 items.Count,
                 string.Join(", ", items.Select(i => $"{i.Definition?.Name.ValueInNeutralLanguage ?? "Unknown"}(Slot:{i.ItemSlot})")));
 
-            // Try one more time to force-add items individually using the captured list
+            // Try one more time to force-add items individually using the captured list; what doesn't
+            // fit (e.g. a mix result with a full inventory) goes to the vault instead of being lost.
+            var vault = this.GetVaultForRescue();
             foreach (var item in items)
             {
                 await this.TemporaryStorage.RemoveItemAsync(item).ConfigureAwait(false);
-                if (!await this.Inventory.AddItemAsync(item).ConfigureAwait(false))
+                if (await this.Inventory.AddItemAsync(item).ConfigureAwait(false))
                 {
-                    this.Logger.LogError("Failed to return item {item} to inventory. Item is lost. id: {itemid}", item, item.GetId());
+                    continue;
                 }
+
+                if (vault is not null && await vault.AddItemAsync(item).ConfigureAwait(false))
+                {
+                    this.Logger.LogWarning("Inventory full: moved item {item} from the temporary storage to the vault of player {player}.", item, this.Name);
+                    continue;
+                }
+
+                this.Logger.LogError("Failed to return item {item} to inventory or vault. Item is lost. id: {itemid}", item, item.GetId());
             }
 
             this.TemporaryStorage = null;

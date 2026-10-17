@@ -270,8 +270,19 @@ public sealed class GameTickLoop
             {
                 player.InputQueue.Enqueue(new Inputs.EnterGateInput(gate));
             }
+
+            // Walking away from the NPC whose window is open closes it (once, when leaving its range).
+            if (player.OpenedNpc is { } npc
+                && IsNear(oldTile, npc.Position, Inputs.LeaveNpcInput.LeaveRangeTiles)
+                && !IsNear(newTile, npc.Position, Inputs.LeaveNpcInput.LeaveRangeTiles))
+            {
+                player.InputQueue.Enqueue(new Inputs.LeaveNpcInput());
+            }
         }
     }
+
+    private static bool IsNear(Point a, Point b, int tiles) =>
+        Math.Abs(a.X - b.X) <= tiles && Math.Abs(a.Y - b.Y) <= tiles;
 
     private EnterGate? FindEnterGate(Point tile) =>
         _map.Definition.EnterGates.FirstOrDefault(g =>

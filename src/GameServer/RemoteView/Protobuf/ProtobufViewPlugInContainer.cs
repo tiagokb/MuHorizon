@@ -54,6 +54,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufLogoutPlugIn(player),
             new ProtobufShowItemCraftingResultPlugIn(player),
             new ProtobufItemUpgradedPlugIn(player),
+            new ProtobufNpcDialogClosedPlugIn(player),
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),
             new ProtobufDeactivateMagicEffectPlugIn(player),
