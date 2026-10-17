@@ -15,8 +15,11 @@ internal sealed class ProtobufUpdateCharacterStatePlugIn : IUpdateCharacterStats
 
     public ProtobufUpdateCharacterStatePlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask UpdateCharacterStatsAsync() =>
-        _player.SendEnvelopeAsync(new ServerEnvelope { CharacterState = BuildState() });
+    public async ValueTask UpdateCharacterStatsAsync()
+    {
+        await _player.SendEnvelopeAsync(new ServerEnvelope { CharacterState = BuildState() }).ConfigureAwait(false);
+        await _player.SendEnvelopeAsync(ProtobufMovementSpeed.Build(_player)).ConfigureAwait(false);
+    }
 
     private S2CCharacterState BuildState()
     {

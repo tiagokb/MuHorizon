@@ -26,6 +26,10 @@ internal sealed class ProtobufUpdateVitalsPlugIn : IUpdateStatsPlugIn
 
     public ValueTask UpdateStatsAsync(AttributeDefinition attribute, float value)
     {
+        // This is the only IUpdateStatsPlugIn, so it also forwards movement-speed changes.
+        if (ProtobufMovementSpeed.Inputs.Contains(attribute))
+            return _player.SendEnvelopeAsync(ProtobufMovementSpeed.Build(_player));
+
         if (!VitalAttributes.Contains(attribute))
             return ValueTask.CompletedTask;
 

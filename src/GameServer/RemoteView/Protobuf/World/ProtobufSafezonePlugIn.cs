@@ -6,6 +6,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 
 using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameLogic.Views.World;
+using MUnique.OpenMU.GameServer.RemoteView.Protobuf.Character;
 using MUnique.OpenMU.Network.Protobuf;
 
 // Handles two responsibilities with a single class to avoid cross-plugin coupling:
@@ -21,13 +22,16 @@ internal sealed class ProtobufSafezonePlugIn : ISafezoneChangedPlugIn, IObjectMo
 
     // ── ISafezoneChangedPlugIn ────────────────────────────────────────────────
 
-    public ValueTask SafezoneChangedAsync(bool isInSafezone)
+    public async ValueTask SafezoneChangedAsync(bool isInSafezone)
     {
         _lastStatus = isInSafezone;
-        return _player.SendEnvelopeAsync(new ServerEnvelope
+        await _player.SendEnvelopeAsync(new ServerEnvelope
         {
             SafezoneChanged = new S2CSafezoneChanged { InSafezone = isInSafezone },
-        });
+        }).ConfigureAwait(false);
+
+        // Safezones force walk speed, so the effective movement speed changes with the zone.
+        await _player.SendEnvelopeAsync(ProtobufMovementSpeed.Build(_player)).ConfigureAwait(false);
     }
 
     // ── IObjectMovedPlugIn ────────────────────────────────────────────────────

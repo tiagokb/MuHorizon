@@ -432,6 +432,13 @@ message C2STeleport {
     uint32 target_y = 2;  // tile row
 }
 
+// Own player's effective movement speed — sent on world entry, on changes of speed-related
+// attributes (wings, boots, mounts, slow effects) and on safezone transitions.
+message S2CMovementSpeed {
+    float movement_speed = 1; // legacy MU units: 15 = base run, 16-19 = fast wings/mounts
+    float tiles_per_sec  = 2; // what GameTickLoop actually moves the character by
+}
+
 message S2CSafezoneChanged {
     bool in_safezone = 1;  // true = player entered a safe zone; false = left safe zone
 }
@@ -530,5 +537,6 @@ message ServerEnvelope {
         S2CSellPriceList         sell_price_list         = 34;
         S2CSafezoneChanged       safezone_changed        = 35;
         S2CAppearanceChanged     appearance_changed      = 36;
+        S2CMovementSpeed         movement_speed          = 37;
     }
 }

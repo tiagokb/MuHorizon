@@ -51,7 +51,14 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// Derived from the legacy step-delay formula: speed × (8 units/tile) / (40ms × 100 / 1000s) = speed × 2.
     /// Base DW at run speed: 15 × 2 = 30 units/sec = 3.75 tiles/sec.
     /// </summary>
-    internal float MovementSpeedServerUnitsPerSec => (float)(this.GetClientMovementSpeed() * 2.0);
+    public float MovementSpeedServerUnitsPerSec => (float)(this.EffectiveMovementSpeed * 2.0);
+
+    /// <summary>
+    /// Gets the movement speed currently applied by <see cref="GameTickLoop"/>, in legacy MU speed
+    /// units (15 = base run, 16-19 = fast wings and mounts). Includes the safezone walk speed and
+    /// slow effects (<see cref="Stats.MovementSpeedFactor"/>).
+    /// </summary>
+    public double EffectiveMovementSpeed => this.GetClientMovementSpeed();
 
     private static readonly MagicEffectDefinition GMEffect = new GMMagicEffectDefinition
     {
