@@ -33,7 +33,7 @@ Itens com `[ ]` pendentes, `[x]` concluídos.
 - [x] **Billboard label** — `Label3D` acima do drop com nome via `ItemDatabase.Get()` ou `"X Zen"` para dinheiro; outline para legibilidade.
 - [x] **Escala por grupo** — `ItemDropConfig` (scripts/ItemDropConfig.cs): `BaseMultiplier` (knob global) × `GroupMultipliers[group]` × `EntityVisual.ModelScale`. Proporções derivadas de `ZzzInventory.cpp` (arma=1.0×, armadura~1.56×, wings=0.8×, poção=1.4×).
 - [x] **Mapeamento GLB corrigido** — `ItemBmdMappings()` em `MuAssetConverter/Program.cs` reflete `ZzzOpenData.cpp OpenItems()` exatamente: itens 12/7–11 → `Gem01–05.bmd` (Orbs), 12/36–39 → `wing08–11.bmd` (tier-3 wings), 12/41–43 → `Wing42–44.bmd`. Scrolls, Jewels, gift boxes também mapeados.
-- [ ] **Pivot de armadura no drop** — GLBs de armadura (grupos 7–11) têm pivot nos pés do personagem (origem do BMD do char), então ao cair no chão o modelo fica deslocado do label. A correção correta é no `BmdGltfExporter`: centralizar o pivot no bounding box da geometria exportada antes de gravar o GLB. **Adiar para quando implementar o sistema de equipamentos no personagem** — lá o pivot correto é pré-requisito para encaixe nos bones, então o fix vai ocorrer naturalmente.
+- [ ] **Pivot de armadura no drop** — GLBs de armadura (grupos 7–11) têm pivot nos pés do personagem (origem do BMD do char), então ao cair no chão o modelo fica deslocado do label. A correção correta é no `BmdGltfExporter`: centralizar o pivot no bounding box da geometria exportada antes de gravar o GLB. Afeta só o drop: no personagem a armadura usa as peças skinned de `parts/` (não os GLBs de `items/`), então o equipamento não depende deste fix.
 
 > **GLBs de drop gerados**: `muconv --items` exportou 340 GLBs para `assets/items/{group}_{number}.glb`. Mapeamento baseado em `ZzzOpenData.cpp OpenItems()`. Gaps no range são esperados — arquivos não existem no data set original.
 
@@ -70,23 +70,57 @@ Em Godot 4, a injeção 3D-no-2D do legado não é diretamente replicável. A eq
 
 ## Equipamentos no personagem
 
-### Contexto
+**Status:** implementado (2026-10-16) — personagem modular, armadura por peça, armas/escudo/asas em sockets.
 
-O sistema BMD de MU usa bones nomeados como attachment points (ex: `RightHand`, `LeftHand`, `Helmet`, `Armor`, `Pants`, `Gloves`, `Boots`). Ao equipar um item, o GLB do item é inserido como filho do bone correspondente do esqueleto do personagem.
+### Como o legado faz (ground truth)
+
+- **Armadura não é anexada a bone** — cada peça (`HelmMale05.bmd`, `ArmorClass02.bmd`, ...) é uma malha *skinned*
+  que usa os **índices de bone do `player.bmd`** (os nomes de bone da própria peça são diferentes e são ignorados:
+  `b->Transform(o->BoneTransform, ...)` com os transforms do personagem). Por isso o export usa sempre o esqueleto do
+  `player.bmd` com os vértices da peça.
+- **Corpo padrão** = `{Helm,Armor,Pant,Glove,Boot}Class{NN}` da classe (`MODEL_BODY_* + SkinIndex`):
+  `Class01..07` (DW, DK, Elf, MG, DL, Sum, RF), `Class2NN` 2ª classe, `Class3NN` 3ª classe. O "Helm" do corpo é a cabeça.
+- **Item → BMD** (`ZzzOpenData.cpp OpenPlayers`): número `n` → `{Part}Male{n+1}`, exceto 10–14 → `{Part}Elf{n-9}`,
+  29–33 → `HDK_*`, 34–38 → `CW_*`, e lacunas por set (sem elmo/luva em alguns). Remodelagens por classe:
+  Summoner 10/11 → `*ElfC`, Rage Fighter 5/6/8/9 → `*Monk`, Dark Lord elmos 0/5/6/8/9 → `MaskHelmMale`.
+- **Elmo aberto** (Bronze, Pad, Vine..Spirit, 63/65/68/70) desenha a cabeça da classe junto (`SetCharacterScale`).
+- **Armas**: slot 0 → bone 33 `knife_gdf` (mão direita), slot 1 → bone 42 `hand_bofdgne01` (mão esquerda),
+  sem rotação extra (o transform do bone raiz da arma já é o offset). Flechas/virotes não são desenhados.
+- **Asas**: bone 47 `Bone05`, offset local (0,0,15) BMD → (0,15,0) Y-up; animam continuamente.
+
+### Implementação
+
+- **Conversor** — `muconv --player <Data/Player> <assets/models/Player>` substitui o antigo `--bake-player`:
+  `player.glb` (esqueleto + 283 animações, sem malha — skin "solta" para o Godot criar o `Skeleton3D`) e
+  `parts/{stem}.glb` (421 peças, cada uma skinned no esqueleto do player, sem animações).
+  Os 4 GLBs assados (`player_class/male/elf/monk.glb`, ~20 MB cada, animações duplicadas) foram removidos.
+- **Cliente** — `EquipmentConfig` (dados: item → stem, sockets, fallbacks) + `CharacterAppearance` (Node que troca
+  as malhas no `Skeleton3D` e cria `BoneAttachment3D` para armas/asas). As skins das peças têm *binds nomeados*,
+  então ligam no esqueleto do personagem por nome de bone. `SetEquipment` recebe o snapshot completo e só
+  recarrega a camada que mudou.
+- **Próprio jogador** — veste a partir de `GameState.Inventory` (slots 0–7) a cada `InventoryChanged`
+  (o servidor não ecoa aparência para o dono).
+- **Outros jogadores** — `EntityState.equipment` (field 11) no spawn e `S2CAppearanceChanged` (field 36, snapshot
+  completo) via `ProtobufAppearanceChangedPlugIn : IAppearanceChangedPlugIn`.
 
 ### Itens
 
-- [ ] **Mapeamento de bones** — listar os nomes de bone de attachment usados nos BMDs de personagem DW/DK/Elf; documentar em `EntityConfig` ou arquivo de dados.
-- [ ] **Socket de weapon** — ao equipar arma na mão direita, instanciar o GLB do item como filho do bone `RightHand` do `AnimationPlayer`; ao desequipar, remover.
-- [ ] **Socket de armadura** — helmet, armor, pants, gloves, boots: cada peça substitui a mesh padrão ou é sobreposta ao bone correspondente. MU usa substituição de mesh, não sobreposição — confirmar nos BMDs.
-- [ ] **Trigger de atualização** — `GameState.InventoryChanged` → reler slots 0–11 (equipamento) → recarregar sockets.
-- [ ] **Itens de dois slots** — armas de duas mãos ocupam `RightHand` + `LeftHand`; garantir que desequipar limpa ambos.
+- [x] **Mapeamento de bones** — `EquipmentConfig.SocketFor` (`knife_gdf`, `hand_bofdgne01`, `Bone05`).
+- [x] **Socket de weapon** — arma/escudo como filho de `BoneAttachment3D`; troca/remoção ao mudar o slot.
+- [x] **Armadura** — substituição de malha por camada (Head, Helm, Armor, Pants, Gloves, Boots) com fallback para o corpo da classe.
+- [x] **Trigger de atualização** — `GameState.InventoryChanged` → `OwnPlayer.ApplyEquipment`.
+- [x] **Itens de dois slots** — não se aplica: arma de duas mãos ocupa só o slot 0 no MU; o slot 1 fica vazio no servidor.
+- [ ] **Brilho por nível / excellent / ancient** — `level`, `excellent`, `ancient` já chegam no `EquipmentPiece`; falta o efeito (legado: `RenderPartObjectEffect`).
+- [ ] **Asas com textura JPG** (ex.: asas de elfa `12_0`) renderizam com fundo preto — no legado são blend aditivo; ajustar material no exporter ou no cliente.
+- [ ] **Itens nas costas em safezone** — o legado guarda arma/escudo nas costas dentro da cidade (`RenderCharacterBackItem`, `Link=true` + ângulos por tipo).
+- [ ] **Escala de armas do Rage Fighter** (`IsRagefighterCommonWeapon`: offset + escala 0.9) e capas (Dark Lord/Fighter usam cloth physics).
+- [ ] **Tamanho do repositório** — `parts/` tem ~200 MB porque cada GLB embute as próprias texturas; avaliar texturas externas compartilhadas ou Git LFS.
 
 ---
 
 ## Outros personagens / entidades
 
-- [ ] **Equipamento de outros players** — `S2CEntitiesInScope` envia `ClassNumber` mas não `equipment[]`. Decidir: enviar lista de itens equipados no scope packet para renderizar outros players com seus equipamentos visíveis.
+- [x] **Equipamento de outros players** — `EntityState.equipment[]` no scope + `S2CAppearanceChanged` em trocas.
 - [ ] **Monstros com GLB correto** — garantir que todos os monstros visíveis no Lorencia têm GLB exportado e estão no `EntityConfig.AnimSet`.
 
 ---

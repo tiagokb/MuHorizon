@@ -64,15 +64,39 @@ public static class BmdGltfExporter
     }
 
     /// <summary>
-    /// Exports a composed character GLB: skeleton + animations from <paramref name="skeleton"/>
-    /// (player.bmd), with visible meshes from each equipment <paramref name="parts"/> BMD.
-    /// All parts share the same skeleton — vertex bone indices in equipment BMDs reference
-    /// player.bmd's bone array directly (matching how the original engine calls
-    /// <c>b->Transform(o->BoneTransform, ...)</c> with the character's bone transforms).
+    /// Exports the shared character rig: skeleton + every animation from
+    /// <paramref name="skeleton"/> (player.bmd), with no geometry. Body parts and equipment
+    /// are exported separately by <see cref="ExportCharacterPart"/> and bound to this rig's
+    /// skeleton at runtime, so animations are stored once instead of once per outfit.
     /// </summary>
-    public static void ExportCharacterBake(
+    public static void ExportCharacterRig(BmdFile skeleton, string outputPath)
+    {
+        var (boneNodes, jointRemap) = BuildSkeleton(skeleton);
+        BuildAnimations(skeleton, boneNodes, jointRemap);
+
+        var scene  = new SceneBuilder("default");
+        var joints = AssembleScene(scene, boneNodes, jointRemap);
+        var model  = scene.ToGltf2();
+
+        // No mesh references the joints, so declare a standalone skin: glTF importers
+        // (Godot included) build their skeleton from skins, not from plain node trees.
+        var logical = model.LogicalNodes.ToDictionary(n => n.Name, StringComparer.Ordinal);
+        model.CreateSkin("rig").BindJoints(joints.Select(j => logical[j.Name]).ToArray());
+
+        model.SaveGLB(outputPath);
+    }
+
+    /// <summary>
+    /// Exports one character part (head, armor, pants, gloves, boots) as a skinned mesh over
+    /// the <paramref name="skeleton"/> rig, without animations. Vertex bone indices in part
+    /// BMDs reference player.bmd's bone array directly — the part's own bone list is ignored,
+    /// matching how the original engine calls <c>b->Transform(o->BoneTransform, ...)</c> with
+    /// the character's bone transforms. The mesh node is named <paramref name="partName"/>.
+    /// </summary>
+    public static void ExportCharacterPart(
         BmdFile skeleton,
-        IEnumerable<BmdFile> parts,
+        BmdFile part,
+        string partName,
         string outputPath,
         IReadOnlyDictionary<string, string>? textureIndex = null)
     {
@@ -81,16 +105,13 @@ public static class BmdGltfExporter
         int jointOffset = needsVirtualRoot ? 1 : 0;
 
         ComputeBoneWorldTransforms(skeleton, out var boneWorldPos, out var boneWorldRot);
-        BuildAnimations(skeleton, boneNodes, jointRemap);
 
-        // Merge all equipment meshes into one MeshBuilder under the shared skeleton.
-        var meshBld = new MeshBld("character");
-        foreach (var part in parts)
-            AddMeshPrimitives(meshBld, part.Meshes, boneWorldPos, boneWorldRot, jointRemap, textureIndex, jointOffset);
+        var meshBld = new MeshBld(partName);
+        AddMeshPrimitives(meshBld, part.Meshes, boneWorldPos, boneWorldRot, jointRemap, textureIndex, jointOffset);
 
         var scene = new SceneBuilder("default");
         var joints = AssembleScene(scene, boneNodes, jointRemap);
-        scene.AddSkinnedMesh(meshBld, Matrix4x4.Identity, joints);
+        scene.AddSkinnedMesh(meshBld, Matrix4x4.Identity, joints).WithName(partName);
 
         var model = scene.ToGltf2();
         model.SaveGLB(outputPath);
@@ -243,7 +264,7 @@ public static class BmdGltfExporter
     }
 
     // -------------------------------------------------------------------------
-    //  Scene assembly (shared between Export and ExportCharacterBake)
+    //  Scene assembly (shared by all exporters)
     // -------------------------------------------------------------------------
 
     private static NodeBuilder[] AssembleScene(

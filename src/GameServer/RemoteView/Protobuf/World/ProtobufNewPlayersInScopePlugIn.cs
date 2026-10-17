@@ -30,13 +30,18 @@ internal sealed class ProtobufNewPlayersInScopePlugIn : INewPlayersInScopePlugIn
         return _player.SendEnvelopeAsync(new ServerEnvelope { EntitiesInScope = msg });
     }
 
-    internal static EntityState BuildEntityState(Player p) => new()
+    internal static EntityState BuildEntityState(Player p)
     {
-        Id = p.Id,
-        X = p.ContinuousPosition.X,
-        Y = p.ContinuousPosition.Y,
-        ClassNumber = (uint)(p.SelectedCharacter?.CharacterClass?.Number ?? 0),
-        Name = p.Name,
-        Level = (uint)p.Level,
-    };
+        var state = new EntityState
+        {
+            Id = p.Id,
+            X = p.ContinuousPosition.X,
+            Y = p.ContinuousPosition.Y,
+            ClassNumber = (uint)(p.SelectedCharacter?.CharacterClass?.Number ?? 0),
+            Name = p.Name,
+            Level = (uint)p.Level,
+        };
+        state.Equipment.AddRange(ProtobufEquipment.Build(p));
+        return state;
+    }
 }

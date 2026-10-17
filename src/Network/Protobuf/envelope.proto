@@ -115,6 +115,23 @@ message EntityState {
     uint32     max_health     = 8;
     uint32     current_health = 9;
     uint32     move_delay_ms  = 10; // MonsterDefinition.MoveDelay; 0 for players/NPCs
+    repeated EquipmentPiece equipment = 11; // players only: visible equipment (slots 0-7)
+}
+
+// One visible equipped item. Only what the renderer needs — stats travel in ItemData.
+message EquipmentPiece {
+    uint32 slot      = 1; // 0=right-hand weapon, 1=left hand, 2=helm, 3=armor, 4=pants, 5=gloves, 6=boots, 7=wings
+    uint32 group     = 2; // ItemDefinition.Group
+    uint32 number    = 3; // ItemDefinition.Number
+    uint32 level     = 4;
+    bool   excellent = 5;
+    bool   ancient   = 6;
+}
+
+// Full visible-equipment snapshot of a player, sent to observers when it changes.
+message S2CAppearanceChanged {
+    uint32                  entity_id = 1;
+    repeated EquipmentPiece equipment = 2;
 }
 
 message S2CEnteredWorld {
@@ -512,5 +529,6 @@ message ServerEnvelope {
         S2CSellConfirmRequired   sell_confirm_required   = 33;
         S2CSellPriceList         sell_price_list         = 34;
         S2CSafezoneChanged       safezone_changed        = 35;
+        S2CAppearanceChanged     appearance_changed      = 36;
     }
 }
