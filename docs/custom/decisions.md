@@ -71,3 +71,14 @@
 **O que ficou:** ~26 classes em `Version075/`, `Version095d/` e `Version097d/` que o Season 6 ainda herda (mapas Lorencia/Devias/Noria/Atlans/Dungeon/LostTower/Exile/Arena/Icarus/Tarkan/Devil Square 1-4, `NpcInitialization` + `MerchantStores`, `InvasionMobsInitialization`, `DevilSquareInitializer`, `Jewels`/`Jewelery`). Fundir cada cadeia 075 → 095d → S6 numa classe só fica para uma etapa posterior. `SlotTypesInitializer` foi movido para `Initialization/Items` (era genérico). O update de joias do 0.75 virou `AddItemDropGroupForJewelsUpdateBase` (abstrato), base do update do Season 6.
 
 **Impacto:** Bancos já instalados em Season 6 não mudam. Os números do `UpdateVersion` são explícitos, então os updates restantes mantêm a numeração. Um backup dos arquivos removidos não é necessário: está no histórico do git.
+
+---
+
+### D-F7-03 — Protocolo legado sai feature por feature ("migra e remove") (2026-10-17)
+
+**Decisão:** Os handlers (`GameServer/MessageHandler/*`) e views (`GameServer/RemoteView/*`) do protocolo binário **não** são removidos em bloco. Cada um sai no mesmo commit em que a feature correspondente ganha a versão Protobuf (ex.: implementar quests via Protobuf → remover `MessageHandler/Quests` e `RemoteView/Quest`). `Network/Packets`, a `Connection` TCP e o ConnectServer saem quando não tiverem mais consumidor.
+
+**Por quê:** Ainda faltam migrar várias features cuja lógica já existe na GameLogic (quests, upgrade de itens com joias, chaos machine, troca de mapa, eventos, party, trade, guild...). O handler legado mostra quais `PlayerAction` chamar e com quais parâmetros; o view mostra quais dados o cliente precisa. É o mapa de cada migração, e é mais prático no código do que no histórico do git. Apesar de ser código morto em runtime (só o `ProtobufRemotePlayer` é instanciado), o custo de mantê-lo é baixo.
+
+**Removido já:** `ClientLauncher` e `ClientErrorLogDecryptor` (ferramentas do `main.exe` original, sem valor de referência para o cliente Godot).
+
