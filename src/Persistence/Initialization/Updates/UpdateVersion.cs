@@ -26,16 +26,6 @@ public enum UpdateVersion
     SystemConfigurationAddedSeason6 = 2,
 
     /// <summary>
-    /// The version of the <see cref="SystemConfigurationAddedPlugIn095d"/>.
-    /// </summary>
-    SystemConfigurationAdded095d = 3,
-
-    /// <summary>
-    /// The version of the <see cref="SystemConfigurationAddedPlugIn075"/>.
-    /// </summary>
-    SystemConfigurationAdded075 = 4,
-
-    /// <summary>
     /// The version of the <see cref="SpawnFixesUpdatePlugIn"/>.
     /// </summary>
     SpawnFixesUpdate = 5,
@@ -49,16 +39,6 @@ public enum UpdateVersion
     /// The version of the <see cref="FixSetBonusesPlugIn.Season6"/>.
     /// </summary>
     FixSetBonusesSeason6 = 7,
-
-    /// <summary>
-    /// The version of the <see cref="FixSetBonusesPlugIn.V095d"/>.
-    /// </summary>
-    FixSetBonuses095d = 8,
-
-    /// <summary>
-    /// The version of the <see cref="FixSetBonusesPlugIn.V075"/>.
-    /// </summary>
-    FixSetBonuses075 = 9,
 
     /// <summary>
     /// The version of the <see cref="FixWarpLevelUpdatePlugIn"/>.
@@ -146,16 +126,6 @@ public enum UpdateVersion
     FixDrainLifeSkill = 27,
 
     /// <summary>
-    /// The version of the <see cref="AddItemDropGroupForJewelsUpdate075"/>.
-    /// </summary>
-    AddItemDropGroupForJewels075 = 28,
-
-    /// <summary>
-    /// The version of the <see cref="AddItemDropGroupForJewelsUpdate095D"/>.
-    /// </summary>
-    AddItemDropGroupForJewels095d = 29,
-
-    /// <summary>
     /// The version of the <see cref="AddItemDropGroupForJewelsUpdateSeason6"/>.
     /// </summary>
     AddItemDropGroupForJewelsSeason6 = 30,
@@ -164,16 +134,6 @@ public enum UpdateVersion
     /// The version of the <see cref="FixMaxManaAndAbilityJewelryOptionsUpdateSeason6"/>.
     /// </summary>
     FixMaxManaAndAbilityJewelryOptionsSeason6 = 31,
-
-    /// <summary>
-    /// The version of the <see cref="FixWingsDmgRatesUpdatePlugIn075"/>.
-    /// </summary>
-    FixWingsDmgRatesPlugIn075 = 32,
-
-    /// <summary>
-    /// The version of the <see cref="FixWingsDmgRatesUpdatePlugIn095D"/>.
-    /// </summary>
-    FixWingsDmgRatesPlugIn095d = 33,
 
     /// <summary>
     /// The version of the <see cref="FixWingsDmgRatesUpdatePlugInSeason6"/>.
@@ -206,44 +166,14 @@ public enum UpdateVersion
     FixItemRequirements = 39,
 
     /// <summary>
-    /// The version of the <see cref="FixWingsDmgRatesUpdatePlugIn075"/>.
-    /// </summary>
-    FixWeaponRisePercentage075 = 40,
-
-    /// <summary>
-    /// The version of the <see cref="FixWingsDmgRatesUpdatePlugIn095D"/>.
-    /// </summary>
-    FixWeaponRisePercentage095d = 41,
-
-    /// <summary>
     /// The version of the <see cref="FixWingsDmgRatesUpdatePlugInSeason6"/>.
     /// </summary>
     FixWeaponRisePercentageSeason6 = 42,
 
     /// <summary>
-    /// The version of the <see cref="FixChaosMixesUpdatePlugIn075"/>.
-    /// </summary>
-    FixChaosMixes075 = 43,
-
-    /// <summary>
-    /// The version of the <see cref="FixChaosMixesPlugIn095D"/>.
-    /// </summary>
-    FixChaosMixes095d = 44,
-
-    /// <summary>
     /// The version of the <see cref="FixChaosMixesPlugInSeason6"/>.
     /// </summary>
     FixChaosMixesSeason6 = 45,
-
-    /// <summary>
-    /// The version of the <see cref="FixItemOptionsAndAttackSpeedPlugIn075"/>.
-    /// </summary>
-    FixItemOptionsAndAttackSpeed075 = 46,
-
-    /// <summary>
-    /// The version of the <see cref="FixItemOptionsAndAttackSpeedPlugIn095D"/>.
-    /// </summary>
-    FixItemOptionsAndAttackSpeed095d = 47,
 
     /// <summary>
     /// The version of the <see cref="FixItemOptionsAndAttackSpeedPlugInSeason6"/>.
@@ -256,44 +186,14 @@ public enum UpdateVersion
     FixHorseFenrirOptionsSoulBarrierPlugIn = 49,
 
     /// <summary>
-    /// The version of the <see cref="FixCharStatsForceWavePlugIn075"/>.
-    /// </summary>
-    FixCharStatsForceWave075 = 50,
-
-    /// <summary>
-    /// The version of the <see cref="FixCharStatsForceWavePlugIn095D"/>.
-    /// </summary>
-    FixCharStatsForceWave095d = 51,
-
-    /// <summary>
     /// The version of the <see cref="FixCharStatsForceWavePlugInSeason6"/>.
     /// </summary>
     FixCharStatsForceWaveSeason6 = 52,
 
     /// <summary>
-    /// The version of the <see cref="FixDefenseCalcsPlugIn075"/>.
-    /// </summary>
-    FixDefenseCalcs075 = 53,
-
-    /// <summary>
-    /// The version of the <see cref="FixDefenseCalcsPlugIn095D"/>.
-    /// </summary>
-    FixDefenseCalcs095d = 54,
-
-    /// <summary>
     /// The version of the <see cref="FixDefenseCalcsPlugInSeason6"/>.
     /// </summary>
     FixDefenseCalcsSeason6 = 55,
-
-    /// <summary>
-    /// The version of the <see cref="FixDamageCalcsPlugIn075"/>.
-    /// </summary>
-    FixDamageCalcs075 = 56,
-
-    /// <summary>
-    /// The version of the <see cref="FixDamageCalcsPlugIn095D"/>.
-    /// </summary>
-    FixDamageCalcs095d = 57,
 
     /// <summary>
     /// The version of the <see cref="FixDamageCalcsPlugInSeason6"/>.
@@ -306,24 +206,9 @@ public enum UpdateVersion
     FixEventItemsDropFromMonstersSeason6 = 59,
 
     /// <summary>
-    /// The version of the <see cref="FixEventItemsDropFromMonstersUpdatePlugIn095d"/>.
-    /// </summary>
-    FixEventItemsDropFromMonsters095d = 60,
-
-    /// <summary>
     /// The version of the <see cref="FixItemRequirementsPlugIn2"/>.
     /// </summary>
     FixItemRequirements2 = 61,
-
-    /// <summary>
-    /// The version of the <see cref="FixJeweleryPetsDamageCalcsPlugIn075"/>.
-    /// </summary>
-    FixJeweleryPetsDamageCalcs075 = 62,
-
-    /// <summary>
-    /// The version of the <see cref="FixJeweleryPetsDamageCalcsPlugIn095D"/>.
-    /// </summary>
-    FixJeweleryPetsDamageCalcs095d = 63,
 
     /// <summary>
     /// The version of the <see cref="FixJeweleryPetsDamageCalcsPlugInSeason6"/>.
@@ -346,16 +231,6 @@ public enum UpdateVersion
     AddProjectileCountToTripleShot = 67,
 
     /// <summary>
-    /// The version of the <see cref="RemoveJewelDropLevelGapPlugIn075"/>.
-    /// </summary>
-    RemoveJewelDropLevelGap075 = 68,
-
-    /// <summary>
-    /// The version of the <see cref="RemoveJewelDropLevelGapPlugIn095D"/>.
-    /// </summary>
-    RemoveJewelDropLevelGap095d = 69,
-
-    /// <summary>
     /// The version of the <see cref="RemoveJewelDropLevelGapPlugInSeason6"/>.
     /// </summary>
     RemoveJewelDropLevelGapSeason6 = 70,
@@ -369,16 +244,6 @@ public enum UpdateVersion
     /// The version of the <see cref="AddCrestOfMonarchDropGroupUpdateSeason6"/>.
     /// </summary>
     AddCrestOfMonarchDropGroupSeason6 = 72,
-
-    /// <summary>
-    /// The version of the <see cref="AddGlobalMoneyAmountRateAttributePlugIn075"/>.
-    /// </summary>
-    AddGlobalMoneyAmountRateAttribute075 = 73,
-
-    /// <summary>
-    /// The version of the <see cref="AddGlobalMoneyAmountRateAttributePlugIn095d"/>.
-    /// </summary>
-    AddGlobalMoneyAmountRateAttribute095d = 74,
 
     /// <summary>
     /// The version of the <see cref="AddGlobalMoneyAmountRateAttributePlugInSeason6"/>.
@@ -411,29 +276,9 @@ public enum UpdateVersion
     FixBloodCastleMonsterAttributes = 80,
 
     /// <summary>
-    /// The version of the <see cref="AddRandomExperienceConfigAttributesPlugIn075"/>.
-    /// </summary>
-    AddRandomExperienceConfigAttributes075 = 81,
-
-    /// <summary>
-    /// The version of the <see cref="AddRandomExperienceConfigAttributesPlugIn095d"/>.
-    /// </summary>
-    AddRandomExperienceConfigAttributes095d = 82,
-
-    /// <summary>
     /// The version of the <see cref="AddRandomExperienceConfigAttributesPlugInSeason6"/>.
     /// </summary>
     AddRandomExperienceConfigAttributesSeason6 = 83,
-
-    /// <summary>
-    /// The version of the <see cref="AddMovementSpeedAttributesPlugIn075"/>.
-    /// </summary>
-    AddMovementSpeedAttributes075 = 84,
-
-    /// <summary>
-    /// The version of the <see cref="AddMovementSpeedAttributesPlugIn095D"/>.
-    /// </summary>
-    AddMovementSpeedAttributes095d = 85,
 
     /// <summary>
     /// The version of the <see cref="AddMovementSpeedAttributesPlugInSeason6"/>.
@@ -444,16 +289,6 @@ public enum UpdateVersion
     /// The version of the <see cref="AddMissingMerchantStoresPlugIn"/>.
     /// </summary>
     AddMissingMerchantStores = 87,
-
-    /// <summary>
-    /// The version of the <see cref="FinishDarkKnightMasterTreePlugIn075"/>.
-    /// </summary>
-    FinishDarkKnightMasterTree075 = 88,
-
-    /// <summary>
-    /// The version of the <see cref="FinishDarkKnightMasterTreePlugIn095D"/>.
-    /// </summary>
-    FinishDarkKnightMasterTree095d = 89,
 
     /// <summary>
     /// The version of the <see cref="FinishDarkKnightMasterTreePlugInSeason6"/>.

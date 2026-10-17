@@ -15,7 +15,7 @@ using MUnique.OpenMU.PlugIns;
 [PlugIn]
 [Display(Name = PlugInName, Description = PlugInDescription)]
 [Guid("F958CC5B-C1E6-4F67-B48D-4BF75EC5CAA8")]
-public class AddItemDropGroupForJewelsUpdateSeason6 : AddItemDropGroupForJewelsUpdate075
+public class AddItemDropGroupForJewelsUpdateSeason6 : AddItemDropGroupForJewelsUpdateBase
 {
     /// <inheritdoc />
     public override UpdateVersion Version => UpdateVersion.AddItemDropGroupForJewelsSeason6;

@@ -108,8 +108,6 @@ public class DataUpdateService
         return (clientDefinition.Season, clientDefinition.Episode) switch
         {
             (6, 3) => VersionSeasonSix.DataInitialization.Id,
-            (0, 75) => Version075.DataInitialization.Id,
-            (0, 95) => Version095d.DataInitialization.Id,
             _ => throw new InvalidOperationException($"Unknown client version: {clientDefinition}."),
         };
     }

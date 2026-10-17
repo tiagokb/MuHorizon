@@ -59,3 +59,15 @@
 - **Atualização de testes + load test:** Alto esforço, praticamente zero recompensa de gameplay. Os testes existentes testam comportamentos do protocolo legado que não é mais usado; reescrevê-los é trabalho de polimento, não de desenvolvimento de produto.
 
 **Impacto:** O `09-implementation-plan.md` foi atualizado para refletir este escopo. As tarefas adiadas permanecem documentadas na seção "Tarefas adiadas indefinidamente" da Fase 7 para referência futura.
+
+---
+
+### D-F7-02 — Dados só Season 6: versões 0.75 e 0.95d removidas (2026-10-17)
+
+**Decisão:** Removidos os inicializadores de dados 0.75/0.95d (`DataInitialization`, itens, monstros, mapas, skills, classes) e todos os plugins de update específicos dessas versões (33 arquivos + 35 entradas do `UpdateVersion`). Season 6 é a única versão instalável.
+
+**Por quê:** O cliente legado foi descartado (P6) e o jogo roda só em Season 6. Cada mudança de dados (ex.: movement speed aditivo) precisava ser escrita 3 vezes, para versões que nunca seriam instaladas.
+
+**O que ficou:** ~26 classes em `Version075/`, `Version095d/` e `Version097d/` que o Season 6 ainda herda (mapas Lorencia/Devias/Noria/Atlans/Dungeon/LostTower/Exile/Arena/Icarus/Tarkan/Devil Square 1-4, `NpcInitialization` + `MerchantStores`, `InvasionMobsInitialization`, `DevilSquareInitializer`, `Jewels`/`Jewelery`). Fundir cada cadeia 075 → 095d → S6 numa classe só fica para uma etapa posterior. `SlotTypesInitializer` foi movido para `Initialization/Items` (era genérico). O update de joias do 0.75 virou `AddItemDropGroupForJewelsUpdateBase` (abstrato), base do update do Season 6.
+
+**Impacto:** Bancos já instalados em Season 6 não mudam. Os números do `UpdateVersion` são explícitos, então os updates restantes mantêm a numeração. Um backup dos arquivos removidos não é necessário: está no histórico do git.

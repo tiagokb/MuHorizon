@@ -1,22 +1,17 @@
-﻿// <copyright file="AddItemDropGroupForJewelsUpdate075.cs" company="MUnique">
+﻿// <copyright file="AddItemDropGroupForJewelsUpdateBase.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace MUnique.OpenMU.Persistence.Initialization.Updates;
 
 using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using MUnique.OpenMU.DataModel.Configuration;
-using MUnique.OpenMU.PlugIns;
 
 /// <summary>
 /// This update creates a specific item drop group for jewels with a default chance of 5%.
 /// </summary>
-[PlugIn]
-[Display(Name = PlugInName, Description = PlugInDescription)]
-[Guid("DCF14924-BB19-4CA2-93EC-397A89AA3EB3")]
-public class AddItemDropGroupForJewelsUpdate075 : UpdatePlugInBase
+public abstract class AddItemDropGroupForJewelsUpdateBase : UpdatePlugInBase
 {
     /// <summary>
     /// The plug in name.
@@ -33,12 +28,6 @@ public class AddItemDropGroupForJewelsUpdate075 : UpdatePlugInBase
 
     /// <inheritdoc />
     public override string Description => PlugInDescription;
-
-    /// <inheritdoc />
-    public override UpdateVersion Version => UpdateVersion.AddItemDropGroupForJewels075;
-
-    /// <inheritdoc />
-    public override string DataInitializationKey => Version075.DataInitialization.Id;
 
     /// <inheritdoc />
     public override bool IsMandatory => false;

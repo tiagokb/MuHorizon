@@ -91,30 +91,6 @@ internal class TestInitializationWithEfCore
         Assert.That(groups[0].PossibleItems.Single().Number, Is.EqualTo((short)14));
     }
 
-    /// <summary>
-    /// Tests the data initialization using the in-memory persistence.
-    /// </summary>
-    [Test]
-    public async Task Test075DataAsync()
-    {
-        var contextProvider = new InMemoryPersistenceContextProvider();
-        var dataInitialization = new Version075.DataInitialization(contextProvider, new NullLoggerFactory());
-        await dataInitialization.CreateInitialDataAsync(1, true).ConfigureAwait(false);
-        await this.TestIfItemsFitIntoInventoriesAsync(contextProvider).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Tests the data initialization using the in-memory persistence.
-    /// </summary>
-    [Test]
-    public async Task Test095dDataAsync()
-    {
-        var contextProvider = new InMemoryPersistenceContextProvider();
-        var dataInitialization = new Version095d.DataInitialization(contextProvider, new NullLoggerFactory());
-        await dataInitialization.CreateInitialDataAsync(1, true).ConfigureAwait(false);
-        await this.TestIfItemsFitIntoInventoriesAsync(contextProvider).ConfigureAwait(false);
-    }
-
     private async Task TestDataInitializationAsync(IPersistenceContextProvider contextProvider)
     {
         var initialization = new VersionSeasonSix.DataInitialization(contextProvider, new NullLoggerFactory());
