@@ -73,6 +73,18 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 - [ ] **Cooldown de skills no servidor**: não existe (só advisory no cliente, `EntityConfig.SkillInfo.CooldownMs`). Exige campo novo no modelo de `Skill` (migração) — só o intervalo de ataque global é aplicado hoje.
 - [ ] **Posição em tile fora de sincronia**: o movimento contínuo (`GameTickLoop`) não checa `WalkMap`, então o player pode parar em tile não andável. No login seguinte `ClientReadyAfterMapChangeAsync` chama `WarpToSafezoneAsync`, que deixa `CurrentMap = null` esperando o ack de troca de mapa (F3 12) que o cliente Protobuf nunca manda — o player fica fora do mapa (não ataca, não é visto) com a `ContinuousPosition` antiga. Precisa: (1) bloquear movimento contínuo em tile não andável; (2) warp/troca de mapa no fluxo Protobuf.
 
+## Ambiente de dev rápido (prioridade — restart do servidor domina o tempo de desenvolvimento)
+
+Medido em 2026-10-17: restart do `openmu-dev` (Docker) ≈ **4 min 50 s** = restore 9 s + **compilação 4 min 17 s** + host 25 s. Build nativo no Windows: 2 min 56 s com 1 arquivo da GameLogic alterado; 1 min 45 s sem analyzers; 1 min 06 s com `-p:ci=true -p:RunAnalyzers=false`; **build sem mudança nenhuma: 1 min 02 s** → o custo é overhead, não compilação.
+
+Causas: repos dentro do OneDrive (filtro em todo acesso a arquivo; no Docker ainda passa pela montagem do WSL2); grafo do `Startup` com ~30 projetos incluindo Blazor (static web assets reprocessados todo build); fora de `ci=true` rodam em todo build `npx xslt3` (docs de pacotes legados, 4×), `dotnet run` do gerador de modelo da Persistence (2×, reescreve `.Generated.cs` e força recompilação) e `sass`; StyleCop (+70 s).
+
+- [ ] **1. Servidor nativo + `dotnet watch` (hot reload)** — só o Postgres no Docker; listener WebSocket configurável para `localhost` (dispensa admin/urlacl); perfil `Development` com connection string local. Edições em corpo de método sem restart.
+- [ ] **2. Repos fora do OneDrive** (ex.: `C:\dev\`) + exclusão do Windows Defender para a pasta (ação do usuário) — remedir o build vazio.
+- [ ] **3. Perfil de build de dev** — `ci=true` + `RunAnalyzers=false` por padrão em dev; script para regenerar `Envelope.cs` quando o `.proto` mudar (o `ci=true` pula o protoc).
+- [ ] **4. Startup de dev sem o admin panel Blazor** no build do dia a dia.
+- [ ] **5. Investigar os 25 s de inicialização** (carga da `GameConfiguration`, descoberta de plugins).
+
 ## Tools
 
 - [ ] Pipeline inverso Blender → BMD: `BmdWriter` + `GltfBmdImporter` (ver seção I no `09-implementation-plan.md`)
