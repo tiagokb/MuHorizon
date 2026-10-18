@@ -292,6 +292,36 @@ message S2CPartyList {
     repeated PartyMember members = 1;
 }
 
+// Another player asks the own character to trade.
+message S2CTradeRequest {
+    uint32 requester_id   = 1;
+    string requester_name = 2;
+}
+
+enum TradeButton {
+    TRADE_BUTTON_UNCHECKED = 0;
+    TRADE_BUTTON_CHECKED   = 1;
+    TRADE_BUTTON_RED       = 2; // the table changed: confirmations are cleared for a moment
+}
+
+// The whole table of the open trade; sent when it opens and after every change. open = false closes it.
+message S2CTradeState {
+    bool              open           = 1;
+    string            partner_name   = 2;
+    uint32            partner_level  = 3;
+    repeated ItemData own_items      = 4; // own trade storage (storage 1)
+    repeated ItemData partner_items  = 5;
+    uint32            own_money      = 6;
+    uint32            partner_money  = 7;
+    bool              own_checked    = 8;
+    TradeButton       partner_button = 9;
+}
+
+// How the trade ended: Success, Cancelled, FailedByFullInventory, ...
+message S2CTradeFinished {
+    string result = 1;
+}
+
 message S2CChatMessage {
     string sender = 1;
     string text   = 2;
@@ -678,6 +708,29 @@ message C2SPartyKick {
     uint32 index = 1; // PartyMember.index
 }
 
+// Asks a player in view to trade. Items go on the table with C2SMoveItem (storage 1 = trade).
+message C2STradeRequest {
+    uint32 target_id = 1;
+}
+
+// Answers S2CTradeRequest.
+message C2STradeResponse {
+    bool accepted = 1;
+}
+
+// The zen the own character puts on the table.
+message C2STradeMoney {
+    uint32 amount = 1;
+}
+
+// The own confirm button; the trade completes when both confirmed. Any change on the table
+// clears both confirmations.
+message C2STradeButton {
+    bool checked = 1;
+}
+
+message C2STradeCancel {}
+
 // A chat line typed by the player; lines starting with '/' are chat commands (e.g. /dummy stun).
 message C2SChatMessage {
     string text = 1;
@@ -796,6 +849,11 @@ message ClientEnvelope {
         C2SPartyInvite          party_invite           = 30;
         C2SPartyResponse        party_response         = 31;
         C2SPartyKick            party_kick             = 32;
+        C2STradeRequest         trade_request          = 33;
+        C2STradeResponse        trade_response         = 34;
+        C2STradeMoney           trade_money            = 35;
+        C2STradeButton          trade_button           = 36;
+        C2STradeCancel          trade_cancel           = 37;
     }
 }
 
@@ -855,5 +913,8 @@ message ServerEnvelope {
         S2CEntityVitals          entity_vitals           = 52;
         S2CPartyRequest          party_request           = 53;
         S2CPartyList             party_list              = 54;
+        S2CTradeRequest          trade_request           = 55;
+        S2CTradeState            trade_state             = 56;
+        S2CTradeFinished         trade_finished          = 57;
     }
 }

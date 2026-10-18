@@ -8,7 +8,9 @@ using System.Threading;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.Inputs;
 using MUnique.OpenMU.GameLogic.Offline;
+using MUnique.OpenMU.GameLogic.Views;
 using MUnique.OpenMU.GameLogic.Views.World;
+using MUnique.OpenMU.PlugIns;
 
 /// <summary>
 /// What a test dummy does.
@@ -34,6 +36,11 @@ public enum DummyBehavior
     /// Roots the player who spawned it (the Freeze effect of Ice Arrow): no walking, but attacking and casting.
     /// </summary>
     Root,
+
+    /// <summary>
+    /// Accepts trades, puts zen on the table and confirms when the partner confirms.
+    /// </summary>
+    Trade,
 }
 
 /// <summary>
@@ -93,9 +100,12 @@ public sealed class DummyPlayer : OfflinePlayer
     }
 
     /// <inheritdoc />
+    protected override ICustomPlugInContainer<IViewPlugIn> CreateViewPlugInContainer() => new DummyViewPlugInContainer(this);
+
+    /// <inheritdoc />
     protected override void StartIntelligence()
     {
-        var interval = this.Behavior == DummyBehavior.Punchbag ? PunchbagInterval : CrowdControlInterval;
+        var interval = this.Behavior is DummyBehavior.Punchbag or DummyBehavior.Trade ? PunchbagInterval : CrowdControlInterval;
         _ = Task.Run(() => this.RunAsync(interval, this._cts.Token));
     }
 

@@ -21,6 +21,7 @@ using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
 using MUnique.OpenMU.GameLogic.PlayerActions.Party;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
+using MUnique.OpenMU.GameLogic.PlayerActions.Trade;
 using MUnique.OpenMU.GameLogic.Views.Login;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
 using MUnique.OpenMU.GameLogic.Views.Character;
@@ -43,6 +44,11 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly PartyRequestAction PartyRequestAction = new();
     private static readonly PartyResponseAction PartyResponseAction = new();
     private static readonly PartyKickAction PartyKickAction = new();
+    private static readonly TradeRequestAction TradeRequestAction = new();
+    private static readonly TradeAcceptAction TradeAcceptAction = new();
+    private static readonly TradeMoneyAction TradeMoneyAction = new();
+    private static readonly TradeButtonAction TradeButtonAction = new();
+    private static readonly TradeCancelAction TradeCancelAction = new();
     private const int MaxChatLength = 90; // legacy chat packets carry up to 90 characters
     private static readonly QuestCompletionAction QuestCompletionAction = new();
     private static readonly QuestCancelAction QuestCancelAction = new();
@@ -286,6 +292,33 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.PartyKick:
                 await PartyKickAction.KickPlayerAsync(_player, (byte)envelope.PartyKick.Index).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.TradeRequest:
+                if (_player.CurrentMap?.GetObject((ushort)envelope.TradeRequest.TargetId) is Player tradeTarget && tradeTarget != _player
+                    && !await TradeRequestAction.RequestTradeAsync(_player, tradeTarget).ConfigureAwait(false))
+                {
+                    await _player.ShowBlueMessageAsync($"{tradeTarget.Name} can't trade right now.").ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.TradeResponse:
+                await TradeAcceptAction.HandleTradeAcceptAsync(_player, envelope.TradeResponse.Accepted).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.TradeMoney:
+                await TradeMoneyAction.TradeMoneyAsync(_player, envelope.TradeMoney.Amount).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.TradeButton:
+                await TradeButtonAction.TradeButtonChangedAsync(
+                    _player,
+                    envelope.TradeButton.Checked ? GameLogic.Views.Trade.TradeButtonState.Checked : GameLogic.Views.Trade.TradeButtonState.Unchecked).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.TradeCancel:
+                await TradeCancelAction.CancelTradeAsync(_player).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.SetPvp:

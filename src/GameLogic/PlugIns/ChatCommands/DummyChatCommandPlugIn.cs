@@ -15,7 +15,7 @@ using MUnique.OpenMU.PlugIns;
 /// </summary>
 [Guid("6C1D8F3A-92B4-4E57-A0C8-3B7D51E9F214")]
 [PlugIn]
-[Display(Name = "Dummy chat command", Description = "Spawns scripted test players next to the game master: /dummy punchbag|stun|slow|root|clear.")]
+[Display(Name = "Dummy chat command", Description = "Spawns scripted test players next to the game master: /dummy punchbag|stun|slow|root|trade|clear.")]
 [ChatCommandHelp(Command, typeof(DummyChatCommandArgs), CharacterStatus.GameMaster)]
 public class DummyChatCommandPlugIn : ChatCommandPlugInBase<DummyChatCommandArgs>
 {
@@ -40,7 +40,7 @@ public class DummyChatCommandPlugIn : ChatCommandPlugInBase<DummyChatCommandArgs
 
         if (!Enum.TryParse<DummyBehavior>(action, true, out var behavior))
         {
-            await sender.ShowBlueMessageAsync("Usage: /dummy punchbag | stun | slow | root | clear").ConfigureAwait(false);
+            await sender.ShowBlueMessageAsync("Usage: /dummy punchbag | stun | slow | root | trade | clear").ConfigureAwait(false);
             return;
         }
 

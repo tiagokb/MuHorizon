@@ -25,5 +25,11 @@ internal sealed class ProtobufItemMovedPlugIn : IItemMovedPlugIn
             await new ProtobufShowVaultPlugIn(_player).ShowVaultAsync().ConfigureAwait(false);
 
         await NPC.ProtobufChaosMachine.SendAsync(_player).ConfigureAwait(false);
+
+        // Own items put on (or taken off) the trade table.
+        if (_player.ViewPlugIns.GetPlugIn<GameLogic.Views.Trade.IChangeTradeButtonStatePlugIn>() is Trading.ProtobufTradePlugIn trade)
+        {
+            await trade.SendStateAsync().ConfigureAwait(false);
+        }
     }
 }
