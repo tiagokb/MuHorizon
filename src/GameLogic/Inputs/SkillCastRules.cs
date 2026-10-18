@@ -41,6 +41,14 @@ internal static class SkillCastRules
         && !player.IsAtSafezone();
 
     /// <summary>
+    /// Gets a value indicating whether the player is stunned, asleep or frozen: it can neither
+    /// walk nor act until the effect ends.
+    /// </summary>
+    internal static bool IsCrowdControlled(Player player) =>
+        player.Attributes is { } attributes
+        && (attributes[Stats.IsStunned] > 0 || attributes[Stats.IsAsleep] > 0 || attributes[Stats.IsFrozen] > 0);
+
+    /// <summary>
     /// Runs the speed-hack attack check; returns <c>true</c> when the attack comes faster than
     /// the player's attack speed allows.
     /// </summary>

@@ -116,6 +116,9 @@ message EntityState {
     uint32     current_health = 9;
     uint32     move_delay_ms  = 10; // MonsterDefinition.MoveDelay; 0 for players/NPCs
     repeated EquipmentPiece equipment = 11; // players only: visible equipment (slots 0-7)
+    bool       pvp_enabled    = 12; // players only: turned PvP on
+    uint32     current_shield = 13; // players only (SD)
+    uint32     max_shield     = 14;
 }
 
 // One visible equipped item. Only what the renderer needs — stats travel in ItemData.
@@ -135,10 +138,18 @@ message S2CAppearanceChanged {
 }
 
 message S2CEnteredWorld {
-    uint32 map_id  = 1;
-    float  x       = 2;
-    float  y       = 3;
-    uint32 own_id  = 4;
+    uint32     map_id   = 1;
+    float      x        = 2;
+    float      y        = 3;
+    uint32     own_id   = 4;
+    PvpMapMode pvp_mode = 5;
+}
+
+// GameMapDefinition.PvpMode: whether players can fight each other on the map.
+enum PvpMapMode {
+    PVP_MAP_MODE_FLAGGED  = 0; // players with PvP on fight each other
+    PVP_MAP_MODE_DISABLED = 1; // PvE only (towns)
+    PVP_MAP_MODE_ENABLED  = 2; // everyone fights; PvP can't be turned off
 }
 
 message S2CEntitiesInScope {
@@ -236,6 +247,27 @@ message S2CQuestDialog {
     uint32             npc_id   = 1;
     string             npc_name = 2;
     repeated QuestInfo quests   = 3;
+}
+
+// A player (or the own one) turned PvP on or off.
+message S2CPvpChanged {
+    uint32 entity_id = 1;
+    bool   enabled   = 2;
+}
+
+// Health and shield of another player (the bar above its head); sent when they change.
+message S2CEntityVitals {
+    uint32 entity_id      = 1;
+    uint32 current_health = 2;
+    uint32 max_health     = 3;
+    uint32 current_shield = 4;
+    uint32 max_shield     = 5;
+}
+
+message S2CChatMessage {
+    string sender = 1;
+    string text   = 2;
+    string type   = 3; // ChatMessageType: Normal, Whisper, Party, Guild...
 }
 
 // The opened NPC window was closed by the server (e.g. the player walked away): the client hides it.
@@ -598,6 +630,16 @@ message C2SQuestAction {
     uint32          number = 3;
 }
 
+// Turns the own PvP on or off; turning it off needs 30 s without PvP combat.
+message C2SSetPvp {
+    bool enabled = 1;
+}
+
+// A chat line typed by the player; lines starting with '/' are chat commands (e.g. /dummy stun).
+message C2SChatMessage {
+    string text = 1;
+}
+
 // Chaos Goblin: the server finds the recipe the items in the machine fit (S2CChaosMachine) and mixes them.
 message C2SChaosMix {}
 
@@ -706,6 +748,8 @@ message ClientEnvelope {
         C2SChaosMix             chaos_mix              = 25;
         C2SCloseNpcDialog       close_npc_dialog       = 26;
         C2SQuestAction          quest_action           = 27;
+        C2SChatMessage          chat_message           = 28;
+        C2SSetPvp               set_pvp                = 29;
     }
 }
 
@@ -760,5 +804,8 @@ message ServerEnvelope {
         S2CChaosMachine          chaos_machine           = 47;
         S2CNpcDialogClosed       npc_dialog_closed       = 48;
         S2CQuestDialog           quest_dialog            = 49;
+        S2CChatMessage           chat_message            = 50;
+        S2CPvpChanged            pvp_changed             = 51;
+        S2CEntityVitals          entity_vitals           = 52;
     }
 }

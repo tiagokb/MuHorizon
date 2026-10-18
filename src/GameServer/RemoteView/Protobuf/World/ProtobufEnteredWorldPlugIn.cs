@@ -44,6 +44,7 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
                 X = pos.X,
                 Y = pos.Y,
                 OwnId = _player.Id,
+                PvpMode = (PvpMapMode)map.Definition.PvpMode,
             },
         }).ConfigureAwait(false);
 

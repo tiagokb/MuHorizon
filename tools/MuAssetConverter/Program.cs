@@ -193,6 +193,25 @@ if (args.Length >= 3 && args[0] == "--items")
 }
 
 // --debug-bmd <input.bmd>  — dumps raw vertex/bone data without exporting
+// --walkable-from-server <terrain.bin> <walkable.png>
+//   Writes the client's walkable.png from the server's terrain (GameMapDefinition.TerrainData:
+//   3-byte header + 256x256 bytes, 0 = walkable, 1 = safezone, else blocked). The legacy Data
+//   folders hold several .att versions per map and the server uses only one, so the server's
+//   copy is the source of truth for walkability and safezones.
+if (args.Length == 3 && args[0] == "--walkable-from-server")
+{
+    var terrain = File.ReadAllBytes(args[1]);
+    if (terrain.Length != 3 + (AttFile.MapSize * AttFile.MapSize))
+    {
+        Console.Error.WriteLine($"Unexpected terrain size {terrain.Length} (expected {3 + (AttFile.MapSize * AttFile.MapSize)}).");
+        return 1;
+    }
+
+    TerrainExporter.ExportWalkable(AttFile.FromServerTerrain(terrain.AsSpan(3)), args[2]);
+    Console.WriteLine($"Exported: {args[2]}");
+    return 0;
+}
+
 if (args.Length == 2 && args[0] == "--debug-bmd")
 {
     var bmd = BmdFile.Load(args[1]);

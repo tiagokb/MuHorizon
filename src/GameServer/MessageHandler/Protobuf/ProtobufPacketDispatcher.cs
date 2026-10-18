@@ -18,6 +18,7 @@ using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
+using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
 using MUnique.OpenMU.GameLogic.Views.Login;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -37,6 +38,8 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly LogoutAction LogoutAction = new();
     private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
     private static readonly QuestStartAction QuestStartAction = new();
+    private static readonly ChatMessageAction ChatMessageAction = new();
+    private const int MaxChatLength = 90; // legacy chat packets carry up to 90 characters
     private static readonly QuestCompletionAction QuestCompletionAction = new();
     private static readonly QuestCancelAction QuestCancelAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
@@ -261,6 +264,23 @@ internal sealed class ProtobufPacketDispatcher
                     && !_player.PlayerState.CurrentState.IsDisconnectedOrFinished())
                 {
                     await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.SetPvp:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new PvpToggleInput(envelope.SetPvp.Enabled));
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.ChatMessage:
+                var chatText = envelope.ChatMessage.Text.Trim();
+                if (chatText.Length is > 0 and <= MaxChatLength && _player.SelectedCharacter is { } chatCharacter)
+                {
+                    await ChatMessageAction.ChatMessageAsync(_player, chatCharacter.Name, chatText, false).ConfigureAwait(false);
                 }
 
                 break;

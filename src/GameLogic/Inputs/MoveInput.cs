@@ -25,7 +25,7 @@ public sealed class MoveInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
-        if (!player.IsAlive)
+        if (!player.IsAlive || SkillCastRules.IsCrowdControlled(player))
         {
             return;
         }

@@ -282,6 +282,22 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public Inputs.ActiveCast? ActiveCast { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the player turned PvP on: on "flagged" maps two
+    /// such players can fight each other (see <see cref="PvpRules"/>). Off after every login.
+    /// </summary>
+    public bool PvpEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets when the player last hit or got hit by another player.
+    /// </summary>
+    public DateTime LastPvpCombatUtc { get; set; }
+
+    /// <summary>
+    /// Gets or sets the health and shield last shown to the observers (see <see cref="GameTickLoop"/>).
+    /// </summary>
+    internal (int Health, int Shield) LastBroadcastVitals { get; set; }
+
+    /// <summary>
     /// Gets the selected character.
     /// </summary>
     public Character? SelectedCharacter => this._selectedCharacter;
@@ -792,6 +808,16 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         if (this.IsAttackBlockedBySafezone(attacker))
         {
             return null;
+        }
+
+        if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)
+        {
+            if (!PvpRules.CanAttack(attackingPlayer, this))
+            {
+                return null;
+            }
+
+            PvpRules.RegisterCombat(attackingPlayer, this);
         }
 
         if (!this.GameContext.PvpEnabled && this.CurrentMap?.Definition.BattleZone == null &&
@@ -2600,12 +2626,8 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         this._respawnAfterDeathCts = new CancellationTokenSource();
         await this.ForEachWorldObserverAsync<IObjectGotKilledPlugIn>(p => p.ObjectGotKilledAsync(this, killer), true).ConfigureAwait(false);
 
-        if (killer is Player killerAfterKilled
-            && !(killerAfterKilled.GuildWarContext?.Score is { } score && score == this.GuildWarContext?.Score)
-            && this.CurrentMiniGame?.AllowPlayerKilling is not true)
-        {
-            await killerAfterKilled.AfterKilledPlayerAsync(this).ConfigureAwait(false);
-        }
+        // The legacy player-killer status (AfterKilledPlayerAsync) isn't applied anymore: who can
+        // fight whom is decided by the PvP rules (map mode and PvP flags), without penalties.
 
         // TODO: Drop items
         async Task RespawnAsync(CancellationToken cancellationToken)

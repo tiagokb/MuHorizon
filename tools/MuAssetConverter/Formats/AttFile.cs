@@ -42,6 +42,21 @@ public sealed class AttFile
         return file;
     }
 
+    /// <summary>
+    /// Builds the tiles from the server's terrain bytes (index = x + y * 256), the layout
+    /// GameMapTerrain reads.
+    /// </summary>
+    public static AttFile FromServerTerrain(ReadOnlySpan<byte> data)
+    {
+        var att = new AttFile();
+        for (var i = 0; i < MapSize * MapSize; i++)
+        {
+            att.Tiles[i & 0xFF, (i >> 8) & 0xFF] = data[i];
+        }
+
+        return att;
+    }
+
     public bool IsWalkable(int x, int y) => Tiles[x, y] <= 1;
     public bool IsSafezone(int x, int y) => Tiles[x, y] == 1;
 }

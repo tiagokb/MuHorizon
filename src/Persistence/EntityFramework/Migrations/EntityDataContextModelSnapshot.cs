@@ -1176,6 +1176,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<short>("Number")
                         .HasColumnType("smallint");
 
+                    b.Property<int>("PvpMode")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("SafezoneMapId")
                         .HasColumnType("uuid");
 

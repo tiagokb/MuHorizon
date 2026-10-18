@@ -147,10 +147,8 @@ public class AreaSkillAttackAction
             targetsInRange = targetsInRange.Where(a => a.GetDistanceTo(targetAreaCenter) < skill.AreaSkillSettings.TargetAreaDiameter * 0.5f);
         }
 
-        if (!player.GameContext.Configuration.AreaSkillHitsPlayer)
-        {
-            targetsInRange = targetsInRange.Where(a => a is not Player);
-        }
+        // Players are hit when the PvP rules allow it (map mode, PvP flags, party, safezone).
+        targetsInRange = targetsInRange.Where(a => a is not Player defender || PvpRules.CanAttack(player, defender));
 
         // Exclude summoned monsters from implicit area attacks
         targetsInRange = targetsInRange.Where(target => target is not Monster { SummonedBy: not null });

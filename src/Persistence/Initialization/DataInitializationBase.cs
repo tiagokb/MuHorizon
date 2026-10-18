@@ -110,6 +110,7 @@ public abstract class DataInitializationBase : IDataInitializationPlugIn
         await this.Context.SaveChangesAsync().ConfigureAwait(false);
 
         this.GameMapsInitializer.SetSafezoneMaps();
+        MapPvpModes.Apply(this.GameConfiguration);
 
         if (createTestAccounts)
         {

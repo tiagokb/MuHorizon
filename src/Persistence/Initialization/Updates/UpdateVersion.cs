@@ -344,4 +344,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AddSkillCastingPlugInSeason6"/>.
     /// </summary>
     AddSkillCastingSeason6 = 102,
+
+    /// <summary>
+    /// The version of the <see cref="AddMapPvpModesPlugInSeason6"/>.
+    /// </summary>
+    AddMapPvpModesSeason6 = 103,
 }

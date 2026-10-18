@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.World;
 
 using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.Views.World;
 using MUnique.OpenMU.Network.Protobuf;
 
@@ -40,7 +41,16 @@ internal sealed class ProtobufNewPlayersInScopePlugIn : INewPlayersInScopePlugIn
             ClassNumber = (uint)(p.SelectedCharacter?.CharacterClass?.Number ?? 0),
             Name = p.Name,
             Level = (uint)p.Level,
+            PvpEnabled = p.PvpEnabled,
         };
+        if (p.Attributes is { } attributes)
+        {
+            state.CurrentHealth = (uint)Math.Max(0, attributes[Stats.CurrentHealth]);
+            state.MaxHealth = (uint)Math.Max(0, attributes[Stats.MaximumHealth]);
+            state.CurrentShield = (uint)Math.Max(0, attributes[Stats.CurrentShield]);
+            state.MaxShield = (uint)Math.Max(0, attributes[Stats.MaximumShield]);
+        }
+
         state.Equipment.AddRange(ProtobufEquipment.Build(p));
         return state;
     }

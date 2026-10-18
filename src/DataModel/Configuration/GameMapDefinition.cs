@@ -70,6 +70,11 @@ public partial class GameMapDefinition
     public int Discriminator { get; set; }
 
     /// <summary>
+    /// Gets or sets whether players can fight each other on this map.
+    /// </summary>
+    public MapPvpMode PvpMode { get; set; }
+
+    /// <summary>
     /// Gets or sets the game map to which the player will be brought when it died.
     /// One of the <see cref="ExitGates"/> where <see cref="ExitGate.IsSpawnGate"/> is selected.
     /// </summary>

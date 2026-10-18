@@ -28,6 +28,10 @@ public sealed class GameTickLoop
     // Base DW (run speed floor): 15 × 2 = 30 units/sec = 3.75 tiles/sec; with running boots: higher.
 
     private readonly GameMap _map;
+
+    // Vitals (health/shield bars) go out every 6 ticks (~200 ms).
+    private const int VitalsEveryTicks = 6;
+    private int _vitalsTick;
     private readonly ILogger<GameTickLoop> _logger;
     private CancellationTokenSource? _cts;
     private Task? _loopTask;
@@ -108,6 +112,7 @@ public sealed class GameTickLoop
                 await TickDropExpirationAsync(ct).ConfigureAwait(false);
                 await UpdateTilePositionsAsync(ct).ConfigureAwait(false);
                 await BroadcastSnapshotsAsync(ct).ConfigureAwait(false);
+                await BroadcastVitalsAsync(ct).ConfigureAwait(false);
             }
             catch (Exception ex) when (!ct.IsCancellationRequested)
             {
@@ -224,6 +229,13 @@ public sealed class GameTickLoop
                 continue;
             }
 
+            // Crowd control (stun, sleep, freeze) stops the walk; the player has to move again afterwards.
+            if (Inputs.SkillCastRules.IsCrowdControlled(player))
+            {
+                player.ContinuousWalkTarget = null;
+                continue;
+            }
+
             var pos = player.ContinuousPosition;
             var dx = target.X - pos.X;
             var dy = target.Y - pos.Y;
@@ -287,6 +299,39 @@ public sealed class GameTickLoop
     private EnterGate? FindEnterGate(Point tile) =>
         _map.Definition.EnterGates.FirstOrDefault(g =>
             tile.X >= g.X1 && tile.X <= g.X2 && tile.Y >= g.Y1 && tile.Y <= g.Y2);
+
+    // Health/shield bars of players for the players around them: at most every few ticks, and only
+    // when the values changed (damage, healing, regeneration).
+    private async ValueTask BroadcastVitalsAsync(CancellationToken ct)
+    {
+        if (++_vitalsTick < VitalsEveryTicks)
+        {
+            return;
+        }
+
+        _vitalsTick = 0;
+        foreach (var player in _map.Players)
+        {
+            if (ct.IsCancellationRequested)
+            {
+                break;
+            }
+
+            if (player.Attributes is not { } attributes)
+            {
+                continue;
+            }
+
+            var vitals = ((int)attributes[Attributes.Stats.CurrentHealth], (int)attributes[Attributes.Stats.CurrentShield]);
+            if (vitals == player.LastBroadcastVitals)
+            {
+                continue;
+            }
+
+            player.LastBroadcastVitals = vitals;
+            await player.ForEachWorldObserverAsync<IPlayerVitalsPlugIn>(p => p.ShowVitalsAsync(player), false).ConfigureAwait(false);
+        }
+    }
 
     private async ValueTask BroadcastSnapshotsAsync(CancellationToken ct)
     {
