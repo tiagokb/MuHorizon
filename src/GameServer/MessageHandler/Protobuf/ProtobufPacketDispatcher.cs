@@ -19,6 +19,7 @@ using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
+using MUnique.OpenMU.GameLogic.PlayerActions.Party;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
 using MUnique.OpenMU.GameLogic.Views.Login;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -39,6 +40,9 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
     private static readonly QuestStartAction QuestStartAction = new();
     private static readonly ChatMessageAction ChatMessageAction = new();
+    private static readonly PartyRequestAction PartyRequestAction = new();
+    private static readonly PartyResponseAction PartyResponseAction = new();
+    private static readonly PartyKickAction PartyKickAction = new();
     private const int MaxChatLength = 90; // legacy chat packets carry up to 90 characters
     private static readonly QuestCompletionAction QuestCompletionAction = new();
     private static readonly QuestCancelAction QuestCancelAction = new();
@@ -266,6 +270,22 @@ internal sealed class ProtobufPacketDispatcher
                     await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
                 }
 
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.PartyInvite:
+                if (_player.CurrentMap?.GetObject((ushort)envelope.PartyInvite.TargetId) is Player invited && invited != _player)
+                {
+                    await PartyRequestAction.HandlePartyRequestAsync(_player, invited).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.PartyResponse:
+                await PartyResponseAction.HandleResponseAsync(_player, envelope.PartyResponse.Accepted).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.PartyKick:
+                await PartyKickAction.KickPlayerAsync(_player, (byte)envelope.PartyKick.Index).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.SetPvp:

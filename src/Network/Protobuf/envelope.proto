@@ -270,6 +270,28 @@ message S2CEntityVitals {
     uint32 max_shield     = 5;
 }
 
+// Another player invites the own character to its party.
+message S2CPartyRequest {
+    uint32 requester_id   = 1;
+    string requester_name = 2;
+}
+
+message PartyMember {
+    uint32 index          = 1; // 0 = party master
+    uint32 id             = 2; // object id on its map (0 when offline)
+    string name           = 3;
+    uint32 map_id         = 4;
+    float  x              = 5;
+    float  y              = 6;
+    uint32 current_health = 7;
+    uint32 max_health     = 8;
+}
+
+// The own party; sent when it changes and when members' health changes. Empty: not in a party.
+message S2CPartyList {
+    repeated PartyMember members = 1;
+}
+
 message S2CChatMessage {
     string sender = 1;
     string text   = 2;
@@ -641,6 +663,21 @@ message C2SSetPvp {
     bool enabled = 1;
 }
 
+// Invites a player in view to the own party (or to a new one).
+message C2SPartyInvite {
+    uint32 target_id = 1;
+}
+
+// Answers S2CPartyRequest.
+message C2SPartyResponse {
+    bool accepted = 1;
+}
+
+// The party master kicks a member; any member passes its own index to leave.
+message C2SPartyKick {
+    uint32 index = 1; // PartyMember.index
+}
+
 // A chat line typed by the player; lines starting with '/' are chat commands (e.g. /dummy stun).
 message C2SChatMessage {
     string text = 1;
@@ -756,6 +793,9 @@ message ClientEnvelope {
         C2SQuestAction          quest_action           = 27;
         C2SChatMessage          chat_message           = 28;
         C2SSetPvp               set_pvp                = 29;
+        C2SPartyInvite          party_invite           = 30;
+        C2SPartyResponse        party_response         = 31;
+        C2SPartyKick            party_kick             = 32;
     }
 }
 
@@ -813,5 +853,7 @@ message ServerEnvelope {
         S2CChatMessage           chat_message            = 50;
         S2CPvpChanged            pvp_changed             = 51;
         S2CEntityVitals          entity_vitals           = 52;
+        S2CPartyRequest          party_request           = 53;
+        S2CPartyList             party_list              = 54;
     }
 }

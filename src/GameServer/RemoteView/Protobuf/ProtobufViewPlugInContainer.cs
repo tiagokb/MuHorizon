@@ -63,6 +63,8 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new World.ProtobufChatViewPlugIn(player),
             new World.ProtobufPvpStateChangedPlugIn(player),
             new World.ProtobufPlayerVitalsPlugIn(player),
+            new Parties.ProtobufShowPartyRequestPlugIn(player),
+            new Parties.ProtobufPartyListPlugIn(player),
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),
             new ProtobufDeactivateMagicEffectPlugIn(player),

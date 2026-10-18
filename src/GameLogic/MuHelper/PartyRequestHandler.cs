@@ -20,6 +20,12 @@ public static class PartyRequestHandler
     /// <returns>True if the criteria matched (auto-accept was attempted, regardless of success); false if no criteria matched.</returns>
     public static async ValueTask<bool> TryAutoAcceptPartyRequestAsync(Player receiver, Player requester)
     {
+        // Test dummies always join (/dummy): they exist to test parties and party buffs.
+        if (receiver is Dummies.DummyPlayer)
+        {
+            return await AcceptPartyRequestAsync(receiver, requester).ConfigureAwait(false);
+        }
+
         var settings = receiver.MuHelperSettings;
         if (settings is null)
         {

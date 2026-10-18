@@ -48,6 +48,15 @@ internal sealed class ProtobufEnteredWorldPlugIn : IEnteredWorldPlugIn
             },
         }).ConfigureAwait(false);
 
+        // The player's id changed with the map: every member needs the new party list.
+        if (_player.Party is { } party)
+        {
+            foreach (var member in party.PartyList)
+            {
+                await member.InvokeViewPlugInAsync<GameLogic.Views.Party.IUpdatePartyListPlugIn>(p => p.UpdatePartyListAsync()).ConfigureAwait(false);
+            }
+        }
+
         // Send initial safezone status so the client can set up combat/off-combat mode.
         var tile = _player.Position;
         var isInSafezone = map.Terrain.SafezoneMap[tile.X, tile.Y];
