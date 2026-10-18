@@ -36,6 +36,9 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly LogoutAction LogoutAction = new();
     private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
+    private static readonly QuestStartAction QuestStartAction = new();
+    private static readonly QuestCompletionAction QuestCompletionAction = new();
+    private static readonly QuestCancelAction QuestCancelAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
     private static readonly MoveItemAction MoveItemAction = new();
     private static readonly DropItemAction DropItemAction = new();
@@ -260,6 +263,27 @@ internal sealed class ProtobufPacketDispatcher
                     await _player.ClientReadyAfterMapChangeAsync().ConfigureAwait(false);
                 }
 
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.QuestAction:
+                var questAction = envelope.QuestAction;
+                var questGroup = (short)questAction.Group;
+                var questNumber = (short)questAction.Number;
+                switch (questAction.Action)
+                {
+                    case QuestActionKind.Start:
+                        await QuestStartAction.StartQuestAsync(_player, questGroup, questNumber).ConfigureAwait(false);
+                        break;
+                    case QuestActionKind.Complete:
+                        await QuestCompletionAction.CompleteQuestAsync(_player, questGroup, questNumber).ConfigureAwait(false);
+                        break;
+                    default:
+                        await QuestCancelAction.CancelQuestAsync(_player, questGroup, questNumber).ConfigureAwait(false);
+                        break;
+                }
+
+                // The dialog always shows the current state (also when the action was refused).
+                await RemoteView.Protobuf.Quest.ProtobufQuestDialog.SendAsync(_player).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.ChaosMix:

@@ -206,6 +206,38 @@ message S2CChaosMachine {
     bool              opened       = 5; // true when the player just opened it (talked to the goblin)
 }
 
+enum QuestStatus {
+    QUEST_STATUS_AVAILABLE = 0; // can be started now
+    QUEST_STATUS_ACTIVE    = 1;
+    QUEST_STATUS_COMPLETED = 2;
+    QUEST_STATUS_LOCKED    = 3; // needs a higher level or the previous quest first
+}
+
+message QuestRequirement {
+    string text     = 1; // e.g. "Scroll of Emperor" or "Kill Balram"
+    uint32 current  = 2; // items in the inventory / monsters killed
+    uint32 required = 3;
+}
+
+message QuestInfo {
+    uint32                    group             = 1;
+    uint32                    number            = 2;
+    string                    name              = 3;
+    QuestStatus               status            = 4;
+    uint32                    minimum_level     = 5;
+    uint32                    start_cost        = 6; // zen
+    repeated QuestRequirement requirements      = 7;
+    repeated string           rewards           = 8;
+    bool                      can_complete      = 9; // active and every requirement met
+}
+
+// The quests of the opened quest NPC for the own character; resent after every quest action.
+message S2CQuestDialog {
+    uint32             npc_id   = 1;
+    string             npc_name = 2;
+    repeated QuestInfo quests   = 3;
+}
+
 // The opened NPC window was closed by the server (e.g. the player walked away): the client hides it.
 message S2CNpcDialogClosed {}
 
@@ -354,6 +386,8 @@ message S2CCharacterState {
     uint32 max_phys_dmg     = 22; // maximum physical base damage
     uint32 min_wiz_dmg      = 23; // minimum wizardry base damage
     uint32 max_wiz_dmg      = 24; // maximum wizardry base damage
+    uint32 class_number     = 25; // CharacterClass.Number — changes with quests (e.g. Dark Knight -> Blade Knight)
+    string class_name       = 26;
 }
 
 message S2CVitalsUpdate {
@@ -551,6 +585,19 @@ enum LogoutKind {
     LOGOUT_KIND_LOGIN_SCREEN     = 1; // log out: the server disconnects
 }
 
+enum QuestActionKind {
+    QUEST_ACTION_KIND_START    = 0; // pays the start cost, then the quest items start dropping
+    QUEST_ACTION_KIND_COMPLETE = 1; // hands in the required items/kills and gets the rewards
+    QUEST_ACTION_KIND_CANCEL   = 2;
+}
+
+// A quest of the opened quest NPC (S2CQuestDialog).
+message C2SQuestAction {
+    QuestActionKind action = 1;
+    uint32          group  = 2;
+    uint32          number = 3;
+}
+
 // Chaos Goblin: the server finds the recipe the items in the machine fit (S2CChaosMachine) and mixes them.
 message C2SChaosMix {}
 
@@ -658,6 +705,7 @@ message ClientEnvelope {
         C2SLogout               logout                 = 24;
         C2SChaosMix             chaos_mix              = 25;
         C2SCloseNpcDialog       close_npc_dialog       = 26;
+        C2SQuestAction          quest_action           = 27;
     }
 }
 
@@ -711,5 +759,6 @@ message ServerEnvelope {
         S2CLogout                logout                  = 46;
         S2CChaosMachine          chaos_machine           = 47;
         S2CNpcDialogClosed       npc_dialog_closed       = 48;
+        S2CQuestDialog           quest_dialog            = 49;
     }
 }

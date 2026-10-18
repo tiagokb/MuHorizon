@@ -37,6 +37,8 @@ internal sealed class ProtobufUpdateCharacterStatePlugIn : IUpdateCharacterStats
         {
             Level          = level,
             LevelUpPoints  = (uint)Math.Max(0, ch.LevelUpPoints),
+            ClassNumber    = (uint)(ch.CharacterClass?.Number ?? 0),
+            ClassName      = ch.CharacterClass?.Name ?? string.Empty,
             CurrentHp      = (uint)Math.Max(0f, attrs[Stats.CurrentHealth]),
             MaxHp          = (uint)attrs[Stats.MaximumHealth],
             CurrentMp      = (uint)Math.Max(0f, attrs[Stats.CurrentMana]),

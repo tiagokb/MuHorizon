@@ -76,234 +76,254 @@ namespace MUnique.OpenMU.Network.Protobuf {
             "Gi5vcGVubXUucHJvdG9jb2wuV2FycEVudHJ5IoIBCg9TMkNDaGFvc01hY2hp",
             "bmUSKAoFaXRlbXMYASADKAsyGS5vcGVubXUucHJvdG9jb2wuSXRlbURhdGES",
             "EAoIbWl4X25hbWUYAiABKAkSFAoMc3VjY2Vzc19yYXRlGAMgASgNEg0KBXBy",
-            "aWNlGAQgASgNEg4KBm9wZW5lZBgFIAEoCCIUChJTMkNOcGNEaWFsb2dDbG9z",
-            "ZWQiNgoJUzJDTG9nb3V0EikKBGtpbmQYASABKA4yGy5vcGVubXUucHJvdG9j",
-            "b2wuTG9nb3V0S2luZCIgChBTMkNTeXN0ZW1NZXNzYWdlEgwKBHRleHQYASAB",
-            "KAkiiQEKDlMyQ0Nhc3RTdGFydGVkEhEKCWNhc3Rlcl9pZBgBIAEoDRIQCghz",
-            "a2lsbF9pZBgCIAEoDRIsCgljYXN0X3R5cGUYAyABKA4yGS5vcGVubXUucHJv",
-            "dG9jb2wuQ2FzdFR5cGUSEwoLZHVyYXRpb25fbXMYBCABKA0SDwoHaG9sZF9t",
-            "cxgFIAEoDSJGCgxTMkNDYXN0RW5kZWQSEQoJY2FzdGVyX2lkGAEgASgNEhAK",
-            "CHNraWxsX2lkGAIgASgNEhEKCWNvbXBsZXRlZBgDIAEoCCI6ChBTMkNTa2ls",
-            "bENvb2xkb3duEhAKCHNraWxsX2lkGAEgASgNEhQKDHJlbWFpbmluZ19tcxgC",
-            "IAEoDSKAAQoPUzJDRGFtYWdlUmVzdWx0EhEKCXRhcmdldF9pZBgBIAEoDRIV",
-            "Cg1oZWFsdGhfZGFtYWdlGAIgASgNEhUKDXNoaWVsZF9kYW1hZ2UYAyABKA0S",
-            "EgoKYXR0cmlidXRlcxgEIAEoDRIYChByZW1haW5pbmdfaGVhbHRoGAUgASgN",
-            "IksKDlMyQ0J1ZmZBcHBsaWVkEhEKCXRhcmdldF9pZBgBIAEoDRIRCgllZmZl",
-            "Y3RfaWQYAiABKA0SEwoLZHVyYXRpb25fbXMYAyABKA0iNgoOUzJDQnVmZkV4",
-            "cGlyZWQSEQoJdGFyZ2V0X2lkGAEgASgNEhEKCWVmZmVjdF9pZBgCIAEoDSI1",
-            "Cg1TMkNFbnRpdHlEaWVkEhEKCWVudGl0eV9pZBgBIAEoDRIRCglraWxsZXJf",
-            "aWQYAiABKA0iggEKDlMyQ0l0ZW1Ecm9wcGVkEg8KB2Ryb3BfaWQYASABKA0S",
-            "CQoBeBgCIAEoAhIJCgF5GAMgASgCEhMKC2l0ZW1fbnVtYmVyGAQgASgNEhIK",
-            "Cml0ZW1fZ3JvdXAYBSABKA0SEAoIaXNfbW9uZXkYBiABKAgSDgoGYW1vdW50",
-            "GAcgASgNIiAKDUMyU1BpY2tVcEl0ZW0SDwoHZHJvcF9pZBgBIAEoDSJbCgtD",
-            "MlNNb3ZlSXRlbRIRCglmcm9tX3Nsb3QYASABKA0SDwoHdG9fc2xvdBgCIAEo",
-            "DRIUCgxmcm9tX3N0b3JhZ2UYAyABKA0SEgoKdG9fc3RvcmFnZRgEIAEoDSI6",
-            "Cg9DMlNBZGRTdGF0UG9pbnQSJwoEc3RhdBgBIAEoDjIZLm9wZW5tdS5wcm90",
-            "b2NvbC5TdGF0VHlwZSIzCg9TMkNQaWNrVXBSZXN1bHQSDwoHc3VjY2VzcxgB",
-            "IAEoCBIPCgdkcm9wX2lkGAIgASgNIp0BChRTMkNQcm9qZWN0aWxlU3Bhd25l",
-            "ZBIVCg1wcm9qZWN0aWxlX2lkGAEgASgNEhAKCG93bmVyX2lkGAIgASgNEhAK",
-            "CHNraWxsX2lkGAMgASgNEhAKCG9yaWdpbl94GAQgASgCEhAKCG9yaWdpbl95",
-            "GAUgASgCEhIKCnZlbG9jaXR5X3gYBiABKAISEgoKdmVsb2NpdHlfeRgHIAEo",
-            "AiI8ChBTMkNQcm9qZWN0aWxlSGl0EhUKDXByb2plY3RpbGVfaWQYASABKA0S",
-            "EQoJdGFyZ2V0X2lkGAIgASgNIi0KFFMyQ1Byb2plY3RpbGVFeHBpcmVkEhUK",
-            "DXByb2plY3RpbGVfaWQYASABKA0i4QMKEVMyQ0NoYXJhY3RlclN0YXRlEg0K",
-            "BWxldmVsGAEgASgNEhcKD2xldmVsX3VwX3BvaW50cxgCIAEoDRISCgpjdXJy",
-            "ZW50X2hwGAMgASgNEg4KBm1heF9ocBgEIAEoDRISCgpjdXJyZW50X21wGAUg",
-            "ASgNEg4KBm1heF9tcBgGIAEoDRISCgpjdXJyZW50X3NkGAcgASgNEg4KBm1h",
-            "eF9zZBgIIAEoDRISCgpjdXJyZW50X2FnGAkgASgNEg4KBm1heF9hZxgKIAEo",
-            "DRISCgpleHBlcmllbmNlGAsgASgEEhcKD2V4cGVyaWVuY2VfbmV4dBgMIAEo",
-            "BBINCgVtb25leRgNIAEoDRIQCghzdHJlbmd0aBgOIAEoDRIPCgdhZ2lsaXR5",
-            "GA8gASgNEhAKCHZpdGFsaXR5GBAgASgNEg4KBmVuZXJneRgRIAEoDRISCgps",
-            "ZWFkZXJzaGlwGBIgASgNEhQKDGF0dGFja19zcGVlZBgTIAEoDRITCgttYWdp",
-            "Y19zcGVlZBgUIAEoDRIUCgxtaW5fcGh5c19kbWcYFSABKA0SFAoMbWF4X3Bo",
-            "eXNfZG1nGBYgASgNEhMKC21pbl93aXpfZG1nGBcgASgNEhMKC21heF93aXpf",
-            "ZG1nGBggASgNIqEBCg9TMkNWaXRhbHNVcGRhdGUSEgoKY3VycmVudF9ocBgB",
-            "IAEoDRIOCgZtYXhfaHAYAiABKA0SEgoKY3VycmVudF9tcBgDIAEoDRIOCgZt",
-            "YXhfbXAYBCABKA0SEgoKY3VycmVudF9zZBgFIAEoDRIOCgZtYXhfc2QYBiAB",
-            "KA0SEgoKY3VycmVudF9hZxgHIAEoDRIOCgZtYXhfYWcYCCABKA0ibgoTUzJD",
-            "RXhwZXJpZW5jZUdhaW5lZBIOCgZnYWluZWQYASABKA0SDQoFdG90YWwYAiAB",
-            "KAQSEgoKbmV4dF9sZXZlbBgDIAEoBBIRCglraWxsZWRfaWQYBCABKA0SEQoJ",
-            "aXNfbWFzdGVyGAUgASgIInQKClMyQ0xldmVsVXASDQoFbGV2ZWwYASABKA0S",
-            "FwoPbGV2ZWxfdXBfcG9pbnRzGAIgASgNEg4KBm1heF9ocBgDIAEoDRIOCgZt",
-            "YXhfbXAYBCABKA0SDgoGbWF4X3NkGAUgASgNEg4KBm1heF9hZxgGIAEoDSLU",
-            "AgoISXRlbURhdGESDAoEc2xvdBgBIAEoDRIOCgZudW1iZXIYAiABKA0SDQoF",
-            "Z3JvdXAYAyABKA0SDQoFbGV2ZWwYBCABKA0SEQoJaGFzX3NraWxsGAUgASgI",
-            "EhAKCGhhc19sdWNrGAYgASgIEhIKCmhhc19vcHRpb24YByABKAgSFQoNaGFz",
-            "X2V4Y2VsbGVudBgIIAEoCBITCgtoYXNfYW5jaWVudBgJIAEoCBINCgV3aWR0",
-            "aBgKIAEoDRIOCgZoZWlnaHQYCyABKA0SEgoKZHVyYWJpbGl0eRgMIAEoDRIU",
-            "CgxvcHRpb25fbGV2ZWwYDSABKA0SDwoHbWluX2RtZxgOIAEoDRIPCgdtYXhf",
-            "ZG1nGA8gASgNEg8KB2RlZmVuc2UYECABKA0SFAoMZGVmZW5zZV9yYXRlGBEg",
-            "ASgNEhUKDXdpemFyZHJ5X3Jpc2UYEiABKA0iOAoMUzJDSW52ZW50b3J5EigK",
-            "BWl0ZW1zGAEgAygLMhkub3Blbm11LnByb3RvY29sLkl0ZW1EYXRhIjoKD1My",
-            "Q0l0ZW1BcHBlYXJlZBInCgRpdGVtGAEgASgLMhkub3Blbm11LnByb3RvY29s",
-            "Lkl0ZW1EYXRhIh4KDlMyQ0l0ZW1SZW1vdmVkEgwKBHNsb3QYASABKA0iHwoO",
-            "UzJDTW9uZXlVcGRhdGUSDQoFbW9uZXkYASABKA0i2gIKEkl0ZW1EZWZpbml0",
-            "aW9uRGF0YRINCgVncm91cBgBIAEoDRIOCgZudW1iZXIYAiABKA0SDAoEbmFt",
-            "ZRgDIAEoCRINCgV3aWR0aBgEIAEoDRIOCgZoZWlnaHQYBSABKA0SEgoKZHJv",
-            "cF9sZXZlbBgGIAEoDRIfChdxdWFsaWZpZWRfY2xhc3NfbnVtYmVycxgHIAMo",
-            "DRITCgtlcXVpcF9zbG90cxgIIAMoDRIUCgxyZXFfc3RyZW5ndGgYCSABKA0S",
-            "EwoLcmVxX2FnaWxpdHkYCiABKA0SEgoKcmVxX2VuZXJneRgLIAEoDRIUCgxy",
-            "ZXFfdml0YWxpdHkYDCABKA0SFgoOcmVxX2xlYWRlcnNoaXAYDSABKA0SFAoM",
-            "aXNfc3RhY2thYmxlGA4gASgIEhUKDWlzX2NvbnN1bWFibGUYDyABKAgSFAoM",
-            "YXR0YWNrX3NwZWVkGBAgASgNIkgKElMyQ0l0ZW1EZWZpbml0aW9ucxIyCgVp",
-            "dGVtcxgBIAMoCzIjLm9wZW5tdS5wcm90b2NvbC5JdGVtRGVmaW5pdGlvbkRh",
-            "dGEiXgoOUzJDVmF1bHRPcGVuZWQSKAoFaXRlbXMYASADKAsyGS5vcGVubXUu",
-            "cHJvdG9jb2wuSXRlbURhdGESDQoFbW9uZXkYAiABKA0SEwoLaXNfZXh0ZW5k",
-            "ZWQYAyABKAgiDwoNQzJTQ2xvc2VWYXVsdCL5AQoJU2tpbGxEYXRhEgwKBHNs",
-            "b3QYASABKA0SDgoGbnVtYmVyGAIgASgNEg0KBWxldmVsGAMgASgNEg0KBXJh",
-            "bmdlGAQgASgNEi4KCmFyZWFfc2hhcGUYBSABKA4yGi5vcGVubXUucHJvdG9j",
-            "b2wuU2tpbGxBcmVhEhMKC2FyZWFfcmFkaXVzGAYgASgCEhIKCmFyZWFfd2lk",
-            "dGgYByABKAISEwoLY29vbGRvd25fbXMYCCABKA0SLAoJY2FzdF90eXBlGAkg",
-            "ASgOMhkub3Blbm11LnByb3RvY29sLkNhc3RUeXBlEhQKDGNhc3RfdGltZV9t",
-            "cxgKIAEoDSI6CgxTMkNTa2lsbExpc3QSKgoGc2tpbGxzGAEgAygLMhoub3Bl",
-            "bm11LnByb3RvY29sLlNraWxsRGF0YSIgCg5DMlNJbnRlcmFjdE5wYxIOCgZu",
-            "cGNfaWQYASABKA0iHQoNQzJTQnV5TnBjSXRlbRIMCgRzbG90GAEgASgNIg4K",
-            "DEMyU0Nsb3NlU2hvcCLZAQoIU2hvcEl0ZW0SDAoEc2xvdBgBIAEoDRIOCgZu",
-            "dW1iZXIYAiABKA0SDQoFZ3JvdXAYAyABKA0SDQoFcHJpY2UYBCABKAQSDQoF",
-            "bGV2ZWwYBSABKA0SEQoJaGFzX3NraWxsGAYgASgIEhAKCGhhc19sdWNrGAcg",
-            "ASgIEhIKCmhhc19vcHRpb24YCCABKAgSDQoFd2lkdGgYCSABKA0SDgoGaGVp",
-            "Z2h0GAogASgNEhUKDWhhc19leGNlbGxlbnQYCyABKAgSEwoLaGFzX2FuY2ll",
-            "bnQYDCABKAgiSAoKQzJTVXNlSXRlbRIMCgRzbG90GAEgASgNEhMKC3Rhcmdl",
-            "dF9zbG90GAIgASgNEhcKD2hhc190YXJnZXRfc2xvdBgDIAEoCCIxCgtDMlNU",
-            "ZWxlcG9ydBIQCgh0YXJnZXRfeBgBIAEoDRIQCgh0YXJnZXRfeRgCIAEoDSIO",
-            "CgxDMlNNYXBMb2FkZWQiEAoOQzJTR2V0V2FycExpc3QiDQoLQzJTQ2hhb3NN",
-            "aXgiEwoRQzJTQ2xvc2VOcGNEaWFsb2ciNgoJQzJTTG9nb3V0EikKBGtpbmQY",
-            "ASABKA4yGy5vcGVubXUucHJvdG9jb2wuTG9nb3V0S2luZCIYCgdDMlNXYXJw",
-            "Eg0KBWluZGV4GAEgASgNIk8KDkMyU0Nhc3RDb250cm9sEisKBmFjdGlvbhgB",
-            "IAEoDjIbLm9wZW5tdS5wcm90b2NvbC5DYXN0QWN0aW9uEhAKCHNraWxsX2lk",
-            "GAIgASgNIkEKEFMyQ01vdmVtZW50U3BlZWQSFgoObW92ZW1lbnRfc3BlZWQY",
-            "ASABKAISFQoNdGlsZXNfcGVyX3NlYxgCIAEoAiJxChFTMkNBdHRhY2tJbnRl",
-            "cnZhbBIXCg9taW5faW50ZXJ2YWxfbXMYASABKA0SFAoMYXR0YWNrX3Jhbmdl",
-            "GAIgASgNEi0KBndlYXBvbhgDIAEoDjIdLm9wZW5tdS5wcm90b2NvbC5BdHRh",
-            "Y2tXZWFwb24iKQoSUzJDU2FmZXpvbmVDaGFuZ2VkEhMKC2luX3NhZmV6b25l",
-            "GAEgASgIIhsKC0MyU0Ryb3BJdGVtEgwKBHNsb3QYASABKA0iMQoOQzJTU2Vs",
-            "bE5wY0l0ZW0SDAoEc2xvdBgBIAEoDRIRCgljb25maXJtZWQYAiABKAgiTQoW",
-            "UzJDU2VsbENvbmZpcm1SZXF1aXJlZBIMCgRzbG90GAEgASgNEhEKCWl0ZW1f",
-            "bmFtZRgCIAEoCRISCgpzZWxsX3ByaWNlGAMgASgEIi0KDlNlbGxQcmljZUVu",
-            "dHJ5EgwKBHNsb3QYASABKA0SDQoFcHJpY2UYAiABKAQiRAoQUzJDU2VsbFBy",
-            "aWNlTGlzdBIwCgdlbnRyaWVzGAEgAygLMh8ub3Blbm11LnByb3RvY29sLlNl",
-            "bGxQcmljZUVudHJ5IloKDFMyQ1Nob3BJdGVtcxIOCgZucGNfaWQYASABKA0S",
-            "EAoIbnBjX25hbWUYAiABKAkSKAoFaXRlbXMYAyADKAsyGS5vcGVubXUucHJv",
-            "dG9jb2wuU2hvcEl0ZW0iwQsKDkNsaWVudEVudmVsb3BlEjQKDHBpbmdfcmVx",
-            "dWVzdBgBIAEoCzIcLm9wZW5tdS5wcm90b2NvbC5QaW5nUmVxdWVzdEgAEjkK",
-            "DWxvZ2luX3JlcXVlc3QYAiABKAsyIC5vcGVubXUucHJvdG9jb2wuQzJTTG9n",
-            "aW5SZXF1ZXN0SAASSgoWY2hhcmFjdGVyX2xpc3RfcmVxdWVzdBgDIAEoCzIo",
-            "Lm9wZW5tdS5wcm90b2NvbC5DMlNDaGFyYWN0ZXJMaXN0UmVxdWVzdEgAEj8K",
-            "EGNyZWF0ZV9jaGFyYWN0ZXIYBCABKAsyIy5vcGVubXUucHJvdG9jb2wuQzJT",
-            "Q3JlYXRlQ2hhcmFjdGVySAASPwoQc2VsZWN0X2NoYXJhY3RlchgFIAEoCzIj",
-            "Lm9wZW5tdS5wcm90b2NvbC5DMlNTZWxlY3RDaGFyYWN0ZXJIABI/ChBkZWxl",
-            "dGVfY2hhcmFjdGVyGAYgASgLMiMub3Blbm11LnByb3RvY29sLkMyU0RlbGV0",
-            "ZUNoYXJhY3RlckgAEigKBG1vdmUYByABKAsyGC5vcGVubXUucHJvdG9jb2wu",
-            "QzJTTW92ZUgAEjMKCmNhc3Rfc2tpbGwYCCABKAsyHS5vcGVubXUucHJvdG9j",
-            "b2wuQzJTQ2FzdFNraWxsSAASNgoMcGlja191cF9pdGVtGAkgASgLMh4ub3Bl",
-            "bm11LnByb3RvY29sLkMyU1BpY2tVcEl0ZW1IABIxCgltb3ZlX2l0ZW0YCiAB",
-            "KAsyHC5vcGVubXUucHJvdG9jb2wuQzJTTW92ZUl0ZW1IABI6Cg5hZGRfc3Rh",
-            "dF9wb2ludBgLIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5DMlNBZGRTdGF0UG9p",
-            "bnRIABI3CgxpbnRlcmFjdF9ucGMYDCABKAsyHy5vcGVubXUucHJvdG9jb2wu",
-            "QzJTSW50ZXJhY3ROcGNIABI2CgxidXlfbnBjX2l0ZW0YDSABKAsyHi5vcGVu",
-            "bXUucHJvdG9jb2wuQzJTQnV5TnBjSXRlbUgAEjMKCmNsb3NlX3Nob3AYDiAB",
-            "KAsyHS5vcGVubXUucHJvdG9jb2wuQzJTQ2xvc2VTaG9wSAASNQoLY2xvc2Vf",
-            "dmF1bHQYDyABKAsyHi5vcGVubXUucHJvdG9jb2wuQzJTQ2xvc2VWYXVsdEgA",
-            "EjgKDXNlbGxfbnBjX2l0ZW0YECABKAsyHy5vcGVubXUucHJvdG9jb2wuQzJT",
-            "U2VsbE5wY0l0ZW1IABIvCgh1c2VfaXRlbRgRIAEoCzIbLm9wZW5tdS5wcm90",
-            "b2NvbC5DMlNVc2VJdGVtSAASMQoJZHJvcF9pdGVtGBIgASgLMhwub3Blbm11",
-            "LnByb3RvY29sLkMyU0Ryb3BJdGVtSAASMAoIdGVsZXBvcnQYEyABKAsyHC5v",
-            "cGVubXUucHJvdG9jb2wuQzJTVGVsZXBvcnRIABI3CgxjYXN0X2NvbnRyb2wY",
-            "FCABKAsyHy5vcGVubXUucHJvdG9jb2wuQzJTQ2FzdENvbnRyb2xIABIzCgpt",
-            "YXBfbG9hZGVkGBUgASgLMh0ub3Blbm11LnByb3RvY29sLkMyU01hcExvYWRl",
-            "ZEgAEjgKDWdldF93YXJwX2xpc3QYFiABKAsyHy5vcGVubXUucHJvdG9jb2wu",
-            "QzJTR2V0V2FycExpc3RIABIoCgR3YXJwGBcgASgLMhgub3Blbm11LnByb3Rv",
-            "Y29sLkMyU1dhcnBIABIsCgZsb2dvdXQYGCABKAsyGi5vcGVubXUucHJvdG9j",
-            "b2wuQzJTTG9nb3V0SAASMQoJY2hhb3NfbWl4GBkgASgLMhwub3Blbm11LnBy",
-            "b3RvY29sLkMyU0NoYW9zTWl4SAASPgoQY2xvc2VfbnBjX2RpYWxvZxgaIAEo",
-            "CzIiLm9wZW5tdS5wcm90b2NvbC5DMlNDbG9zZU5wY0RpYWxvZ0gAQgkKB3Bh",
-            "eWxvYWQijBcKDlNlcnZlckVudmVsb3BlEjYKDXBpbmdfcmVzcG9uc2UYASAB",
-            "KAsyHS5vcGVubXUucHJvdG9jb2wuUGluZ1Jlc3BvbnNlSAASNwoMbG9naW5f",
-            "cmVzdWx0GAIgASgLMh8ub3Blbm11LnByb3RvY29sLlMyQ0xvZ2luUmVzdWx0",
-            "SAASOwoOY2hhcmFjdGVyX2xpc3QYAyABKAsyIS5vcGVubXUucHJvdG9jb2wu",
-            "UzJDQ2hhcmFjdGVyTGlzdEgAEkwKF2NyZWF0ZV9jaGFyYWN0ZXJfcmVzdWx0",
-            "GAQgASgLMikub3Blbm11LnByb3RvY29sLlMyQ0NyZWF0ZUNoYXJhY3RlclJl",
-            "c3VsdEgAEkwKF3NlbGVjdF9jaGFyYWN0ZXJfcmVzdWx0GAUgASgLMikub3Bl",
-            "bm11LnByb3RvY29sLlMyQ1NlbGVjdENoYXJhY3RlclJlc3VsdEgAEkwKF2Rl",
-            "bGV0ZV9jaGFyYWN0ZXJfcmVzdWx0GAYgASgLMikub3Blbm11LnByb3RvY29s",
-            "LlMyQ0RlbGV0ZUNoYXJhY3RlclJlc3VsdEgAEjkKDWVudGVyZWRfd29ybGQY",
-            "ByABKAsyIC5vcGVubXUucHJvdG9jb2wuUzJDRW50ZXJlZFdvcmxkSAASQAoR",
-            "ZW50aXRpZXNfaW5fc2NvcGUYCCABKAsyIy5vcGVubXUucHJvdG9jb2wuUzJD",
-            "RW50aXRpZXNJblNjb3BlSAASRwoVZW50aXRpZXNfb3V0X29mX3Njb3BlGAkg",
-            "ASgLMiYub3Blbm11LnByb3RvY29sLlMyQ0VudGl0aWVzT3V0T2ZTY29wZUgA",
-            "EjAKCHNuYXBzaG90GAogASgLMhwub3Blbm11LnByb3RvY29sLlMyQ1NuYXBz",
-            "aG90SAASPQoPc2tpbGxfYW5pbWF0aW9uGAsgASgLMiIub3Blbm11LnByb3Rv",
-            "Y29sLlMyQ1NraWxsQW5pbWF0aW9uSAASOQoNZGFtYWdlX3Jlc3VsdBgMIAEo",
-            "CzIgLm9wZW5tdS5wcm90b2NvbC5TMkNEYW1hZ2VSZXN1bHRIABI3CgxidWZm",
-            "X2FwcGxpZWQYDSABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJDQnVmZkFwcGxp",
-            "ZWRIABI3CgxidWZmX2V4cGlyZWQYDiABKAsyHy5vcGVubXUucHJvdG9jb2wu",
-            "UzJDQnVmZkV4cGlyZWRIABI1CgtlbnRpdHlfZGllZBgPIAEoCzIeLm9wZW5t",
-            "dS5wcm90b2NvbC5TMkNFbnRpdHlEaWVkSAASNwoMaXRlbV9kcm9wcGVkGBAg",
-            "ASgLMh8ub3Blbm11LnByb3RvY29sLlMyQ0l0ZW1Ecm9wcGVkSAASOgoOcGlj",
-            "a191cF9yZXN1bHQYESABKAsyIC5vcGVubXUucHJvdG9jb2wuUzJDUGlja1Vw",
-            "UmVzdWx0SAASQwoScHJvamVjdGlsZV9zcGF3bmVkGBIgASgLMiUub3Blbm11",
-            "LnByb3RvY29sLlMyQ1Byb2plY3RpbGVTcGF3bmVkSAASOwoOcHJvamVjdGls",
-            "ZV9oaXQYEyABKAsyIS5vcGVubXUucHJvdG9jb2wuUzJDUHJvamVjdGlsZUhp",
-            "dEgAEkMKEnByb2plY3RpbGVfZXhwaXJlZBgUIAEoCzIlLm9wZW5tdS5wcm90",
-            "b2NvbC5TMkNQcm9qZWN0aWxlRXhwaXJlZEgAEj0KD2NoYXJhY3Rlcl9zdGF0",
-            "ZRgVIAEoCzIiLm9wZW5tdS5wcm90b2NvbC5TMkNDaGFyYWN0ZXJTdGF0ZUgA",
-            "EjkKDXZpdGFsc191cGRhdGUYFiABKAsyIC5vcGVubXUucHJvdG9jb2wuUzJD",
-            "Vml0YWxzVXBkYXRlSAASQQoRZXhwZXJpZW5jZV9nYWluZWQYFyABKAsyJC5v",
-            "cGVubXUucHJvdG9jb2wuUzJDRXhwZXJpZW5jZUdhaW5lZEgAEi8KCGxldmVs",
-            "X3VwGBggASgLMhsub3Blbm11LnByb3RvY29sLlMyQ0xldmVsVXBIABIyCglp",
-            "bnZlbnRvcnkYGSABKAsyHS5vcGVubXUucHJvdG9jb2wuUzJDSW52ZW50b3J5",
-            "SAASOQoNaXRlbV9hcHBlYXJlZBgaIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5T",
-            "MkNJdGVtQXBwZWFyZWRIABI3CgxpdGVtX3JlbW92ZWQYGyABKAsyHy5vcGVu",
-            "bXUucHJvdG9jb2wuUzJDSXRlbVJlbW92ZWRIABI3Cgxtb25leV91cGRhdGUY",
-            "HCABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJDTW9uZXlVcGRhdGVIABI/ChBp",
-            "dGVtX2RlZmluaXRpb25zGB0gASgLMiMub3Blbm11LnByb3RvY29sLlMyQ0l0",
-            "ZW1EZWZpbml0aW9uc0gAEjMKCnNob3BfaXRlbXMYHiABKAsyHS5vcGVubXUu",
-            "cHJvdG9jb2wuUzJDU2hvcEl0ZW1zSAASMwoKc2tpbGxfbGlzdBgfIAEoCzId",
-            "Lm9wZW5tdS5wcm90b2NvbC5TMkNTa2lsbExpc3RIABI3Cgx2YXVsdF9vcGVu",
-            "ZWQYICABKAsyHy5vcGVubXUucHJvdG9jb2wuUzJDVmF1bHRPcGVuZWRIABJI",
-            "ChVzZWxsX2NvbmZpcm1fcmVxdWlyZWQYISABKAsyJy5vcGVubXUucHJvdG9j",
-            "b2wuUzJDU2VsbENvbmZpcm1SZXF1aXJlZEgAEjwKD3NlbGxfcHJpY2VfbGlz",
-            "dBgiIAEoCzIhLm9wZW5tdS5wcm90b2NvbC5TMkNTZWxsUHJpY2VMaXN0SAAS",
-            "PwoQc2FmZXpvbmVfY2hhbmdlZBgjIAEoCzIjLm9wZW5tdS5wcm90b2NvbC5T",
-            "MkNTYWZlem9uZUNoYW5nZWRIABJDChJhcHBlYXJhbmNlX2NoYW5nZWQYJCAB",
-            "KAsyJS5vcGVubXUucHJvdG9jb2wuUzJDQXBwZWFyYW5jZUNoYW5nZWRIABI7",
-            "Cg5tb3ZlbWVudF9zcGVlZBglIAEoCzIhLm9wZW5tdS5wcm90b2NvbC5TMkNN",
-            "b3ZlbWVudFNwZWVkSAASPQoPYXR0YWNrX2ludGVydmFsGCYgASgLMiIub3Bl",
-            "bm11LnByb3RvY29sLlMyQ0F0dGFja0ludGVydmFsSAASRgoUYXJlYV9za2ls",
-            "bF9hbmltYXRpb24YJyABKAsyJi5vcGVubXUucHJvdG9jb2wuUzJDQXJlYVNr",
-            "aWxsQW5pbWF0aW9uSAASOwoOc2tpbGxfY29vbGRvd24YKCABKAsyIS5vcGVu",
-            "bXUucHJvdG9jb2wuUzJDU2tpbGxDb29sZG93bkgAEjcKDGNhc3Rfc3RhcnRl",
-            "ZBgpIAEoCzIfLm9wZW5tdS5wcm90b2NvbC5TMkNDYXN0U3RhcnRlZEgAEjMK",
-            "CmNhc3RfZW5kZWQYKiABKAsyHS5vcGVubXUucHJvdG9jb2wuUzJDQ2FzdEVu",
-            "ZGVkSAASNQoLbWFwX2NoYW5nZWQYKyABKAsyHi5vcGVubXUucHJvdG9jb2wu",
-            "UzJDTWFwQ2hhbmdlZEgAEjEKCXdhcnBfbGlzdBgsIAEoCzIcLm9wZW5tdS5w",
-            "cm90b2NvbC5TMkNXYXJwTGlzdEgAEjsKDnN5c3RlbV9tZXNzYWdlGC0gASgL",
-            "MiEub3Blbm11LnByb3RvY29sLlMyQ1N5c3RlbU1lc3NhZ2VIABIsCgZsb2dv",
-            "dXQYLiABKAsyGi5vcGVubXUucHJvdG9jb2wuUzJDTG9nb3V0SAASOQoNY2hh",
-            "b3NfbWFjaGluZRgvIAEoCzIgLm9wZW5tdS5wcm90b2NvbC5TMkNDaGFvc01h",
-            "Y2hpbmVIABJAChFucGNfZGlhbG9nX2Nsb3NlZBgwIAEoCzIjLm9wZW5tdS5w",
-            "cm90b2NvbC5TMkNOcGNEaWFsb2dDbG9zZWRIAEIJCgdwYXlsb2FkKp0BCg9M",
-            "b2dpblJlc3VsdENvZGUSCwoHVU5LTk9XThAAEgYKAk9LEAESFAoQSU5WQUxJ",
-            "RF9QQVNTV09SRBACEhMKD0FDQ09VTlRfQkxPQ0tFRBADEh0KGUFDQ09VTlRf",
-            "QUxSRUFEWV9DT05ORUNURUQQBBIUChBDT05ORUNUSU9OX0VSUk9SEAUSFQoR",
-            "VEVNUE9SQVJZX0JMT0NLRUQQBiouCgpFbnRpdHlUeXBlEgoKBlBMQVlFUhAA",
-            "EgcKA05QQxABEgsKB01PTlNURVIQAipoCghTdGF0VHlwZRIRCg1TVEFUX1NU",
-            "UkVOR1RIEAASEAoMU1RBVF9BR0lMSVRZEAESEQoNU1RBVF9WSVRBTElUWRAC",
-            "Eg8KC1NUQVRfRU5FUkdZEAMSEwoPU1RBVF9MRUFERVJTSElQEAQqUAoIQ2Fz",
-            "dFR5cGUSFQoRQ0FTVF9UWVBFX0lOU1RBTlQQABIUChBDQVNUX1RZUEVfQ0hB",
-            "UkdFEAESFwoTQ0FTVF9UWVBFX0NBU1RfVElNRRACKkwKCVNraWxsQXJlYRIT",
-            "Cg9TS0lMTF9BUkVBX05PTkUQABIVChFTS0lMTF9BUkVBX0NJUkNMRRABEhMK",
-            "D1NLSUxMX0FSRUFfQ09ORRACKlsKCkNhc3RBY3Rpb24SHAoYQ0FTVF9BQ1RJ",
-            "T05fU1RBUlRfQ0hBUkdFEAASFwoTQ0FTVF9BQ1RJT05fUkVMRUFTRRABEhYK",
-            "EkNBU1RfQUNUSU9OX0NBTkNFTBACKkwKCkxvZ291dEtpbmQSIAocTE9HT1VU",
-            "X0tJTkRfQ0hBUkFDVEVSX1NFTEVDVBAAEhwKGExPR09VVF9LSU5EX0xPR0lO",
-            "X1NDUkVFThABKnMKDEF0dGFja1dlYXBvbhIXChNBVFRBQ0tfV0VBUE9OX01F",
-            "TEVFEAASFwoTQVRUQUNLX1dFQVBPTl9TUEVBUhABEhUKEUFUVEFDS19XRUFQ",
-            "T05fQk9XEAISGgoWQVRUQUNLX1dFQVBPTl9DUk9TU0JPVxADQiKqAh9NVW5p",
-            "cXVlLk9wZW5NVS5OZXR3b3JrLlByb3RvYnVmYgZwcm90bzM="));
+            "aWNlGAQgASgNEg4KBm9wZW5lZBgFIAEoCCJDChBRdWVzdFJlcXVpcmVtZW50",
+            "EgwKBHRleHQYASABKAkSDwoHY3VycmVudBgCIAEoDRIQCghyZXF1aXJlZBgD",
+            "IAEoDSLxAQoJUXVlc3RJbmZvEg0KBWdyb3VwGAEgASgNEg4KBm51bWJlchgC",
+            "IAEoDRIMCgRuYW1lGAMgASgJEiwKBnN0YXR1cxgEIAEoDjIcLm9wZW5tdS5w",
+            "cm90b2NvbC5RdWVzdFN0YXR1cxIVCg1taW5pbXVtX2xldmVsGAUgASgNEhIK",
+            "CnN0YXJ0X2Nvc3QYBiABKA0SNwoMcmVxdWlyZW1lbnRzGAcgAygLMiEub3Bl",
+            "bm11LnByb3RvY29sLlF1ZXN0UmVxdWlyZW1lbnQSDwoHcmV3YXJkcxgIIAMo",
+            "CRIUCgxjYW5fY29tcGxldGUYCSABKAgiXgoOUzJDUXVlc3REaWFsb2cSDgoG",
+            "bnBjX2lkGAEgASgNEhAKCG5wY19uYW1lGAIgASgJEioKBnF1ZXN0cxgDIAMo",
+            "CzIaLm9wZW5tdS5wcm90b2NvbC5RdWVzdEluZm8iFAoSUzJDTnBjRGlhbG9n",
+            "Q2xvc2VkIjYKCVMyQ0xvZ291dBIpCgRraW5kGAEgASgOMhsub3Blbm11LnBy",
+            "b3RvY29sLkxvZ291dEtpbmQiIAoQUzJDU3lzdGVtTWVzc2FnZRIMCgR0ZXh0",
+            "GAEgASgJIokBCg5TMkNDYXN0U3RhcnRlZBIRCgljYXN0ZXJfaWQYASABKA0S",
+            "EAoIc2tpbGxfaWQYAiABKA0SLAoJY2FzdF90eXBlGAMgASgOMhkub3Blbm11",
+            "LnByb3RvY29sLkNhc3RUeXBlEhMKC2R1cmF0aW9uX21zGAQgASgNEg8KB2hv",
+            "bGRfbXMYBSABKA0iRgoMUzJDQ2FzdEVuZGVkEhEKCWNhc3Rlcl9pZBgBIAEo",
+            "DRIQCghza2lsbF9pZBgCIAEoDRIRCgljb21wbGV0ZWQYAyABKAgiOgoQUzJD",
+            "U2tpbGxDb29sZG93bhIQCghza2lsbF9pZBgBIAEoDRIUCgxyZW1haW5pbmdf",
+            "bXMYAiABKA0igAEKD1MyQ0RhbWFnZVJlc3VsdBIRCgl0YXJnZXRfaWQYASAB",
+            "KA0SFQoNaGVhbHRoX2RhbWFnZRgCIAEoDRIVCg1zaGllbGRfZGFtYWdlGAMg",
+            "ASgNEhIKCmF0dHJpYnV0ZXMYBCABKA0SGAoQcmVtYWluaW5nX2hlYWx0aBgF",
+            "IAEoDSJLCg5TMkNCdWZmQXBwbGllZBIRCgl0YXJnZXRfaWQYASABKA0SEQoJ",
+            "ZWZmZWN0X2lkGAIgASgNEhMKC2R1cmF0aW9uX21zGAMgASgNIjYKDlMyQ0J1",
+            "ZmZFeHBpcmVkEhEKCXRhcmdldF9pZBgBIAEoDRIRCgllZmZlY3RfaWQYAiAB",
+            "KA0iNQoNUzJDRW50aXR5RGllZBIRCgllbnRpdHlfaWQYASABKA0SEQoJa2ls",
+            "bGVyX2lkGAIgASgNIoIBCg5TMkNJdGVtRHJvcHBlZBIPCgdkcm9wX2lkGAEg",
+            "ASgNEgkKAXgYAiABKAISCQoBeRgDIAEoAhITCgtpdGVtX251bWJlchgEIAEo",
+            "DRISCgppdGVtX2dyb3VwGAUgASgNEhAKCGlzX21vbmV5GAYgASgIEg4KBmFt",
+            "b3VudBgHIAEoDSIgCg1DMlNQaWNrVXBJdGVtEg8KB2Ryb3BfaWQYASABKA0i",
+            "WwoLQzJTTW92ZUl0ZW0SEQoJZnJvbV9zbG90GAEgASgNEg8KB3RvX3Nsb3QY",
+            "AiABKA0SFAoMZnJvbV9zdG9yYWdlGAMgASgNEhIKCnRvX3N0b3JhZ2UYBCAB",
+            "KA0iOgoPQzJTQWRkU3RhdFBvaW50EicKBHN0YXQYASABKA4yGS5vcGVubXUu",
+            "cHJvdG9jb2wuU3RhdFR5cGUiMwoPUzJDUGlja1VwUmVzdWx0Eg8KB3N1Y2Nl",
+            "c3MYASABKAgSDwoHZHJvcF9pZBgCIAEoDSKdAQoUUzJDUHJvamVjdGlsZVNw",
+            "YXduZWQSFQoNcHJvamVjdGlsZV9pZBgBIAEoDRIQCghvd25lcl9pZBgCIAEo",
+            "DRIQCghza2lsbF9pZBgDIAEoDRIQCghvcmlnaW5feBgEIAEoAhIQCghvcmln",
+            "aW5feRgFIAEoAhISCgp2ZWxvY2l0eV94GAYgASgCEhIKCnZlbG9jaXR5X3kY",
+            "ByABKAIiPAoQUzJDUHJvamVjdGlsZUhpdBIVCg1wcm9qZWN0aWxlX2lkGAEg",
+            "ASgNEhEKCXRhcmdldF9pZBgCIAEoDSItChRTMkNQcm9qZWN0aWxlRXhwaXJl",
+            "ZBIVCg1wcm9qZWN0aWxlX2lkGAEgASgNIosEChFTMkNDaGFyYWN0ZXJTdGF0",
+            "ZRINCgVsZXZlbBgBIAEoDRIXCg9sZXZlbF91cF9wb2ludHMYAiABKA0SEgoK",
+            "Y3VycmVudF9ocBgDIAEoDRIOCgZtYXhfaHAYBCABKA0SEgoKY3VycmVudF9t",
+            "cBgFIAEoDRIOCgZtYXhfbXAYBiABKA0SEgoKY3VycmVudF9zZBgHIAEoDRIO",
+            "CgZtYXhfc2QYCCABKA0SEgoKY3VycmVudF9hZxgJIAEoDRIOCgZtYXhfYWcY",
+            "CiABKA0SEgoKZXhwZXJpZW5jZRgLIAEoBBIXCg9leHBlcmllbmNlX25leHQY",
+            "DCABKAQSDQoFbW9uZXkYDSABKA0SEAoIc3RyZW5ndGgYDiABKA0SDwoHYWdp",
+            "bGl0eRgPIAEoDRIQCgh2aXRhbGl0eRgQIAEoDRIOCgZlbmVyZ3kYESABKA0S",
+            "EgoKbGVhZGVyc2hpcBgSIAEoDRIUCgxhdHRhY2tfc3BlZWQYEyABKA0SEwoL",
+            "bWFnaWNfc3BlZWQYFCABKA0SFAoMbWluX3BoeXNfZG1nGBUgASgNEhQKDG1h",
+            "eF9waHlzX2RtZxgWIAEoDRITCgttaW5fd2l6X2RtZxgXIAEoDRITCgttYXhf",
+            "d2l6X2RtZxgYIAEoDRIUCgxjbGFzc19udW1iZXIYGSABKA0SEgoKY2xhc3Nf",
+            "bmFtZRgaIAEoCSKhAQoPUzJDVml0YWxzVXBkYXRlEhIKCmN1cnJlbnRfaHAY",
+            "ASABKA0SDgoGbWF4X2hwGAIgASgNEhIKCmN1cnJlbnRfbXAYAyABKA0SDgoG",
+            "bWF4X21wGAQgASgNEhIKCmN1cnJlbnRfc2QYBSABKA0SDgoGbWF4X3NkGAYg",
+            "ASgNEhIKCmN1cnJlbnRfYWcYByABKA0SDgoGbWF4X2FnGAggASgNIm4KE1My",
+            "Q0V4cGVyaWVuY2VHYWluZWQSDgoGZ2FpbmVkGAEgASgNEg0KBXRvdGFsGAIg",
+            "ASgEEhIKCm5leHRfbGV2ZWwYAyABKAQSEQoJa2lsbGVkX2lkGAQgASgNEhEK",
+            "CWlzX21hc3RlchgFIAEoCCJ0CgpTMkNMZXZlbFVwEg0KBWxldmVsGAEgASgN",
+            "EhcKD2xldmVsX3VwX3BvaW50cxgCIAEoDRIOCgZtYXhfaHAYAyABKA0SDgoG",
+            "bWF4X21wGAQgASgNEg4KBm1heF9zZBgFIAEoDRIOCgZtYXhfYWcYBiABKA0i",
+            "1AIKCEl0ZW1EYXRhEgwKBHNsb3QYASABKA0SDgoGbnVtYmVyGAIgASgNEg0K",
+            "BWdyb3VwGAMgASgNEg0KBWxldmVsGAQgASgNEhEKCWhhc19za2lsbBgFIAEo",
+            "CBIQCghoYXNfbHVjaxgGIAEoCBISCgpoYXNfb3B0aW9uGAcgASgIEhUKDWhh",
+            "c19leGNlbGxlbnQYCCABKAgSEwoLaGFzX2FuY2llbnQYCSABKAgSDQoFd2lk",
+            "dGgYCiABKA0SDgoGaGVpZ2h0GAsgASgNEhIKCmR1cmFiaWxpdHkYDCABKA0S",
+            "FAoMb3B0aW9uX2xldmVsGA0gASgNEg8KB21pbl9kbWcYDiABKA0SDwoHbWF4",
+            "X2RtZxgPIAEoDRIPCgdkZWZlbnNlGBAgASgNEhQKDGRlZmVuc2VfcmF0ZRgR",
+            "IAEoDRIVCg13aXphcmRyeV9yaXNlGBIgASgNIjgKDFMyQ0ludmVudG9yeRIo",
+            "CgVpdGVtcxgBIAMoCzIZLm9wZW5tdS5wcm90b2NvbC5JdGVtRGF0YSI6Cg9T",
+            "MkNJdGVtQXBwZWFyZWQSJwoEaXRlbRgBIAEoCzIZLm9wZW5tdS5wcm90b2Nv",
+            "bC5JdGVtRGF0YSIeCg5TMkNJdGVtUmVtb3ZlZBIMCgRzbG90GAEgASgNIh8K",
+            "DlMyQ01vbmV5VXBkYXRlEg0KBW1vbmV5GAEgASgNItoCChJJdGVtRGVmaW5p",
+            "dGlvbkRhdGESDQoFZ3JvdXAYASABKA0SDgoGbnVtYmVyGAIgASgNEgwKBG5h",
+            "bWUYAyABKAkSDQoFd2lkdGgYBCABKA0SDgoGaGVpZ2h0GAUgASgNEhIKCmRy",
+            "b3BfbGV2ZWwYBiABKA0SHwoXcXVhbGlmaWVkX2NsYXNzX251bWJlcnMYByAD",
+            "KA0SEwoLZXF1aXBfc2xvdHMYCCADKA0SFAoMcmVxX3N0cmVuZ3RoGAkgASgN",
+            "EhMKC3JlcV9hZ2lsaXR5GAogASgNEhIKCnJlcV9lbmVyZ3kYCyABKA0SFAoM",
+            "cmVxX3ZpdGFsaXR5GAwgASgNEhYKDnJlcV9sZWFkZXJzaGlwGA0gASgNEhQK",
+            "DGlzX3N0YWNrYWJsZRgOIAEoCBIVCg1pc19jb25zdW1hYmxlGA8gASgIEhQK",
+            "DGF0dGFja19zcGVlZBgQIAEoDSJIChJTMkNJdGVtRGVmaW5pdGlvbnMSMgoF",
+            "aXRlbXMYASADKAsyIy5vcGVubXUucHJvdG9jb2wuSXRlbURlZmluaXRpb25E",
+            "YXRhIl4KDlMyQ1ZhdWx0T3BlbmVkEigKBWl0ZW1zGAEgAygLMhkub3Blbm11",
+            "LnByb3RvY29sLkl0ZW1EYXRhEg0KBW1vbmV5GAIgASgNEhMKC2lzX2V4dGVu",
+            "ZGVkGAMgASgIIg8KDUMyU0Nsb3NlVmF1bHQi+QEKCVNraWxsRGF0YRIMCgRz",
+            "bG90GAEgASgNEg4KBm51bWJlchgCIAEoDRINCgVsZXZlbBgDIAEoDRINCgVy",
+            "YW5nZRgEIAEoDRIuCgphcmVhX3NoYXBlGAUgASgOMhoub3Blbm11LnByb3Rv",
+            "Y29sLlNraWxsQXJlYRITCgthcmVhX3JhZGl1cxgGIAEoAhISCgphcmVhX3dp",
+            "ZHRoGAcgASgCEhMKC2Nvb2xkb3duX21zGAggASgNEiwKCWNhc3RfdHlwZRgJ",
+            "IAEoDjIZLm9wZW5tdS5wcm90b2NvbC5DYXN0VHlwZRIUCgxjYXN0X3RpbWVf",
+            "bXMYCiABKA0iOgoMUzJDU2tpbGxMaXN0EioKBnNraWxscxgBIAMoCzIaLm9w",
+            "ZW5tdS5wcm90b2NvbC5Ta2lsbERhdGEiIAoOQzJTSW50ZXJhY3ROcGMSDgoG",
+            "bnBjX2lkGAEgASgNIh0KDUMyU0J1eU5wY0l0ZW0SDAoEc2xvdBgBIAEoDSIO",
+            "CgxDMlNDbG9zZVNob3Ai2QEKCFNob3BJdGVtEgwKBHNsb3QYASABKA0SDgoG",
+            "bnVtYmVyGAIgASgNEg0KBWdyb3VwGAMgASgNEg0KBXByaWNlGAQgASgEEg0K",
+            "BWxldmVsGAUgASgNEhEKCWhhc19za2lsbBgGIAEoCBIQCghoYXNfbHVjaxgH",
+            "IAEoCBISCgpoYXNfb3B0aW9uGAggASgIEg0KBXdpZHRoGAkgASgNEg4KBmhl",
+            "aWdodBgKIAEoDRIVCg1oYXNfZXhjZWxsZW50GAsgASgIEhMKC2hhc19hbmNp",
+            "ZW50GAwgASgIIkgKCkMyU1VzZUl0ZW0SDAoEc2xvdBgBIAEoDRITCgt0YXJn",
+            "ZXRfc2xvdBgCIAEoDRIXCg9oYXNfdGFyZ2V0X3Nsb3QYAyABKAgiMQoLQzJT",
+            "VGVsZXBvcnQSEAoIdGFyZ2V0X3gYASABKA0SEAoIdGFyZ2V0X3kYAiABKA0i",
+            "DgoMQzJTTWFwTG9hZGVkIhAKDkMyU0dldFdhcnBMaXN0ImEKDkMyU1F1ZXN0",
+            "QWN0aW9uEjAKBmFjdGlvbhgBIAEoDjIgLm9wZW5tdS5wcm90b2NvbC5RdWVz",
+            "dEFjdGlvbktpbmQSDQoFZ3JvdXAYAiABKA0SDgoGbnVtYmVyGAMgASgNIg0K",
+            "C0MyU0NoYW9zTWl4IhMKEUMyU0Nsb3NlTnBjRGlhbG9nIjYKCUMyU0xvZ291",
+            "dBIpCgRraW5kGAEgASgOMhsub3Blbm11LnByb3RvY29sLkxvZ291dEtpbmQi",
+            "GAoHQzJTV2FycBINCgVpbmRleBgBIAEoDSJPCg5DMlNDYXN0Q29udHJvbBIr",
+            "CgZhY3Rpb24YASABKA4yGy5vcGVubXUucHJvdG9jb2wuQ2FzdEFjdGlvbhIQ",
+            "Cghza2lsbF9pZBgCIAEoDSJBChBTMkNNb3ZlbWVudFNwZWVkEhYKDm1vdmVt",
+            "ZW50X3NwZWVkGAEgASgCEhUKDXRpbGVzX3Blcl9zZWMYAiABKAIicQoRUzJD",
+            "QXR0YWNrSW50ZXJ2YWwSFwoPbWluX2ludGVydmFsX21zGAEgASgNEhQKDGF0",
+            "dGFja19yYW5nZRgCIAEoDRItCgZ3ZWFwb24YAyABKA4yHS5vcGVubXUucHJv",
+            "dG9jb2wuQXR0YWNrV2VhcG9uIikKElMyQ1NhZmV6b25lQ2hhbmdlZBITCgtp",
+            "bl9zYWZlem9uZRgBIAEoCCIbCgtDMlNEcm9wSXRlbRIMCgRzbG90GAEgASgN",
+            "IjEKDkMyU1NlbGxOcGNJdGVtEgwKBHNsb3QYASABKA0SEQoJY29uZmlybWVk",
+            "GAIgASgIIk0KFlMyQ1NlbGxDb25maXJtUmVxdWlyZWQSDAoEc2xvdBgBIAEo",
+            "DRIRCglpdGVtX25hbWUYAiABKAkSEgoKc2VsbF9wcmljZRgDIAEoBCItCg5T",
+            "ZWxsUHJpY2VFbnRyeRIMCgRzbG90GAEgASgNEg0KBXByaWNlGAIgASgEIkQK",
+            "EFMyQ1NlbGxQcmljZUxpc3QSMAoHZW50cmllcxgBIAMoCzIfLm9wZW5tdS5w",
+            "cm90b2NvbC5TZWxsUHJpY2VFbnRyeSJaCgxTMkNTaG9wSXRlbXMSDgoGbnBj",
+            "X2lkGAEgASgNEhAKCG5wY19uYW1lGAIgASgJEigKBWl0ZW1zGAMgAygLMhku",
+            "b3Blbm11LnByb3RvY29sLlNob3BJdGVtIvoLCg5DbGllbnRFbnZlbG9wZRI0",
+            "CgxwaW5nX3JlcXVlc3QYASABKAsyHC5vcGVubXUucHJvdG9jb2wuUGluZ1Jl",
+            "cXVlc3RIABI5Cg1sb2dpbl9yZXF1ZXN0GAIgASgLMiAub3Blbm11LnByb3Rv",
+            "Y29sLkMyU0xvZ2luUmVxdWVzdEgAEkoKFmNoYXJhY3Rlcl9saXN0X3JlcXVl",
+            "c3QYAyABKAsyKC5vcGVubXUucHJvdG9jb2wuQzJTQ2hhcmFjdGVyTGlzdFJl",
+            "cXVlc3RIABI/ChBjcmVhdGVfY2hhcmFjdGVyGAQgASgLMiMub3Blbm11LnBy",
+            "b3RvY29sLkMyU0NyZWF0ZUNoYXJhY3RlckgAEj8KEHNlbGVjdF9jaGFyYWN0",
+            "ZXIYBSABKAsyIy5vcGVubXUucHJvdG9jb2wuQzJTU2VsZWN0Q2hhcmFjdGVy",
+            "SAASPwoQZGVsZXRlX2NoYXJhY3RlchgGIAEoCzIjLm9wZW5tdS5wcm90b2Nv",
+            "bC5DMlNEZWxldGVDaGFyYWN0ZXJIABIoCgRtb3ZlGAcgASgLMhgub3Blbm11",
+            "LnByb3RvY29sLkMyU01vdmVIABIzCgpjYXN0X3NraWxsGAggASgLMh0ub3Bl",
+            "bm11LnByb3RvY29sLkMyU0Nhc3RTa2lsbEgAEjYKDHBpY2tfdXBfaXRlbRgJ",
+            "IAEoCzIeLm9wZW5tdS5wcm90b2NvbC5DMlNQaWNrVXBJdGVtSAASMQoJbW92",
+            "ZV9pdGVtGAogASgLMhwub3Blbm11LnByb3RvY29sLkMyU01vdmVJdGVtSAAS",
+            "OgoOYWRkX3N0YXRfcG9pbnQYCyABKAsyIC5vcGVubXUucHJvdG9jb2wuQzJT",
+            "QWRkU3RhdFBvaW50SAASNwoMaW50ZXJhY3RfbnBjGAwgASgLMh8ub3Blbm11",
+            "LnByb3RvY29sLkMyU0ludGVyYWN0TnBjSAASNgoMYnV5X25wY19pdGVtGA0g",
+            "ASgLMh4ub3Blbm11LnByb3RvY29sLkMyU0J1eU5wY0l0ZW1IABIzCgpjbG9z",
+            "ZV9zaG9wGA4gASgLMh0ub3Blbm11LnByb3RvY29sLkMyU0Nsb3NlU2hvcEgA",
+            "EjUKC2Nsb3NlX3ZhdWx0GA8gASgLMh4ub3Blbm11LnByb3RvY29sLkMyU0Ns",
+            "b3NlVmF1bHRIABI4Cg1zZWxsX25wY19pdGVtGBAgASgLMh8ub3Blbm11LnBy",
+            "b3RvY29sLkMyU1NlbGxOcGNJdGVtSAASLwoIdXNlX2l0ZW0YESABKAsyGy5v",
+            "cGVubXUucHJvdG9jb2wuQzJTVXNlSXRlbUgAEjEKCWRyb3BfaXRlbRgSIAEo",
+            "CzIcLm9wZW5tdS5wcm90b2NvbC5DMlNEcm9wSXRlbUgAEjAKCHRlbGVwb3J0",
+            "GBMgASgLMhwub3Blbm11LnByb3RvY29sLkMyU1RlbGVwb3J0SAASNwoMY2Fz",
+            "dF9jb250cm9sGBQgASgLMh8ub3Blbm11LnByb3RvY29sLkMyU0Nhc3RDb250",
+            "cm9sSAASMwoKbWFwX2xvYWRlZBgVIAEoCzIdLm9wZW5tdS5wcm90b2NvbC5D",
+            "MlNNYXBMb2FkZWRIABI4Cg1nZXRfd2FycF9saXN0GBYgASgLMh8ub3Blbm11",
+            "LnByb3RvY29sLkMyU0dldFdhcnBMaXN0SAASKAoEd2FycBgXIAEoCzIYLm9w",
+            "ZW5tdS5wcm90b2NvbC5DMlNXYXJwSAASLAoGbG9nb3V0GBggASgLMhoub3Bl",
+            "bm11LnByb3RvY29sLkMyU0xvZ291dEgAEjEKCWNoYW9zX21peBgZIAEoCzIc",
+            "Lm9wZW5tdS5wcm90b2NvbC5DMlNDaGFvc01peEgAEj4KEGNsb3NlX25wY19k",
+            "aWFsb2cYGiABKAsyIi5vcGVubXUucHJvdG9jb2wuQzJTQ2xvc2VOcGNEaWFs",
+            "b2dIABI3CgxxdWVzdF9hY3Rpb24YGyABKAsyHy5vcGVubXUucHJvdG9jb2wu",
+            "QzJTUXVlc3RBY3Rpb25IAEIJCgdwYXlsb2FkIsUXCg5TZXJ2ZXJFbnZlbG9w",
+            "ZRI2Cg1waW5nX3Jlc3BvbnNlGAEgASgLMh0ub3Blbm11LnByb3RvY29sLlBp",
+            "bmdSZXNwb25zZUgAEjcKDGxvZ2luX3Jlc3VsdBgCIAEoCzIfLm9wZW5tdS5w",
+            "cm90b2NvbC5TMkNMb2dpblJlc3VsdEgAEjsKDmNoYXJhY3Rlcl9saXN0GAMg",
+            "ASgLMiEub3Blbm11LnByb3RvY29sLlMyQ0NoYXJhY3Rlckxpc3RIABJMChdj",
+            "cmVhdGVfY2hhcmFjdGVyX3Jlc3VsdBgEIAEoCzIpLm9wZW5tdS5wcm90b2Nv",
+            "bC5TMkNDcmVhdGVDaGFyYWN0ZXJSZXN1bHRIABJMChdzZWxlY3RfY2hhcmFj",
+            "dGVyX3Jlc3VsdBgFIAEoCzIpLm9wZW5tdS5wcm90b2NvbC5TMkNTZWxlY3RD",
+            "aGFyYWN0ZXJSZXN1bHRIABJMChdkZWxldGVfY2hhcmFjdGVyX3Jlc3VsdBgG",
+            "IAEoCzIpLm9wZW5tdS5wcm90b2NvbC5TMkNEZWxldGVDaGFyYWN0ZXJSZXN1",
+            "bHRIABI5Cg1lbnRlcmVkX3dvcmxkGAcgASgLMiAub3Blbm11LnByb3RvY29s",
+            "LlMyQ0VudGVyZWRXb3JsZEgAEkAKEWVudGl0aWVzX2luX3Njb3BlGAggASgL",
+            "MiMub3Blbm11LnByb3RvY29sLlMyQ0VudGl0aWVzSW5TY29wZUgAEkcKFWVu",
+            "dGl0aWVzX291dF9vZl9zY29wZRgJIAEoCzImLm9wZW5tdS5wcm90b2NvbC5T",
+            "MkNFbnRpdGllc091dE9mU2NvcGVIABIwCghzbmFwc2hvdBgKIAEoCzIcLm9w",
+            "ZW5tdS5wcm90b2NvbC5TMkNTbmFwc2hvdEgAEj0KD3NraWxsX2FuaW1hdGlv",
+            "bhgLIAEoCzIiLm9wZW5tdS5wcm90b2NvbC5TMkNTa2lsbEFuaW1hdGlvbkgA",
+            "EjkKDWRhbWFnZV9yZXN1bHQYDCABKAsyIC5vcGVubXUucHJvdG9jb2wuUzJD",
+            "RGFtYWdlUmVzdWx0SAASNwoMYnVmZl9hcHBsaWVkGA0gASgLMh8ub3Blbm11",
+            "LnByb3RvY29sLlMyQ0J1ZmZBcHBsaWVkSAASNwoMYnVmZl9leHBpcmVkGA4g",
+            "ASgLMh8ub3Blbm11LnByb3RvY29sLlMyQ0J1ZmZFeHBpcmVkSAASNQoLZW50",
+            "aXR5X2RpZWQYDyABKAsyHi5vcGVubXUucHJvdG9jb2wuUzJDRW50aXR5RGll",
+            "ZEgAEjcKDGl0ZW1fZHJvcHBlZBgQIAEoCzIfLm9wZW5tdS5wcm90b2NvbC5T",
+            "MkNJdGVtRHJvcHBlZEgAEjoKDnBpY2tfdXBfcmVzdWx0GBEgASgLMiAub3Bl",
+            "bm11LnByb3RvY29sLlMyQ1BpY2tVcFJlc3VsdEgAEkMKEnByb2plY3RpbGVf",
+            "c3Bhd25lZBgSIAEoCzIlLm9wZW5tdS5wcm90b2NvbC5TMkNQcm9qZWN0aWxl",
+            "U3Bhd25lZEgAEjsKDnByb2plY3RpbGVfaGl0GBMgASgLMiEub3Blbm11LnBy",
+            "b3RvY29sLlMyQ1Byb2plY3RpbGVIaXRIABJDChJwcm9qZWN0aWxlX2V4cGly",
+            "ZWQYFCABKAsyJS5vcGVubXUucHJvdG9jb2wuUzJDUHJvamVjdGlsZUV4cGly",
+            "ZWRIABI9Cg9jaGFyYWN0ZXJfc3RhdGUYFSABKAsyIi5vcGVubXUucHJvdG9j",
+            "b2wuUzJDQ2hhcmFjdGVyU3RhdGVIABI5Cg12aXRhbHNfdXBkYXRlGBYgASgL",
+            "MiAub3Blbm11LnByb3RvY29sLlMyQ1ZpdGFsc1VwZGF0ZUgAEkEKEWV4cGVy",
+            "aWVuY2VfZ2FpbmVkGBcgASgLMiQub3Blbm11LnByb3RvY29sLlMyQ0V4cGVy",
+            "aWVuY2VHYWluZWRIABIvCghsZXZlbF91cBgYIAEoCzIbLm9wZW5tdS5wcm90",
+            "b2NvbC5TMkNMZXZlbFVwSAASMgoJaW52ZW50b3J5GBkgASgLMh0ub3Blbm11",
+            "LnByb3RvY29sLlMyQ0ludmVudG9yeUgAEjkKDWl0ZW1fYXBwZWFyZWQYGiAB",
+            "KAsyIC5vcGVubXUucHJvdG9jb2wuUzJDSXRlbUFwcGVhcmVkSAASNwoMaXRl",
+            "bV9yZW1vdmVkGBsgASgLMh8ub3Blbm11LnByb3RvY29sLlMyQ0l0ZW1SZW1v",
+            "dmVkSAASNwoMbW9uZXlfdXBkYXRlGBwgASgLMh8ub3Blbm11LnByb3RvY29s",
+            "LlMyQ01vbmV5VXBkYXRlSAASPwoQaXRlbV9kZWZpbml0aW9ucxgdIAEoCzIj",
+            "Lm9wZW5tdS5wcm90b2NvbC5TMkNJdGVtRGVmaW5pdGlvbnNIABIzCgpzaG9w",
+            "X2l0ZW1zGB4gASgLMh0ub3Blbm11LnByb3RvY29sLlMyQ1Nob3BJdGVtc0gA",
+            "EjMKCnNraWxsX2xpc3QYHyABKAsyHS5vcGVubXUucHJvdG9jb2wuUzJDU2tp",
+            "bGxMaXN0SAASNwoMdmF1bHRfb3BlbmVkGCAgASgLMh8ub3Blbm11LnByb3Rv",
+            "Y29sLlMyQ1ZhdWx0T3BlbmVkSAASSAoVc2VsbF9jb25maXJtX3JlcXVpcmVk",
+            "GCEgASgLMicub3Blbm11LnByb3RvY29sLlMyQ1NlbGxDb25maXJtUmVxdWly",
+            "ZWRIABI8Cg9zZWxsX3ByaWNlX2xpc3QYIiABKAsyIS5vcGVubXUucHJvdG9j",
+            "b2wuUzJDU2VsbFByaWNlTGlzdEgAEj8KEHNhZmV6b25lX2NoYW5nZWQYIyAB",
+            "KAsyIy5vcGVubXUucHJvdG9jb2wuUzJDU2FmZXpvbmVDaGFuZ2VkSAASQwoS",
+            "YXBwZWFyYW5jZV9jaGFuZ2VkGCQgASgLMiUub3Blbm11LnByb3RvY29sLlMy",
+            "Q0FwcGVhcmFuY2VDaGFuZ2VkSAASOwoObW92ZW1lbnRfc3BlZWQYJSABKAsy",
+            "IS5vcGVubXUucHJvdG9jb2wuUzJDTW92ZW1lbnRTcGVlZEgAEj0KD2F0dGFj",
+            "a19pbnRlcnZhbBgmIAEoCzIiLm9wZW5tdS5wcm90b2NvbC5TMkNBdHRhY2tJ",
+            "bnRlcnZhbEgAEkYKFGFyZWFfc2tpbGxfYW5pbWF0aW9uGCcgASgLMiYub3Bl",
+            "bm11LnByb3RvY29sLlMyQ0FyZWFTa2lsbEFuaW1hdGlvbkgAEjsKDnNraWxs",
+            "X2Nvb2xkb3duGCggASgLMiEub3Blbm11LnByb3RvY29sLlMyQ1NraWxsQ29v",
+            "bGRvd25IABI3CgxjYXN0X3N0YXJ0ZWQYKSABKAsyHy5vcGVubXUucHJvdG9j",
+            "b2wuUzJDQ2FzdFN0YXJ0ZWRIABIzCgpjYXN0X2VuZGVkGCogASgLMh0ub3Bl",
+            "bm11LnByb3RvY29sLlMyQ0Nhc3RFbmRlZEgAEjUKC21hcF9jaGFuZ2VkGCsg",
+            "ASgLMh4ub3Blbm11LnByb3RvY29sLlMyQ01hcENoYW5nZWRIABIxCgl3YXJw",
+            "X2xpc3QYLCABKAsyHC5vcGVubXUucHJvdG9jb2wuUzJDV2FycExpc3RIABI7",
+            "Cg5zeXN0ZW1fbWVzc2FnZRgtIAEoCzIhLm9wZW5tdS5wcm90b2NvbC5TMkNT",
+            "eXN0ZW1NZXNzYWdlSAASLAoGbG9nb3V0GC4gASgLMhoub3Blbm11LnByb3Rv",
+            "Y29sLlMyQ0xvZ291dEgAEjkKDWNoYW9zX21hY2hpbmUYLyABKAsyIC5vcGVu",
+            "bXUucHJvdG9jb2wuUzJDQ2hhb3NNYWNoaW5lSAASQAoRbnBjX2RpYWxvZ19j",
+            "bG9zZWQYMCABKAsyIy5vcGVubXUucHJvdG9jb2wuUzJDTnBjRGlhbG9nQ2xv",
+            "c2VkSAASNwoMcXVlc3RfZGlhbG9nGDEgASgLMh8ub3Blbm11LnByb3RvY29s",
+            "LlMyQ1F1ZXN0RGlhbG9nSABCCQoHcGF5bG9hZCqdAQoPTG9naW5SZXN1bHRD",
+            "b2RlEgsKB1VOS05PV04QABIGCgJPSxABEhQKEElOVkFMSURfUEFTU1dPUkQQ",
+            "AhITCg9BQ0NPVU5UX0JMT0NLRUQQAxIdChlBQ0NPVU5UX0FMUkVBRFlfQ09O",
+            "TkVDVEVEEAQSFAoQQ09OTkVDVElPTl9FUlJPUhAFEhUKEVRFTVBPUkFSWV9C",
+            "TE9DS0VEEAYqLgoKRW50aXR5VHlwZRIKCgZQTEFZRVIQABIHCgNOUEMQARIL",
+            "CgdNT05TVEVSEAIqdwoLUXVlc3RTdGF0dXMSGgoWUVVFU1RfU1RBVFVTX0FW",
+            "QUlMQUJMRRAAEhcKE1FVRVNUX1NUQVRVU19BQ1RJVkUQARIaChZRVUVTVF9T",
+            "VEFUVVNfQ09NUExFVEVEEAISFwoTUVVFU1RfU1RBVFVTX0xPQ0tFRBADKmgK",
+            "CFN0YXRUeXBlEhEKDVNUQVRfU1RSRU5HVEgQABIQCgxTVEFUX0FHSUxJVFkQ",
+            "ARIRCg1TVEFUX1ZJVEFMSVRZEAISDwoLU1RBVF9FTkVSR1kQAxITCg9TVEFU",
+            "X0xFQURFUlNISVAQBCpQCghDYXN0VHlwZRIVChFDQVNUX1RZUEVfSU5TVEFO",
+            "VBAAEhQKEENBU1RfVFlQRV9DSEFSR0UQARIXChNDQVNUX1RZUEVfQ0FTVF9U",
+            "SU1FEAIqTAoJU2tpbGxBcmVhEhMKD1NLSUxMX0FSRUFfTk9ORRAAEhUKEVNL",
+            "SUxMX0FSRUFfQ0lSQ0xFEAESEwoPU0tJTExfQVJFQV9DT05FEAIqWwoKQ2Fz",
+            "dEFjdGlvbhIcChhDQVNUX0FDVElPTl9TVEFSVF9DSEFSR0UQABIXChNDQVNU",
+            "X0FDVElPTl9SRUxFQVNFEAESFgoSQ0FTVF9BQ1RJT05fQ0FOQ0VMEAIqTAoK",
+            "TG9nb3V0S2luZBIgChxMT0dPVVRfS0lORF9DSEFSQUNURVJfU0VMRUNUEAAS",
+            "HAoYTE9HT1VUX0tJTkRfTE9HSU5fU0NSRUVOEAEqbAoPUXVlc3RBY3Rpb25L",
+            "aW5kEhsKF1FVRVNUX0FDVElPTl9LSU5EX1NUQVJUEAASHgoaUVVFU1RfQUNU",
+            "SU9OX0tJTkRfQ09NUExFVEUQARIcChhRVUVTVF9BQ1RJT05fS0lORF9DQU5D",
+            "RUwQAipzCgxBdHRhY2tXZWFwb24SFwoTQVRUQUNLX1dFQVBPTl9NRUxFRRAA",
+            "EhcKE0FUVEFDS19XRUFQT05fU1BFQVIQARIVChFBVFRBQ0tfV0VBUE9OX0JP",
+            "VxACEhoKFkFUVEFDS19XRUFQT05fQ1JPU1NCT1cQA0IiqgIfTVVuaXF1ZS5P",
+            "cGVuTVUuTmV0d29yay5Qcm90b2J1ZmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), typeof(global::MUnique.OpenMU.Network.Protobuf.StatType), typeof(global::MUnique.OpenMU.Network.Protobuf.CastType), typeof(global::MUnique.OpenMU.Network.Protobuf.SkillArea), typeof(global::MUnique.OpenMU.Network.Protobuf.CastAction), typeof(global::MUnique.OpenMU.Network.Protobuf.LogoutKind), typeof(global::MUnique.OpenMU.Network.Protobuf.AttackWeapon), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::MUnique.OpenMU.Network.Protobuf.LoginResultCode), typeof(global::MUnique.OpenMU.Network.Protobuf.EntityType), typeof(global::MUnique.OpenMU.Network.Protobuf.QuestStatus), typeof(global::MUnique.OpenMU.Network.Protobuf.StatType), typeof(global::MUnique.OpenMU.Network.Protobuf.CastType), typeof(global::MUnique.OpenMU.Network.Protobuf.SkillArea), typeof(global::MUnique.OpenMU.Network.Protobuf.CastAction), typeof(global::MUnique.OpenMU.Network.Protobuf.LogoutKind), typeof(global::MUnique.OpenMU.Network.Protobuf.QuestActionKind), typeof(global::MUnique.OpenMU.Network.Protobuf.AttackWeapon), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingRequest), global::MUnique.OpenMU.Network.Protobuf.PingRequest.Parser, new[]{ "TimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.PingResponse), global::MUnique.OpenMU.Network.Protobuf.PingResponse.Parser, new[]{ "ClientTimestampMs", "ServerTimestampMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest), global::MUnique.OpenMU.Network.Protobuf.C2SLoginRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
@@ -333,6 +353,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.WarpEntry), global::MUnique.OpenMU.Network.Protobuf.WarpEntry.Parser, new[]{ "Index", "Name", "Cost", "LevelRequirement", "MapId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CWarpList), global::MUnique.OpenMU.Network.Protobuf.S2CWarpList.Parser, new[]{ "Entries" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CChaosMachine), global::MUnique.OpenMU.Network.Protobuf.S2CChaosMachine.Parser, new[]{ "Items", "MixName", "SuccessRate", "Price", "Opened" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.QuestRequirement), global::MUnique.OpenMU.Network.Protobuf.QuestRequirement.Parser, new[]{ "Text", "Current", "Required" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.QuestInfo), global::MUnique.OpenMU.Network.Protobuf.QuestInfo.Parser, new[]{ "Group", "Number", "Name", "Status", "MinimumLevel", "StartCost", "Requirements", "Rewards", "CanComplete" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog), global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog.Parser, new[]{ "NpcId", "NpcName", "Quests" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CNpcDialogClosed), global::MUnique.OpenMU.Network.Protobuf.S2CNpcDialogClosed.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CLogout), global::MUnique.OpenMU.Network.Protobuf.S2CLogout.Parser, new[]{ "Kind" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CSystemMessage), global::MUnique.OpenMU.Network.Protobuf.S2CSystemMessage.Parser, new[]{ "Text" }, null, null, null, null),
@@ -351,7 +374,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileSpawned), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileSpawned.Parser, new[]{ "ProjectileId", "OwnerId", "SkillId", "OriginX", "OriginY", "VelocityX", "VelocityY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileHit), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileHit.Parser, new[]{ "ProjectileId", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CProjectileExpired), global::MUnique.OpenMU.Network.Protobuf.S2CProjectileExpired.Parser, new[]{ "ProjectileId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState), global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState.Parser, new[]{ "Level", "LevelUpPoints", "CurrentHp", "MaxHp", "CurrentMp", "MaxMp", "CurrentSd", "MaxSd", "CurrentAg", "MaxAg", "Experience", "ExperienceNext", "Money", "Strength", "Agility", "Vitality", "Energy", "Leadership", "AttackSpeed", "MagicSpeed", "MinPhysDmg", "MaxPhysDmg", "MinWizDmg", "MaxWizDmg" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState), global::MUnique.OpenMU.Network.Protobuf.S2CCharacterState.Parser, new[]{ "Level", "LevelUpPoints", "CurrentHp", "MaxHp", "CurrentMp", "MaxMp", "CurrentSd", "MaxSd", "CurrentAg", "MaxAg", "Experience", "ExperienceNext", "Money", "Strength", "Agility", "Vitality", "Energy", "Leadership", "AttackSpeed", "MagicSpeed", "MinPhysDmg", "MaxPhysDmg", "MinWizDmg", "MaxWizDmg", "ClassNumber", "ClassName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate), global::MUnique.OpenMU.Network.Protobuf.S2CVitalsUpdate.Parser, new[]{ "CurrentHp", "MaxHp", "CurrentMp", "MaxMp", "CurrentSd", "MaxSd", "CurrentAg", "MaxAg" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained), global::MUnique.OpenMU.Network.Protobuf.S2CExperienceGained.Parser, new[]{ "Gained", "Total", "NextLevel", "KilledId", "IsMaster" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp), global::MUnique.OpenMU.Network.Protobuf.S2CLevelUp.Parser, new[]{ "Level", "LevelUpPoints", "MaxHp", "MaxMp", "MaxSd", "MaxAg" }, null, null, null, null),
@@ -374,6 +397,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2STeleport), global::MUnique.OpenMU.Network.Protobuf.C2STeleport.Parser, new[]{ "TargetX", "TargetY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SMapLoaded), global::MUnique.OpenMU.Network.Protobuf.C2SMapLoaded.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SGetWarpList), global::MUnique.OpenMU.Network.Protobuf.C2SGetWarpList.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction), global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction.Parser, new[]{ "Action", "Group", "Number" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SChaosMix), global::MUnique.OpenMU.Network.Protobuf.C2SChaosMix.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SCloseNpcDialog), global::MUnique.OpenMU.Network.Protobuf.C2SCloseNpcDialog.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.C2SLogout), global::MUnique.OpenMU.Network.Protobuf.C2SLogout.Parser, new[]{ "Kind" }, null, null, null, null),
@@ -388,8 +412,8 @@ namespace MUnique.OpenMU.Network.Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.SellPriceEntry), global::MUnique.OpenMU.Network.Protobuf.SellPriceEntry.Parser, new[]{ "Slot", "Price" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CSellPriceList), global::MUnique.OpenMU.Network.Protobuf.S2CSellPriceList.Parser, new[]{ "Entries" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.S2CShopItems), global::MUnique.OpenMU.Network.Protobuf.S2CShopItems.Parser, new[]{ "NpcId", "NpcName", "Items" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope), global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope.Parser, new[]{ "PingRequest", "LoginRequest", "CharacterListRequest", "CreateCharacter", "SelectCharacter", "DeleteCharacter", "Move", "CastSkill", "PickUpItem", "MoveItem", "AddStatPoint", "InteractNpc", "BuyNpcItem", "CloseShop", "CloseVault", "SellNpcItem", "UseItem", "DropItem", "Teleport", "CastControl", "MapLoaded", "GetWarpList", "Warp", "Logout", "ChaosMix", "CloseNpcDialog" }, new[]{ "Payload" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope), global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope.Parser, new[]{ "PingResponse", "LoginResult", "CharacterList", "CreateCharacterResult", "SelectCharacterResult", "DeleteCharacterResult", "EnteredWorld", "EntitiesInScope", "EntitiesOutOfScope", "Snapshot", "SkillAnimation", "DamageResult", "BuffApplied", "BuffExpired", "EntityDied", "ItemDropped", "PickUpResult", "ProjectileSpawned", "ProjectileHit", "ProjectileExpired", "CharacterState", "VitalsUpdate", "ExperienceGained", "LevelUp", "Inventory", "ItemAppeared", "ItemRemoved", "MoneyUpdate", "ItemDefinitions", "ShopItems", "SkillList", "VaultOpened", "SellConfirmRequired", "SellPriceList", "SafezoneChanged", "AppearanceChanged", "MovementSpeed", "AttackInterval", "AreaSkillAnimation", "SkillCooldown", "CastStarted", "CastEnded", "MapChanged", "WarpList", "SystemMessage", "Logout", "ChaosMachine", "NpcDialogClosed" }, new[]{ "Payload" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope), global::MUnique.OpenMU.Network.Protobuf.ClientEnvelope.Parser, new[]{ "PingRequest", "LoginRequest", "CharacterListRequest", "CreateCharacter", "SelectCharacter", "DeleteCharacter", "Move", "CastSkill", "PickUpItem", "MoveItem", "AddStatPoint", "InteractNpc", "BuyNpcItem", "CloseShop", "CloseVault", "SellNpcItem", "UseItem", "DropItem", "Teleport", "CastControl", "MapLoaded", "GetWarpList", "Warp", "Logout", "ChaosMix", "CloseNpcDialog", "QuestAction" }, new[]{ "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope), global::MUnique.OpenMU.Network.Protobuf.ServerEnvelope.Parser, new[]{ "PingResponse", "LoginResult", "CharacterList", "CreateCharacterResult", "SelectCharacterResult", "DeleteCharacterResult", "EnteredWorld", "EntitiesInScope", "EntitiesOutOfScope", "Snapshot", "SkillAnimation", "DamageResult", "BuffApplied", "BuffExpired", "EntityDied", "ItemDropped", "PickUpResult", "ProjectileSpawned", "ProjectileHit", "ProjectileExpired", "CharacterState", "VitalsUpdate", "ExperienceGained", "LevelUp", "Inventory", "ItemAppeared", "ItemRemoved", "MoneyUpdate", "ItemDefinitions", "ShopItems", "SkillList", "VaultOpened", "SellConfirmRequired", "SellPriceList", "SafezoneChanged", "AppearanceChanged", "MovementSpeed", "AttackInterval", "AreaSkillAnimation", "SkillCooldown", "CastStarted", "CastEnded", "MapChanged", "WarpList", "SystemMessage", "Logout", "ChaosMachine", "NpcDialogClosed", "QuestDialog" }, new[]{ "Payload" }, null, null, null)
           }));
     }
     #endregion
@@ -410,6 +434,19 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [pbr::OriginalName("PLAYER")] Player = 0,
     [pbr::OriginalName("NPC")] Npc = 1,
     [pbr::OriginalName("MONSTER")] Monster = 2,
+  }
+
+  public enum QuestStatus {
+    /// <summary>
+    /// can be started now
+    /// </summary>
+    [pbr::OriginalName("QUEST_STATUS_AVAILABLE")] Available = 0,
+    [pbr::OriginalName("QUEST_STATUS_ACTIVE")] Active = 1,
+    [pbr::OriginalName("QUEST_STATUS_COMPLETED")] Completed = 2,
+    /// <summary>
+    /// needs a higher level or the previous quest first
+    /// </summary>
+    [pbr::OriginalName("QUEST_STATUS_LOCKED")] Locked = 3,
   }
 
   public enum StatType {
@@ -468,6 +505,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
     /// log out: the server disconnects
     /// </summary>
     [pbr::OriginalName("LOGOUT_KIND_LOGIN_SCREEN")] LoginScreen = 1,
+  }
+
+  public enum QuestActionKind {
+    /// <summary>
+    /// pays the start cost, then the quest items start dropping
+    /// </summary>
+    [pbr::OriginalName("QUEST_ACTION_KIND_START")] Start = 0,
+    /// <summary>
+    /// hands in the required items/kills and gets the rewards
+    /// </summary>
+    [pbr::OriginalName("QUEST_ACTION_KIND_COMPLETE")] Complete = 1,
+    [pbr::OriginalName("QUEST_ACTION_KIND_CANCEL")] Cancel = 2,
   }
 
   public enum AttackWeapon {
@@ -8101,6 +8150,1026 @@ namespace MUnique.OpenMU.Network.Protobuf {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class QuestRequirement : pb::IMessage<QuestRequirement>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<QuestRequirement> _parser = new pb::MessageParser<QuestRequirement>(() => new QuestRequirement());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<QuestRequirement> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[29]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestRequirement() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestRequirement(QuestRequirement other) : this() {
+      text_ = other.text_;
+      current_ = other.current_;
+      required_ = other.required_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestRequirement Clone() {
+      return new QuestRequirement(this);
+    }
+
+    /// <summary>Field number for the "text" field.</summary>
+    public const int TextFieldNumber = 1;
+    private string text_ = "";
+    /// <summary>
+    /// e.g. "Scroll of Emperor" or "Kill Balram"
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Text {
+      get { return text_; }
+      set {
+        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "current" field.</summary>
+    public const int CurrentFieldNumber = 2;
+    private uint current_;
+    /// <summary>
+    /// items in the inventory / monsters killed
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Current {
+      get { return current_; }
+      set {
+        current_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "required" field.</summary>
+    public const int RequiredFieldNumber = 3;
+    private uint required_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Required {
+      get { return required_; }
+      set {
+        required_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as QuestRequirement);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(QuestRequirement other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Text != other.Text) return false;
+      if (Current != other.Current) return false;
+      if (Required != other.Required) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Text.Length != 0) hash ^= Text.GetHashCode();
+      if (Current != 0) hash ^= Current.GetHashCode();
+      if (Required != 0) hash ^= Required.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Text.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Text);
+      }
+      if (Current != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Current);
+      }
+      if (Required != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Required);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Text.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Text);
+      }
+      if (Current != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Current);
+      }
+      if (Required != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Required);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Text.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
+      }
+      if (Current != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Current);
+      }
+      if (Required != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Required);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(QuestRequirement other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Text.Length != 0) {
+        Text = other.Text;
+      }
+      if (other.Current != 0) {
+        Current = other.Current;
+      }
+      if (other.Required != 0) {
+        Required = other.Required;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Text = input.ReadString();
+            break;
+          }
+          case 16: {
+            Current = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Required = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Text = input.ReadString();
+            break;
+          }
+          case 16: {
+            Current = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Required = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class QuestInfo : pb::IMessage<QuestInfo>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<QuestInfo> _parser = new pb::MessageParser<QuestInfo>(() => new QuestInfo());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<QuestInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[30]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestInfo(QuestInfo other) : this() {
+      group_ = other.group_;
+      number_ = other.number_;
+      name_ = other.name_;
+      status_ = other.status_;
+      minimumLevel_ = other.minimumLevel_;
+      startCost_ = other.startCost_;
+      requirements_ = other.requirements_.Clone();
+      rewards_ = other.rewards_.Clone();
+      canComplete_ = other.canComplete_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public QuestInfo Clone() {
+      return new QuestInfo(this);
+    }
+
+    /// <summary>Field number for the "group" field.</summary>
+    public const int GroupFieldNumber = 1;
+    private uint group_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Group {
+      get { return group_; }
+      set {
+        group_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "number" field.</summary>
+    public const int NumberFieldNumber = 2;
+    private uint number_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Number {
+      get { return number_; }
+      set {
+        number_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 3;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 4;
+    private global::MUnique.OpenMU.Network.Protobuf.QuestStatus status_ = global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.QuestStatus Status {
+      get { return status_; }
+      set {
+        status_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "minimum_level" field.</summary>
+    public const int MinimumLevelFieldNumber = 5;
+    private uint minimumLevel_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MinimumLevel {
+      get { return minimumLevel_; }
+      set {
+        minimumLevel_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "start_cost" field.</summary>
+    public const int StartCostFieldNumber = 6;
+    private uint startCost_;
+    /// <summary>
+    /// zen
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint StartCost {
+      get { return startCost_; }
+      set {
+        startCost_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "requirements" field.</summary>
+    public const int RequirementsFieldNumber = 7;
+    private static readonly pb::FieldCodec<global::MUnique.OpenMU.Network.Protobuf.QuestRequirement> _repeated_requirements_codec
+        = pb::FieldCodec.ForMessage(58, global::MUnique.OpenMU.Network.Protobuf.QuestRequirement.Parser);
+    private readonly pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestRequirement> requirements_ = new pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestRequirement>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestRequirement> Requirements {
+      get { return requirements_; }
+    }
+
+    /// <summary>Field number for the "rewards" field.</summary>
+    public const int RewardsFieldNumber = 8;
+    private static readonly pb::FieldCodec<string> _repeated_rewards_codec
+        = pb::FieldCodec.ForString(66);
+    private readonly pbc::RepeatedField<string> rewards_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Rewards {
+      get { return rewards_; }
+    }
+
+    /// <summary>Field number for the "can_complete" field.</summary>
+    public const int CanCompleteFieldNumber = 9;
+    private bool canComplete_;
+    /// <summary>
+    /// active and every requirement met
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool CanComplete {
+      get { return canComplete_; }
+      set {
+        canComplete_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as QuestInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(QuestInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Group != other.Group) return false;
+      if (Number != other.Number) return false;
+      if (Name != other.Name) return false;
+      if (Status != other.Status) return false;
+      if (MinimumLevel != other.MinimumLevel) return false;
+      if (StartCost != other.StartCost) return false;
+      if(!requirements_.Equals(other.requirements_)) return false;
+      if(!rewards_.Equals(other.rewards_)) return false;
+      if (CanComplete != other.CanComplete) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Group != 0) hash ^= Group.GetHashCode();
+      if (Number != 0) hash ^= Number.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Status != global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available) hash ^= Status.GetHashCode();
+      if (MinimumLevel != 0) hash ^= MinimumLevel.GetHashCode();
+      if (StartCost != 0) hash ^= StartCost.GetHashCode();
+      hash ^= requirements_.GetHashCode();
+      hash ^= rewards_.GetHashCode();
+      if (CanComplete != false) hash ^= CanComplete.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Group != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Group);
+      }
+      if (Number != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Number);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (Status != global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Status);
+      }
+      if (MinimumLevel != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MinimumLevel);
+      }
+      if (StartCost != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(StartCost);
+      }
+      requirements_.WriteTo(output, _repeated_requirements_codec);
+      rewards_.WriteTo(output, _repeated_rewards_codec);
+      if (CanComplete != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(CanComplete);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Group != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Group);
+      }
+      if (Number != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Number);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (Status != global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Status);
+      }
+      if (MinimumLevel != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(MinimumLevel);
+      }
+      if (StartCost != 0) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(StartCost);
+      }
+      requirements_.WriteTo(ref output, _repeated_requirements_codec);
+      rewards_.WriteTo(ref output, _repeated_rewards_codec);
+      if (CanComplete != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(CanComplete);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Group != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Group);
+      }
+      if (Number != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Number);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Status != global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
+      }
+      if (MinimumLevel != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MinimumLevel);
+      }
+      if (StartCost != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(StartCost);
+      }
+      size += requirements_.CalculateSize(_repeated_requirements_codec);
+      size += rewards_.CalculateSize(_repeated_rewards_codec);
+      if (CanComplete != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(QuestInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Group != 0) {
+        Group = other.Group;
+      }
+      if (other.Number != 0) {
+        Number = other.Number;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Status != global::MUnique.OpenMU.Network.Protobuf.QuestStatus.Available) {
+        Status = other.Status;
+      }
+      if (other.MinimumLevel != 0) {
+        MinimumLevel = other.MinimumLevel;
+      }
+      if (other.StartCost != 0) {
+        StartCost = other.StartCost;
+      }
+      requirements_.Add(other.requirements_);
+      rewards_.Add(other.rewards_);
+      if (other.CanComplete != false) {
+        CanComplete = other.CanComplete;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Group = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            Number = input.ReadUInt32();
+            break;
+          }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 32: {
+            Status = (global::MUnique.OpenMU.Network.Protobuf.QuestStatus) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            MinimumLevel = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            StartCost = input.ReadUInt32();
+            break;
+          }
+          case 58: {
+            requirements_.AddEntriesFrom(input, _repeated_requirements_codec);
+            break;
+          }
+          case 66: {
+            rewards_.AddEntriesFrom(input, _repeated_rewards_codec);
+            break;
+          }
+          case 72: {
+            CanComplete = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Group = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            Number = input.ReadUInt32();
+            break;
+          }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 32: {
+            Status = (global::MUnique.OpenMU.Network.Protobuf.QuestStatus) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            MinimumLevel = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            StartCost = input.ReadUInt32();
+            break;
+          }
+          case 58: {
+            requirements_.AddEntriesFrom(ref input, _repeated_requirements_codec);
+            break;
+          }
+          case 66: {
+            rewards_.AddEntriesFrom(ref input, _repeated_rewards_codec);
+            break;
+          }
+          case 72: {
+            CanComplete = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// The quests of the opened quest NPC for the own character; resent after every quest action.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S2CQuestDialog : pb::IMessage<S2CQuestDialog>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S2CQuestDialog> _parser = new pb::MessageParser<S2CQuestDialog>(() => new S2CQuestDialog());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S2CQuestDialog> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[31]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CQuestDialog() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CQuestDialog(S2CQuestDialog other) : this() {
+      npcId_ = other.npcId_;
+      npcName_ = other.npcName_;
+      quests_ = other.quests_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S2CQuestDialog Clone() {
+      return new S2CQuestDialog(this);
+    }
+
+    /// <summary>Field number for the "npc_id" field.</summary>
+    public const int NpcIdFieldNumber = 1;
+    private uint npcId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint NpcId {
+      get { return npcId_; }
+      set {
+        npcId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "npc_name" field.</summary>
+    public const int NpcNameFieldNumber = 2;
+    private string npcName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string NpcName {
+      get { return npcName_; }
+      set {
+        npcName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "quests" field.</summary>
+    public const int QuestsFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::MUnique.OpenMU.Network.Protobuf.QuestInfo> _repeated_quests_codec
+        = pb::FieldCodec.ForMessage(26, global::MUnique.OpenMU.Network.Protobuf.QuestInfo.Parser);
+    private readonly pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestInfo> quests_ = new pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestInfo>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::MUnique.OpenMU.Network.Protobuf.QuestInfo> Quests {
+      get { return quests_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S2CQuestDialog);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S2CQuestDialog other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (NpcId != other.NpcId) return false;
+      if (NpcName != other.NpcName) return false;
+      if(!quests_.Equals(other.quests_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (NpcId != 0) hash ^= NpcId.GetHashCode();
+      if (NpcName.Length != 0) hash ^= NpcName.GetHashCode();
+      hash ^= quests_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (NpcId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(NpcId);
+      }
+      if (NpcName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(NpcName);
+      }
+      quests_.WriteTo(output, _repeated_quests_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (NpcId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(NpcId);
+      }
+      if (NpcName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(NpcName);
+      }
+      quests_.WriteTo(ref output, _repeated_quests_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (NpcId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(NpcId);
+      }
+      if (NpcName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NpcName);
+      }
+      size += quests_.CalculateSize(_repeated_quests_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S2CQuestDialog other) {
+      if (other == null) {
+        return;
+      }
+      if (other.NpcId != 0) {
+        NpcId = other.NpcId;
+      }
+      if (other.NpcName.Length != 0) {
+        NpcName = other.NpcName;
+      }
+      quests_.Add(other.quests_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            NpcId = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            NpcName = input.ReadString();
+            break;
+          }
+          case 26: {
+            quests_.AddEntriesFrom(input, _repeated_quests_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            NpcId = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            NpcName = input.ReadString();
+            break;
+          }
+          case 26: {
+            quests_.AddEntriesFrom(ref input, _repeated_quests_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   /// <summary>
   /// The opened NPC window was closed by the server (e.g. the player walked away): the client hides it.
   /// </summary>
@@ -8119,7 +9188,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[29]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8283,7 +9352,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[30]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8484,7 +9553,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[31]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8685,7 +9754,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[32]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9037,7 +10106,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[33]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9317,7 +10386,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[34]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9552,7 +10621,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[35]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[38]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9898,7 +10967,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[36]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[39]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10170,7 +11239,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[37]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10405,7 +11474,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[38]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10640,7 +11709,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[39]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11060,7 +12129,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[40]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11258,7 +12327,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[41]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11573,7 +12642,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[42]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[45]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11771,7 +12840,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[43]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[46]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12006,7 +13075,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[44]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[47]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12426,7 +13495,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[45]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[48]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12661,7 +13730,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[46]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[49]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12859,7 +13928,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[47]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[50]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12903,6 +13972,8 @@ namespace MUnique.OpenMU.Network.Protobuf {
       maxPhysDmg_ = other.maxPhysDmg_;
       minWizDmg_ = other.minWizDmg_;
       maxWizDmg_ = other.maxWizDmg_;
+      classNumber_ = other.classNumber_;
+      className_ = other.className_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -13218,6 +14289,33 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "class_number" field.</summary>
+    public const int ClassNumberFieldNumber = 25;
+    private uint classNumber_;
+    /// <summary>
+    /// CharacterClass.Number — changes with quests (e.g. Dark Knight -> Blade Knight)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint ClassNumber {
+      get { return classNumber_; }
+      set {
+        classNumber_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "class_name" field.</summary>
+    public const int ClassNameFieldNumber = 26;
+    private string className_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ClassName {
+      get { return className_; }
+      set {
+        className_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -13257,6 +14355,8 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (MaxPhysDmg != other.MaxPhysDmg) return false;
       if (MinWizDmg != other.MinWizDmg) return false;
       if (MaxWizDmg != other.MaxWizDmg) return false;
+      if (ClassNumber != other.ClassNumber) return false;
+      if (ClassName != other.ClassName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -13288,6 +14388,8 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (MaxPhysDmg != 0) hash ^= MaxPhysDmg.GetHashCode();
       if (MinWizDmg != 0) hash ^= MinWizDmg.GetHashCode();
       if (MaxWizDmg != 0) hash ^= MaxWizDmg.GetHashCode();
+      if (ClassNumber != 0) hash ^= ClassNumber.GetHashCode();
+      if (ClassName.Length != 0) hash ^= ClassName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -13402,6 +14504,14 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(192, 1);
         output.WriteUInt32(MaxWizDmg);
       }
+      if (ClassNumber != 0) {
+        output.WriteRawTag(200, 1);
+        output.WriteUInt32(ClassNumber);
+      }
+      if (ClassName.Length != 0) {
+        output.WriteRawTag(210, 1);
+        output.WriteString(ClassName);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -13508,6 +14618,14 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(192, 1);
         output.WriteUInt32(MaxWizDmg);
       }
+      if (ClassNumber != 0) {
+        output.WriteRawTag(200, 1);
+        output.WriteUInt32(ClassNumber);
+      }
+      if (ClassName.Length != 0) {
+        output.WriteRawTag(210, 1);
+        output.WriteString(ClassName);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -13589,6 +14707,12 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (MaxWizDmg != 0) {
         size += 2 + pb::CodedOutputStream.ComputeUInt32Size(MaxWizDmg);
+      }
+      if (ClassNumber != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeUInt32Size(ClassNumber);
+      }
+      if (ClassName.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(ClassName);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -13673,6 +14797,12 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (other.MaxWizDmg != 0) {
         MaxWizDmg = other.MaxWizDmg;
+      }
+      if (other.ClassNumber != 0) {
+        ClassNumber = other.ClassNumber;
+      }
+      if (other.ClassName.Length != 0) {
+        ClassName = other.ClassName;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -13787,6 +14917,14 @@ namespace MUnique.OpenMU.Network.Protobuf {
           }
           case 192: {
             MaxWizDmg = input.ReadUInt32();
+            break;
+          }
+          case 200: {
+            ClassNumber = input.ReadUInt32();
+            break;
+          }
+          case 210: {
+            ClassName = input.ReadString();
             break;
           }
         }
@@ -13904,6 +15042,14 @@ namespace MUnique.OpenMU.Network.Protobuf {
             MaxWizDmg = input.ReadUInt32();
             break;
           }
+          case 200: {
+            ClassNumber = input.ReadUInt32();
+            break;
+          }
+          case 210: {
+            ClassName = input.ReadString();
+            break;
+          }
         }
       }
     }
@@ -13926,7 +15072,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[48]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[51]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -14383,7 +15529,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[49]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[52]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -14729,7 +15875,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[50]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[53]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15112,7 +16258,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[51]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[54]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15978,7 +17124,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[52]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[55]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16165,7 +17311,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[53]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[56]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16372,7 +17518,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[54]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[57]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16570,7 +17716,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[55]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[58]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16768,7 +17914,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[56]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[59]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -17518,7 +18664,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[57]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[60]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -17705,7 +18851,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[58]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[61]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -17966,7 +19112,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[59]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[62]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -18127,7 +19273,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[60]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[63]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -18686,7 +19832,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[61]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[64]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -18873,7 +20019,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[62]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[65]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -19071,7 +20217,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[63]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[66]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -19269,7 +20415,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[64]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[67]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -19430,7 +20576,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[65]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[68]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -20035,7 +21181,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[66]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[69]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -20313,7 +21459,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[67]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[70]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -20558,7 +21704,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[68]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[71]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -20719,7 +21865,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[69]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[72]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -20866,6 +22012,281 @@ namespace MUnique.OpenMU.Network.Protobuf {
   }
 
   /// <summary>
+  /// A quest of the opened quest NPC (S2CQuestDialog).
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class C2SQuestAction : pb::IMessage<C2SQuestAction>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<C2SQuestAction> _parser = new pb::MessageParser<C2SQuestAction>(() => new C2SQuestAction());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<C2SQuestAction> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[73]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public C2SQuestAction() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public C2SQuestAction(C2SQuestAction other) : this() {
+      action_ = other.action_;
+      group_ = other.group_;
+      number_ = other.number_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public C2SQuestAction Clone() {
+      return new C2SQuestAction(this);
+    }
+
+    /// <summary>Field number for the "action" field.</summary>
+    public const int ActionFieldNumber = 1;
+    private global::MUnique.OpenMU.Network.Protobuf.QuestActionKind action_ = global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.QuestActionKind Action {
+      get { return action_; }
+      set {
+        action_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "group" field.</summary>
+    public const int GroupFieldNumber = 2;
+    private uint group_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Group {
+      get { return group_; }
+      set {
+        group_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "number" field.</summary>
+    public const int NumberFieldNumber = 3;
+    private uint number_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Number {
+      get { return number_; }
+      set {
+        number_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as C2SQuestAction);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(C2SQuestAction other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Action != other.Action) return false;
+      if (Group != other.Group) return false;
+      if (Number != other.Number) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Action != global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start) hash ^= Action.GetHashCode();
+      if (Group != 0) hash ^= Group.GetHashCode();
+      if (Number != 0) hash ^= Number.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Action != global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Action);
+      }
+      if (Group != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Group);
+      }
+      if (Number != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Number);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Action != global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Action);
+      }
+      if (Group != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Group);
+      }
+      if (Number != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Number);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Action != global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Action);
+      }
+      if (Group != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Group);
+      }
+      if (Number != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Number);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(C2SQuestAction other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Action != global::MUnique.OpenMU.Network.Protobuf.QuestActionKind.Start) {
+        Action = other.Action;
+      }
+      if (other.Group != 0) {
+        Group = other.Group;
+      }
+      if (other.Number != 0) {
+        Number = other.Number;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Action = (global::MUnique.OpenMU.Network.Protobuf.QuestActionKind) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            Group = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Number = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Action = (global::MUnique.OpenMU.Network.Protobuf.QuestActionKind) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            Group = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Number = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
   /// Chaos Goblin: the server finds the recipe the items in the machine fit (S2CChaosMachine) and mixes them.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -20883,7 +22304,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[70]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[74]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -21047,7 +22468,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[71]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[75]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -21208,7 +22629,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[72]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[76]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -21409,7 +22830,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[73]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[77]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -21610,7 +23031,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[74]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[78]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -21852,7 +23273,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[75]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[79]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -22098,7 +23519,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[76]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[80]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -22376,7 +23797,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[77]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[81]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -22577,7 +23998,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[78]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[82]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -22778,7 +24199,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[79]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[83]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -23016,7 +24437,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[80]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[84]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -23288,7 +24709,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[81]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[85]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -23523,7 +24944,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[82]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[86]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -23710,7 +25131,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[83]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[87]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -23971,7 +25392,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[84]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[88]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -24069,6 +25490,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
           break;
         case PayloadOneofCase.CloseNpcDialog:
           CloseNpcDialog = other.CloseNpcDialog.Clone();
+          break;
+        case PayloadOneofCase.QuestAction:
+          QuestAction = other.QuestAction.Clone();
           break;
       }
 
@@ -24393,6 +25817,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "quest_action" field.</summary>
+    public const int QuestActionFieldNumber = 27;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction QuestAction {
+      get { return payloadCase_ == PayloadOneofCase.QuestAction ? (global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.QuestAction;
+      }
+    }
+
     private object payload_;
     /// <summary>Enum of possible cases for the "payload" oneof.</summary>
     public enum PayloadOneofCase {
@@ -24423,6 +25859,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       Logout = 24,
       ChaosMix = 25,
       CloseNpcDialog = 26,
+      QuestAction = 27,
     }
     private PayloadOneofCase payloadCase_ = PayloadOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -24479,6 +25916,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (!object.Equals(Logout, other.Logout)) return false;
       if (!object.Equals(ChaosMix, other.ChaosMix)) return false;
       if (!object.Equals(CloseNpcDialog, other.CloseNpcDialog)) return false;
+      if (!object.Equals(QuestAction, other.QuestAction)) return false;
       if (PayloadCase != other.PayloadCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -24513,6 +25951,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (payloadCase_ == PayloadOneofCase.Logout) hash ^= Logout.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ChaosMix) hash ^= ChaosMix.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.CloseNpcDialog) hash ^= CloseNpcDialog.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.QuestAction) hash ^= QuestAction.GetHashCode();
       hash ^= (int) payloadCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -24636,6 +26075,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(210, 1);
         output.WriteMessage(CloseNpcDialog);
       }
+      if (payloadCase_ == PayloadOneofCase.QuestAction) {
+        output.WriteRawTag(218, 1);
+        output.WriteMessage(QuestAction);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -24750,6 +26193,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(210, 1);
         output.WriteMessage(CloseNpcDialog);
       }
+      if (payloadCase_ == PayloadOneofCase.QuestAction) {
+        output.WriteRawTag(218, 1);
+        output.WriteMessage(QuestAction);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -24837,6 +26284,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (payloadCase_ == PayloadOneofCase.CloseNpcDialog) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(CloseNpcDialog);
+      }
+      if (payloadCase_ == PayloadOneofCase.QuestAction) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(QuestAction);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -25006,6 +26456,12 @@ namespace MUnique.OpenMU.Network.Protobuf {
             CloseNpcDialog = new global::MUnique.OpenMU.Network.Protobuf.C2SCloseNpcDialog();
           }
           CloseNpcDialog.MergeFrom(other.CloseNpcDialog);
+          break;
+        case PayloadOneofCase.QuestAction:
+          if (QuestAction == null) {
+            QuestAction = new global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction();
+          }
+          QuestAction.MergeFrom(other.QuestAction);
           break;
       }
 
@@ -25262,6 +26718,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
             CloseNpcDialog = subBuilder;
             break;
           }
+          case 218: {
+            global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction subBuilder = new global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction();
+            if (payloadCase_ == PayloadOneofCase.QuestAction) {
+              subBuilder.MergeFrom(QuestAction);
+            }
+            input.ReadMessage(subBuilder);
+            QuestAction = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -25515,6 +26980,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
             CloseNpcDialog = subBuilder;
             break;
           }
+          case 218: {
+            global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction subBuilder = new global::MUnique.OpenMU.Network.Protobuf.C2SQuestAction();
+            if (payloadCase_ == PayloadOneofCase.QuestAction) {
+              subBuilder.MergeFrom(QuestAction);
+            }
+            input.ReadMessage(subBuilder);
+            QuestAction = subBuilder;
+            break;
+          }
         }
       }
     }
@@ -25537,7 +27011,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[85]; }
+      get { return global::MUnique.OpenMU.Network.Protobuf.EnvelopeReflection.Descriptor.MessageTypes[89]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -25701,6 +27175,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
           break;
         case PayloadOneofCase.NpcDialogClosed:
           NpcDialogClosed = other.NpcDialogClosed.Clone();
+          break;
+        case PayloadOneofCase.QuestDialog:
+          QuestDialog = other.QuestDialog.Clone();
           break;
       }
 
@@ -26289,6 +27766,18 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
     }
 
+    /// <summary>Field number for the "quest_dialog" field.</summary>
+    public const int QuestDialogFieldNumber = 49;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog QuestDialog {
+      get { return payloadCase_ == PayloadOneofCase.QuestDialog ? (global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog) payload_ : null; }
+      set {
+        payload_ = value;
+        payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.QuestDialog;
+      }
+    }
+
     private object payload_;
     /// <summary>Enum of possible cases for the "payload" oneof.</summary>
     public enum PayloadOneofCase {
@@ -26341,6 +27830,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       Logout = 46,
       ChaosMachine = 47,
       NpcDialogClosed = 48,
+      QuestDialog = 49,
     }
     private PayloadOneofCase payloadCase_ = PayloadOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -26419,6 +27909,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (!object.Equals(Logout, other.Logout)) return false;
       if (!object.Equals(ChaosMachine, other.ChaosMachine)) return false;
       if (!object.Equals(NpcDialogClosed, other.NpcDialogClosed)) return false;
+      if (!object.Equals(QuestDialog, other.QuestDialog)) return false;
       if (PayloadCase != other.PayloadCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -26475,6 +27966,7 @@ namespace MUnique.OpenMU.Network.Protobuf {
       if (payloadCase_ == PayloadOneofCase.Logout) hash ^= Logout.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ChaosMachine) hash ^= ChaosMachine.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.NpcDialogClosed) hash ^= NpcDialogClosed.GetHashCode();
+      if (payloadCase_ == PayloadOneofCase.QuestDialog) hash ^= QuestDialog.GetHashCode();
       hash ^= (int) payloadCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -26686,6 +28178,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(130, 3);
         output.WriteMessage(NpcDialogClosed);
       }
+      if (payloadCase_ == PayloadOneofCase.QuestDialog) {
+        output.WriteRawTag(138, 3);
+        output.WriteMessage(QuestDialog);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -26888,6 +28384,10 @@ namespace MUnique.OpenMU.Network.Protobuf {
         output.WriteRawTag(130, 3);
         output.WriteMessage(NpcDialogClosed);
       }
+      if (payloadCase_ == PayloadOneofCase.QuestDialog) {
+        output.WriteRawTag(138, 3);
+        output.WriteMessage(QuestDialog);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -27041,6 +28541,9 @@ namespace MUnique.OpenMU.Network.Protobuf {
       }
       if (payloadCase_ == PayloadOneofCase.NpcDialogClosed) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(NpcDialogClosed);
+      }
+      if (payloadCase_ == PayloadOneofCase.QuestDialog) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(QuestDialog);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -27342,6 +28845,12 @@ namespace MUnique.OpenMU.Network.Protobuf {
             NpcDialogClosed = new global::MUnique.OpenMU.Network.Protobuf.S2CNpcDialogClosed();
           }
           NpcDialogClosed.MergeFrom(other.NpcDialogClosed);
+          break;
+        case PayloadOneofCase.QuestDialog:
+          if (QuestDialog == null) {
+            QuestDialog = new global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog();
+          }
+          QuestDialog.MergeFrom(other.QuestDialog);
           break;
       }
 
@@ -27796,6 +29305,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
             NpcDialogClosed = subBuilder;
             break;
           }
+          case 394: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog();
+            if (payloadCase_ == PayloadOneofCase.QuestDialog) {
+              subBuilder.MergeFrom(QuestDialog);
+            }
+            input.ReadMessage(subBuilder);
+            QuestDialog = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -28245,6 +29763,15 @@ namespace MUnique.OpenMU.Network.Protobuf {
             }
             input.ReadMessage(subBuilder);
             NpcDialogClosed = subBuilder;
+            break;
+          }
+          case 394: {
+            global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog subBuilder = new global::MUnique.OpenMU.Network.Protobuf.S2CQuestDialog();
+            if (payloadCase_ == PayloadOneofCase.QuestDialog) {
+              subBuilder.MergeFrom(QuestDialog);
+            }
+            input.ReadMessage(subBuilder);
+            QuestDialog = subBuilder;
             break;
           }
         }

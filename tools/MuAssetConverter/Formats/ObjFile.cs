@@ -50,9 +50,15 @@ public sealed class ObjFile
 
     public void WriteJson(string outPath)
     {
+        // Some legacy files (e.g. Devias' EncTerrain3.obj) hold corrupted entries with infinite or
+        // NaN coordinates, which JSON can't represent; they aren't placeable anyway, so skip them.
+        var valid = Array.FindAll(Objects, o => o.IsFinite);
+        if (valid.Length < Objects.Length)
+            Console.WriteLine($"  skipped {Objects.Length - valid.Length} object(s) with non-finite values");
+
         var opts = new JsonSerializerOptions { WriteIndented = true };
         using var fs = File.Create(outPath);
-        JsonSerializer.Serialize(fs, new ObjFileJson(MapNumber, Objects), opts);
+        JsonSerializer.Serialize(fs, new ObjFileJson(MapNumber, valid), opts);
     }
 
 
@@ -208,7 +214,12 @@ public readonly record struct MapObject(
     float AngleX,
     float AngleY,
     float AngleZ,
-    float Scale);
+    float Scale)
+{
+    public bool IsFinite =>
+        float.IsFinite(TileX) && float.IsFinite(TileY) && float.IsFinite(AltitudeUnits)
+        && float.IsFinite(AngleX) && float.IsFinite(AngleY) && float.IsFinite(AngleZ) && float.IsFinite(Scale);
+}
 
 // ------------------------------------------------------------------ JSON layout
 
