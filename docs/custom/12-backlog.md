@@ -116,3 +116,11 @@ Causas: repos dentro do OneDrive (filtro em todo acesso a arquivo; no Docker ain
 - [ ] **Validar**: XP dividida na party; Innovation (redução de defesa) contra alvo com defesa alta (punchbag); Chaos Machine com inventário cheio.
 - [ ] **Debuffs de skill em players** (Weakness/Innovation/Sleep da summoner) — confirmar se passam por `PvpRules` (efeitos sem dano podem não passar por `AttackByAsync`).
 - [ ] **Visual da Summoner**: usa modelo/animação genérico feminino.
+- [x] **Constantes do charge no banco**: `Skill.ChargeMinimumDamagePercent` (30), `ChargeHoldMilliseconds` (1500), `ChargeMovementSpeedPercent` (60) — migração com esses padrões; editáveis no admin panel.
+- [x] **Movimento forçado em players**: `Player.MoveAsync` (puxar/empurrar/dash ao alvo) não atualizava a posição contínua — o movimento se perdia. Agora atualiza, encerra a caminhada e ignora CC (D-F7-05).
+- [ ] **Loop de PvP (futuro, depende de facção/guild/skins)**:
+  - *Open world*: rank por facção — matar alguém de outra facção dá pontos; depois loja da facção, ranking board e skins da temporada ao atingir requisitos.
+  - *Arena instanciada*: matchmaking 1v1, 2v2, 3v3…; time vencedor ganha pontos, perdedor perde; ranking e as mesmas skins de temporada.
+  - *Castle siege*: evento semanal de guilda; a guilda que estiver no castelo no fim vira dona (libera mapa de farm/baú de drops); 2º e 3º por pontos da guilda (kill na sala do castelo vale mais que fora); baús menores para 2º e 3º.
+- [ ] **Skills no estilo MOBA**: dashes (RF até o inimigo), puxões (DK), knockback com direção, skills carregadas com direção — as do MU não foram desenhadas assim; seguir D-F7-05.
+- [ ] **Cooldown persiste só em memória** (impacto mínimo): se virar abuso, persistir cooldowns ou bloquear logout em combate.

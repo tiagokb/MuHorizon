@@ -353,6 +353,22 @@ public partial class Skill
     /// </summary>
     public int CastTimeMilliseconds { get; set; }
 
+    /// <summary>
+    /// Gets or sets the damage, in percent, of a <see cref="SkillCastType.Charge"/> skill released at
+    /// once; it grows to 100 % over the <see cref="CastTimeMilliseconds"/>.
+    /// </summary>
+    public int ChargeMinimumDamagePercent { get; set; } = 30;
+
+    /// <summary>
+    /// Gets or sets how long, in milliseconds, a full charge is held before it's released automatically.
+    /// </summary>
+    public int ChargeHoldMilliseconds { get; set; } = 1500;
+
+    /// <summary>
+    /// Gets or sets the movement speed, in percent, while charging.
+    /// </summary>
+    public int ChargeMovementSpeedPercent { get; set; } = 60;
+
     /// <inheritdoc />
     public override string? ToString()
     {

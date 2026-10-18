@@ -82,3 +82,20 @@
 
 **Removido já:** `ClientLauncher` e `ClientErrorLogDecryptor` (ferramentas do `main.exe` original, sem valor de referência para o cliente Godot).
 
+---
+
+### D-F7-04 — PvP por mapa e flag, substituindo PK/herói (2026-10-17)
+
+**Decisão:** Quem pode bater em quem é decidido por `PvpRules`: safezone nunca, party nunca; o mapa define (`GameMapDefinition.PvpMode`): cidades PvE, mapas "flagged" (os dois com PvP ligado se batem; desligar exige 30 s sem combate PvP), mapas PvP (todo mundo). Matar player não gera status PK nem penalidade.
+
+**Por quê:** Modelo de jogos modernos, previsível e sem PvP acidental; abre espaço para o loop de PvP planejado (facção, arena, castle siege — ver backlog).
+
+---
+
+### D-F7-05 — Controle de grupo vs. movimento (2026-10-18)
+
+**Decisão:** Stun, sleep, root (freeze) e slow limitam o movimento **próprio** do personagem — andar, teleporte, dash até o alvo — e o slow tem prioridade sobre qualquer bônus de velocidade (é um fator multiplicativo). Movimento **forçado** por outra entidade (puxar, empurrar, knockback; de inimigo ou de aliado) acontece mesmo sob CC: `Player.MoveAsync` move a posição contínua sem checar CC, e as skills de movimento próprio checam CC onde são lançadas.
+
+**Por quê:** Combinações de time são mecânica de combate: um aliado dá root, outro puxa o healer para fora da backline. Se root impedisse ser puxado, a combinação não existiria.
+
+**Impacto:** As skills herdadas do MU ainda não foram desenhadas para o estilo MOBA (dashes, puxões, knockbacks com direção); quando forem, seguem esta regra.

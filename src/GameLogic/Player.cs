@@ -1430,6 +1430,14 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         }
 
         await this.CurrentMap!.MoveAsync(this, target, this._moveLock, MoveType.Instant).ConfigureAwait(false);
+
+        // Forced movement (pull, knockback, a dash to the target): the continuous position follows,
+        // the current walk ends, and observers get the new position with the next snapshot.
+        // Crowd control doesn't stop it — a rooted player can still be pulled; the player's own
+        // movement skills check crowd control where they're cast.
+        this.ContinuousWalkTarget = null;
+        this.ContinuousPosition = Vector2F.FromTile(target);
+        this.HasMovedThisTick = true;
         this.Logger.LogDebug("MoveAsync: Observer Count: {0}", this.Observers.Count);
     }
 

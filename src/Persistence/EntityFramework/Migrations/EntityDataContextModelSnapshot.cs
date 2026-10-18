@@ -3266,6 +3266,15 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<int>("CastType")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ChargeHoldMilliseconds")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChargeMinimumDamagePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChargeMovementSpeedPercent")
+                        .HasColumnType("integer");
+
                     b.Property<int>("CooldownMilliseconds")
                         .HasColumnType("integer");
 
