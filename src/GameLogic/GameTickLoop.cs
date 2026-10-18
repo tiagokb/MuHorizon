@@ -29,6 +29,8 @@ public sealed class GameTickLoop
 
     private readonly GameMap _map;
 
+    private static readonly PlayerActions.Trade.TradeCancelAction TradeCancel = new();
+
     // Vitals (health/shield bars) go out every 6 ticks (~200 ms).
     private const int VitalsEveryTicks = 6;
     private int _vitalsTick;
@@ -289,6 +291,14 @@ public sealed class GameTickLoop
                 && !IsNear(newTile, npc.Position, Inputs.LeaveNpcInput.LeaveRangeTiles))
             {
                 player.InputQueue.Enqueue(new Inputs.LeaveNpcInput());
+            }
+
+            // Walking away from the trading partner cancels the trade (also a pending request).
+            if (player.TradingPartner is Player partner
+                && IsNear(oldTile, partner.Position, Inputs.LeaveNpcInput.LeaveRangeTiles)
+                && !IsNear(newTile, partner.Position, Inputs.LeaveNpcInput.LeaveRangeTiles))
+            {
+                player.InputQueue.Enqueue(new Inputs.ActionInput(p => TradeCancel.CancelTradeAsync(p)));
             }
         }
     }
