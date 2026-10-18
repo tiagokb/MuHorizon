@@ -132,7 +132,8 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
             return;
         }
 
-        if (skill.MovesToTarget)
+        // A rooted (or stunned) player still hits, but the skill doesn't carry it to the target.
+        if (skill.MovesToTarget && !Inputs.SkillCastRules.IsCrowdControlled(player))
         {
             await player.MoveAsync(target.Position).ConfigureAwait(false);
         }

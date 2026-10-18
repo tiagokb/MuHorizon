@@ -43,7 +43,7 @@ internal sealed class ProtobufNewNpcsInScopePlugIn : INewNpcsInScopePlugIn
             curHp  = (uint)Math.Max(0f, attackable.Attributes[Stats.CurrentHealth]);
         }
 
-        return new EntityState
+        var state = new EntityState
         {
             Id            = npc.Id,
             X             = pos.X,
@@ -56,5 +56,11 @@ internal sealed class ProtobufNewNpcsInScopePlugIn : INewNpcsInScopePlugIn
             CurrentHealth = curHp,
             MoveDelayMs   = (uint)(npc.Definition?.MoveDelay.TotalMilliseconds ?? 0),
         };
+        if (npc is IAttackable withEffects)
+        {
+            ProtobufActiveEffects.AddTo(state, withEffects);
+        }
+
+        return state;
     }
 }

@@ -52,6 +52,7 @@ internal sealed class ProtobufNewPlayersInScopePlugIn : INewPlayersInScopePlugIn
         }
 
         state.Equipment.AddRange(ProtobufEquipment.Build(p));
+        ProtobufActiveEffects.AddTo(state, p);
         return state;
     }
 }

@@ -44,7 +44,25 @@ public class MagicEffect : AsyncDisposable
         this.PowerUpElements = powerUps;
         this.Definition = definition;
         this.Duration = duration;
+        this.StartedAtUtc = DateTime.UtcNow;
         this._finishTimer = new Timer(this.OnTimerTimeout, null, (int)this.Duration.TotalMilliseconds, Timeout.Infinite);
+    }
+
+    /// <summary>
+    /// Gets when the effect started or was last renewed; with <see cref="Duration"/> it gives the remaining time.
+    /// </summary>
+    public DateTime StartedAtUtc { get; private set; }
+
+    /// <summary>
+    /// Gets the remaining time of the effect.
+    /// </summary>
+    public TimeSpan Remaining
+    {
+        get
+        {
+            var remaining = this.Duration - (DateTime.UtcNow - this.StartedAtUtc);
+            return remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+        }
     }
 
     /// <summary>
@@ -98,6 +116,7 @@ public class MagicEffect : AsyncDisposable
             throw new ObjectDisposedException(nameof(MagicEffect));
         }
 
+        this.StartedAtUtc = DateTime.UtcNow;
         this._finishTimer.Change((int)this.Duration.TotalMilliseconds, Timeout.Infinite);
     }
 

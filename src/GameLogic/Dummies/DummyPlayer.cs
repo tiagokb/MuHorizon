@@ -21,9 +21,19 @@ public enum DummyBehavior
     Punchbag,
 
     /// <summary>
-    /// Stuns the player who spawned it whenever it's in range: tests crowd control.
+    /// Stuns the player who spawned it whenever it's in range: no walking, attacking or casting.
     /// </summary>
     Stun,
+
+    /// <summary>
+    /// Slows the player who spawned it (the Iced effect of the ice skills).
+    /// </summary>
+    Slow,
+
+    /// <summary>
+    /// Roots the player who spawned it (the Freeze effect of Ice Arrow): no walking, but attacking and casting.
+    /// </summary>
+    Root,
 }
 
 /// <summary>
@@ -35,12 +45,17 @@ public sealed class DummyPlayer : OfflinePlayer
 {
     private static readonly TimeSpan PunchbagInterval = TimeSpan.FromSeconds(1);
 
-    private static readonly TimeSpan StunInterval = TimeSpan.FromSeconds(4);
+    private static readonly TimeSpan CrowdControlInterval = TimeSpan.FromSeconds(4);
 
     /// <summary>
-    /// The range in tiles within which the stun dummy reaches its target.
+    /// The range in tiles within which the crowd control dummies reach their target.
     /// </summary>
-    private const int StunRangeTiles = 6;
+    private const int CrowdControlRangeTiles = 6;
+
+    // Magic effect numbers (MagicEffectNumber of the initialization).
+    private const short StunnedEffect = 0x3D;
+    private const short IcedEffect = 0x38;
+    private const short FreezeEffect = 0x39;
 
     private readonly CancellationTokenSource _cts = new();
 
@@ -80,7 +95,7 @@ public sealed class DummyPlayer : OfflinePlayer
     /// <inheritdoc />
     protected override void StartIntelligence()
     {
-        var interval = this.Behavior == DummyBehavior.Stun ? StunInterval : PunchbagInterval;
+        var interval = this.Behavior == DummyBehavior.Punchbag ? PunchbagInterval : CrowdControlInterval;
         _ = Task.Run(() => this.RunAsync(interval, this._cts.Token));
     }
 
@@ -113,7 +128,9 @@ public sealed class DummyPlayer : OfflinePlayer
 
     private ValueTask ActAsync() => this.Behavior switch
     {
-        DummyBehavior.Stun => this.StunTargetAsync(),
+        DummyBehavior.Stun => this.ApplyCrowdControlAsync(StunnedEffect, TimeSpan.FromSeconds(2), "stunned"),
+        DummyBehavior.Slow => this.ApplyCrowdControlAsync(IcedEffect, TimeSpan.FromSeconds(4), "slowed"),
+        DummyBehavior.Root => this.ApplyCrowdControlAsync(FreezeEffect, TimeSpan.FromSeconds(3), "rooted"),
         _ => this.HealToFullAsync(),
     };
 
@@ -128,11 +145,11 @@ public sealed class DummyPlayer : OfflinePlayer
         return ValueTask.CompletedTask;
     }
 
-    private async ValueTask StunTargetAsync()
+    private async ValueTask ApplyCrowdControlAsync(short effectNumber, TimeSpan duration, string verb)
     {
         var target = this.Target;
         if (!this.IsAlive || !target.IsAlive || target.CurrentMap is null || target.CurrentMap != this.CurrentMap
-            || !this.IsInRange(target.Position, StunRangeTiles)
+            || !this.IsInRange(target.Position, CrowdControlRangeTiles)
             || !PvpRules.CanAttack(this, target))
         {
             return;
@@ -140,7 +157,9 @@ public sealed class DummyPlayer : OfflinePlayer
 
         this.Rotation = this.GetDirectionTo(target);
         await this.ForEachWorldObserverAsync<IShowAnimationPlugIn>(p => p.ShowAnimationAsync(this, 0, target, this.Rotation), true).ConfigureAwait(false);
-        await this.ApplyMaceMasteryStunEffectAsync(target).ConfigureAwait(false);
-        await target.ShowBlueMessageAsync($"{this.Name} stunned you (2 s).").ConfigureAwait(false);
+        if (await this.ApplyMagicEffectAsync(target, effectNumber, duration).ConfigureAwait(false))
+        {
+            await target.ShowBlueMessageAsync($"{this.Name} {verb} you ({duration.TotalSeconds:0} s).").ConfigureAwait(false);
+        }
     }
 }

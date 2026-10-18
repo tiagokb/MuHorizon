@@ -25,7 +25,9 @@ public sealed class TeleportInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
-        if (!player.IsAlive || player.IsTeleporting || player.ActiveCast is not null || !SkillCastRules.CanAttack(player))
+        // Rooted, stunned or asleep: no movement skill.
+        if (!player.IsAlive || player.IsTeleporting || player.ActiveCast is not null
+            || !SkillCastRules.CanAttack(player) || SkillCastRules.IsCrowdControlled(player))
         {
             return;
         }

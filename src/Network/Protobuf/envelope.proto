@@ -119,6 +119,12 @@ message EntityState {
     bool       pvp_enabled    = 12; // players only: turned PvP on
     uint32     current_shield = 13; // players only (SD)
     uint32     max_shield     = 14;
+    repeated ActiveEffect effects = 15; // effects shown to observers (buffs, debuffs, crowd control)
+}
+
+message ActiveEffect {
+    uint32 effect_id    = 1; // MagicEffectDefinition.Number (as in S2CBuffApplied)
+    uint32 remaining_ms = 2;
 }
 
 // One visible equipped item. Only what the renderer needs — stats travel in ItemData.

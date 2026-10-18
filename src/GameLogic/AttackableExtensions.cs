@@ -632,6 +632,30 @@ public static class AttackableExtensions
     }
 
     /// <summary>
+    /// Applies a magic effect (by its number, e.g. Stunned, Iced, Freeze) with all its power-ups
+    /// to the attackable, for the given duration.
+    /// </summary>
+    /// <param name="attacker">The player applying it.</param>
+    /// <param name="attackable">The attackable.</param>
+    /// <param name="effectNumber">The <see cref="MagicEffectDefinition.Number"/>.</param>
+    /// <param name="duration">The duration.</param>
+    /// <returns><c>true</c>, if the effect exists and was applied.</returns>
+    public static async ValueTask<bool> ApplyMagicEffectAsync(this Player attacker, IAttackable attackable, short effectNumber, TimeSpan duration)
+    {
+        if (attacker.GameContext.Configuration.MagicEffects.FirstOrDefault(m => m.Number == effectNumber) is not { } definition)
+        {
+            return false;
+        }
+
+        var elements = definition.PowerUpDefinitions
+            .Where(pu => pu.TargetAttribute is not null)
+            .Select(pu => new MagicEffect.ElementWithTarget(attackable.Attributes.CreateElement(pu), pu.TargetAttribute!))
+            .ToArray();
+        await attackable.MagicEffectList.AddEffectAsync(new MagicEffect(duration, definition, elements)).ConfigureAwait(false);
+        return true;
+    }
+
+    /// <summary>
     /// Applies the mace mastery stun effect to the specified attackable.
     /// </summary>
     /// <param name="attacker">The attacker.</param>

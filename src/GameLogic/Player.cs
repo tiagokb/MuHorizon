@@ -810,6 +810,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             return null;
         }
 
+        // Test dummies only take damage from players, so monsters don't kill them mid-test.
+        if (this is Dummies.DummyPlayer && PvpRules.GetAttackingPlayer(attacker) is null)
+        {
+            return null;
+        }
+
         if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)
         {
             if (!PvpRules.CanAttack(attackingPlayer, this))
