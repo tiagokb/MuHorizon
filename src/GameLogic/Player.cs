@@ -293,6 +293,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public DateTime LastPvpCombatUtc { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the player takes no damage (/god, game masters testing).
+    /// </summary>
+    public bool IsGodMode { get; set; }
+
+    /// <summary>
     /// Gets or sets the health and shield last shown to the observers (see <see cref="GameTickLoop"/>).
     /// </summary>
     internal (int Health, int Shield) LastBroadcastVitals { get; set; }
@@ -806,6 +811,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         }
 
         if (this.IsAttackBlockedBySafezone(attacker))
+        {
+            return null;
+        }
+
+        if (this.IsGodMode)
         {
             return null;
         }

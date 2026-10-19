@@ -47,6 +47,17 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 - [x] Stack count — badge amarelo no canto de itens stackable (poções, joias); `ItemData.durability` + `ItemDefinitionData.is_stackable`
 - [x] Buff da Elfa — interação com NPC #257 (Elf Soldier) aplica `ElfSoldierBuff` (def +50+lvl/5, dmg +45+lvl/3, 60min); `S2CBuffApplied`/`S2CBuffExpired` → `ActiveBuffIds`
 
+
+## Eventos (DS / BC / CC) — legado congelado (2026-10-19)
+
+Os eventos vão ser refeitos do zero (regras de entrada, gameplay interno etc.) — ver `15-events-rework.md`.
+Validado e mantido: entrada (janela J / NPCs, ticket no inventário) e os timers de abertura. O resto não recebe mais investimento.
+
+- [ ] Quit Game dentro do evento (corrigido, falta validar): o logout no evento faz warp pra cidade antes (S2CMapChanged); o client recarregava a cena e perdia o S2CLogout, e o timer de 2 s do `GameMenu` chamava `GetTree()` num nó já liberado. Agora o Logout entra no buffer da cena e o timer usa a árvore capturada.
+- [ ] Summoner: Drain Life / Chain Lightning sem dano (corrigido, falta validar): são `AreaSkillExplicitTarget` e iam como área no chão sem alvo. Agora não têm área no `S2CSkillList` (client mira na entidade) e o `SkillInput` manda pro `AreaSkillAttackAction` com o alvo explícito. Vale também para Dragon Roar / Phoenix Shot (RF).
+- [~] BC: kill conta para o primeiro change event pendente válido (fix da estátua) — não retestado; descartável no rework.
+- [~] `MonsterStrengthPercent` por mapa (eventos em 25%) — fica como ferramenta geral de balanceamento.
+
 ---
 
 ## Combat Visual Feedback (targeting / range indicators)

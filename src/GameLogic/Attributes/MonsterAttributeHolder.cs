@@ -34,6 +34,17 @@ public class MonsterAttributeHolder : IAttributeSystem
 
     private static readonly ConcurrentDictionary<MonsterDefinition, IDictionary<AttributeDefinition, float>> MonsterStatAttributesCache = new();
 
+    /// <summary>
+    /// The stats scaled by the map's <see cref="GameMapDefinition.MonsterStrengthPercent"/> (e.g. weaker event monsters).
+    /// </summary>
+    private static readonly ConcurrentDictionary<(MonsterDefinition Definition, int Strength), IDictionary<AttributeDefinition, float>> ScaledStatAttributesCache = new();
+
+    private static readonly HashSet<AttributeDefinition> ScaledByMapStrength =
+    [
+        Stats.MaximumHealth, Stats.DefenseBase, Stats.DefenseRatePvm, Stats.AttackRatePvm,
+        Stats.MinimumPhysBaseDmg, Stats.MaximumPhysBaseDmg, Stats.MinimumWizBaseDmg, Stats.MaximumWizBaseDmg,
+    ];
+
     private readonly AttackableNpcBase _monster;
 
     private readonly object _attributesLock = new();
@@ -53,7 +64,10 @@ public class MonsterAttributeHolder : IAttributeSystem
     public MonsterAttributeHolder(AttackableNpcBase monster)
     {
         this._monster = monster;
-        this._statAttributes = GetStatAttributeOfMonster(monster.Definition);
+        var strength = monster.CurrentMap?.Definition.MonsterStrengthPercent ?? 100;
+        this._statAttributes = strength == 100
+            ? GetStatAttributeOfMonster(monster.Definition)
+            : ScaledStatAttributesCache.GetOrAdd((monster.Definition, strength), key => Scale(GetStatAttributeOfMonster(key.Definition), key.Strength));
     }
 
     /// <inheritdoc/>
@@ -182,6 +196,12 @@ public class MonsterAttributeHolder : IAttributeSystem
     private static IDictionary<AttributeDefinition, float> GetStatAttributeOfMonster(MonsterDefinition monsterDefinition)
     {
         return MonsterStatAttributesCache.GetOrAdd(monsterDefinition, BuildStatAttributes);
+    }
+
+    private static IDictionary<AttributeDefinition, float> Scale(IDictionary<AttributeDefinition, float> stats, int strengthPercent)
+    {
+        var factor = Math.Max(1, strengthPercent) / 100f;
+        return stats.ToDictionary(s => s.Key, s => ScaledByMapStrength.Contains(s.Key) ? s.Value * factor : s.Value);
     }
 
     private static IDictionary<AttributeDefinition, float> BuildStatAttributes(MonsterDefinition monsterDefinition)

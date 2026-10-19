@@ -19,6 +19,7 @@ using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
+using MUnique.OpenMU.GameLogic.PlayerActions.MiniGames;
 using MUnique.OpenMU.GameLogic.PlayerActions.Party;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
 using MUnique.OpenMU.GameLogic.PlayerActions.Trade;
@@ -49,6 +50,11 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly TradeMoneyAction TradeMoneyAction = new();
     private static readonly TradeButtonAction TradeButtonAction = new();
     private static readonly TradeCancelAction TradeCancelAction = new();
+    private static readonly EnterMiniGameAction EnterMiniGameAction = new();
+    private static readonly MiniGameOpeningStateRequestAction MiniGameOpeningStateRequestAction = new();
+
+    // EnterMiniGameAction finds the ticket in the inventory for this slot.
+    private const byte UndefinedTicketSlot = 0xFF;
     private const int MaxChatLength = 90; // legacy chat packets carry up to 90 characters
     private static readonly QuestCompletionAction QuestCompletionAction = new();
     private static readonly QuestCancelAction QuestCancelAction = new();
@@ -319,6 +325,32 @@ internal sealed class ProtobufPacketDispatcher
 
             case ClientEnvelope.PayloadOneofCase.TradeCancel:
                 await TradeCancelAction.CancelTradeAsync(_player).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.EnterMiniGame:
+                {
+                    var type = (MiniGameType)envelope.EnterMiniGame.Kind;
+                    if (_player.GetSuitableMiniGameDefinition(type, 0) is { } definition && definition.IsInLevelRange(_player))
+                    {
+                        await EnterMiniGameAction.TryEnterMiniGameAsync(_player, type, definition.GameLevel, UndefinedTicketSlot).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await _player.ShowBlueMessageAsync("There is no level of this event for your character.").ConfigureAwait(false);
+                    }
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MiniGameOpening:
+                {
+                    var type = (MiniGameType)envelope.MiniGameOpening.Kind;
+                    if (_player.GetSuitableMiniGameDefinition(type, 0) is { } definition)
+                    {
+                        await MiniGameOpeningStateRequestAction.HandleRequestAsync(_player, type, (byte)definition.GameLevel).ConfigureAwait(false);
+                    }
+                }
+
                 break;
 
             case ClientEnvelope.PayloadOneofCase.SetPvp:

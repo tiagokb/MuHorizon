@@ -1003,16 +1003,32 @@ public class MiniGameContext : AsyncDisposable, IEventStateProvider
 
     private void CheckKillForEventChanges(IAttackable killedObject)
     {
-        if (this.NextEvent is not { } nextEvent)
+        ChangeEventContext? achieved = null;
+        lock (this._remainingEvents)
         {
-            return;
+            // The kill counts for the first pending event it is valid for - not only the next one:
+            // e.g. the Blood Castle gate destroyed (by an area skill) before the bridge event
+            // finished must still count, otherwise the gate event waits forever for a dead gate.
+            var changeEvent = this._remainingEvents
+                .OrderBy(e => e.Definition.Index)
+                .FirstOrDefault(e => this.IsKillValid(killedObject, e.Definition));
+            if (changeEvent is null)
+            {
+                return;
+            }
+
+            if (changeEvent.RegisterKill())
+            {
+                this._remainingEvents.Remove(changeEvent);
+                this.UpdateNextEvent();
+                achieved = changeEvent;
+            }
         }
 
-        if (this.IsKillValid(killedObject, nextEvent.Definition) && nextEvent.RegisterKill())
+        if (achieved is not null)
         {
-            this._remainingEvents.Remove(nextEvent);
-            this.UpdateNextEvent();
-            _ = Task.Run(() => this.ApplyChangeEventAsync(nextEvent.Definition, killedObject.LastDeath?.KillerName));
+            this.Logger.LogInformation("Mini game {game}: change event '{event}' achieved ({kills} kills).", this, achieved.Definition.Description, achieved.RequiredKills);
+            _ = Task.Run(() => this.ApplyChangeEventAsync(achieved.Definition, killedObject.LastDeath?.KillerName));
         }
     }
 

@@ -1179,6 +1179,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<int>("PvpMode")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MonsterStrengthPercent")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("SafezoneMapId")
                         .HasColumnType("uuid");
 

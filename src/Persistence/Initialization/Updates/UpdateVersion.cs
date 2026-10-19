@@ -349,4 +349,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AddMapPvpModesPlugInSeason6"/>.
     /// </summary>
     AddMapPvpModesSeason6 = 103,
+
+    /// <summary>
+    /// The version of the <see cref="WeakenEventMonstersPlugInSeason6"/>.
+    /// </summary>
+    WeakenEventMonstersSeason6 = 104,
 }

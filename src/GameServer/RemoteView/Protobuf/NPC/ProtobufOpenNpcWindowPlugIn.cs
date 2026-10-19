@@ -6,6 +6,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.NPC;
 
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.GameLogic.Views.NPC;
+using MUnique.OpenMU.Network.Protobuf;
 
 /// <summary>
 /// Opens NPC windows on the client. Only the chaos machine is supported so far (S2CChaosMachine);
@@ -17,6 +18,15 @@ internal sealed class ProtobufOpenNpcWindowPlugIn : IOpenNpcWindowPlugIn
 
     public ProtobufOpenNpcWindowPlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask OpenNpcWindowAsync(NpcWindow window) =>
-        window == NpcWindow.ChaosMachine ? ProtobufChaosMachine.SendAsync(_player, opened: true) : ValueTask.CompletedTask;
+    public ValueTask OpenNpcWindowAsync(NpcWindow window) => window switch
+    {
+        NpcWindow.ChaosMachine => ProtobufChaosMachine.SendAsync(_player, opened: true),
+        NpcWindow.DevilSquare => this.ShowEntranceAsync(MiniGameKind.DevilSquare),
+        NpcWindow.BloodCastle => this.ShowEntranceAsync(MiniGameKind.BloodCastle),
+        _ => ValueTask.CompletedTask,
+    };
+
+    // Charon / Messenger of Arch: the client shows the event entrance.
+    private ValueTask ShowEntranceAsync(MiniGameKind kind) =>
+        _player.SendEnvelopeAsync(new ServerEnvelope { MiniGameEntrance = new S2CMiniGameEntrance { Kind = kind } });
 }

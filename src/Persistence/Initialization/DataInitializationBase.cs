@@ -111,6 +111,7 @@ public abstract class DataInitializationBase : IDataInitializationPlugIn
 
         this.GameMapsInitializer.SetSafezoneMaps();
         MapPvpModes.Apply(this.GameConfiguration);
+        EventMonsterStrength.Apply(this.GameConfiguration);
 
         if (createTestAccounts)
         {

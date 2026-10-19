@@ -75,6 +75,12 @@ public partial class GameMapDefinition
     public MapPvpMode PvpMode { get; set; }
 
     /// <summary>
+    /// Gets or sets the strength of the monsters spawned on this map, in percent of their definition:
+    /// health, defense, defense rate, attack rate and damage are scaled by it (100 = unchanged).
+    /// </summary>
+    public int MonsterStrengthPercent { get; set; } = 100;
+
+    /// <summary>
     /// Gets or sets the game map to which the player will be brought when it died.
     /// One of the <see cref="ExitGates"/> where <see cref="ExitGate.IsSpawnGate"/> is selected.
     /// </summary>

@@ -322,6 +322,58 @@ message S2CTradeFinished {
     string result = 1;
 }
 
+// Talking to an event NPC (Charon, Messenger of Arch): the client shows the event's entrance.
+message S2CMiniGameEntrance {
+    MiniGameKind kind = 1;
+}
+
+message S2CMiniGameOpening {
+    MiniGameKind kind               = 1;
+    int32        seconds_until_open = 2; // 0 = open now (can enter); -1 = not scheduled
+    uint32       player_count       = 3;
+}
+
+// The running event: status (e.g. Started, GateDestroyed, QuestItemTaken...), time left,
+// monsters to kill, and who holds the Blood Castle quest item.
+message S2CMiniGameState {
+    MiniGameKind kind              = 1;
+    string       status            = 2;
+    uint32       remaining_ms      = 3;
+    uint32       max_monsters      = 4;
+    uint32       current_monsters  = 5;
+    string       quest_item_holder = 6;
+}
+
+message MiniGameScoreRow {
+    string player      = 1;
+    int32  score       = 2;
+    int32  bonus_exp   = 3;
+    int32  bonus_money = 4;
+}
+
+// The result when the event ends.
+message S2CMiniGameScore {
+    MiniGameKind              kind     = 1;
+    bool                      success  = 2;
+    uint32                    own_rank = 3;
+    repeated MiniGameScoreRow rows     = 4;
+}
+
+message TerrainArea {
+    uint32 start_x = 1;
+    uint32 start_y = 2;
+    uint32 end_x   = 3;
+    uint32 end_y   = 4;
+}
+
+// Tiles change during events (Blood Castle's gate and bridge): set or clear an attribute
+// (Safezone, Blocked, NoGround...) in the areas.
+message S2CTerrainChanged {
+    string               attribute = 1; // TerrainAttributeType
+    bool                 set       = 2;
+    repeated TerrainArea areas     = 3;
+}
+
 message S2CChatMessage {
     string sender = 1;
     string text   = 2;
@@ -731,6 +783,25 @@ message C2STradeButton {
 
 message C2STradeCancel {}
 
+// The events (mini games); numbers as MiniGameType.
+enum MiniGameKind {
+    MINI_GAME_KIND_UNDEFINED     = 0;
+    MINI_GAME_KIND_DEVIL_SQUARE  = 1;
+    MINI_GAME_KIND_BLOOD_CASTLE  = 2;
+    MINI_GAME_KIND_CHAOS_CASTLE  = 3;
+}
+
+// Enters an event: the server picks the level from the character's level and finds the ticket
+// in the inventory (Devil's Invitation, Invisibility Cloak, Armor of Guardsman).
+message C2SEnterMiniGame {
+    MiniGameKind kind = 1;
+}
+
+// Asks when the event (at the character's level) opens next (S2CMiniGameOpening).
+message C2SMiniGameOpeningRequest {
+    MiniGameKind kind = 1;
+}
+
 // A chat line typed by the player; lines starting with '/' are chat commands (e.g. /dummy stun).
 message C2SChatMessage {
     string text = 1;
@@ -854,6 +925,8 @@ message ClientEnvelope {
         C2STradeMoney           trade_money            = 35;
         C2STradeButton          trade_button           = 36;
         C2STradeCancel          trade_cancel           = 37;
+        C2SEnterMiniGame        enter_mini_game        = 38;
+        C2SMiniGameOpeningRequest mini_game_opening    = 39;
     }
 }
 
@@ -916,5 +989,10 @@ message ServerEnvelope {
         S2CTradeRequest          trade_request           = 55;
         S2CTradeState            trade_state             = 56;
         S2CTradeFinished         trade_finished          = 57;
+        S2CMiniGameEntrance      mini_game_entrance      = 58;
+        S2CMiniGameOpening       mini_game_opening       = 59;
+        S2CMiniGameState         mini_game_state         = 60;
+        S2CMiniGameScore         mini_game_score         = 61;
+        S2CTerrainChanged        terrain_changed         = 62;
     }
 }
