@@ -7,6 +7,7 @@ namespace MUnique.OpenMU.GameLogic.Inputs;
 using Microsoft.Extensions.Logging;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.DataModel.Entities;
+using MUnique.OpenMU.GameLogic.PlayerActions.Skills;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.World;
 
@@ -16,6 +17,8 @@ using MUnique.OpenMU.GameLogic.Views.World;
 /// </summary>
 public sealed class SkillInput : IPlayerInput
 {
+    private static readonly AreaSkillAttackAction AreaAction = new();
+
     private readonly ushort _skillId;
     private readonly ushort _targetId;
 
@@ -75,6 +78,22 @@ public sealed class SkillInput : IPlayerInput
 
         if (startCastTime && await CastController.TryStartCastTimeAsync(player, skill, p => this.HandleAsync(p, false)).ConfigureAwait(false))
         {
+            return;
+        }
+
+        // Area skills with an explicit target (Drain Life, Chain Lightning...) are aimed at an entity:
+        // the area action hits it (and, for chains, the targets around it).
+        if (skill.SkillType == SkillType.AreaSkillExplicitTarget)
+        {
+            if (!SkillCastRules.CanAttack(player)
+                || !target.IsActive()
+                || !player.IsInRange(target.Position, skill.Range + SkillCastRules.RangeTolerance))
+            {
+                return;
+            }
+
+            var rotation = (byte)(player.Position.GetAngleDegreeTo(target.Position) / 360.0 * 255.0);
+            await AreaAction.AttackAsync(player, target.Id, _skillId, target.Position, rotation, hitImplicitlyForExplicitSkill: true).ConfigureAwait(false);
             return;
         }
 

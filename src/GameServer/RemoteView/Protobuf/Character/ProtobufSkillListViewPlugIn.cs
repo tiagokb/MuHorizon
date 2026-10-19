@@ -62,9 +62,10 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
 
     // Mirrors how AreaSkillAttackAction picks targets: a cone (frustum) from the caster, a circle
     // of TargetAreaDiameter around the point, or everything within EffectRange (else Range) of it.
+    // Explicit-target area skills (Drain Life, Chain Lightning) are aimed at an entity: no area.
     private static (SkillArea Shape, float Radius, float Width) GetArea(Skill skill)
     {
-        if (skill.SkillType is not (SkillType.AreaSkillAutomaticHits or SkillType.AreaSkillExplicitHits or SkillType.AreaSkillExplicitTarget))
+        if (skill.SkillType is not (SkillType.AreaSkillAutomaticHits or SkillType.AreaSkillExplicitHits))
             return (SkillArea.None, 0f, 0f);
 
         var settings = skill.AreaSkillSettings;
