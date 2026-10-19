@@ -53,8 +53,8 @@ Itens pendentes em ordem de prioridade prática. Marcar como `[x]` ao concluir.
 Os eventos vão ser refeitos do zero (regras de entrada, gameplay interno etc.) — ver `15-events-rework.md`.
 Validado e mantido: entrada (janela J / NPCs, ticket no inventário) e os timers de abertura. O resto não recebe mais investimento.
 
-- [ ] Quit Game dentro do evento (corrigido, falta validar): o logout no evento faz warp pra cidade antes (S2CMapChanged); o client recarregava a cena e perdia o S2CLogout, e o timer de 2 s do `GameMenu` chamava `GetTree()` num nó já liberado. Agora o Logout entra no buffer da cena e o timer usa a árvore capturada.
-- [ ] Summoner: Drain Life / Chain Lightning sem dano (corrigido, falta validar): são `AreaSkillExplicitTarget` e iam como área no chão sem alvo. Agora não têm área no `S2CSkillList` (client mira na entidade) e o `SkillInput` manda pro `AreaSkillAttackAction` com o alvo explícito. Vale também para Dragon Roar / Phoenix Shot (RF).
+- [x] Quit Game dentro do evento (validado 2026-10-19): o logout no evento faz warp pra cidade antes (S2CMapChanged); o client recarregava a cena e perdia o S2CLogout, e o timer de 2 s do `GameMenu` chamava `GetTree()` num nó já liberado. Agora o Logout entra no buffer da cena e o timer usa a árvore capturada.
+- [x] Summoner: Drain Life / Chain Lightning sem dano (validado 2026-10-19): são `AreaSkillExplicitTarget` e iam como área no chão sem alvo. Agora não têm área no `S2CSkillList` (client mira na entidade) e o `SkillInput` manda pro `AreaSkillAttackAction` com o alvo explícito. Vale também para Dragon Roar / Phoenix Shot (RF).
 - [~] BC: kill conta para o primeiro change event pendente válido (fix da estátua) — não retestado; descartável no rework.
 - [~] `MonsterStrengthPercent` por mapa (eventos em 25%) — fica como ferramenta geral de balanceamento.
 
