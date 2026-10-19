@@ -54,6 +54,7 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
                 CooldownMs = (uint)Math.Max(0, entry.Skill.CooldownMilliseconds),
                 CastType   = (CastType)entry.Skill.CastType,
                 CastTimeMs = (uint)Math.Max(0, entry.Skill.CastTimeMilliseconds),
+                Name       = entry.Skill.Name.ToString() ?? string.Empty,
             });
         }
 

@@ -649,6 +649,7 @@ message SkillData {
     uint32    cooldown_ms = 8;  // Skill.CooldownMilliseconds; 0 = only paced by attack speed
     CastType  cast_type    = 9;
     uint32    cast_time_ms = 10; // CHARGE: time to full charge; CAST_TIME: time to complete
+    string    name         = 11; // Skill.Name, shown by the client
 }
 
 // How a skill is cast (Skill.CastType).
