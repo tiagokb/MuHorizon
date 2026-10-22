@@ -44,7 +44,7 @@ internal class Ancient : AccountInitializerBase
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.PendantSlot, ItemGroups.Misc1, 25, 0, "Broy")); // Broy Pendant of Ice
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.Ring1Slot, ItemGroups.Misc1, 9, 0, "Agnis")); // Agnis Ring of Poison
         character.Inventory.Items.Add(this.CreateWings(InventoryConstants.WingsSlot, 30, 13, 13)); // Cape +13
-        character.Inventory.Items.Add(this.CreateHorse(InventoryConstants.PetSlot));
+        character.Inventory.Items.Add(this.CreateHorse(InventoryConstants.MountSlot));
 
         this.AddDarkLordItems(character.Inventory);
         this.AddTestJewelsAndPotions(character.Inventory);
@@ -70,7 +70,7 @@ internal class Ancient : AccountInitializerBase
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.GlovesSlot, ItemGroups.Gloves, 1, 13, "Hyon")); // Hyon Dragon Gloves+13+16+L
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.BootsSlot, ItemGroups.Boots, 1, 13, "Hyon")); // Hyon Dragon Boots+13+16+L
         character.Inventory.Items.Add(this.CreateWings(InventoryConstants.WingsSlot, 5, 13)); // Dragon Wings +13
-        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.PetSlot));
+        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.MountSlot));
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.Ring1Slot, ItemGroups.Misc1, 22, 0, "Vicious")); // Vicious Ring of Earth
 
         this.AddDarkKnightItems(character.Inventory);
@@ -98,7 +98,7 @@ internal class Ancient : AccountInitializerBase
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.BootsSlot, ItemGroups.Boots, 14, 13, "Aruan")); // Aruan Boots+13+16+L
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.PendantSlot, ItemGroups.Misc1, 28, 0, "Gywen")); // Gywen Pendant of Ability
         character.Inventory.Items.Add(this.CreateWings(InventoryConstants.WingsSlot, 3, 13)); // Wings of Spirits +13
-        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.PetSlot, ItemOptionTypes.BlueFenrir));
+        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.MountSlot, ItemOptionTypes.BlueFenrir));
 
         this.AddTestJewelsAndPotions(character.Inventory);
         return character;
@@ -123,7 +123,7 @@ internal class Ancient : AccountInitializerBase
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.GlovesSlot, ItemGroups.Gloves, 3, 13, "Anubis")); // Anubis Legendary Gloves+13+16+L
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.BootsSlot, ItemGroups.Boots, 3, 13, "Enis")); // Enis Legendary Boots+13+16+L
         character.Inventory.Items.Add(this.CreateWings(InventoryConstants.WingsSlot, 4, 13)); // Wings of Soul +13
-        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.PetSlot, ItemOptionTypes.BlackFenrir));
+        character.Inventory.Items.Add(this.CreateFenrir(InventoryConstants.MountSlot, ItemOptionTypes.BlackFenrir));
         character.Inventory.Items.Add(this.CreateFullAncient(InventoryConstants.Ring1Slot, ItemGroups.Misc1, 21, 0, "Anubis")); // Anubis Ring of Fire
 
         this.AddTestJewelsAndPotions(character.Inventory);

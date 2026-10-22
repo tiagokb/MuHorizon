@@ -49,7 +49,7 @@ internal sealed class RepairHandler
              i <= InventoryConstants.LastEquippableItemSlotIndex;
              i++)
         {
-            if (i == InventoryConstants.PetSlot)
+            if (InventoryConstants.IsCompanionSlot(i))
             {
                 continue;
             }

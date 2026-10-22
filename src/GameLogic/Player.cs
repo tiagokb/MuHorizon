@@ -3017,8 +3017,13 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             }
         }
 
-        if (this.Inventory?.GetItem(InventoryConstants.PetSlot) is { Durability: > 0.0 } pet)
+        foreach (var companionSlot in new[] { InventoryConstants.PetSlot, InventoryConstants.MountSlot })
         {
+            if (this.Inventory?.GetItem(companionSlot) is not { Durability: > 0.0 } pet)
+            {
+                continue;
+            }
+
             await this.DecreaseDefenseItemDurabilityAsync(pet, hitInfo).ConfigureAwait(false);
             if (pet.Durability == 0.0)
             {
@@ -3115,7 +3120,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         }
 
         const double petShare = 0.2;
-        Item? movePet = GetTrainablePet(InventoryConstants.PetSlot);
+        Item? movePet = GetTrainablePet(InventoryConstants.MountSlot) ?? GetTrainablePet(InventoryConstants.PetSlot);
         Item? attackPet = GetTrainablePet(InventoryConstants.RightHandSlot);
 
         if (movePet is null && attackPet is null)

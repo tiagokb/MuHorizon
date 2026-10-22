@@ -17,7 +17,7 @@ public static class InventoryConstants
     /// <summary>
     /// The last equippable item slot index.
     /// </summary>
-    public static readonly byte LastEquippableItemSlotIndex = 11;
+    public static readonly byte LastEquippableItemSlotIndex = 12;
 
     /// <summary>
     /// The equippable slots count.
@@ -83,6 +83,19 @@ public static class InventoryConstants
     /// The second ring inventory slot index.
     /// </summary>
     public static readonly byte Ring2Slot = 11;
+
+    /// <summary>
+    /// The mount slot (Uniria, Dinorant, Dark Horse, Fenrir...), separate from the <see cref="PetSlot"/>
+    /// so a mount and a pet can be equipped together.
+    /// </summary>
+    public static readonly byte MountSlot = 12;
+
+    /// <summary>
+    /// Determines whether the slot holds a companion: the pet or the mount.
+    /// </summary>
+    /// <param name="itemSlot">The item slot.</param>
+    /// <returns><c>true</c> for the pet and mount slots.</returns>
+    public static bool IsCompanionSlot(byte itemSlot) => itemSlot == PetSlot || itemSlot == MountSlot;
 
     /// <summary>
     /// The size of a row.

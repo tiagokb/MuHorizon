@@ -21,7 +21,7 @@ public class ItemRepairAction
     public async ValueTask RepairItemAsync(Player player, byte slot)
     {
         using var loggerScope = player.Logger.BeginScope(this.GetType());
-        if (slot == InventoryConstants.PetSlot && player.OpenedNpc is null)
+        if (InventoryConstants.IsCompanionSlot(slot) && player.OpenedNpc is null)
         {
             player.Logger.LogWarning("Cheater Warning: Player tried to repair pet slot, without opened NPC. Character: [{0}], Account: [{1}]", player.SelectedCharacter?.Name, player.Account?.LoginName);
             return;
@@ -70,7 +70,7 @@ public class ItemRepairAction
         // TODO: Check if NPC is able to repair all items. Maybe specified by npc dialog type
         for (byte i = InventoryConstants.FirstEquippableItemSlotIndex; i <= InventoryConstants.LastEquippableItemSlotIndex; i++)
         {
-            if (i == InventoryConstants.PetSlot)
+            if (InventoryConstants.IsCompanionSlot(i))
             {
                 // Pets are repaired due pet trainer
                 continue;
