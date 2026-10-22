@@ -64,7 +64,7 @@ Os bônus vêm de `ItemBasePowerUpDefinition` no banco (atributo + valor + agreg
 | C | Corvo como entidade usando o controlador | médio |
 | D | Visual de pets/montarias | grande (assets), polimento |
 
-## 3. Decisões em aberto
-1. **Slot novo de montaria**: os slots 0–11 estão ocupados e o inventário começa no 12. Criar o slot 12 empurra o inventário uma posição → migração que soma 1 no `ItemSlot` dos itens de inventário (não do baú). Alternativa: um índice "fora da grade" (ex. 236+) sem mexer no inventário — menos risco, mas foge do padrão.
-2. **Corvo/invocações atacáveis?** No legado o corvo não pode ser atacado. Companheiro com HP que morre (e reaparece depois de X s) ou invulnerável?
-3. **Limite de invocações**: hoje 1 por vez. Manter 1, ou depender da skill/talento?
+## 3. Decisões (2026-10-22)
+1. **Slot de montaria**: slot 12 com migração que empurra os itens de inventário uma posição (só inventário do personagem, não o baú). Se a migração se mostrar arriscada, usar um slot especial fora da grade.
+2. **Companheiros são alvos de verdade**: invocações tomam dano, CC e movimento forçado (equilíbrio do jogo). Ao morrer, voltam pelo **cooldown da skill**; a skill **não pode ser usada enquanto houver uma invocação ativa** (o cooldown começa quando ela morre ou é dispensada).
+3. **Limite de invocações**: vem de talento/passiva (abre espaço para build de invocador); o padrão continua 1.
