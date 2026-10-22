@@ -24,6 +24,12 @@ public partial class GameConfiguration
     public short MaximumLevel { get; set; }
 
     /// <summary>
+    /// Gets or sets how many seconds after the last hit (dealt or taken) a player is still in combat:
+    /// the skill loadout can only be changed out of combat.
+    /// </summary>
+    public int CombatLockSeconds { get; set; } = 6;
+
+    /// <summary>
     /// Gets or sets the maximum reachable master level.
     /// </summary>
     public short MaximumMasterLevel { get; set; }

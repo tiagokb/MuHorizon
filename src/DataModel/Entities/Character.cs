@@ -210,6 +210,12 @@ public class Character
     public byte[]? KeyConfiguration { get; set; }
 
     /// <summary>
+    /// Gets or sets the equipped skills (Q, W, E, R, D, F) as six little-endian skill numbers;
+    /// 0 is an empty slot (basic attack). Null until the loadout is first created.
+    /// </summary>
+    public byte[]? SkillLoadout { get; set; }
+
+    /// <summary>
     /// Gets or sets the configuration of the mu helper, which is set by the client and just saved as is.
     /// </summary>
     public byte[]? MuHelperConfiguration { get; set; }

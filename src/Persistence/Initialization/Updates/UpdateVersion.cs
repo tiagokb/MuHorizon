@@ -354,4 +354,9 @@ public enum UpdateVersion
     /// The version of the <see cref="WeakenEventMonstersPlugInSeason6"/>.
     /// </summary>
     WeakenEventMonstersSeason6 = 104,
+
+    /// <summary>
+    /// The version of the <see cref="AddSkillSlotTypesPlugInSeason6"/>.
+    /// </summary>
+    AddSkillSlotTypesSeason6 = 105,
 }

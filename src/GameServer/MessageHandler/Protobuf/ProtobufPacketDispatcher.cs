@@ -353,6 +353,21 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.SetSkillLoadout:
+                if (_player.InputQueue.Count < 32)
+                {
+                    var skills = envelope.SetSkillLoadout.Skills;
+                    var loadout = new ushort[SkillLoadout.SlotCount];
+                    for (var slot = 0; slot < loadout.Length && slot < skills.Count; slot++)
+                    {
+                        loadout[slot] = (ushort)skills[slot];
+                    }
+
+                    _player.InputQueue.Enqueue(new SetSkillLoadoutInput(loadout));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.SetPvp:
                 if (_player.InputQueue.Count < 32)
                 {

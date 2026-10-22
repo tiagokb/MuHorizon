@@ -30,8 +30,14 @@ public class SummonPartySkillPlugin : TargetedSkillPluginBase
     {
         var skillEntry = player.SkillList?.GetSkill(skillId);
 
-        if (skillEntry?.Skill is null || !this.CanPlayerSummon(player))
+        if (skillEntry?.Skill is null)
         {
+            return;
+        }
+
+        if (!this.CanPlayerSummon(player))
+        {
+            await player.ShowBlueMessageAsync("Summon needs a party (and can't be used in events or with an NPC open).").ConfigureAwait(false);
             return;
         }
 
@@ -45,6 +51,7 @@ public class SummonPartySkillPlugin : TargetedSkillPluginBase
         var cancellationTokenSource = new SkillCancellationTokenSource();
         player.SkillCancelTokenSource = cancellationTokenSource;
 
+        await player.ShowBlueMessageAsync($"Summoning your party in {CountdownSeconds} seconds...").ConfigureAwait(false);
         _ = Task.Run(() => this.RunSummonPartyAsync(player, cancellationTokenSource));
     }
 

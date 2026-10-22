@@ -27,6 +27,7 @@ internal static class SkillCastRules
     /// </summary>
     internal static SkillEntry? GetCastableSkill(Player player, ushort skillId) =>
         player.SkillList?.GetSkill(skillId) is { Skill: { SkillType: not SkillType.PassiveBoost } } entry
+        && SkillLoadout.IsEquipped(player, skillId)
             ? entry
             : null;
 

@@ -417,6 +417,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<byte[]>("KeyConfiguration")
                         .HasColumnType("bytea");
 
+                    b.Property<byte[]>("SkillLoadout")
+                        .HasColumnType("bytea");
+
                     b.Property<int>("LevelUpPoints")
                         .HasColumnType("integer");
 
@@ -1118,6 +1121,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
 
                     b.Property<short>("MaximumLevel")
                         .HasColumnType("smallint");
+
+                    b.Property<int>("CombatLockSeconds")
+                        .HasColumnType("integer");
 
                     b.Property<short>("MaximumMasterLevel")
                         .HasColumnType("smallint");
@@ -3276,6 +3282,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("ChargeMovementSpeedPercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SlotType")
                         .HasColumnType("integer");
 
                     b.Property<int>("CooldownMilliseconds")

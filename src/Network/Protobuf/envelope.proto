@@ -650,6 +650,35 @@ message SkillData {
     CastType  cast_type    = 9;
     uint32    cast_time_ms = 10; // CHARGE: time to full charge; CAST_TIME: time to complete
     string    name         = 11; // Skill.Name, shown by the client
+    SkillSlotType slot_type = 12; // the loadout slot it can be equipped in
+    SkillTargeting targeting = 13; // who the skill is aimed at (area skills: see area_shape)
+}
+
+// Who a skill is aimed at, derived from Skill.Target / TargetRestriction.
+enum SkillTargeting {
+    SKILL_TARGETING_ENEMY = 0; // an attackable target (or the ground, for area skills)
+    SKILL_TARGETING_ALLY  = 1; // a player: the clicked one, else the caster
+    SKILL_TARGETING_SELF  = 2; // no aiming: cast on key press (self buffs, party buffs, summon party)
+}
+
+// The loadout slot a skill can be equipped in (Skill.SlotType).
+enum SkillSlotType {
+    SKILL_SLOT_TYPE_BASIC    = 0; // Q, W, E
+    SKILL_SLOT_TYPE_ULTIMATE = 1; // R
+    SKILL_SLOT_TYPE_UTILITY  = 2; // D, F
+    SKILL_SLOT_TYPE_PASSIVE  = 3; // never equipped, always active
+}
+
+// Changes the equipped skills: six skill numbers (Q, W, E, R, D, F), 0 = empty slot (basic attack).
+// Refused in combat or when a skill doesn't fit its slot; the server answers with S2CSkillLoadout.
+message C2SSetSkillLoadout {
+    repeated uint32 skills = 1;
+}
+
+// The equipped skills (Q, W, E, R, D, F); sent with the skill list and after every change request.
+message S2CSkillLoadout {
+    repeated uint32 skills = 1;
+    string          error  = 2; // why a requested change was refused; empty if it was applied
 }
 
 // How a skill is cast (Skill.CastType).
@@ -928,6 +957,7 @@ message ClientEnvelope {
         C2STradeCancel          trade_cancel           = 37;
         C2SEnterMiniGame        enter_mini_game        = 38;
         C2SMiniGameOpeningRequest mini_game_opening    = 39;
+        C2SSetSkillLoadout      set_skill_loadout      = 40;
     }
 }
 
@@ -995,5 +1025,6 @@ message ServerEnvelope {
         S2CMiniGameState         mini_game_state         = 60;
         S2CMiniGameScore         mini_game_score         = 61;
         S2CTerrainChanged        terrain_changed         = 62;
+        S2CSkillLoadout          skill_loadout           = 63;
     }
 }

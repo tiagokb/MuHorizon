@@ -369,6 +369,11 @@ public partial class Skill
     /// </summary>
     public int ChargeMovementSpeedPercent { get; set; } = 60;
 
+    /// <summary>
+    /// Gets or sets the loadout slot the skill can be equipped in.
+    /// </summary>
+    public SkillSlotType SlotType { get; set; }
+
     /// <inheritdoc />
     public override string? ToString()
     {

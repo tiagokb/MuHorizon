@@ -109,6 +109,11 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
             return null;
         }
 
+        if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)
+        {
+            attackingPlayer.LastCombatUtc = DateTime.UtcNow;
+        }
+
         var hitInfo = await attacker.CalculateDamageAsync(this, skill, isCombo, damageFactor).ConfigureAwait(false);
 
         if (skill?.Skill is not { } attackSkill || attackSkill.DamageType != DamageType.Fenrir)

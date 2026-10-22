@@ -293,6 +293,18 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public DateTime LastPvpCombatUtc { get; set; }
 
     /// <summary>
+    /// Gets or sets when the player last hit or got hit by anything (monster or player).
+    /// </summary>
+    public DateTime LastCombatUtc { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the player is in combat: hit or got hit within the last
+    /// <see cref="GameConfiguration.CombatLockSeconds"/>. The skill loadout is locked meanwhile.
+    /// </summary>
+    public bool IsInCombat =>
+        DateTime.UtcNow - this.LastCombatUtc < TimeSpan.FromSeconds(this.GameContext.Configuration.CombatLockSeconds);
+
+    /// <summary>
     /// Gets or sets a value indicating whether the player takes no damage (/god, game masters testing).
     /// </summary>
     public bool IsGodMode { get; set; }
@@ -824,6 +836,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         if (this is Dummies.DummyPlayer && PvpRules.GetAttackingPlayer(attacker) is null)
         {
             return null;
+        }
+
+        this.LastCombatUtc = DateTime.UtcNow;
+        if (PvpRules.GetAttackingPlayer(attacker) is { } combatAttacker)
+        {
+            combatAttacker.LastCombatUtc = this.LastCombatUtc;
         }
 
         if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)

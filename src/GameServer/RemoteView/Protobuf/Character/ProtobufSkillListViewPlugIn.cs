@@ -6,10 +6,14 @@ namespace MUnique.OpenMU.GameServer.RemoteView.Protobuf.Character;
 
 using System.Linq;
 using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.GameLogic;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.Network.Protobuf;
 
-internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
+/// <summary>
+/// The learned skills (S2CSkillList) and the equipped ones (S2CSkillLoadout), which are sent with it.
+/// </summary>
+internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn, ISkillLoadoutPlugIn
 {
     private readonly ProtobufRemotePlayer _player;
 
@@ -55,10 +59,39 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn
                 CastType   = (CastType)entry.Skill.CastType,
                 CastTimeMs = (uint)Math.Max(0, entry.Skill.CastTimeMilliseconds),
                 Name       = entry.Skill.Name.ToString() ?? string.Empty,
+                SlotType   = (Network.Protobuf.SkillSlotType)entry.Skill.SlotType,
+                Targeting  = GetTargeting(entry.Skill),
             });
         }
 
         await _player.SendEnvelopeAsync(new ServerEnvelope { SkillList = msg }).ConfigureAwait(false);
+        await this.ShowLoadoutAsync(SkillLoadout.Get(_player), null).ConfigureAwait(false);
+    }
+
+    public ValueTask ShowLoadoutAsync(IReadOnlyList<ushort> loadout, string? error)
+    {
+        var msg = new S2CSkillLoadout { Error = error ?? string.Empty };
+        foreach (var number in loadout)
+        {
+            msg.Skills.Add(number);
+        }
+
+        return _player.SendEnvelopeAsync(new ServerEnvelope { SkillLoadout = msg });
+    }
+
+    // Implicit targets (party, players around, the caster) need no aiming; a restriction to the
+    // party or players makes it an ally skill; Summon (party) and Teleport Ally are "other" skills.
+    private static SkillTargeting GetTargeting(Skill skill)
+    {
+        if (skill.Target is SkillTarget.ImplicitParty or SkillTarget.ImplicitPlayer or SkillTarget.ImplicitPlayersInRange
+                or SkillTarget.ImplicitAllInRange or SkillTarget.ImplicitNpcsInRange
+            || skill.TargetRestriction == SkillTargetRestriction.Self)
+            return SkillTargeting.Self;
+        if (skill.TargetRestriction is SkillTargetRestriction.Party or SkillTargetRestriction.Player)
+            return SkillTargeting.Ally;
+        if (skill.SkillType == SkillType.Other)
+            return skill.Range == 0 ? SkillTargeting.Self : SkillTargeting.Ally;
+        return SkillTargeting.Enemy;
     }
 
     // Mirrors how AreaSkillAttackAction picks targets: a cone (frustum) from the caster, a circle
