@@ -19,6 +19,8 @@ using MUnique.OpenMU.GameLogic.NPC;
 using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
+using MUnique.OpenMU.GameLogic.PlayerActions.Guild;
+using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.GameLogic.PlayerActions.MiniGames;
 using MUnique.OpenMU.GameLogic.PlayerActions.Party;
 using MUnique.OpenMU.GameLogic.PlayerActions.Quests;
@@ -39,6 +41,13 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly CreateCharacterAction CreateCharacterAction = new();
     private static readonly SelectCharacterAction SelectCharacterAction = new();
     private static readonly LogoutAction LogoutAction = new();
+    private static readonly GuildCreateAction GuildCreateAction = new();
+    private static readonly GuildMasterAnswerAction GuildMasterAnswerAction = new();
+    private static readonly GuildRequestAction GuildRequestAction = new();
+    private static readonly GuildRequestAnswerAction GuildRequestAnswerAction = new();
+    private static readonly GuildKickPlayerAction GuildKickPlayerAction = new();
+    private static readonly GuildListRequestAction GuildListRequestAction = new();
+    private static readonly GuildChangeRoleAction GuildChangeRoleAction = new();
     private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
     private static readonly QuestStartAction QuestStartAction = new();
     private static readonly ChatMessageAction ChatMessageAction = new();
@@ -290,6 +299,52 @@ internal sealed class ProtobufPacketDispatcher
                     await PartyRequestAction.HandlePartyRequestAsync(_player, invited).ConfigureAwait(false);
                 }
 
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildCreate:
+                // The Guild Master NPC is still open: close it (back to EnteredWorld), then create.
+                if (_player.OpenedNpc?.Definition.NpcWindow == NpcWindow.GuildMaster)
+                {
+                    await GuildMasterAnswerAction.ProcessAnswerAsync(_player, GuildMasterAnswerAction.Answer.Cancel).ConfigureAwait(false);
+                    var guildName = envelope.GuildCreate.Name.Trim();
+                    if (guildName.Length is < 2 or > 8)
+                    {
+                        await _player.ShowBlueMessageAsync("The guild name needs 2 to 8 characters.").ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await GuildCreateAction.CreateGuildAsync(_player, guildName, new byte[32]).ConfigureAwait(false);
+                    }
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildJoinRequest:
+                await GuildRequestAction.RequestGuildAsync(_player, (ushort)envelope.GuildJoinRequest.TargetId).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildJoinAnswer:
+                await GuildRequestAnswerAction.AnswerRequestAsync(_player, envelope.GuildJoinAnswer.Accepted).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildKick:
+                await GuildKickPlayerAction.KickPlayerAsync(_player, envelope.GuildKick.Name, _player.Account?.SecurityCode ?? string.Empty).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildMembersRequest:
+                if (_player.GuildStatus is null)
+                {
+                    await _player.SendEnvelopeAsync(new ServerEnvelope { GuildMembers = new S2CGuildMembers() }).ConfigureAwait(false);
+                }
+                else
+                {
+                    await GuildListRequestAction.RequestGuildListAsync(_player).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.GuildSetRole:
+                await GuildChangeRoleAction.ChangeRoleAsync(_player, envelope.GuildSetRole.Name, (GuildPosition)envelope.GuildSetRole.Role).ConfigureAwait(false);
                 break;
 
             case ClientEnvelope.PayloadOneofCase.PartyResponse:

@@ -675,6 +675,76 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Guild ─────────────────────────────────────────────────────────────────────
+
+// A member's role in the guild (GuildPosition).
+enum GuildRole {
+    GUILD_ROLE_NONE          = 0;
+    GUILD_ROLE_MEMBER        = 1;
+    GUILD_ROLE_MASTER        = 2;
+    GUILD_ROLE_BATTLE_MASTER = 3;
+    GUILD_ROLE_ASSISTANT     = 4;
+}
+
+// Creates a guild; only after S2CGuildCreateDialog (Guild Master NPC, level 100).
+message C2SGuildCreate {
+    string name = 1;
+}
+
+// Asks the guild master (target, a player in sight) to join their guild.
+message C2SGuildJoinRequest {
+    uint32 target_id = 1;
+}
+
+// The guild master answers the last S2CGuildJoinRequest.
+message C2SGuildJoinAnswer {
+    bool accepted = 1;
+}
+
+// Kicks a member (guild master); the own name leaves the guild, or disbands it for the master.
+message C2SGuildKick {
+    string name = 1;
+}
+
+// Asks for S2CGuildMembers.
+message C2SGuildMembersRequest {
+}
+
+// The guild master gives an online member a role (member, assistant, battle master).
+message C2SGuildSetRole {
+    string    name = 1;
+    GuildRole role = 2;
+}
+
+// The Guild Master NPC lets the player create a guild: open the name dialog.
+message S2CGuildCreateDialog {
+}
+
+// Someone asks this guild master to join the guild (answer with C2SGuildJoinAnswer).
+message S2CGuildJoinRequest {
+    string requester_name = 1;
+}
+
+message GuildMemberData {
+    string    name   = 1;
+    GuildRole role   = 2;
+    bool      online = 3;
+}
+
+// The own guild; an empty guild_name means no guild.
+message S2CGuildMembers {
+    string                   guild_name = 1;
+    GuildRole                own_role   = 2;
+    repeated GuildMemberData members    = 3;
+}
+
+// The guild of a player in sight (shown above it); an empty guild_name means none.
+message S2CEntityGuild {
+    uint32    entity_id  = 1;
+    string    guild_name = 2;
+    GuildRole role       = 3;
+}
+
 // The equipped skills (Q, W, E, R, D, F); sent with the skill list and after every change request.
 message S2CSkillLoadout {
     repeated uint32 skills = 1;
@@ -958,6 +1028,12 @@ message ClientEnvelope {
         C2SEnterMiniGame        enter_mini_game        = 38;
         C2SMiniGameOpeningRequest mini_game_opening    = 39;
         C2SSetSkillLoadout      set_skill_loadout      = 40;
+        C2SGuildCreate          guild_create           = 41;
+        C2SGuildJoinRequest     guild_join_request     = 42;
+        C2SGuildJoinAnswer      guild_join_answer      = 43;
+        C2SGuildKick            guild_kick             = 44;
+        C2SGuildMembersRequest  guild_members_request  = 45;
+        C2SGuildSetRole         guild_set_role         = 46;
     }
 }
 
@@ -1026,5 +1102,9 @@ message ServerEnvelope {
         S2CMiniGameScore         mini_game_score         = 61;
         S2CTerrainChanged        terrain_changed         = 62;
         S2CSkillLoadout          skill_loadout           = 63;
+        S2CGuildCreateDialog     guild_create_dialog     = 64;
+        S2CGuildJoinRequest      guild_join_request      = 65;
+        S2CGuildMembers          guild_members           = 66;
+        S2CEntityGuild           entity_guild            = 67;
     }
 }

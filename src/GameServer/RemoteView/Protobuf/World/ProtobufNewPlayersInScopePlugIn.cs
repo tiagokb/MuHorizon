@@ -15,20 +15,27 @@ internal sealed class ProtobufNewPlayersInScopePlugIn : INewPlayersInScopePlugIn
 
     public ProtobufNewPlayersInScopePlugIn(ProtobufRemotePlayer player) => _player = player;
 
-    public ValueTask NewPlayersInScopeAsync(IEnumerable<Player> newObjects, bool isSpawned = true)
+    public async ValueTask NewPlayersInScopeAsync(IEnumerable<Player> newObjects, bool isSpawned = true)
     {
+        var players = newObjects.ToList();
         var msg = new S2CEntitiesInScope();
-        foreach (var p in newObjects)
+        foreach (var p in players)
         {
             msg.Entities.Add(BuildEntityState(p));
         }
 
         if (msg.Entities.Count == 0)
         {
-            return ValueTask.CompletedTask;
+            return;
         }
 
-        return _player.SendEnvelopeAsync(new ServerEnvelope { EntitiesInScope = msg });
+        await _player.SendEnvelopeAsync(new ServerEnvelope { EntitiesInScope = msg }).ConfigureAwait(false);
+
+        // Their guilds, shown above them (S2CEntityGuild).
+        foreach (var p in players.Where(p => p.GuildStatus is not null))
+        {
+            await _player.InvokeViewPlugInAsync<GameLogic.Views.Guild.IAssignPlayersToGuildPlugIn>(v => v.AssignPlayerToGuildAsync(p, true)).ConfigureAwait(false);
+        }
     }
 
     internal static EntityState BuildEntityState(Player p)

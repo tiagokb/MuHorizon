@@ -41,6 +41,11 @@ public enum DummyBehavior
     /// Accepts trades, puts zen on the table and confirms when the partner confirms.
     /// </summary>
     Trade,
+
+    /// <summary>
+    /// Asks the player who spawned it (a guild master) to join the guild; stands still like a punchbag.
+    /// </summary>
+    Guild,
 }
 
 /// <summary>
@@ -105,7 +110,7 @@ public sealed class DummyPlayer : OfflinePlayer
     /// <inheritdoc />
     protected override void StartIntelligence()
     {
-        var interval = this.Behavior is DummyBehavior.Punchbag or DummyBehavior.Trade ? PunchbagInterval : CrowdControlInterval;
+        var interval = this.Behavior is DummyBehavior.Punchbag or DummyBehavior.Trade or DummyBehavior.Guild ? PunchbagInterval : CrowdControlInterval;
         _ = Task.Run(() => this.RunAsync(interval, this._cts.Token));
     }
 
