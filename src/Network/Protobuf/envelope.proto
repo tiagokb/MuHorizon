@@ -675,6 +675,48 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Talents (master skill trees) ──────────────────────────────────────────────
+
+// Asks for S2CTalents (when the talent window opens).
+message C2STalentsRequest {
+}
+
+// Invests a talent point; only out of combat. The server answers with S2CTalents.
+message C2SInvestTalent {
+    uint32 skill_number = 1;
+}
+
+message TalentNode {
+    uint32          skill_number = 1;
+    string          name         = 2;
+    uint32          rank         = 3;  // column of the tree; rank N needs a rank N-1 talent at level 10
+    uint32          level        = 4;
+    uint32          max_level    = 5;
+    uint32          learn_cost   = 6;  // points for the first level; each next level costs 1
+    float           value        = 7;  // what the current level gives
+    float           next_value   = 8;  // what the next level gives
+    string          attribute    = 9;  // the stat it changes, if any
+    string          upgrades     = 10; // the skill it improves, if any
+    repeated string requires     = 11; // required talents/skills
+    bool            can_invest   = 12;
+    string          locked       = 13; // why no point can be invested; empty if it can
+}
+
+message TalentTree {
+    string              name  = 1;
+    repeated TalentNode nodes = 2;
+}
+
+message S2CTalents {
+    bool                unlocked              = 1; // third class: master levels give talent points
+    uint32              master_level          = 2;
+    uint32              points                = 3;
+    uint64              master_experience     = 4;
+    uint64              next_level_experience = 5;
+    repeated TalentTree trees                 = 6;
+    string              error                 = 7; // why a requested investment was refused
+}
+
 // ── Friends and letters ───────────────────────────────────────────────────────
 
 // Sends a friend request (the other player answers with C2SFriendRequestAnswer).
@@ -1129,6 +1171,8 @@ message ClientEnvelope {
         C2SLetterSend           letter_send            = 50;
         C2SLetterRead           letter_read            = 51;
         C2SLetterDelete         letter_delete          = 52;
+        C2STalentsRequest       talents_request        = 53;
+        C2SInvestTalent         invest_talent          = 54;
     }
 }
 
@@ -1207,5 +1251,6 @@ message ServerEnvelope {
         S2CLetterAdded           letter_added            = 71;
         S2CLetterDeleted         letter_deleted          = 72;
         S2CLetter                letter                  = 73;
+        S2CTalents               talents                 = 74;
     }
 }

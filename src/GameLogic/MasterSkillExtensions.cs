@@ -88,7 +88,13 @@ public static class MasterSkillExtensions
 
     private static float CalculateValue(this MasterSkillDefinition? skillDefinition, int level) => skillDefinition?.ValueFormula.GetValue(level, skillDefinition.MaximumLevel) ?? 0;
 
-    private static float CalculateDisplayValue(this MasterSkillDefinition? skillDefinition, int level) => skillDefinition?.DisplayValueFormula.GetValue(level, skillDefinition.MaximumLevel) ?? 0;
+    /// <summary>
+    /// Calculates the display value of a master skill at a level.
+    /// </summary>
+    /// <param name="skillDefinition">The master skill definition.</param>
+    /// <param name="level">The level.</param>
+    /// <returns>The display value at the level.</returns>
+    public static float CalculateDisplayValue(this MasterSkillDefinition? skillDefinition, int level) => skillDefinition?.DisplayValueFormula.GetValue(level, skillDefinition.MaximumLevel) ?? 0;
 
     private static float GetValue(this string formula, int level, int maximumLevel)
     {

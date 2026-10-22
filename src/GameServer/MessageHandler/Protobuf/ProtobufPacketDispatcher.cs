@@ -310,6 +310,18 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.TalentsRequest:
+                await RemoteView.Protobuf.Character.ProtobufTalentsPlugIn.SendAsync(_player).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.InvestTalent:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new InvestTalentInput((ushort)envelope.InvestTalent.SkillNumber));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.FriendAdd:
                 var friendName = envelope.FriendAdd.Name.Trim();
                 if (friendName.Length > 0 && friendName != _player.Name)

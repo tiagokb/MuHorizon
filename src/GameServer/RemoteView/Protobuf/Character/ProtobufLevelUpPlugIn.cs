@@ -15,7 +15,12 @@ internal sealed class ProtobufLevelUpPlugIn : IUpdateLevelPlugIn
     public ProtobufLevelUpPlugIn(ProtobufRemotePlayer player) => _player = player;
 
     public ValueTask UpdateLevelAsync()      => SendAsync();
-    public ValueTask UpdateMasterLevelAsync() => SendAsync();
+    // A master level gives talent points: the talent window shows them.
+    public async ValueTask UpdateMasterLevelAsync()
+    {
+        await SendAsync().ConfigureAwait(false);
+        await ProtobufTalentsPlugIn.SendAsync(_player).ConfigureAwait(false);
+    }
 
     private ValueTask SendAsync()
     {
