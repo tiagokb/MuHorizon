@@ -46,6 +46,11 @@ public enum DummyBehavior
     /// Asks the player who spawned it (a guild master) to join the guild; stands still like a punchbag.
     /// </summary>
     Guild,
+
+    /// <summary>
+    /// Sends the player who spawned it a friend request and accepts friend requests.
+    /// </summary>
+    Friend,
 }
 
 /// <summary>
@@ -110,7 +115,7 @@ public sealed class DummyPlayer : OfflinePlayer
     /// <inheritdoc />
     protected override void StartIntelligence()
     {
-        var interval = this.Behavior is DummyBehavior.Punchbag or DummyBehavior.Trade or DummyBehavior.Guild ? PunchbagInterval : CrowdControlInterval;
+        var interval = this.Behavior is DummyBehavior.Punchbag or DummyBehavior.Trade or DummyBehavior.Guild or DummyBehavior.Friend ? PunchbagInterval : CrowdControlInterval;
         _ = Task.Run(() => this.RunAsync(interval, this._cts.Token));
     }
 

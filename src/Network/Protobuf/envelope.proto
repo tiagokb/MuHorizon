@@ -675,6 +675,95 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Friends and letters ───────────────────────────────────────────────────────
+
+// Sends a friend request (the other player answers with C2SFriendRequestAnswer).
+message C2SFriendAdd {
+    string name = 1;
+}
+
+message C2SFriendRequestAnswer {
+    string name     = 1; // the requester
+    bool   accepted = 2;
+}
+
+message C2SFriendDelete {
+    string name = 1;
+}
+
+// Sends a letter (costs GameConfiguration.LetterSendPrice zen).
+message C2SLetterSend {
+    string receiver = 1;
+    string title    = 2;
+    string message  = 3;
+}
+
+// Reads / deletes the letter at this index of the letter box (S2CMessengerInit, S2CLetterAdded).
+message C2SLetterRead {
+    uint32 index = 1;
+}
+
+message C2SLetterDelete {
+    uint32 index = 1;
+}
+
+message FriendData {
+    string name   = 1;
+    bool   online = 2;
+}
+
+message LetterHeaderData {
+    uint32 index  = 1; // position in the letter box; deleting shifts the following ones
+    string id     = 2;
+    string sender = 3;
+    string title  = 4;
+    string date   = 5; // "yyyy-MM-dd HH:mm" (server time)
+    bool   read   = 6;
+}
+
+// After entering the game: friends (offline until S2CFriendChanged says otherwise), open friend
+// requests and the letter box.
+message S2CMessengerInit {
+    repeated FriendData       friends         = 1;
+    repeated string           friend_requests = 2;
+    repeated LetterHeaderData letters         = 3;
+    uint32                    max_letters     = 4;
+}
+
+enum FriendChange {
+    FRIEND_CHANGE_ADDED   = 0;
+    FRIEND_CHANGE_REMOVED = 1;
+    FRIEND_CHANGE_ONLINE  = 2;
+    FRIEND_CHANGE_OFFLINE = 3;
+}
+
+message S2CFriendChanged {
+    string       name   = 1;
+    FriendChange change = 2;
+}
+
+// Someone wants to be friends (answer with C2SFriendRequestAnswer).
+message S2CFriendRequest {
+    string requester_name = 1;
+}
+
+message S2CLetterAdded {
+    LetterHeaderData letter = 1;
+    bool             is_new = 2; // just received
+}
+
+message S2CLetterDeleted {
+    uint32 index = 1;
+}
+
+// A letter to read (answer to C2SLetterRead).
+message S2CLetter {
+    string id      = 1;
+    string sender  = 2;
+    string title   = 3;
+    string message = 4;
+}
+
 // ── Guild ─────────────────────────────────────────────────────────────────────
 
 // A member's role in the guild (GuildPosition).
@@ -1034,6 +1123,12 @@ message ClientEnvelope {
         C2SGuildKick            guild_kick             = 44;
         C2SGuildMembersRequest  guild_members_request  = 45;
         C2SGuildSetRole         guild_set_role         = 46;
+        C2SFriendAdd            friend_add             = 47;
+        C2SFriendRequestAnswer  friend_request_answer  = 48;
+        C2SFriendDelete         friend_delete          = 49;
+        C2SLetterSend           letter_send            = 50;
+        C2SLetterRead           letter_read            = 51;
+        C2SLetterDelete         letter_delete          = 52;
     }
 }
 
@@ -1106,5 +1201,11 @@ message ServerEnvelope {
         S2CGuildJoinRequest      guild_join_request      = 65;
         S2CGuildMembers          guild_members           = 66;
         S2CEntityGuild           entity_guild            = 67;
+        S2CMessengerInit         messenger_init          = 68;
+        S2CFriendChanged         friend_changed          = 69;
+        S2CFriendRequest         friend_request          = 70;
+        S2CLetterAdded           letter_added            = 71;
+        S2CLetterDeleted         letter_deleted          = 72;
+        S2CLetter                letter                  = 73;
     }
 }

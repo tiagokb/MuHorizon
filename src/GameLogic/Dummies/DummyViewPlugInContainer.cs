@@ -19,16 +19,40 @@ internal sealed class DummyViewPlugInContainer : ICustomPlugInContainer<IViewPlu
 {
     private readonly OfflineViewPlugInContainer _offline;
     private readonly DummyTradeView _trade;
+    private readonly DummyFriendView _friend;
 
     public DummyViewPlugInContainer(DummyPlayer dummy)
     {
         _offline = new OfflineViewPlugInContainer(dummy);
         _trade = new DummyTradeView(dummy);
+        _friend = new DummyFriendView(dummy);
     }
 
     public T? GetPlugIn<T>()
         where T : class, IViewPlugIn
-        => _trade as T ?? _offline.GetPlugIn<T>();
+        => _trade as T ?? _friend as T ?? _offline.GetPlugIn<T>();
+}
+
+/// <summary>
+/// The friend dummy accepts every friend request.
+/// </summary>
+internal sealed class DummyFriendView : Views.Messenger.IShowFriendRequestPlugIn
+{
+    private static readonly PlayerActions.Messenger.AddResponseAction ResponseAction = new();
+
+    private readonly DummyPlayer _dummy;
+
+    public DummyFriendView(DummyPlayer dummy) => _dummy = dummy;
+
+    public ValueTask ShowFriendRequestAsync(string requester)
+    {
+        if (_dummy.Behavior == DummyBehavior.Friend)
+        {
+            _dummy.InputQueue.Enqueue(new ActionInput(_ => ResponseAction.ProceedResponseAsync(_dummy, requester, true)));
+        }
+
+        return ValueTask.CompletedTask;
+    }
 }
 
 /// <summary>

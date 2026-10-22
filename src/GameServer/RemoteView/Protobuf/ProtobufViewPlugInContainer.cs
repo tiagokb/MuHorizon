@@ -68,6 +68,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new Trading.ProtobufTradePlugIn(player),
             new Events.ProtobufMiniGamePlugIn(player),
             new Guild.ProtobufGuildPlugIn(player),
+            new Messenger.ProtobufMessengerPlugIn(player),
             new ProtobufShowHitPlugIn(player),
             new ProtobufActivateMagicEffectPlugIn(player),
             new ProtobufDeactivateMagicEffectPlugIn(player),

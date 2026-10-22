@@ -51,6 +51,11 @@ public static class DummyManager
             var spot = FindSpotNear(map, spawner.Position);
             await dummy.WarpToAsync(new ExitGate { Map = map.Definition, X1 = spot.X, X2 = spot.X, Y1 = spot.Y, Y2 = spot.Y }).ConfigureAwait(false);
             dummy.Logger.LogInformation("Dummy {Behavior} spawned as {Character} next to {Spawner}.", behavior, dummy.Name, spawner.Name);
+            if (behavior == DummyBehavior.Friend)
+            {
+                dummy.InputQueue.Enqueue(new Inputs.ActionInput(d => new PlayerActions.Messenger.AddFriendAction().AddFriendAsync(d, spawner.Name)));
+            }
+
             if (behavior == DummyBehavior.Guild)
             {
                 // A guild master gets the join request popup; everyone else a message why not.

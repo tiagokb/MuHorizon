@@ -40,7 +40,7 @@ public class DummyChatCommandPlugIn : ChatCommandPlugInBase<DummyChatCommandArgs
 
         if (!Enum.TryParse<DummyBehavior>(action, true, out var behavior))
         {
-            await sender.ShowBlueMessageAsync("Usage: /dummy punchbag | stun | slow | root | trade | guild | clear").ConfigureAwait(false);
+            await sender.ShowBlueMessageAsync("Usage: /dummy punchbag | stun | slow | root | trade | guild | friend | clear").ConfigureAwait(false);
             return;
         }
 

@@ -20,6 +20,7 @@ using MUnique.OpenMU.GameLogic.PlayerActions.Items;
 using MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions;
 using MUnique.OpenMU.GameLogic.PlayerActions.Chat;
 using MUnique.OpenMU.GameLogic.PlayerActions.Guild;
+using MUnique.OpenMU.GameLogic.PlayerActions.Messenger;
 using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.GameLogic.PlayerActions.MiniGames;
 using MUnique.OpenMU.GameLogic.PlayerActions.Party;
@@ -48,6 +49,12 @@ internal sealed class ProtobufPacketDispatcher
     private static readonly GuildKickPlayerAction GuildKickPlayerAction = new();
     private static readonly GuildListRequestAction GuildListRequestAction = new();
     private static readonly GuildChangeRoleAction GuildChangeRoleAction = new();
+    private static readonly AddFriendAction AddFriendAction = new();
+    private static readonly AddResponseAction FriendResponseAction = new();
+    private static readonly DeleteFriendAction DeleteFriendAction = new();
+    private static readonly LetterSendAction LetterSendAction = new();
+    private static readonly LetterReadRequestAction LetterReadAction = new();
+    private static readonly LetterDeleteAction LetterDeleteAction = new();
     private static readonly CloseNpcDialogAction CloseNpcDialogAction = new();
     private static readonly QuestStartAction QuestStartAction = new();
     private static readonly ChatMessageAction ChatMessageAction = new();
@@ -65,6 +72,8 @@ internal sealed class ProtobufPacketDispatcher
     // EnterMiniGameAction finds the ticket in the inventory for this slot.
     private const byte UndefinedTicketSlot = 0xFF;
     private const int MaxChatLength = 90; // legacy chat packets carry up to 90 characters
+    private const int MaxLetterTitleLength = 32; // the legacy letter title field
+    private const int MaxLetterLength = 1000;
     private static readonly QuestCompletionAction QuestCompletionAction = new();
     private static readonly QuestCancelAction QuestCancelAction = new();
     private static readonly DeleteCharacterAction DeleteCharacterAction = new();
@@ -301,6 +310,52 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.FriendAdd:
+                var friendName = envelope.FriendAdd.Name.Trim();
+                if (friendName.Length > 0 && friendName != _player.Name)
+                {
+                    await AddFriendAction.AddFriendAsync(_player, friendName).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.FriendRequestAnswer:
+                await FriendResponseAction.ProceedResponseAsync(_player, envelope.FriendRequestAnswer.Name, envelope.FriendRequestAnswer.Accepted).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.FriendDelete:
+                await DeleteFriendAction.DeleteFriendAsync(_player, envelope.FriendDelete.Name).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.LetterSend:
+                var letter = envelope.LetterSend;
+                if (letter.Receiver.Trim().Length == 0 || letter.Title.Length > MaxLetterTitleLength || letter.Message.Length > MaxLetterLength)
+                {
+                    await _player.ShowBlueMessageAsync($"A letter needs a receiver, a title of up to {MaxLetterTitleLength} and a text of up to {MaxLetterLength} characters.").ConfigureAwait(false);
+                }
+                else
+                {
+                    await LetterSendAction.SendLetterAsync(_player, letter.Receiver.Trim(), letter.Message, letter.Title, 0, 0, 0).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.LetterRead:
+                if (envelope.LetterRead.Index < (_player.SelectedCharacter?.Letters.Count ?? 0))
+                {
+                    await LetterReadAction.ReadRequestAsync(_player, (ushort)envelope.LetterRead.Index).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.LetterDelete:
+                if (_player.SelectedCharacter is { } letterOwner && envelope.LetterDelete.Index < letterOwner.Letters.Count)
+                {
+                    await LetterDeleteAction.DeleteLetterAsync(_player, letterOwner.Letters[(int)envelope.LetterDelete.Index]).ConfigureAwait(false);
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.GuildCreate:
                 // The Guild Master NPC is still open: close it (back to EnteredWorld), then create.
                 if (_player.OpenedNpc?.Definition.NpcWindow == NpcWindow.GuildMaster)
@@ -435,7 +490,16 @@ internal sealed class ProtobufPacketDispatcher
                 var chatText = envelope.ChatMessage.Text.Trim();
                 if (chatText.Length is > 0 and <= MaxChatLength && _player.SelectedCharacter is { } chatCharacter)
                 {
-                    await ChatMessageAction.ChatMessageAsync(_player, chatCharacter.Name, chatText, false).ConfigureAwait(false);
+                    // "/w name text" whispers to a player.
+                    if (chatText.StartsWith("/w ", StringComparison.OrdinalIgnoreCase)
+                        && chatText[3..].Trim().Split(' ', 2) is [{ Length: > 0 } receiver, { Length: > 0 } whisper])
+                    {
+                        await ChatMessageAction.ChatMessageAsync(_player, receiver, whisper.Trim(), true).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await ChatMessageAction.ChatMessageAsync(_player, chatCharacter.Name, chatText, false).ConfigureAwait(false);
+                    }
                 }
 
                 break;
