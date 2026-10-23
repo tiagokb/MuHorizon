@@ -128,6 +128,15 @@ internal sealed class ProtobufPacketDispatcher
 
         _logger.LogDebug("[C→S] {PayloadCase} from {EndPoint}", envelope.PayloadCase, _player.Connection?.EndPoint);
 
+        if (_player.MarketBusy && envelope.PayloadCase is not (ClientEnvelope.PayloadOneofCase.PingRequest
+                or ClientEnvelope.PayloadOneofCase.ChatMessage
+                or ClientEnvelope.PayloadOneofCase.MarketSearch
+                or ClientEnvelope.PayloadOneofCase.MarketAction))
+        {
+            // Locked by the market (see MarketService): everything else waits until it's done.
+            return;
+        }
+
         switch (envelope.PayloadCase)
         {
             case ClientEnvelope.PayloadOneofCase.PingRequest:
@@ -238,6 +247,7 @@ internal sealed class ProtobufPacketDispatcher
                 {
                     await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
                     await GameLogic.Missions.MissionService.OnTalkAsync(_player, npc).ConfigureAwait(false);
+                    await GameLogic.Market.MarketService.OnTalkAsync(_player, npc).ConfigureAwait(false);
                     await NpcBuffRequestAction.RequestBuffAsync(_player).ConfigureAwait(false);
                 }
                 // Vault and chaos machine NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed
@@ -307,6 +317,38 @@ internal sealed class ProtobufPacketDispatcher
                 if (_player.CurrentMap?.GetObject((ushort)envelope.PartyInvite.TargetId) is Player invited && invited != _player)
                 {
                     await PartyRequestAction.HandlePartyRequestAsync(_player, invited).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MarketSearch:
+                var search = envelope.MarketSearch;
+                await GameLogic.Market.MarketService.SearchAsync(_player, new GameLogic.Market.MarketFilter(
+                    search.Name.Trim(),
+                    (GameLogic.Market.MarketCategory)search.Category,
+                    (byte)Math.Min(search.MinimumLevel, 15),
+                    search.ExcellentOnly,
+                    search.Descending)).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MarketList:
+                await GameLogic.Market.MarketService.ListAsync(_player, (byte)envelope.MarketList.Slot, (long)Math.Min(envelope.MarketList.Price, long.MaxValue)).ConfigureAwait(false);
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MarketAction:
+                var marketAction = envelope.MarketAction;
+                if (marketAction.Action == MarketActionKind.MarketActionOwn)
+                {
+                    await GameLogic.Market.MarketService.ShowOwnAsync(_player).ConfigureAwait(false);
+                }
+                else if (Guid.TryParse(marketAction.ListingId, out var listingId))
+                {
+                    await (marketAction.Action switch
+                    {
+                        MarketActionKind.MarketActionBuy => GameLogic.Market.MarketService.BuyAsync(_player, listingId),
+                        MarketActionKind.MarketActionCancel => GameLogic.Market.MarketService.CancelAsync(_player, listingId),
+                        _ => GameLogic.Market.MarketService.ClaimAsync(_player, listingId),
+                    }).ConfigureAwait(false);
                 }
 
                 break;

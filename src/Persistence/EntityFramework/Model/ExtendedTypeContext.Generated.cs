@@ -37,6 +37,7 @@ public class ExtendedTypeContext : Microsoft.EntityFrameworkCore.DbContext
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.ItemOptionLink>();
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.ItemStorage>();
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.LetterBody>();
+        modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.MarketListing>();
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.QuestMonsterKillRequirementState>();
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Entities.SkillEntry>();
         modelBuilder.Ignore<MUnique.OpenMU.DataModel.Configuration.AreaSkillSettings>();
@@ -133,6 +134,7 @@ public class ExtendedTypeContext : Microsoft.EntityFrameworkCore.DbContext
         modelBuilder.Entity<Item>().HasMany(entity => entity.RawItemOptions).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<ItemStorage>().HasMany(entity => entity.RawItems).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<LetterBody>().HasOne(entity => entity.RawSenderAppearance).WithOne().OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<MarketListing>().HasOne(entity => entity.RawCustody).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<BattleZoneDefinition>().HasOne(entity => entity.RawGround).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<BattleZoneDefinition>().HasOne(entity => entity.RawLeftGoal).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<BattleZoneDefinition>().HasOne(entity => entity.RawRightGoal).WithOne().OnDelete(DeleteBehavior.Cascade);

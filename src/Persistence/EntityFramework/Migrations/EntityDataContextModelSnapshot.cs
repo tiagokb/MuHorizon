@@ -1128,6 +1128,18 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<byte>("CompanionLeashRange")
                         .HasColumnType("smallint");
 
+                    b.Property<int>("MarketFeePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MarketListingDays")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MarketMaxListingsPerAccount")
+                        .HasColumnType("integer");
+
+                    b.Property<short>("MarketNpcNumber")
+                        .HasColumnType("smallint");
+
                     b.Property<short>("MaximumMasterLevel")
                         .HasColumnType("smallint");
 

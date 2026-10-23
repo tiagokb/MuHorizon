@@ -334,6 +334,17 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public DateTime NextMissionCheckUtc { get; set; }
 
     /// <summary>
+    /// Whether the player was told about sold / returned market items since entering the game.
+    /// </summary>
+    private bool _marketNotified;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the market is working on a request of this player:
+    /// meanwhile the player can't do anything else (no walking, inputs or other packets but chat).
+    /// </summary>
+    public bool MarketBusy { get; set; }
+
+    /// <summary>
     /// The monster number of the raven companion (see <see cref="UpdatePetCompanionAsync"/>).
     /// </summary>
     public const short RavenCompanionNumber = 700;
@@ -1415,6 +1426,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
         await this.UpdatePetCompanionAsync().ConfigureAwait(false);
         await this.InvokeViewPlugInAsync<Views.Character.IMissionViewPlugIn>(p => p.ShowMissionLogAsync()).ConfigureAwait(false);
+        if (!this._marketNotified)
+        {
+            this._marketNotified = true;
+            await Market.MarketService.NotifyAsync(this).ConfigureAwait(false);
+        }
 
         // The summon follows through map changes: a monster belongs to one map, so it's recreated here.
         // Not if the player was just warped on again (to a safezone): then on the next arrival.

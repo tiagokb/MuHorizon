@@ -212,6 +212,13 @@ public sealed class GameTickLoop
                 break;
             }
 
+            if (player.MarketBusy)
+            {
+                // Locked by the market: nothing may touch the inventory, zen or position meanwhile.
+                player.InputQueue.Clear();
+                continue;
+            }
+
             while (player.InputQueue.TryDequeue(out var input))
             {
                 await input.HandleAsync(player).ConfigureAwait(false);
@@ -232,7 +239,7 @@ public sealed class GameTickLoop
         var dt = (float)deltaTime.TotalSeconds;
         foreach (var player in _map.Players)
         {
-            if (player.ContinuousWalkTarget is not { } target)
+            if (player.MarketBusy || player.ContinuousWalkTarget is not { } target)
             {
                 continue;
             }

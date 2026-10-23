@@ -36,6 +36,26 @@ public partial class GameConfiguration
     public byte CompanionLeashRange { get; set; } = 12;
 
     /// <summary>
+    /// Gets or sets the market fee to list an item, in percent of its price.
+    /// </summary>
+    public int MarketFeePercent { get; set; } = 5;
+
+    /// <summary>
+    /// Gets or sets how many days a market listing lasts before the item goes back to the seller.
+    /// </summary>
+    public int MarketListingDays { get; set; } = 4;
+
+    /// <summary>
+    /// Gets or sets how many items an account can have listed on the market at once.
+    /// </summary>
+    public int MarketMaxListingsPerAccount { get; set; } = 10;
+
+    /// <summary>
+    /// Gets or sets the number of the NPC who opens the market.
+    /// </summary>
+    public short MarketNpcNumber { get; set; } = 547;
+
+    /// <summary>
     /// Gets or sets the maximum reachable master level.
     /// </summary>
     public short MaximumMasterLevel { get; set; }

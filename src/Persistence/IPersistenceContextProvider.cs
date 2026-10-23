@@ -49,6 +49,11 @@ public interface IPersistenceContextProvider
     IContext CreateNewTradeContext();
 
     /// <summary>
+    /// Gets the market's transactional store; <c>null</c> if this persistence doesn't support the market.
+    /// </summary>
+    IMarketStore? MarketStore => null;
+
+    /// <summary>
     /// Creates a new context which is used for accounts.
     /// This context should only care about the objects of a player;
     /// It should not track changes of configuration objects.

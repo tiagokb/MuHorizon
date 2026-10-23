@@ -222,6 +222,11 @@ public class PersistenceContextProvider : IMigratableDatabaseContextProvider
         return new GameConfigurationContext(this.RepositoryProvider, this._loggerFactory.CreateLogger<GameConfigurationContext>());
     }
 
+    private MarketStore? _marketStore;
+
+    /// <inheritdoc />
+    public IMarketStore? MarketStore => this._marketStore ??= new MarketStore(this._loggerFactory);
+
     /// <inheritdoc />
     public IContext CreateNewTradeContext()
     {

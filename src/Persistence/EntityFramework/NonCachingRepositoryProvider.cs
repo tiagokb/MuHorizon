@@ -36,6 +36,7 @@ internal class NonCachingRepositoryProvider : RepositoryProvider
 
         this.RegisterRepository(new AccountRepository(this._parent ?? this, this.LoggerFactory)); // never cache accounts, so we pass this
         this.RegisterRepository(new LetterBodyRepository(this._parent ?? this, this.LoggerFactory)); // never cache letters, so we pass this
+        this.RegisterRepository(new MarketListingRepository(this._parent ?? this, this.LoggerFactory)); // whole aggregates, like accounts
 
         this.RegisterMissingRepositoriesAsGeneric();
         base.Initialize();

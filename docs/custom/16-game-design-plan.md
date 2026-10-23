@@ -46,7 +46,9 @@ modelo de dados novo e o legado vira referência ("migra e remove").
 - **Taxa para anunciar** (sink de zen, dá valor à moeda).
 - **Acesso por NPC** no início. **Notificação** quando um item é vendido, para o jogador saber que tem zen para resgatar.
 - Princípio de mundo: como o MU tem teleporte entre mapas, ter um sistema num mapa/NPC específico não pesa — dá liberdade de dar função a mapas (mercado, Chaos Machine etc.).
-- **Em aberto**: prazo de expiração do anúncio; busca e filtros (tipo, nível, opções).
+- **Decidido** (valores no `GameConfiguration`): taxa = 5% do preço; anúncio expira em 4 dias; 10 anúncios ativos por **conta**; NPC Market Union Member Julia (547); filtros nome, categoria, nível mínimo, excellent e ordem por preço.
+- **Segurança contra dupe** (o bug mais crítico de MMO; velocidade não importa): o item nunca é copiado — é a mesma linha no banco, só troca de storage; cada escrita é **uma transação** (`IMarketStore`) com condições (item onde se espera, zen suficiente, estado do anúncio) — senão nada muda; fila única (um pedido por vez); jogador **travado** durante o pedido (`Player.MarketBusy`: sem andar, inputs ou pacotes além de chat/mercado; cliente mostra "Publishing…"); log de auditoria `data."MarketLog"`.
+- **Refinamento** (anotado após o teste): no cliente o personagem ainda consegue andar e digitar em campos enquanto o mercado está ocupado (o server ignora, nada quebra) — travar de verdade no cliente; botões criados durante o "busy" não ficam desabilitados.
 
 ## 5. Especialização / árvore de talentos (motor do master level)
 
@@ -89,7 +91,7 @@ Princípio: o código não pode amarrar o design — skill, passiva ou status de
 4. ✅ **Companheiros** (§7) — slot de montaria, modos/HUD para invocações e corvo como entidade (`17-companions.md`); visual (entrega D) fica para o polimento — controlador de comportamento + slots de montaria/pet.
 5. ✅ **Quests novas** (§6) — 1ª versão como *Missions* (etapas, objetivos kill/collect/talk/reach, crédito de party, diário L, rastreador, diálogo de NPC, diária/semanal); faltam objetivo "usar item", migrar as quests de classe e conteúdo real — com crédito de party.
 6. ✅ **Desafio** (§3) — party vs party (ou 1v1) em instância própria da Duel Arena, melhor de 1/3/5, nocaute em vez de morte; base para a arena ranqueada — pequeno, reaproveita party e `PvpRules`.
-7. **Mercado** (§4).
+7. ✅ **Mercado** (§4) — anunciar/comprar/cancelar/resgatar no NPC, busca com filtros, notificação de venda, transações no banco à prova de dupe com jogador travado e log de auditoria; refinamentos anotados em §4.
 8. **Remover o legado** que sair da migração: duel, loja pessoal, MU Helper/offline, comandos de pet por skill, fluxo de quest legado, views legadas sem uso.
 
 Depois: arena ranqueada (mesmo motor de rounds do desafio), conteúdo de guild (castle siege, facção), eventos novos (`15-events-rework.md`), auto-play novo. Pós-MVP: battlegrounds (5v5/10v10, objetivos).

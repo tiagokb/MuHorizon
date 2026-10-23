@@ -675,6 +675,83 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Market ────────────────────────────────────────────────────────────────────
+
+enum MarketCategory {
+    MARKET_CATEGORY_ANY        = 0;
+    MARKET_CATEGORY_WEAPON     = 1; // groups 0-5
+    MARKET_CATEGORY_ARMOR      = 2; // groups 6-11
+    MARKET_CATEGORY_ACCESSORY  = 3; // wings, pets, rings, pendants (12, 13)
+    MARKET_CATEGORY_CONSUMABLE = 4; // jewels, potions (14)
+    MARKET_CATEGORY_SCROLL     = 5; // skill scrolls (15)
+}
+
+// Searches the items on sale (at the market NPC).
+message C2SMarketSearch {
+    string         name           = 1;
+    MarketCategory category       = 2;
+    uint32         minimum_level  = 3;
+    bool           excellent_only = 4;
+    bool           descending     = 5; // highest price first
+}
+
+// Lists an item of the bag for a price (pays the fee now).
+message C2SMarketList {
+    uint32 slot  = 1;
+    uint64 price = 2;
+}
+
+// Buys / cancels (own, on sale) / claims (own, sold or returned) a listing; or asks for the own listings.
+message C2SMarketAction {
+    MarketActionKind action     = 1;
+    string           listing_id = 2;
+}
+
+enum MarketActionKind {
+    MARKET_ACTION_BUY    = 0;
+    MARKET_ACTION_CANCEL = 1;
+    MARKET_ACTION_CLAIM  = 2;
+    MARKET_ACTION_OWN    = 3; // S2CMarketOwn
+}
+
+enum MarketListingState {
+    MARKET_LISTING_ACTIVE   = 0;
+    MARKET_LISTING_SOLD     = 1; // zen to claim
+    MARKET_LISTING_RETURNED = 2; // item to claim (expired or cancelled)
+}
+
+message MarketListingData {
+    string             id          = 1;
+    ItemData           item        = 2;
+    uint64             price       = 3;
+    string             seller      = 4;
+    uint32             hours_left  = 5;
+    MarketListingState state       = 6;
+    string             buyer       = 7;
+}
+
+// The market NPC opened the market.
+message S2CMarketOpen {
+    uint32 fee_percent  = 1;
+    uint32 listing_days = 2;
+}
+
+message S2CMarketListings {
+    repeated MarketListingData listings = 1;
+}
+
+// The own listings (per account).
+message S2CMarketOwn {
+    repeated MarketListingData listings     = 1;
+    uint32                     max_listings = 2;
+}
+
+// The market works on the player's request (the player is locked meanwhile); busy=false when done.
+message S2CMarketBusy {
+    bool   busy   = 1;
+    string status = 2; // e.g. "Publishing…"
+}
+
 // ── Challenges ────────────────────────────────────────────────────────────────
 
 // Challenges the target player (their party, or them alone) to a fight in the Duel Arena.
@@ -1317,6 +1394,9 @@ message ClientEnvelope {
         C2SMissionAction        mission_action         = 56;
         C2SChallengeRequest     challenge_request      = 57;
         C2SChallengeAnswer      challenge_answer       = 58;
+        C2SMarketSearch         market_search          = 59;
+        C2SMarketList           market_list            = 60;
+        C2SMarketAction         market_action          = 61;
     }
 }
 
@@ -1403,5 +1483,9 @@ message ServerEnvelope {
         S2CMissionDialog         mission_dialog          = 79;
         S2CChallengeRequest      challenge_request       = 80;
         S2CChallengeState        challenge_state         = 81;
+        S2CMarketOpen            market_open             = 82;
+        S2CMarketListings        market_listings         = 83;
+        S2CMarketOwn             market_own              = 84;
+        S2CMarketBusy            market_busy             = 85;
     }
 }
