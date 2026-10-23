@@ -25,6 +25,7 @@ public partial class EquippedItems
         "slot-pendant",
         "slot-ring1",
         "slot-ring2",
+        "slot-mount",
     };
 
     /// <summary>

@@ -675,6 +675,31 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Companions ────────────────────────────────────────────────────────────────
+
+// How a companion behaves (CompanionMode).
+enum CompanionMode {
+    COMPANION_MODE_FOLLOW     = 0; // follows, doesn't attack
+    COMPANION_MODE_ASSIST     = 1; // attacks what the owner attacks
+    COMPANION_MODE_AGGRESSIVE = 2; // attacks the monsters around the owner
+    COMPANION_MODE_DEFEND     = 3; // attacks who attacks the owner
+    COMPANION_MODE_STAY       = 4; // holds its position
+}
+
+// Changes the mode of the own companion, or dismisses it (its skill cooldown starts then).
+message C2SCompanionCommand {
+    CompanionMode mode    = 1;
+    bool          dismiss = 2;
+}
+
+// The own companion; active = false when there's none (died or dismissed).
+message S2CCompanion {
+    bool          active    = 1;
+    uint32        entity_id = 2; // its health comes with the entity (S2CEntityVitals)
+    string        name      = 3;
+    CompanionMode mode      = 4;
+}
+
 // ── Talents (master skill trees) ──────────────────────────────────────────────
 
 // Asks for S2CTalents (when the talent window opens).
@@ -1173,6 +1198,7 @@ message ClientEnvelope {
         C2SLetterDelete         letter_delete          = 52;
         C2STalentsRequest       talents_request        = 53;
         C2SInvestTalent         invest_talent          = 54;
+        C2SCompanionCommand     companion_command      = 55;
     }
 }
 
@@ -1252,5 +1278,6 @@ message ServerEnvelope {
         S2CLetterDeleted         letter_deleted          = 72;
         S2CLetter                letter                  = 73;
         S2CTalents               talents                 = 74;
+        S2CCompanion             companion               = 75;
     }
 }

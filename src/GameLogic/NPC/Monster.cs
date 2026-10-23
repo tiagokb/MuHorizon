@@ -1,4 +1,4 @@
-// <copyright file="Monster.cs" company="MUnique">
+﻿// <copyright file="Monster.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -314,13 +314,20 @@ public sealed class Monster : AttackableNpcBase, IAttackable, IAttacker, ISuppor
         await this.CurrentMap.MoveAsync(this, target, this._moveLock, type).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this summon leaves the map together with its owner
+    /// (map change): it's recreated on the owner's new map, so it didn't die.
+    /// </summary>
+    public bool LeavesWithOwner { get; set; }
+
     /// <inheritdoc />
     protected override void OnRemoveFromMap()
     {
         base.OnRemoveFromMap();
-        if (this._intelligence is SummonedMonsterIntelligence summonedMonsterIntelligence)
+        if (!this.LeavesWithOwner && this._intelligence is SummonedMonsterIntelligence summonedMonsterIntelligence)
         {
-            summonedMonsterIntelligence.Owner.SummonDied();
+            // Starts the summon skill's cooldown and closes the owner's companion control.
+            _ = summonedMonsterIntelligence.Owner.SummonDiedAsync().AsTask();
         }
     }
 

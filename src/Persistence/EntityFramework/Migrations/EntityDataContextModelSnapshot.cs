@@ -1125,6 +1125,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations
                     b.Property<int>("CombatLockSeconds")
                         .HasColumnType("integer");
 
+                    b.Property<byte>("CompanionLeashRange")
+                        .HasColumnType("smallint");
+
                     b.Property<short>("MaximumMasterLevel")
                         .HasColumnType("smallint");
 

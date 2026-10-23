@@ -120,9 +120,9 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
             return;
         }
 
-        if (skill.SkillType == SkillType.SummonMonster && player.Summon is { })
+        if (skill.SkillType == SkillType.SummonMonster && player.Summon is ({ IsAlive: true }, _))
         {
-            await player.RemoveSummonAsync().ConfigureAwait(false);
+            await player.ShowBlueMessageAsync("Your summon is still active: dismiss it first.").ConfigureAwait(false);
             return;
         }
 
@@ -149,6 +149,7 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
             if (SummonSkillToMonsterMapping.TryGetValue(skill.Number, out var monsterNumber)
                 && player.GameContext.Configuration?.Monsters.FirstOrDefault(m => m.Number == monsterNumber) is { } monsterDefinition)
             {
+                player.SummonSkill = skill;
                 await player.CreateSummonedMonsterAsync(monsterDefinition).ConfigureAwait(false);
             }
         }

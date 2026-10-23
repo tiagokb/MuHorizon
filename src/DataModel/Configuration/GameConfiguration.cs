@@ -30,6 +30,12 @@ public partial class GameConfiguration
     public int CombatLockSeconds { get; set; } = 6;
 
     /// <summary>
+    /// Gets or sets how far (tiles) a companion (summon) may get from its owner before it's brought
+    /// back next to it; 0 disables it.
+    /// </summary>
+    public byte CompanionLeashRange { get; set; } = 12;
+
+    /// <summary>
     /// Gets or sets the maximum reachable master level.
     /// </summary>
     public short MaximumMasterLevel { get; set; }

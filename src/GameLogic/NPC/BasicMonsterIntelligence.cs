@@ -42,6 +42,11 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
     /// </summary>
     protected IAttackable? CurrentTarget { get; private set; }
 
+    /// <summary>
+    /// Gets a value indicating whether the monster walks towards a target out of its attack range.
+    /// </summary>
+    protected virtual bool ChasesTargets => true;
+
     /// <inheritdoc/>
     public void Start()
     {
@@ -149,6 +154,16 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
     protected virtual ValueTask<bool> CanAttackAsync() => ValueTask.FromResult(true);
 
     /// <summary>
+    /// Called when the monster has a target it can neither attack nor reach; wanders by default.
+    /// </summary>
+    protected virtual ValueTask OnNothingToDoAsync() => this.Monster.RandomMoveAsync();
+
+    /// <summary>
+    /// Drops the current target.
+    /// </summary>
+    protected void ClearTarget() => this.CurrentTarget = null;
+
+    /// <summary>
     /// Handles the tick when no target is available, moves the monster randomly.
     /// </summary>
     protected virtual async ValueTask TickWithoutTargetAsync()
@@ -218,7 +233,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
         }
 
         // Target visible but outside attack range, walk toward it.
-        if (this.CurrentTarget.IsInRange(this.Monster.Position, this.Monster.Definition.ViewRange + 1))
+        if (this.ChasesTargets && this.CurrentTarget.IsInRange(this.Monster.Position, this.Monster.Definition.ViewRange + 1))
         {
             var walkTarget = this.Monster.CurrentMap!.Terrain.GetRandomCoordinate(this.CurrentTarget.Position, this.Monster.Definition.AttackRange);
             if (await this.Monster.WalkToAsync(walkTarget).ConfigureAwait(false))
@@ -228,7 +243,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
         }
 
         // Nothing else to do, wander randomly.
-        await this.Monster.RandomMoveAsync().ConfigureAwait(false);
+        await this.OnNothingToDoAsync().ConfigureAwait(false);
     }
 
     /// <summary>

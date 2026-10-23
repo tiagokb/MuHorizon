@@ -121,6 +121,20 @@
     top: 231px;
 }
 
+.slot-mount {
+    width: calc(var(--boxSize) * 1);
+    height: calc(var(--boxSize) * 1);
+    left: 283px;
+    top: 2px;
+}
+
+    .slot-mount ::deep > .w_1 {
+        left: calc(var(--boxSize) * 0.5);
+    }
+    .slot-mount ::deep > .h_1 {
+        top: calc(var(--boxSize) * 0.5);
+    }
+
 .slot-ring2 {
     width: calc(var(--boxSize) * 1);
     height: calc(var(--boxSize) * 1);

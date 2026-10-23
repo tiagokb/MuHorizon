@@ -4,12 +4,24 @@
 
 namespace MUnique.OpenMU.GameLogic.NPC;
 
+using MUnique.OpenMU.Pathfinding;
+
 /// <summary>
-/// The intelligence for a summoned monster.
-/// It's basically the same as for the <see cref="BasicMonsterIntelligence"/>, but chooses monsters as targets.
+/// The companion controller of a summoned monster: it follows its owner and picks targets by its
+/// <see cref="CompanionMode"/>, which the owner changes with a command (never a skill).
 /// </summary>
 public sealed class SummonedMonsterIntelligence : BasicMonsterIntelligence
 {
+    /// <summary>
+    /// How far (tiles) from the owner the companion looks for monsters in <see cref="CompanionMode.Aggressive"/>.
+    /// </summary>
+    private const int AggressiveRange = 8;
+
+    /// <summary>
+    /// How long the owner's last target or last attacker stays relevant.
+    /// </summary>
+    private static readonly TimeSpan MemoryTime = TimeSpan.FromSeconds(10);
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SummonedMonsterIntelligence"/> class.
     /// </summary>
@@ -27,12 +39,30 @@ public sealed class SummonedMonsterIntelligence : BasicMonsterIntelligence
     /// </summary>
     public Player Owner { get; }
 
+    /// <summary>
+    /// Gets the current mode; change it with <see cref="SetMode"/>.
+    /// </summary>
+    public CompanionMode Mode { get; private set; } = CompanionMode.Aggressive;
+
+    /// <inheritdoc />
+    protected override bool ChasesTargets => this.Mode != CompanionMode.Stay;
+
+    /// <summary>
+    /// Changes the mode; the current target is dropped.
+    /// </summary>
+    /// <param name="mode">The new mode.</param>
+    public void SetMode(CompanionMode mode)
+    {
+        this.Mode = mode;
+        this.ClearTarget();
+    }
+
     /// <inheritdoc />
     public override void RegisterHit(IAttacker attacker)
     {
-        if (attacker == this.Owner)
+        if (attacker == this.Owner || this.Mode == CompanionMode.Follow)
         {
-            // Never attack the owner.
+            // Never attack the owner; following means not fighting back either.
             return;
         }
 
@@ -46,20 +76,47 @@ public sealed class SummonedMonsterIntelligence : BasicMonsterIntelligence
     /// <inheritdoc />
     protected override ValueTask<IAttackable?> SearchNextTargetAsync()
     {
-        var currentMap = this.Owner.CurrentMap;
+        var target = this.Mode switch
+        {
+            CompanionMode.AssistOwner => Recent(this.Owner.LastHitTarget, this.Owner.LastHitTargetUtc),
+            CompanionMode.Defend => Recent(this.Owner.LastAttacker, this.Owner.LastAttackerUtc),
+            CompanionMode.Aggressive => this.NearestMonster(this.Owner.Position, AggressiveRange),
+            CompanionMode.Stay => this.NearestMonster(this.Npc.Position, this.Npc.Definition.AttackRange),
+            _ => null,
+        };
 
-        var nextTarget = currentMap?.GetAttackablesInRange(this.Owner.Position, 8)
-            .Where(o => o is Monster { SummonedBy: null, IsAlive: true })
-            .OfType<NonPlayerCharacter>()
-            .OrderBy(o => o.GetDistanceTo(this.Owner))
-            .FirstOrDefault() as IAttackable;
-
-        return ValueTask.FromResult(nextTarget);
+        return ValueTask.FromResult(target);
     }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> CanAttackAsync()
     {
+        // Too far from the owner (chasing, pushed, left behind): back to the owner at once.
+        var leashRange = this.Owner.GameContext.Configuration.CompanionLeashRange;
+        if (this.Owner.IsAlive && leashRange > 0 && this.Owner.GetDistanceTo(this.Npc) > leashRange)
+        {
+            this.ClearTarget();
+            await this.Monster.MoveAsync(this.Monster.CurrentMap!.Terrain.GetRandomCoordinate(this.Owner.Position, 1)).ConfigureAwait(false);
+            return false;
+        }
+
+        if (this.Mode == CompanionMode.Stay)
+        {
+            return true;
+        }
+
+        if (this.Mode == CompanionMode.Follow)
+        {
+            this.ClearTarget();
+        }
+        else if (this.Mode == CompanionMode.AssistOwner
+                 && Recent(this.Owner.LastHitTarget, this.Owner.LastHitTargetUtc) is { } ownerTarget
+                 && ownerTarget != this.CurrentTarget)
+        {
+            // The owner switched targets: switch too.
+            this.ClearTarget();
+        }
+
         var maxDistance = this.CurrentTarget is null ? 2 : 5;
         var distanceToOwner = this.Owner.GetDistanceTo(this.Npc);
         if (distanceToOwner > maxDistance && this.Owner.IsAlive)
@@ -78,6 +135,24 @@ public sealed class SummonedMonsterIntelligence : BasicMonsterIntelligence
             return false;
         }
 
-        return true;
+        return this.Mode != CompanionMode.Follow;
     }
+
+    /// <inheritdoc />
+    protected override ValueTask TickWithoutTargetAsync() => ValueTask.CompletedTask; // stays with the owner
+
+    /// <inheritdoc />
+    protected override ValueTask OnNothingToDoAsync() => ValueTask.CompletedTask; // no wandering off
+
+    private static IAttackable? Recent(IAttackable? target, DateTime atUtc) =>
+        target is { IsAlive: true } && DateTime.UtcNow - atUtc < MemoryTime && !target.IsAtSafezone()
+            ? target
+            : null;
+
+    private IAttackable? NearestMonster(Point center, int range) =>
+        this.Owner.CurrentMap?.GetAttackablesInRange(center, range)
+            .Where(o => o is Monster { SummonedBy: null, IsAlive: true })
+            .OfType<NonPlayerCharacter>()
+            .OrderBy(o => o.GetDistanceTo(this.Npc))
+            .FirstOrDefault() as IAttackable;
 }

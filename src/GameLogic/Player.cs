@@ -298,6 +298,37 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public DateTime LastCombatUtc { get; set; }
 
     /// <summary>
+    /// Gets or sets what the player last attacked (for companions assisting it).
+    /// </summary>
+    public IAttackable? LastHitTarget { get; set; }
+
+    /// <summary>
+    /// Gets or sets when the player last attacked <see cref="LastHitTarget"/>.
+    /// </summary>
+    public DateTime LastHitTargetUtc { get; set; }
+
+    /// <summary>
+    /// Gets or sets what last attacked the player (for companions defending it).
+    /// </summary>
+    public IAttackable? LastAttacker { get; set; }
+
+    /// <summary>
+    /// Gets or sets when <see cref="LastAttacker"/> attacked.
+    /// </summary>
+    public DateTime LastAttackerUtc { get; set; }
+
+    /// <summary>
+    /// Gets or sets the skill which summoned the current <see cref="Summon"/>: its cooldown starts
+    /// when the summon dies or is dismissed.
+    /// </summary>
+    public Skill? SummonSkill { get; set; }
+
+    /// <summary>
+    /// The summon which follows the player through a map change: recreated on the new map.
+    /// </summary>
+    private (MonsterDefinition Definition, int Health, NPC.CompanionMode Mode)? _carriedSummon;
+
+    /// <summary>
     /// Gets a value indicating whether the player is in combat: hit or got hit within the last
     /// <see cref="GameConfiguration.CombatLockSeconds"/>. The skill loadout is locked meanwhile.
     /// </summary>
@@ -842,6 +873,17 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         if (PvpRules.GetAttackingPlayer(attacker) is { } combatAttacker)
         {
             combatAttacker.LastCombatUtc = this.LastCombatUtc;
+            if (attacker == combatAttacker)
+            {
+                combatAttacker.LastHitTarget = this;
+                combatAttacker.LastHitTargetUtc = this.LastCombatUtc;
+            }
+        }
+
+        if (attacker is IAttackable attackingObject)
+        {
+            this.LastAttacker = attackingObject;
+            this.LastAttackerUtc = this.LastCombatUtc;
         }
 
         if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)
@@ -1336,10 +1378,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             await this.WarpToSafezoneAsync().ConfigureAwait(false);
         }
 
-        if (this.Summon?.Item1 is { IsAlive: true } summon)
+        // The summon follows through map changes: a monster belongs to one map, so it's recreated here.
+        // Not if the player was just warped on again (to a safezone): then on the next arrival.
+        if (this._carriedSummon is { } carried && this.CurrentMap is not null)
         {
-            await this.CurrentMap.AddAsync(summon).ConfigureAwait(false);
-            summon.OnSpawn();
+            this._carriedSummon = null;
+            await this.CreateSummonedMonsterAsync(carried.Definition, carried.Health, carried.Mode).ConfigureAwait(false);
         }
     }
 
@@ -1721,15 +1765,17 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             return false;
         }
 
-        if (skill.Requirements.Any(r => r.MinimumValue > this.Attributes![r.Attribute]))
+        if (skill.Requirements.FirstOrDefault(r => r.MinimumValue > this.Attributes![r.Attribute]) is { } missing)
         {
+            await this.ShowBlueMessageAsync($"{skill.Name} needs {missing.Attribute?.Designation} {missing.MinimumValue} (you have {this.Attributes![missing.Attribute!]:0}).").ConfigureAwait(false);
             return false;
         }
 
         var addExtraManaCost = this.Attributes![Stats.AmmunitionConsumptionRate] == 0
             && skill.SkillType is SkillType.DirectHit or SkillType.AreaSkillAutomaticHits;
-        if (skill.ConsumeRequirements.Any(r => this.GetRequiredValue(r, addExtraManaCost) > this.Attributes![r.Attribute]))
+        if (skill.ConsumeRequirements.FirstOrDefault(r => this.GetRequiredValue(r, addExtraManaCost) > this.Attributes![r.Attribute]) is { } lacking)
         {
+            await this.ShowBlueMessageAsync($"Not enough {lacking.Attribute?.Designation} for {skill.Name}.").ConfigureAwait(false);
             return false;
         }
 
@@ -1738,7 +1784,12 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             this.Attributes![requirement.Attribute] -= this.GetRequiredValue(requirement, addExtraManaCost);
         }
 
-        await this.StartCooldownAsync(skill).ConfigureAwait(false);
+        // A summon's cooldown starts when the summon is gone (see SummonDiedAsync).
+        if (skill.SkillType != SkillType.SummonMonster)
+        {
+            await this.StartCooldownAsync(skill).ConfigureAwait(false);
+        }
+
         return true;
     }
 
@@ -1923,7 +1974,16 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// </summary>
     /// <param name="definition">The definition.</param>
     /// <exception cref="InvalidOperationException">Can't add the player summon for a player which isn't spawned yet.</exception>
-    public async ValueTask CreateSummonedMonsterAsync(MonsterDefinition definition)
+    public ValueTask CreateSummonedMonsterAsync(MonsterDefinition definition) =>
+        this.CreateSummonedMonsterAsync(definition, null, NPC.CompanionMode.Aggressive);
+
+    /// <summary>
+    /// Creates a summoned monster for the player, with a given health and mode (e.g. after a map change).
+    /// </summary>
+    /// <param name="definition">The definition.</param>
+    /// <param name="health">The health; <c>null</c> for full health.</param>
+    /// <param name="mode">The companion mode.</param>
+    public async ValueTask CreateSummonedMonsterAsync(MonsterDefinition definition, int? health, NPC.CompanionMode mode)
     {
         if (this.CurrentMap is not { } gameMap)
         {
@@ -1949,16 +2009,31 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         // todo: Stats.SummonedMonsterDefenseIncrease
         this.Summon = (monster, intelligence);
         monster.Initialize();
+        if (health is { } carriedHealth)
+        {
+            monster.Health = Math.Clamp(carriedHealth, 1, area.MaximumHealthOverride ?? carriedHealth);
+        }
+
+        intelligence.SetMode(mode);
         await gameMap.AddAsync(monster).ConfigureAwait(false);
         monster.OnSpawn();
+        await this.InvokeViewPlugInAsync<Views.World.ICompanionViewPlugIn>(p => p.ShowCompanionAsync(monster, intelligence.Mode)).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Notifies the player object that the summoned monster died.
+    /// Notifies the player object that the summoned monster died (or was dismissed): the summon
+    /// skill's cooldown starts and the companion control closes.
     /// </summary>
-    public void SummonDied()
+    public async ValueTask SummonDiedAsync()
     {
         this.Summon = null;
+        if (this.SummonSkill is { } skill)
+        {
+            this.SummonSkill = null;
+            await this.StartCooldownAsync(skill).ConfigureAwait(false);
+        }
+
+        await this.InvokeViewPlugInAsync<Views.World.ICompanionViewPlugIn>(p => p.ShowCompanionAsync(null, NPC.CompanionMode.Aggressive)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1971,7 +2046,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             // remove summon, if exists
             await summon.Item1.CurrentMap.RemoveAsync(summon.Item1).ConfigureAwait(false);
             summon.Item1.Dispose();
-            this.SummonDied();
+            await this.SummonDiedAsync().ConfigureAwait(false);
         }
     }
 
@@ -2309,9 +2384,13 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         this.IsTeleporting = false;
         await this._walker.StopAsync().ConfigureAwait(false);
         await this._observerToWorldViewAdapter.ClearObservingObjectsListAsync().ConfigureAwait(false);
-        if (this.Summon?.Item1 is { IsAlive: true } summon)
+        if (this.Summon is ({ IsAlive: true } summon, var summonIntelligence))
         {
+            this._carriedSummon = (summon.Definition, summon.Health, (summonIntelligence as SummonedMonsterIntelligence)?.Mode ?? NPC.CompanionMode.Aggressive);
+            summon.LeavesWithOwner = true;
+            this.Summon = null;
             await currentMap.RemoveAsync(summon).ConfigureAwait(false);
+            summon.Dispose();
         }
 
         return true;
@@ -2687,7 +2766,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
                 {
                     await summon.CurrentMap.RemoveAsync(summon).ConfigureAwait(false);
                     summon.Dispose();
-                    this.Summon = null;
+                    await this.SummonDiedAsync().ConfigureAwait(false);
                 }
 
                 await this.MagicEffectList.ClearEffectsAfterDeathAsync().ConfigureAwait(false);

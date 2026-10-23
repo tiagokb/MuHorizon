@@ -48,9 +48,17 @@ public sealed class SkillInput : IPlayerInput
             return;
         }
 
-        if (map.GetObject(_targetId) is not IAttackable target)
+        // A summon appears next to the caster, whatever the client aimed at.
+        var isSummon = player.SkillList?.GetSkill(_skillId)?.Skill?.SkillType == SkillType.SummonMonster;
+        if ((isSummon ? player : map.GetObject(_targetId)) is not IAttackable target)
         {
             player.Logger.LogDebug("[COMBAT] SkillCast id={SkillId}: target {TargetId} not found on map", _skillId, _targetId);
+            return;
+        }
+
+        if (isSummon && player.IsAtSafezone())
+        {
+            await player.ShowBlueMessageAsync("You can't summon in a safezone.").ConfigureAwait(false);
             return;
         }
 

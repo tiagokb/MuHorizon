@@ -89,6 +89,8 @@ internal sealed class ProtobufSkillListViewPlugIn : ISkillListViewPlugIn, ISkill
             return SkillTargeting.Self;
         if (skill.TargetRestriction is SkillTargetRestriction.Party or SkillTargetRestriction.Player)
             return SkillTargeting.Ally;
+        if (skill.SkillType == SkillType.SummonMonster)
+            return SkillTargeting.Self; // the summon appears next to the caster
         if (skill.SkillType == SkillType.Other)
             return skill.Range == 0 ? SkillTargeting.Self : SkillTargeting.Ally;
         return SkillTargeting.Enemy;

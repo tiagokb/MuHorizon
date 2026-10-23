@@ -310,6 +310,16 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.CompanionCommand:
+                if (_player.InputQueue.Count < 32)
+                {
+                    _player.InputQueue.Enqueue(new CompanionCommandInput(
+                        (GameLogic.NPC.CompanionMode)envelope.CompanionCommand.Mode,
+                        envelope.CompanionCommand.Dismiss));
+                }
+
+                break;
+
             case ClientEnvelope.PayloadOneofCase.TalentsRequest:
                 await RemoteView.Protobuf.Character.ProtobufTalentsPlugIn.SendAsync(_player).ConfigureAwait(false);
                 break;

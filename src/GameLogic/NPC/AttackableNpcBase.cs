@@ -112,6 +112,11 @@ public abstract class AttackableNpcBase : NonPlayerCharacter, IAttackable
         if (PvpRules.GetAttackingPlayer(attacker) is { } attackingPlayer)
         {
             attackingPlayer.LastCombatUtc = DateTime.UtcNow;
+            if (attacker == attackingPlayer)
+            {
+                attackingPlayer.LastHitTarget = this;
+                attackingPlayer.LastHitTargetUtc = attackingPlayer.LastCombatUtc;
+            }
         }
 
         var hitInfo = await attacker.CalculateDamageAsync(this, skill, isCombo, damageFactor).ConfigureAwait(false);
