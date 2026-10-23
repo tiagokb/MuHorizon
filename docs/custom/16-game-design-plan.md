@@ -94,4 +94,6 @@ Princípio: o código não pode amarrar o design — skill, passiva ou status de
 7. ✅ **Mercado** (§4) — anunciar/comprar/cancelar/resgatar no NPC, busca com filtros, notificação de venda, transações no banco à prova de dupe com jogador travado e log de auditoria; refinamentos anotados em §4.
 8. **Remover o legado** que sair da migração: duel, loja pessoal, MU Helper/offline, comandos de pet por skill, fluxo de quest legado, views legadas sem uso.
 
+Antes de construir o novo: **pausa para respirar** — limpeza, inventário do legado, design, revisão de código, performance e tecnologia do cliente (`18-design-pause.md`).
+
 Depois: arena ranqueada (mesmo motor de rounds do desafio), conteúdo de guild (castle siege, facção), eventos novos (`15-events-rework.md`), auto-play novo. Pós-MVP: battlegrounds (5v5/10v10, objetivos).
