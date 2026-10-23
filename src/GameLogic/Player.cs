@@ -1377,6 +1377,11 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         {
             this.CurrentMap = currentMiniGame.Map;
         }
+        else if (Challenges.ChallengeService.InstanceMapOf(this) is { } challengeMap
+                 && challengeMap.Definition == this.SelectedCharacter.CurrentMap)
+        {
+            this.CurrentMap = challengeMap;
+        }
         else
         {
             this.CurrentMap = await this.GameContext.GetMapAsync(this.SelectedCharacter!.CurrentMap.Number.ToUnsigned()).ConfigureAwait(false);
@@ -2230,6 +2235,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// </summary>
     public async ValueTask RemoveFromGameAsync()
     {
+        await Challenges.ChallengeService.LeaveAsync(this).ConfigureAwait(false);
         if (this.Party is { } party)
         {
             await party.LeaveTemporarilyAsync(this).ConfigureAwait(false);
@@ -2807,7 +2813,9 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
         this.GameContext.PlugInManager.GetPlugInPoint<IAttackableGotHitPlugIn>()?.AttackableGotHit(this, attacker, hitInfo);
 
-        if (this.Attributes[Stats.CurrentHealth] < 1)
+        // In a challenge a lethal hit only takes the player out of the round.
+        if (this.Attributes[Stats.CurrentHealth] < 1
+            && !await Challenges.ChallengeService.TryKnockOutAsync(this).ConfigureAwait(false))
         {
             this.LastDeath = new DeathInformation(attacker.Id, attacker.GetName(), hitInfo, skill?.Number ?? 0);
             await this.OnDeathAsync(attacker).ConfigureAwait(false);

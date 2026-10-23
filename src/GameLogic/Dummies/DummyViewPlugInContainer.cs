@@ -20,17 +20,37 @@ internal sealed class DummyViewPlugInContainer : ICustomPlugInContainer<IViewPlu
     private readonly OfflineViewPlugInContainer _offline;
     private readonly DummyTradeView _trade;
     private readonly DummyFriendView _friend;
+    private readonly DummyChallengeView _challenge;
 
     public DummyViewPlugInContainer(DummyPlayer dummy)
     {
         _offline = new OfflineViewPlugInContainer(dummy);
         _trade = new DummyTradeView(dummy);
         _friend = new DummyFriendView(dummy);
+        _challenge = new DummyChallengeView(dummy);
     }
 
     public T? GetPlugIn<T>()
         where T : class, IViewPlugIn
-        => _trade as T ?? _friend as T ?? _offline.GetPlugIn<T>();
+        => _trade as T ?? _friend as T ?? _challenge as T ?? _offline.GetPlugIn<T>();
+}
+
+/// <summary>
+/// Dummies accept every challenge (something to try the challenge flow on).
+/// </summary>
+internal sealed class DummyChallengeView : Challenges.IChallengeViewPlugIn
+{
+    private readonly DummyPlayer _dummy;
+
+    public DummyChallengeView(DummyPlayer dummy) => _dummy = dummy;
+
+    public ValueTask ShowChallengeRequestAsync(Player challenger, int challengerTeamSize, int ownTeamSize, int bestOf)
+    {
+        _dummy.InputQueue.Enqueue(new ActionInput(_ => Challenges.ChallengeService.AnswerAsync(_dummy, true)));
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask ShowChallengeStateAsync(Challenges.Challenge? challenge, Player viewer) => ValueTask.CompletedTask;
 }
 
 /// <summary>

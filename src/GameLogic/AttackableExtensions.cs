@@ -357,6 +357,11 @@ public static class AttackableExtensions
     /// <param name="hitInfo">The hit information.</param>
     public static async ValueTask ApplyMagicEffectAsync(this IAttackable target, IAttacker attacker, SkillEntry skillEntry, HitInfo? hitInfo = null)
     {
+        if (skillEntry.Skill is { } effectSkill && !PvpRules.CanAffect(attacker, target, IsHarmful(effectSkill)))
+        {
+            return;
+        }
+
         if (skillEntry.PowerUps is null && attacker is Player player)
         {
             player.CreateMagicEffectPowerUp(skillEntry);
@@ -418,7 +423,7 @@ public static class AttackableExtensions
     /// <returns>The success of the appliance.</returns>
     public static async ValueTask<bool> TryApplyElementalEffectsAsync(this IAttackable target, IAttacker attacker, SkillEntry skillEntry, HitInfo? hitInfo = null)
     {
-        if (!target.IsAlive)
+        if (!target.IsAlive || !PvpRules.CanAffect(attacker, target, harmful: true))
         {
             return false;
         }
@@ -467,7 +472,7 @@ public static class AttackableExtensions
     /// <returns>The success of the appliance.</returns>
     public static async ValueTask<bool> TryApplyElementalEffectsAsync(this IAttackable target, IAttacker attacker, Skill skill, IReadOnlyCollection<(AttributeDefinition Target, IElement Boost)> powerUps, IElement? duration, HitInfo? hitInfo)
     {
-        if (!target.IsAlive)
+        if (!target.IsAlive || !PvpRules.CanAffect(attacker, target, harmful: true))
         {
             return false;
         }
@@ -642,6 +647,11 @@ public static class AttackableExtensions
     /// <returns><c>true</c>, if the effect exists and was applied.</returns>
     public static async ValueTask<bool> ApplyMagicEffectAsync(this Player attacker, IAttackable attackable, short effectNumber, TimeSpan duration)
     {
+        if (!PvpRules.CanAffect(attacker, attackable, harmful: true))
+        {
+            return false;
+        }
+
         if (attacker.GameContext.Configuration.MagicEffects.FirstOrDefault(m => m.Number == effectNumber) is not { } definition)
         {
             return false;
@@ -898,6 +908,13 @@ public static class AttackableExtensions
     /// <param name="duration">The duration.</param>
     /// <param name="hitInfo">The hit information.</param>
     /// <param name="powerUps">The power ups of the effect.</param>
+    // A skill effect is harmful (a debuff like Sleep or Weakness) when it's aimed at an explicit target
+    // without a restriction to the own party or player; buffs have such a restriction or hit implicitly.
+    private static bool IsHarmful(Skill skill) =>
+        skill.TargetRestriction == SkillTargetRestriction.Undefined
+        && skill.Target is SkillTarget.Explicit or SkillTarget.ExplicitWithImplicitInRange
+        && skill.SkillType != SkillType.Regeneration;
+
     private static async ValueTask ApplyMagicEffectAsync(this IAttackable target, IAttacker attacker, MagicEffectDefinition magicEffectDefinition, IElement duration, HitInfo? hitInfo, params (AttributeDefinition Target, IElement Boost)[] powerUps)
     {
         float finalDuration = duration.Value;

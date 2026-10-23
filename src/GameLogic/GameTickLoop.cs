@@ -219,6 +219,7 @@ public sealed class GameTickLoop
 
             await Inputs.CastController.UpdateAsync(player).ConfigureAwait(false);
             await Missions.MissionService.OnTickAsync(player).ConfigureAwait(false);
+            await Challenges.ChallengeService.UpdateAsync(player).ConfigureAwait(false);
             if (player.PetCompanionRespawnAt is { } respawnAt && respawnAt <= DateTime.UtcNow)
             {
                 await player.UpdatePetCompanionAsync().ConfigureAwait(false);

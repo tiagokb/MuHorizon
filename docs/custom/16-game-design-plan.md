@@ -88,7 +88,7 @@ Princípio: o código não pode amarrar o design — skill, passiva ou status de
 3. ✅ **Árvore de talentos** (§5) — 1ª versão: janela + investir fora de combate, árvores do MU como conteúdo de teste; faltam quest de especialização, reset e as nossas árvores — dados novos no motor existente.
 4. ✅ **Companheiros** (§7) — slot de montaria, modos/HUD para invocações e corvo como entidade (`17-companions.md`); visual (entrega D) fica para o polimento — controlador de comportamento + slots de montaria/pet.
 5. ✅ **Quests novas** (§6) — 1ª versão como *Missions* (etapas, objetivos kill/collect/talk/reach, crédito de party, diário L, rastreador, diálogo de NPC, diária/semanal); faltam objetivo "usar item", migrar as quests de classe e conteúdo real — com crédito de party.
-6. **Desafio** (§3) — pequeno, reaproveita party e `PvpRules`.
+6. ✅ **Desafio** (§3) — party vs party (ou 1v1) em instância própria da Duel Arena, melhor de 1/3/5, nocaute em vez de morte; base para a arena ranqueada — pequeno, reaproveita party e `PvpRules`.
 7. **Mercado** (§4).
 8. **Remover o legado** que sair da migração: duel, loja pessoal, MU Helper/offline, comandos de pet por skill, fluxo de quest legado, views legadas sem uso.
 

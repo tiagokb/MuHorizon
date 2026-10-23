@@ -46,7 +46,18 @@ public static class PvpRules
     /// <returns><c>true</c>, if the attack is allowed.</returns>
     public static bool CanAttack(Player attacker, Player defender)
     {
-        if (attacker == defender || attacker.IsAtSafezone() || defender.IsAtSafezone())
+        if (attacker == defender)
+        {
+            return false;
+        }
+
+        // A challenge decides between its players, and keeps them out of other fights.
+        if (Challenges.ChallengeService.CanAttack(attacker, defender) is { } challengeDecision)
+        {
+            return challengeDecision;
+        }
+
+        if (attacker.IsAtSafezone() || defender.IsAtSafezone())
         {
             return false;
         }
@@ -75,6 +86,32 @@ public static class PvpRules
     /// </summary>
     /// <param name="attacker">The attacking player.</param>
     /// <param name="defender">The attacked player.</param>
+    /// <summary>
+    /// Decides whether a skill effect may be applied to the target: harmful effects (slow, stun,
+    /// debuffs) only on players who may be attacked; helpful ones (buffs) not across a challenge.
+    /// Effects on monsters, or on oneself, are always allowed here.
+    /// </summary>
+    /// <param name="source">The one applying the effect.</param>
+    /// <param name="target">The target.</param>
+    /// <param name="harmful">Whether the effect is harmful.</param>
+    /// <returns><c>true</c> if the effect may be applied.</returns>
+    public static bool CanAffect(IAttacker source, IAttackable target, bool harmful)
+    {
+        if (target is not Player defender || GetAttackingPlayer(source) is not { } player || player == defender)
+        {
+            return true;
+        }
+
+        if (harmful)
+        {
+            return CanAttack(player, defender);
+        }
+
+        var challenge = Challenges.ChallengeService.Of(player);
+        return challenge == Challenges.ChallengeService.Of(defender)
+               && (challenge is null || challenge.TeamOf(player) == challenge.TeamOf(defender));
+    }
+
     public static void RegisterCombat(Player attacker, Player defender)
     {
         var now = DateTime.UtcNow;

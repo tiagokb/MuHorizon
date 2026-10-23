@@ -297,6 +297,18 @@ public class GameContext : AsyncDisposable, IGameContext
         return miniGameContext;
     }
 
+    /// <summary>
+    /// Creates a private instance of a map (e.g. a Duel Arena for one challenge), like the maps of mini games.
+    /// </summary>
+    /// <param name="definition">The map definition.</param>
+    /// <returns>The new map instance.</returns>
+    public async ValueTask<GameMap> CreateInstanceMapAsync(GameMapDefinition definition)
+    {
+        var map = this._mapInitializer.CreateGameMap(definition);
+        await this._mapInitializer.InitializeStateAsync(map).ConfigureAwait(false);
+        return map;
+    }
+
     /// <inheritdoc />
     public async ValueTask RemoveMiniGameAsync(MiniGameContext miniGameContext)
     {

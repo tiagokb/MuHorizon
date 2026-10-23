@@ -311,6 +311,18 @@ internal sealed class ProtobufPacketDispatcher
 
                 break;
 
+            case ClientEnvelope.PayloadOneofCase.ChallengeRequest:
+                if (_player.CurrentMap?.GetObject((ushort)envelope.ChallengeRequest.TargetId) is Player challenged && challenged != _player)
+                {
+                    await GameLogic.Challenges.ChallengeService.RequestAsync(_player, challenged, (int)envelope.ChallengeRequest.BestOf).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.ChallengeAnswer:
+                await GameLogic.Challenges.ChallengeService.AnswerAsync(_player, envelope.ChallengeAnswer.Accepted).ConfigureAwait(false);
+                break;
+
             case ClientEnvelope.PayloadOneofCase.MissionAction:
                 var missionAction = envelope.MissionAction;
                 var missionNumber = (short)missionAction.Number;
