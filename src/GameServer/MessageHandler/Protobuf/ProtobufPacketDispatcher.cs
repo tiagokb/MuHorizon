@@ -237,6 +237,7 @@ internal sealed class ProtobufPacketDispatcher
                 if (_player.CurrentMap?.GetObject(npcId) is NonPlayerCharacter npc && IsWithinInteractionRange(npc.Position))
                 {
                     await TalkNpcAction.TalkToNpcAsync(_player, npc).ConfigureAwait(false);
+                    await GameLogic.Missions.MissionService.OnTalkAsync(_player, npc).ConfigureAwait(false);
                     await NpcBuffRequestAction.RequestBuffAsync(_player).ConfigureAwait(false);
                 }
                 // Vault and chaos machine NPCs must stay in NpcDialogOpened so MoveItemAction.IsStorageContextAllowed
@@ -306,6 +307,27 @@ internal sealed class ProtobufPacketDispatcher
                 if (_player.CurrentMap?.GetObject((ushort)envelope.PartyInvite.TargetId) is Player invited && invited != _player)
                 {
                     await PartyRequestAction.HandlePartyRequestAsync(_player, invited).ConfigureAwait(false);
+                }
+
+                break;
+
+            case ClientEnvelope.PayloadOneofCase.MissionAction:
+                var missionAction = envelope.MissionAction;
+                var missionNumber = (short)missionAction.Number;
+                switch (missionAction.Action)
+                {
+                    case MissionActionKind.MissionActionAccept:
+                        await GameLogic.Missions.MissionService.AcceptAsync(_player, missionNumber).ConfigureAwait(false);
+                        break;
+                    case MissionActionKind.MissionActionComplete:
+                        await GameLogic.Missions.MissionService.CompleteAsync(_player, missionNumber).ConfigureAwait(false);
+                        break;
+                    case MissionActionKind.MissionActionAbandon:
+                        await GameLogic.Missions.MissionService.AbandonAsync(_player, missionNumber).ConfigureAwait(false);
+                        break;
+                    default:
+                        await GameLogic.Missions.MissionService.SetTrackedAsync(_player, missionNumber, missionAction.Tracked).ConfigureAwait(false);
+                        break;
                 }
 
                 break;

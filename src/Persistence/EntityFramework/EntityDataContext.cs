@@ -88,6 +88,7 @@ public class EntityDataContext : ExtendedTypeContext
         modelBuilder.Entity<LetterBody>().Apply();
         modelBuilder.Entity<LetterHeader>().Apply();
         modelBuilder.Entity<QuestDefinition>().Apply();
+        modelBuilder.Entity<MissionDefinition>().Apply();
         modelBuilder.Entity<WarpInfo>().Apply();
 
         // join entity keys:

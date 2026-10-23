@@ -324,6 +324,16 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public Skill? SummonSkill { get; set; }
 
     /// <summary>
+    /// Gets or sets the NPC the player last talked to (missions are taken and handed in there).
+    /// </summary>
+    public NonPlayerCharacter? LastTalkedNpc { get; set; }
+
+    /// <summary>
+    /// Gets or sets when the mission "reach" objectives are checked next.
+    /// </summary>
+    public DateTime NextMissionCheckUtc { get; set; }
+
+    /// <summary>
     /// The monster number of the raven companion (see <see cref="UpdatePetCompanionAsync"/>).
     /// </summary>
     public const short RavenCompanionNumber = 700;
@@ -1399,6 +1409,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         }
 
         await this.UpdatePetCompanionAsync().ConfigureAwait(false);
+        await this.InvokeViewPlugInAsync<Views.Character.IMissionViewPlugIn>(p => p.ShowMissionLogAsync()).ConfigureAwait(false);
 
         // The summon follows through map changes: a monster belongs to one map, so it's recreated here.
         // Not if the player was just warped on again (to a safezone): then on the next arrival.

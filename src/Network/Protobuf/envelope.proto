@@ -675,6 +675,74 @@ message C2SSetSkillLoadout {
     repeated uint32 skills = 1;
 }
 
+// ── Missions (new quest system) ───────────────────────────────────────────────
+
+// Takes / hands in / abandons a mission, or shows it in the tracker or not.
+message C2SMissionAction {
+    MissionActionKind action  = 1;
+    uint32            number  = 2;
+    bool              tracked = 3; // MISSION_ACTION_TRACK only
+}
+
+enum MissionActionKind {
+    MISSION_ACTION_ACCEPT   = 0; // at the giver NPC (talked to last)
+    MISSION_ACTION_COMPLETE = 1; // at the receiver NPC (talked to last)
+    MISSION_ACTION_ABANDON  = 2;
+    MISSION_ACTION_TRACK    = 3;
+}
+
+message MissionObjectiveData {
+    string description = 1;
+    uint32 current     = 2;
+    uint32 required    = 3;
+    bool   done        = 4;
+}
+
+// An active mission with the objectives of its current step.
+message MissionData {
+    uint32                        number           = 1;
+    string                        name             = 2;
+    string                        description      = 3;
+    uint32                        step_index       = 4;
+    uint32                        step_count       = 5;
+    string                        step_description = 6;
+    repeated MissionObjectiveData objectives       = 7;
+    bool                          tracked          = 8;
+    bool                          ready_to_turn_in = 9;
+    string                        turn_in_npc      = 10;
+}
+
+// The active missions (after entering the world).
+message S2CMissionLog {
+    repeated MissionData missions = 1;
+}
+
+// An active mission changed (accepted, progress, next step, tracking).
+message S2CMissionUpdated {
+    MissionData mission = 1;
+}
+
+// A mission left the log (completed or abandoned).
+message S2CMissionRemoved {
+    uint32 number = 1;
+}
+
+message MissionOffer {
+    uint32          number      = 1;
+    string          name        = 2;
+    string          description = 3;
+    repeated string objectives  = 4; // of the first step
+    repeated string rewards     = 5;
+    string          repeat      = 6; // "", "daily", "weekly"
+}
+
+// What the NPC the player talked to offers: missions to take and missions to hand in.
+message S2CMissionDialog {
+    string                npc_name = 1;
+    repeated MissionOffer offers   = 2;
+    repeated MissionOffer turn_ins = 3;
+}
+
 // ── Companions ────────────────────────────────────────────────────────────────
 
 // How a companion behaves (CompanionMode).
@@ -1199,6 +1267,7 @@ message ClientEnvelope {
         C2STalentsRequest       talents_request        = 53;
         C2SInvestTalent         invest_talent          = 54;
         C2SCompanionCommand     companion_command      = 55;
+        C2SMissionAction        mission_action         = 56;
     }
 }
 
@@ -1279,5 +1348,9 @@ message ServerEnvelope {
         S2CLetter                letter                  = 73;
         S2CTalents               talents                 = 74;
         S2CCompanion             companion               = 75;
+        S2CMissionLog            mission_log             = 76;
+        S2CMissionUpdated        mission_updated         = 77;
+        S2CMissionRemoved        mission_removed         = 78;
+        S2CMissionDialog         mission_dialog          = 79;
     }
 }

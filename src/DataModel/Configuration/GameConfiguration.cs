@@ -312,6 +312,12 @@ public partial class GameConfiguration
     [MemberOfAggregate]
     public virtual ICollection<MiniGameDefinition> MiniGameDefinitions { get; protected set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the missions (the new quest system).
+    /// </summary>
+    [MemberOfAggregate]
+    public virtual ICollection<Missions.MissionDefinition> Missions { get; protected set; } = null!;
+
     /// <inheritdoc />
     public override string ToString()
     {

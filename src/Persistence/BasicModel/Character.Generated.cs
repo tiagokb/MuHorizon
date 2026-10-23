@@ -128,6 +128,27 @@ public partial class Character : MUnique.OpenMU.DataModel.Entities.Character, II
     }
 
     /// <summary>
+    /// Gets the raw collection of <see cref="Missions" />.
+    /// </summary>
+    [System.Text.Json.Serialization.JsonPropertyName("missions")]
+    public ICollection<CharacterMission> RawMissions { get; } = new List<CharacterMission>();
+    
+    /// <inheritdoc/>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public override ICollection<MUnique.OpenMU.DataModel.Entities.CharacterMission> Missions
+    {
+        get => base.Missions ??= new CollectionAdapter<MUnique.OpenMU.DataModel.Entities.CharacterMission, CharacterMission>(this.RawMissions);
+        protected set
+        {
+            this.Missions.Clear();
+            foreach (var item in value)
+            {
+                this.Missions.Add(item);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the raw object of <see cref="CharacterClass" />.
     /// </summary>
     [System.Text.Json.Serialization.JsonPropertyName("characterClass")]

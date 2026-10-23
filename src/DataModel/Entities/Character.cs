@@ -269,6 +269,12 @@ public class Character
     [MemberOfAggregate]
     public virtual ICollection<CharacterQuestState> QuestStates { get; protected set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the missions (the new quest system): active and completed ones.
+    /// </summary>
+    [MemberOfAggregate]
+    public virtual ICollection<CharacterMission> Missions { get; protected set; } = null!;
+
     /// <inheritdoc />
     public override string ToString()
     {

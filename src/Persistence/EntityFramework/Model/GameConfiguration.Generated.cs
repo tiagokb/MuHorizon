@@ -218,6 +218,15 @@ internal partial class GameConfiguration : MUnique.OpenMU.DataModel.Configuratio
     public override ICollection<MUnique.OpenMU.DataModel.Configuration.MiniGameDefinition> MiniGameDefinitions => base.MiniGameDefinitions ??= new CollectionAdapter<MUnique.OpenMU.DataModel.Configuration.MiniGameDefinition, MiniGameDefinition>(this.RawMiniGameDefinitions);
 
     /// <summary>
+    /// Gets the raw collection of <see cref="Missions" />.
+    /// </summary>
+    public ICollection<MissionDefinition> RawMissions { get; } = new EntityFramework.List<MissionDefinition>();
+    
+    /// <inheritdoc/>
+    [NotMapped]
+    public override ICollection<MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition> Missions => base.Missions ??= new CollectionAdapter<MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition, MissionDefinition>(this.RawMissions);
+
+    /// <summary>
     /// Gets or sets the identifier of <see cref="DuelConfiguration"/>.
     /// </summary>
     public Guid? DuelConfigurationId { get; set; }

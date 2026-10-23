@@ -47,6 +47,9 @@ public static class MapsterConfigurator
         Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Entities.Character, MUnique.OpenMU.DataModel.Entities.Character>()
             .Include<Character, BasicModel.Character>();
 
+        Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Entities.CharacterMission, MUnique.OpenMU.DataModel.Entities.CharacterMission>()
+            .Include<CharacterMission, BasicModel.CharacterMission>();
+
         Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Entities.CharacterQuestState, MUnique.OpenMU.DataModel.Entities.CharacterQuestState>()
             .Include<CharacterQuestState, BasicModel.CharacterQuestState>();
 
@@ -214,6 +217,18 @@ public static class MapsterConfigurator
 
         Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Quests.QuestReward, MUnique.OpenMU.DataModel.Configuration.Quests.QuestReward>()
             .Include<QuestReward, BasicModel.QuestReward>();
+
+        Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition, MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition>()
+            .Include<MissionDefinition, BasicModel.MissionDefinition>();
+
+        Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Missions.MissionObjective, MUnique.OpenMU.DataModel.Configuration.Missions.MissionObjective>()
+            .Include<MissionObjective, BasicModel.MissionObjective>();
+
+        Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Missions.MissionReward, MUnique.OpenMU.DataModel.Configuration.Missions.MissionReward>()
+            .Include<MissionReward, BasicModel.MissionReward>();
+
+        Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Missions.MissionStep, MUnique.OpenMU.DataModel.Configuration.Missions.MissionStep>()
+            .Include<MissionStep, BasicModel.MissionStep>();
 
         Mapster.TypeAdapterConfig.GlobalSettings.NewConfig<MUnique.OpenMU.DataModel.Configuration.Items.AttributeRequirement, MUnique.OpenMU.DataModel.Configuration.Items.AttributeRequirement>()
             .Include<AttributeRequirement, BasicModel.AttributeRequirement>();

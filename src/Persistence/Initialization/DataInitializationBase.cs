@@ -115,6 +115,7 @@ public abstract class DataInitializationBase : IDataInitializationPlugIn
         SkillSlotTypes.Apply(this.GameConfiguration);
         MountSlot.Apply(this.Context, this.GameConfiguration);
         RavenCompanion.Apply(this.Context, this.GameConfiguration);
+        TestMissions.Apply(this.Context, this.GameConfiguration);
 
         if (createTestAccounts)
         {

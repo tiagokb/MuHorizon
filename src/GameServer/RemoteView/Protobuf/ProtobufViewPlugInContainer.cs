@@ -98,6 +98,7 @@ internal sealed class ProtobufViewPlugInContainer : ICustomPlugInContainer<IView
             new ProtobufSkillListViewPlugIn(player),
             new ProtobufTalentsPlugIn(player),
             new World.ProtobufCompanionPlugIn(player),
+            new ProtobufMissionPlugIn(player),
             new ProtobufShowVaultPlugIn(player),
             new ProtobufCloseVaultPlugIn(player),
             new ProtobufItemSoldToNpcPlugIn(player),

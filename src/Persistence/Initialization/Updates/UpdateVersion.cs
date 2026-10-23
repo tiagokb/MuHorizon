@@ -369,4 +369,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AddRavenCompanionPlugInSeason6"/>.
     /// </summary>
     AddRavenCompanionSeason6 = 107,
+
+    /// <summary>
+    /// The version of the <see cref="AddTestMissionsPlugInSeason6"/>.
+    /// </summary>
+    AddTestMissionsSeason6 = 108,
 }

@@ -467,6 +467,27 @@ public partial class GameConfiguration : MUnique.OpenMU.DataModel.Configuration.
     }
 
     /// <summary>
+    /// Gets the raw collection of <see cref="Missions" />.
+    /// </summary>
+    [System.Text.Json.Serialization.JsonPropertyName("missions")]
+    public ICollection<MissionDefinition> RawMissions { get; } = new List<MissionDefinition>();
+    
+    /// <inheritdoc/>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public override ICollection<MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition> Missions
+    {
+        get => base.Missions ??= new CollectionAdapter<MUnique.OpenMU.DataModel.Configuration.Missions.MissionDefinition, MissionDefinition>(this.RawMissions);
+        protected set
+        {
+            this.Missions.Clear();
+            foreach (var item in value)
+            {
+                this.Missions.Add(item);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the raw object of <see cref="DuelConfiguration" />.
     /// </summary>
     [System.Text.Json.Serialization.JsonPropertyName("duelConfiguration")]
