@@ -114,6 +114,7 @@ public abstract class DataInitializationBase : IDataInitializationPlugIn
         EventMonsterStrength.Apply(this.GameConfiguration);
         SkillSlotTypes.Apply(this.GameConfiguration);
         MountSlot.Apply(this.Context, this.GameConfiguration);
+        RavenCompanion.Apply(this.Context, this.GameConfiguration);
 
         if (createTestAccounts)
         {

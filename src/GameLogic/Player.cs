@@ -324,6 +324,26 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public Skill? SummonSkill { get; set; }
 
     /// <summary>
+    /// The monster number of the raven companion (see <see cref="UpdatePetCompanionAsync"/>).
+    /// </summary>
+    public const short RavenCompanionNumber = 700;
+
+    /// <summary>
+    /// The mode the pet companion keeps through respawns and map changes.
+    /// </summary>
+    private NPC.CompanionMode _petCompanionMode = NPC.CompanionMode.AssistOwner;
+
+    /// <summary>
+    /// Gets the pet companion in the world (the Dark Lord's raven), if any.
+    /// </summary>
+    public (Monster Monster, NPC.SummonedMonsterIntelligence Intelligence)? PetCompanion { get; private set; }
+
+    /// <summary>
+    /// Gets when a dead pet companion comes back; <c>null</c> if none is waiting.
+    /// </summary>
+    public DateTime? PetCompanionRespawnAt { get; private set; }
+
+    /// <summary>
     /// The summon which follows the player through a map change: recreated on the new map.
     /// </summary>
     private (MonsterDefinition Definition, int Health, NPC.CompanionMode Mode)? _carriedSummon;
@@ -1378,6 +1398,8 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             await this.WarpToSafezoneAsync().ConfigureAwait(false);
         }
 
+        await this.UpdatePetCompanionAsync().ConfigureAwait(false);
+
         // The summon follows through map changes: a monster belongs to one map, so it's recreated here.
         // Not if the player was just warped on again (to a safezone): then on the next arrival.
         if (this._carriedSummon is { } carried && this.CurrentMap is not null)
@@ -2051,6 +2073,99 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     }
 
     /// <summary>
+    /// Shows or removes the pet companion (the raven) as it's equipped: spawns it next to the player
+    /// when equipped (and not waiting to respawn), removes it when unequipped or off the map.
+    /// </summary>
+    public async ValueTask UpdatePetCompanionAsync()
+    {
+        var ravenEquipped = this.Inventory?.GetItem(InventoryConstants.RightHandSlot) is { Durability: > 0, Definition: { Group: 13, Number: 5 } };
+        if (!ravenEquipped || this.CurrentMap is null)
+        {
+            this.PetCompanionRespawnAt = null;
+            await this.RemovePetCompanionAsync(leavesWithOwner: true).ConfigureAwait(false);
+            return;
+        }
+
+        if (this.PetCompanion is not null || !this.IsAlive || (this.PetCompanionRespawnAt is { } respawnAt && respawnAt > DateTime.UtcNow))
+        {
+            return;
+        }
+
+        if (this.GameContext.Configuration.Monsters.FirstOrDefault(m => m.Number == RavenCompanionNumber) is not { } definition)
+        {
+            return;
+        }
+
+        this.PetCompanionRespawnAt = null;
+        var gameMap = this.CurrentMap;
+        var area = new MonsterSpawnArea
+        {
+            GameMap = gameMap.Definition,
+            MonsterDefinition = definition,
+            SpawnTrigger = SpawnTrigger.OnceAtEventStart,
+            Quantity = 1,
+            X1 = (byte)Math.Max(this.Position.X - 2, byte.MinValue),
+            X2 = (byte)Math.Min(this.Position.X + 2, byte.MaxValue),
+            Y1 = (byte)Math.Max(this.Position.Y - 2, byte.MinValue),
+            Y2 = (byte)Math.Min(this.Position.Y + 2, byte.MaxValue),
+        };
+        var intelligence = new NPC.RavenIntelligence(this);
+        var monster = new Monster(area, definition, gameMap, NullDropGenerator.Instance, intelligence, this.GameContext.PlugInManager, this.GameContext.PathFinderPool);
+        this.PetCompanion = (monster, intelligence);
+        monster.Initialize();
+        intelligence.SetMode(this._petCompanionMode);
+        await gameMap.AddAsync(monster).ConfigureAwait(false);
+        monster.OnSpawn();
+        await this.InvokeViewPlugInAsync<Views.World.ICompanionViewPlugIn>(p => p.ShowCompanionAsync(monster, this._petCompanionMode)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Changes the mode of the pet companion (kept through respawns).
+    /// </summary>
+    /// <param name="mode">The mode.</param>
+    public void SetPetCompanionMode(NPC.CompanionMode mode)
+    {
+        this._petCompanionMode = mode;
+        this.PetCompanion?.Intelligence.SetMode(mode);
+    }
+
+    /// <summary>
+    /// The pet companion died: it comes back after its respawn delay.
+    /// </summary>
+    /// <param name="companion">The companion which died.</param>
+    public async ValueTask PetCompanionDiedAsync(Monster companion)
+    {
+        if (this.PetCompanion?.Monster != companion)
+        {
+            return;
+        }
+
+        this.PetCompanion = null;
+        var delay = companion.Definition.RespawnDelay > TimeSpan.Zero ? companion.Definition.RespawnDelay : TimeSpan.FromSeconds(30);
+        this.PetCompanionRespawnAt = DateTime.UtcNow + delay;
+        await this.ShowBlueMessageAsync($"Your {companion.Definition.Designation} comes back in {delay.TotalSeconds:0} seconds.").ConfigureAwait(false);
+        await this.InvokeViewPlugInAsync<Views.World.ICompanionViewPlugIn>(p => p.ShowCompanionAsync(null, this._petCompanionMode)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Removes the pet companion from the map without the respawn delay (unequipped, map change).
+    /// </summary>
+    /// <param name="leavesWithOwner">Whether it leaves because the owner does (it doesn't count as dying).</param>
+    private async ValueTask RemovePetCompanionAsync(bool leavesWithOwner)
+    {
+        if (this.PetCompanion is not ({ } companion, _))
+        {
+            return;
+        }
+
+        this.PetCompanion = null;
+        companion.LeavesWithOwner = leavesWithOwner;
+        await companion.CurrentMap.RemoveAsync(companion).ConfigureAwait(false);
+        companion.Dispose();
+        await this.InvokeViewPlugInAsync<Views.World.ICompanionViewPlugIn>(p => p.ShowCompanionAsync(null, this._petCompanionMode)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Removes the pet command manager.
     /// </summary>
     public void RemovePetCommandManager()
@@ -2384,6 +2499,7 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         this.IsTeleporting = false;
         await this._walker.StopAsync().ConfigureAwait(false);
         await this._observerToWorldViewAdapter.ClearObservingObjectsListAsync().ConfigureAwait(false);
+        await this.RemovePetCompanionAsync(leavesWithOwner: true).ConfigureAwait(false);
         if (this.Summon is ({ IsAlive: true } summon, var summonIntelligence))
         {
             this._carriedSummon = (summon.Definition, summon.Health, (summonIntelligence as SummonedMonsterIntelligence)?.Mode ?? NPC.CompanionMode.Aggressive);

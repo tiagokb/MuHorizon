@@ -136,7 +136,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
 
         // Also consider summoned monsters belonging to players in range.
         var summons = possibleTargets.OfType<Player>()
-            .Select(p => p.Summon?.Item1)
+            .SelectMany(p => new[] { p.Summon?.Item1, p.PetCompanion?.Monster })
             .Where(s => s is not null)
             .Cast<IAttackable>()
             .WhereActive()
@@ -157,6 +157,12 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
     /// Called when the monster has a target it can neither attack nor reach; wanders by default.
     /// </summary>
     protected virtual ValueTask OnNothingToDoAsync() => this.Monster.RandomMoveAsync();
+
+    /// <summary>
+    /// Attacks the target in range; a normal monster hits with its own stats.
+    /// </summary>
+    /// <param name="target">The target.</param>
+    protected virtual ValueTask AttackTargetAsync(IAttackable target) => this.Monster.AttackAsync(target);
 
     /// <summary>
     /// Drops the current target.
@@ -223,7 +229,7 @@ public class BasicMonsterIntelligence : INpcIntelligence, IGameTickable
         if (this.CurrentTarget.IsInRange(this.Monster.Position, this.Monster.Definition.AttackRange)
             && !this.Monster.IsAtSafezone())
         {
-            await this.Monster.AttackAsync(this.CurrentTarget).ConfigureAwait(false);
+            await this.AttackTargetAsync(this.CurrentTarget).ConfigureAwait(false);
             return;
         }
 

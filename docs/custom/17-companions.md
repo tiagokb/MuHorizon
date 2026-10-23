@@ -59,9 +59,9 @@ Os bônus vêm de `ItemBasePowerUpDefinition` no banco (atributo + valor + agreg
 ### Ordem de entrega
 | # | Entrega | Tamanho |
 |---|---|---|
-| A | Slot de montaria separado + slots de pet/montaria na janela de equipamento | médio (inclui migração de slots) |
-| B | Controlador de companheiro + modos + controle no HUD, aplicado às invocações | médio |
-| C | Corvo como entidade usando o controlador | médio |
+| ✅ A | Slot de montaria separado + slots de pet/montaria na janela de equipamento | médio (inclui migração de slots) |
+| ✅ B | Controlador de companheiro + modos + controle no HUD, aplicado às invocações | médio |
+| ✅ C | Corvo como entidade usando o controlador | médio |
 | D | Visual de pets/montarias | grande (assets), polimento |
 
 ## 3. Decisões (2026-10-22)

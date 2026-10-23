@@ -364,4 +364,9 @@ public enum UpdateVersion
     /// The version of the <see cref="AddMountSlotPlugInSeason6"/>.
     /// </summary>
     AddMountSlotSeason6 = 106,
+
+    /// <summary>
+    /// The version of the <see cref="AddRavenCompanionPlugInSeason6"/>.
+    /// </summary>
+    AddRavenCompanionSeason6 = 107,
 }

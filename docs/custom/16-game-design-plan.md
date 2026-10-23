@@ -86,7 +86,7 @@ Princípio: o código não pode amarrar o design — skill, passiva ou status de
 1. ✅ **Skills: tipos e loadout** (§2) — muda o núcleo do combate; tudo que vem depois (talentos, companheiros) se apoia nele.
 2. ✅ **Guild básica** + **amigos/cartas** — migração direta, social pronto.
 3. ✅ **Árvore de talentos** (§5) — 1ª versão: janela + investir fora de combate, árvores do MU como conteúdo de teste; faltam quest de especialização, reset e as nossas árvores — dados novos no motor existente.
-4. **Companheiros** (§7) — controlador de comportamento + slots de montaria/pet.
+4. ✅ **Companheiros** (§7) — slot de montaria, modos/HUD para invocações e corvo como entidade (`17-companions.md`); visual (entrega D) fica para o polimento — controlador de comportamento + slots de montaria/pet.
 5. **Quests novas** (§6) — com crédito de party.
 6. **Desafio** (§3) — pequeno, reaproveita party e `PvpRules`.
 7. **Mercado** (§4).

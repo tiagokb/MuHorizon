@@ -30,6 +30,14 @@ public sealed class CompanionCommandInput : IPlayerInput
     /// <inheritdoc />
     public async ValueTask HandleAsync(Player player)
     {
+        if (player.PetCompanion is ({ IsAlive: true } raven, _))
+        {
+            // The raven stays while it's equipped: no dismiss, only modes.
+            player.SetPetCompanionMode(_mode);
+            await player.InvokeViewPlugInAsync<ICompanionViewPlugIn>(p => p.ShowCompanionAsync(raven, _mode)).ConfigureAwait(false);
+            return;
+        }
+
         if (player.Summon is not ({ IsAlive: true } companion, SummonedMonsterIntelligence intelligence))
         {
             await player.InvokeViewPlugInAsync<ICompanionViewPlugIn>(p => p.ShowCompanionAsync(null, CompanionMode.Aggressive)).ConfigureAwait(false);

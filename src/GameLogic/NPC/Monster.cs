@@ -324,7 +324,12 @@ public sealed class Monster : AttackableNpcBase, IAttackable, IAttacker, ISuppor
     protected override void OnRemoveFromMap()
     {
         base.OnRemoveFromMap();
-        if (!this.LeavesWithOwner && this._intelligence is SummonedMonsterIntelligence summonedMonsterIntelligence)
+        if (!this.LeavesWithOwner && this._intelligence is RavenIntelligence raven)
+        {
+            // Comes back after the respawn delay while it's equipped.
+            _ = raven.Owner.PetCompanionDiedAsync(this).AsTask();
+        }
+        else if (!this.LeavesWithOwner && this._intelligence is SummonedMonsterIntelligence summonedMonsterIntelligence)
         {
             // Starts the summon skill's cooldown and closes the owner's companion control.
             _ = summonedMonsterIntelligence.Owner.SummonDiedAsync().AsTask();

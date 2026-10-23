@@ -10,7 +10,7 @@ using MUnique.OpenMU.Pathfinding;
 /// The companion controller of a summoned monster: it follows its owner and picks targets by its
 /// <see cref="CompanionMode"/>, which the owner changes with a command (never a skill).
 /// </summary>
-public sealed class SummonedMonsterIntelligence : BasicMonsterIntelligence
+public class SummonedMonsterIntelligence : BasicMonsterIntelligence
 {
     /// <summary>
     /// How far (tiles) from the owner the companion looks for monsters in <see cref="CompanionMode.Aggressive"/>.

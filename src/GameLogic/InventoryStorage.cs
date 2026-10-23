@@ -137,6 +137,11 @@ public class InventoryStorage : Storage, IInventoryStorage
     private async ValueTask UpdateItemsOnChangeAsync(Item item, bool isEquipped)
     {
         this._player.OnAppearanceChanged();
+        if (item.Definition is { Group: 13, Number: 5 })
+        {
+            // The raven companion appears when the raven is equipped and leaves when it's not.
+            await this._player.UpdatePetCompanionAsync().ConfigureAwait(false);
+        }
 
         await this._player.ForEachWorldObserverAsync<IAppearanceChangedPlugIn>(
             p => p.AppearanceChangedAsync(this._player, item, isEquipped),
