@@ -535,7 +535,7 @@ public static class ChallengeService
                 return $"{player.Name} is already in a challenge.";
             }
 
-            if (player.CurrentMiniGame is not null || player.DuelRoom is not null || player.CurrentMap is null || !player.IsAlive)
+            if (player.CurrentMiniGame is not null || player.CurrentMap is null || !player.IsAlive)
             {
                 return $"{player.Name} can't fight a challenge now (event, instance or not in the world).";
             }

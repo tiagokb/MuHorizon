@@ -55,12 +55,6 @@ public class SelfDefensePlugIn : IPeriodicTaskPlugIn, IAttackableGotHitPlugIn, I
             return;
         }
 
-        if (attackerPlayer.DuelRoom is not null || defender.DuelRoom is not null)
-        {
-            // No self-defense during a duel.
-            return;
-        }
-
         if (attackerPlayer.CurrentMiniGame?.AllowPlayerKilling is true)
         {
             // e.g. during chaos castle

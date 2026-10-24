@@ -85,7 +85,6 @@ public class GameContext : AsyncDisposable, IGameContext
             this._tasksTimer = new Timer(this.ExecutePeriodicTasks, null, 1000, 1000);
             this.FeaturePlugIns = new FeaturePlugInContainer(this.PlugInManager);
             this._configChangeHandlerRegistration = this.ConfigurationChangeMediator.RegisterObject(this.Configuration, this, this.OnGameConfigurationChangeAsync);
-            this.DuelRoomManager = new DuelRoomManager(this.Configuration.DuelConfiguration!);
             this.ExperienceTable = CreateExpTable(this.Configuration.ExperienceFormula ?? DefaultExperienceFormula, this.Configuration.MaximumLevel);
             this.MasterExperienceTable = CreateExpTable(this.Configuration.MasterExperienceFormula ?? DefaultMasterExperienceFormula, this.Configuration.MaximumMasterLevel);
         }
@@ -153,9 +152,6 @@ public class GameContext : AsyncDisposable, IGameContext
     /// Gets the players by character name dictionary.
     /// </summary>
     public ConcurrentDictionary<string, Player> PlayersByCharacterName { get; } = new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
-
-    /// <inheritdoc />
-    public DuelRoomManager DuelRoomManager { get; set; }
 
     /// <inheritdoc />
     public ConcurrentDictionary<(Player Attacker, Player Defender), DateTime> SelfDefenseState { get; } = new();

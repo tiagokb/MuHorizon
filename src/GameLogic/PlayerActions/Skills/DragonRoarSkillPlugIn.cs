@@ -47,14 +47,6 @@ public class DragonRoarSkillPlugIn : IAreaSkillPlugIn
                 return FilterTarget(summoned.SummonedBy);
             }
 
-            if (attackable is Player { DuelRoom.State: DuelState.DuelStarted } targetPlayer
-                && attacker is Player { DuelRoom.State: DuelState.DuelStarted } duelPlayer
-                && targetPlayer.DuelRoom == duelPlayer.DuelRoom
-                && targetPlayer.DuelRoom.IsDuelist(targetPlayer) && targetPlayer.DuelRoom.IsDuelist(duelPlayer))
-            {
-                return true;
-            }
-
             if (attackable is Player { GuildWarContext.State: GuildWarState.Started } guildWarTarget
                 && attacker is Player { GuildWarContext.State: GuildWarState.Started } guildWarAttacker
                 && guildWarTarget.GuildWarContext == guildWarAttacker.GuildWarContext)

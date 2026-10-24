@@ -458,11 +458,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// <inheritdoc/>
     public int TradingMoney { get; set; }
 
-    /// <summary>
-    /// Gets or sets the duel room in which the player is currently fighting or spectating.
-    /// </summary>
-    public DuelRoom? DuelRoom { get; set; }
-
     /// <inheritdoc/>
     public GameMap? CurrentMap
     {
@@ -757,17 +752,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
             (this.SkillList as IDisposable)?.Dispose();
             this.SkillList = null;
-
-            if (this.DuelRoom is { State: DuelState.DuelStarted } duelRoom)
-            {
-                await duelRoom.CancelDuelAsync().ConfigureAwait(false);
-                if (this.GameContext.Configuration.DuelConfiguration?.Exit is { } exit)
-                {
-                    await this.PlaceAtGateAsync(exit).ConfigureAwait(false);
-                }
-            }
-
-            this.DuelRoom = null;
 
             this._selectedCharacter = null;
         }
@@ -2300,11 +2284,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// <param name="killedPlayer">The player killed.</param>
     internal async ValueTask AfterKilledPlayerAsync(Player killedPlayer)
     {
-        if (this.DuelRoom?.State == DuelState.DuelStarted)
-        {
-            return;
-        }
-
         var killedPlayerState = killedPlayer.SelectedCharacter?.State;
         if (killedPlayerState is null)
         {
@@ -2496,11 +2475,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         }
 
         if (this.CurrentMiniGame is { })
-        {
-            moveToNextSafezone = true;
-        }
-
-        if (this.DuelRoom is { })
         {
             moveToNextSafezone = true;
         }
@@ -2766,12 +2740,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
             throw new InvalidOperationException("CurrentMap is not set. Can't determine spawn gate.");
         }
 
-        if (this.DuelRoom is { State: DuelState.DuelAccepted or DuelState.DuelStarted } duelRoom
-            && duelRoom.GetSpawnGate(this) is { } duelExitGate)
-        {
-            return duelExitGate;
-        }
-
         if (this.GuildWarContext?.WarType == GuildWarType.Soccer
             && this.GuildWarContext.State == GuildWarState.Started
             && this.CurrentMap is SoccerGameMap soccerGameMap
@@ -2923,7 +2891,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
                 await this.MagicEffectList.ClearEffectsAfterDeathAsync().ConfigureAwait(false);
                 this.SetReclaimableAttributesToMaximum();
                 await this.RespawnAtAsync(await this.GetSpawnGateOfCurrentMapAsync().ConfigureAwait(false)).ConfigureAwait(false);
-                await this.RespawnOfDuelPartnerIfInDuelAsync().ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -2945,24 +2912,6 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         if (this.LastDeath is { } deathInformation)
         {
             this.Died?.Invoke(this, deathInformation);
-        }
-    }
-
-    /// <summary>
-    /// Called when this player is in a duel and was killed.
-    /// Sets the player back to its starting position and reclaims the attributes
-    /// so that they're ready for the next round.
-    /// </summary>
-    private async ValueTask RespawnOfDuelPartnerIfInDuelAsync()
-    {
-        if (this.DuelRoom is { State: DuelState.DuelStarted } duelRoom
-            && duelRoom.IsDuelist(this)
-            && (duelRoom.Requester == this ? duelRoom.Opponent : duelRoom.Requester) is { IsAlive: true, CurrentMap: not null } duelPartner
-            && duelRoom.GetSpawnGate(duelPartner) is { } partnerSpawnGate)
-        {
-            duelPartner.IsAlive = false; // Avoid ending the duel...
-            duelPartner.SetReclaimableAttributesToMaximum();
-            await duelPartner.RespawnAtAsync(partnerSpawnGate).ConfigureAwait(false);
         }
     }
 

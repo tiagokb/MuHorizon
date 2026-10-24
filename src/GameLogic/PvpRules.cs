@@ -14,7 +14,7 @@ using MUnique.OpenMU.GameLogic.Pet;
 /// <item>Safezones never allow combat, and party members never hurt each other.</item>
 /// <item>The map decides (<see cref="GameMapDefinition.PvpMode"/>): towns are PvE only, "flagged" maps
 /// let players fight when both turned PvP on (<see cref="Player.PvpEnabled"/>), PvP maps let everyone fight.</item>
-/// <item>Duels and mini games which allow killing keep their own rules.</item>
+/// <item>Mini games which allow killing keep their own rules (challenges are checked before, see <see cref="CanAffect"/>).</item>
 /// </list>
 /// </summary>
 public static class PvpRules
@@ -67,8 +67,7 @@ public static class PvpRules
             return false;
         }
 
-        if ((attacker.DuelRoom is { } duel && duel == defender.DuelRoom)
-            || defender.CurrentMiniGame?.AllowPlayerKilling is true)
+        if (defender.CurrentMiniGame?.AllowPlayerKilling is true)
         {
             return true;
         }

@@ -83,8 +83,6 @@ public static class AttackableExtensions
         Player? attackerPlayer = attacker is AttackerSurrogate surrogate ? surrogate.Owner : (attacker is Player player ? player : null);
         bool isPvp = attackerPlayer is not null && defender is Player;
         bool isClassicPvp = isPvp && defender.Attributes[Stats.MaximumShield] == 0;
-        bool isClassicPvpDuel = isClassicPvp && attackerPlayer!.DuelRoom?.Opponent == defender;
-        var duelDmgDec = isClassicPvpDuel ? 0.6 : 1;
 
         DamageAttributes attributes = DamageAttributes.Undefined;
         bool isCriticalHit = Rand.NextRandomBool(attacker.Attributes[Stats.CriticalDamageChance]);
@@ -142,7 +140,7 @@ public static class AttackableExtensions
                 dmg += dmg;
             }
 
-            dmg = (int)((dmg * duelDmgDec) - defense);
+            dmg = (int)(dmg - defense);
             dmg += GetMasterSkillTreePhysicalPassiveDamageBonus(attacker, true);
 
             if (attacker.Attributes[Stats.IsTwoHandedWeaponEquipped] > 0)
@@ -165,13 +163,13 @@ public static class AttackableExtensions
             // Wizardry, Curse, and Fenrir.
             if (isExcellentHit)
             {
-                dmg = (int)((baseMaxDamage * duelDmgDec) - defense);
+                dmg = (int)(baseMaxDamage - defense);
                 dmg = (int)((dmg * 1.2) + attacker.Attributes[Stats.ExcellentDamageBonus]);
                 attributes |= DamageAttributes.Excellent;
             }
             else if (isCriticalHit)
             {
-                dmg = (int)((baseMaxDamage * duelDmgDec) - defense);
+                dmg = (int)(baseMaxDamage - defense);
                 dmg += (int)attacker.Attributes[Stats.CriticalDamageBonus];
                 attributes |= DamageAttributes.Critical;
             }
@@ -186,7 +184,7 @@ public static class AttackableExtensions
                     dmg = Rand.NextInt(baseMinDamage, baseMaxDamage);
                 }
 
-                dmg = (int)((dmg * duelDmgDec) - defense);
+                dmg = (int)(dmg - defense);
             }
         }
 
